@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	.swal2-toast.swal2-icon-success {
+		@apply bg-blue-300 !important;
+	}
+}
