@@ -18,4 +18,18 @@ class PetPhoto extends Model
     {
         return $this->belongsTo(Pet::class, 'pet_id', 'id');
     }
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'formatted_path',
+    ];
+
+    public function getFormattedPathAttribute()
+    {
+        return asset('storage/'.$this->path);
+    }
 }

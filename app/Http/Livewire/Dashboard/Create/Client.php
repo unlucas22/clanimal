@@ -27,6 +27,7 @@ class Client extends Component
     public $type_of_pet_id;
     public $pet_sex;
     public $pet_age;
+    //public $pet_month;
     public $pet_height;
     public $pet_weight;
     public $pet_description;
@@ -42,6 +43,7 @@ class Client extends Component
         'type_of_pet_id' => 'nullable|integer',
         'pet_sex' => 'nullable|in:macho,hembra',
         'pet_age' => 'nullable|integer|min:0',
+        // 'pet_month' => 'nullable|integer',
         'pet_height' => 'nullable|numeric|min:0',
         'pet_weight' => 'nullable|numeric|min:0',
         'pet_description' => 'nullable|string',

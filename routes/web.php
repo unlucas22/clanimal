@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\{DashboardController, PetController};
 
 /*
 |--------------------------------------------------------------------------
@@ -26,12 +26,19 @@ Route::middleware([
 
     Route::view('/', 'dashboard')->name('dashboard.index');
     
-    Route::prefix('dashboard')->middleware(['admin'])->group(function () {
-        Route::view('/users', 'dashboard')->name('dashboard.users');
-        Route::view('/roles', 'dashboard')->name('dashboard.roles');
-        Route::view('/clients', 'dashboard')->name('dashboard.clients');
+    Route::prefix('dashboard')->group(function () {
+
+        Route::middleware(['admin'])->group(function () {
+            Route::view('/users', 'dashboard')->name('dashboard.users');
+            Route::view('/roles', 'dashboard')->name('dashboard.roles');
+            Route::view('/clients', 'dashboard')->name('dashboard.clients');
+        });
+
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');
         Route::get('/show/client/{hashid}', [DashboardController::class, 'showClient'])->name('dashboard.show.client');
+        
+        Route::get('/create/pet-images/{hashid}', [PetController::class, 'createPetImages'])->name('dashboard.create.pet-images');
+        Route::post('/store/pet-images', [PetController::class, 'storePetImages'])->name('dashboard.update.pet-images');
     });
 
     Route::view('panel', 'panel')->name('panel.overview');

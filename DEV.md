@@ -1,10 +1,9 @@
 ## Por hacer
 
-- formulario para registrar cliente (añadir status solo para el administrador) con validations
-- editar clientes
-
 - modulo mascotas de cliente
 - model Caja
+- comentarios
+- laravel audition
 
 - seguimiento de usuarios
 

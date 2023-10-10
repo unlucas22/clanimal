@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Hashids;
 
 class Pet extends Model
 {
@@ -19,6 +20,20 @@ class Pet extends Model
         'type_of_pet_id',
         'client_id',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'hashid',
+    ];
+
+    public function getHashidAttribute()
+    {
+        return Hashids::encode($this->id);
+    }
 
     public function type_of_pets()
     {

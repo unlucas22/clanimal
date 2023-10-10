@@ -37,7 +37,7 @@ class Clients extends Component
             $qry->where('email', 'like', '%'.$this->email.'%');
         })->when($this->phone !== '', function($qry) {
             $qry->where('phone', 'like', '%'.$this->phone.'%');
-        })->paginate($this->rows);
+        })->orderBy('updated_at', 'desc')->paginate($this->rows);
 
         $this->table = 'clients';
 
@@ -56,7 +56,7 @@ class Clients extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            // 'action_name' => 'user',
+            'action_name' => 'client',
             'head_name' => 'client',
         ]);
     }

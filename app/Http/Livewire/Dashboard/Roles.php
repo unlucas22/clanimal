@@ -27,7 +27,7 @@ class Roles extends Component
     {
         $items = Role::with('permissions')->withCount('users')->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
-        })->paginate($this->rows);
+        })->orderBy('users_count', 'desc')->paginate($this->rows);
 
         $this->table = 'roles';
 

@@ -1,12 +1,6 @@
 <div x-data="{ open: false }" id="side-navigation">
     
-    {{-- 
-
-    ESTO ES SOLO PARA MOBILE 
-
-    Bug en mobile: cuando se da click se ve un fondo oscuro de flowbite, hay una funcion que no se está aplicando de flowbite
-
-    --}}
+    {{-- ESTO ES SOLO PARA MOBILE --}}
     <button @click="open = ! open" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
         <span class="sr-only">Abrir sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +19,6 @@
                     <li>
                         <a @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <x-icons.heroicons.arrow-left />
-
                         </a>
                     </li>
                     @endif
@@ -93,7 +86,7 @@
                     </svg>
                 </a>
                 <div id="tooltip-settings" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip">
-                    Settings page
+                    Perfil
                     <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
 
