@@ -42,7 +42,9 @@
         <div class="min-h-screen bg-gray-100">
             {{-- @livewire('navigation-menu')  --}}
 
+            @if(Auth::check())
             @livewire('side-navigation')
+            @endif
 
             <!-- Page Heading -->
             @if (isset($header))

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Modal\Update;
 
 use LivewireUI\Modal\ModalComponent;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{Auth, Log};
 
 class Client extends ModalComponent
 {
@@ -67,6 +67,7 @@ class Client extends ModalComponent
         }
         catch (\Exception $e)
         {
+            Log::error($e->getMessage());
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'error',

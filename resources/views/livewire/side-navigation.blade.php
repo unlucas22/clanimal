@@ -38,6 +38,15 @@
                     </li>
                     @if(Auth::user()->role_id == 1)
                     <li>
+                        <a href="{{ route('dashboard.controls') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.controls')
+                            ])>
+                            <x-icons.heroicons.qr />
+                            <span class="ml-3">Controles por QR</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('dashboard.users') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.users')
@@ -55,6 +64,7 @@
                             <span class="ml-3">Roles y Permisos</span>
                         </a>
                     </li>
+
                     @endif
 
                     <li>
@@ -139,6 +149,14 @@
                         </a>
                     </li>
                     @if(Auth::user()->role_id == 1)
+                    <li>
+                        <a href="{{ route('dashboard.controls') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.controls')
+                            ])>
+                            <x-icons.heroicons.qr />
+                        </a>
+                    </li>
                     <li>
                         <a href="{{ route('dashboard.users') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 group',

@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Modal\Store;
 
 use LivewireUI\Modal\ModalComponent;
 use App\Models\Role;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\{Hash, Log};
 
 class User extends ModalComponent
 {
@@ -53,6 +53,7 @@ class User extends ModalComponent
             return redirect(route('dashboard.users'));
         
         } catch (\Exception $e) {
+            Log::error($e->getMessage());
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'success',

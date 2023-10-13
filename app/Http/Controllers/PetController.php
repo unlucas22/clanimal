@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{User, Pet, PetPhoto};
+use Illuminate\Support\Facades\Log;
 use Hashids;
 use DB;
 
@@ -65,6 +66,7 @@ class PetController extends Controller
         }
         catch (\Exception $e)
         {
+            Log::error($e->getMessage());
             DB::rollback();
 
             ddd($e->getMessage());

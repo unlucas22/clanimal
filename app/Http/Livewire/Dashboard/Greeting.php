@@ -20,6 +20,11 @@ class Greeting extends Component
         return view('livewire.dashboard.greeting');
     }
 
+    /**
+     * Obtiene el nombre del usuario logeado
+     * y le da los buenos días o tardes
+     * según el timezone configurado
+     * */
     protected function greetingWord()
     {
         $name = Str::words(Auth::user()->name, 1, '').'!';

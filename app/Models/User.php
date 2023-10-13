@@ -10,6 +10,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Hashids;
 
 class User extends Authenticatable
 {
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'password',
         'role_id',
         'deleted_at',
+        'cedula',
     ];
 
     /**
@@ -60,8 +62,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $appends = [
+        'hashid',
         'profile_photo_url',
     ];
+
+    public function getHashidAttribute()
+    {
+        return Hashids::encode($this->id);
+    }
 
     public function roles()
     {
@@ -81,5 +89,10 @@ class User extends Authenticatable
     public function clients()
     {
         return $this->hasMany(Client::class);
+    }
+
+    public function controls()
+    {
+        return $this->hasMany(Control::class);
     }
 }

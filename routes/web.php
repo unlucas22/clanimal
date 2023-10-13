@@ -18,13 +18,15 @@ Route::get('/', function () {
     return redirect('dashboard');
 });
 
+Route::get('qr/verification/{hashid}/{date}', [DashboardController::class, 'qrVerification'])->name('qr.verification');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
 
-    Route::view('/', 'dashboard')->name('dashboard.index');
+    Route::view('/dashboard', 'dashboard')->name('dashboard.index');
     
     Route::prefix('dashboard')->group(function () {
 
@@ -32,6 +34,7 @@ Route::middleware([
             Route::view('/users', 'dashboard')->name('dashboard.users');
             Route::view('/roles', 'dashboard')->name('dashboard.roles');
             Route::view('/clients', 'dashboard')->name('dashboard.clients');
+            Route::view('/controls', 'dashboard')->name('dashboard.controls');
         });
 
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');

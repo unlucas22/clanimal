@@ -1,8 +1,6 @@
 ## Por hacer
 
-- modulo mascotas de cliente
 - model Caja
-- comentarios
 - laravel audition
 
 - seguimiento de usuarios
@@ -23,33 +21,7 @@
 - composer require doctrine/dbal
 - npm install @alpinejs/focus
 - npm install @alpinejs/collapse
-
-## Roles
-
-Módulos (M)
-
-- Administrador: *
-
-- Gerente: 
-	M: Estadistica, Recursos humanos, Gestion de sedes.
-
-- Veterinario: 
-	M: Recepción, Historias clinicas.
-
-- Peluquero:
-	M: Recepción y turnos, Historias Clinicas.
-
-- Recepcionista:
-	M: Recepción y turnos, Historias clinicas, Clientes.
-
-- Cajera:
-	M: Ventas
-
-- Almacenero:
-	M: Almacen.
-
-- Auditor:
-	M: Ventas, Estadistica, Almacen.
-
-- Publicista
-	M: Marketing.
+- php artisan storage:link
+- composer require milon/barcode
+- composer require hisorange/browser-detect
+- composer require ipinfo/ipinfolaravel

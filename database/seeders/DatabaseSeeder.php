@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet};
+use App\Models\{Role, Permission, User, TypeOfPet, Report};
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +17,13 @@ class DatabaseSeeder extends Seeder
         'almacen' => 'Almacén', 
         'auditor' => 'Auditor', 
         'publicista' => 'Publicista',
+    ];
+
+    protected $type_of_reports = [
+        'default',
+        'ocasional',
+        'VIP',
+        'regular',
     ];
 
     protected $permissions = [
@@ -62,6 +69,24 @@ class DatabaseSeeder extends Seeder
         if(!TypeOfPet::count())
         {
             $this->createTypeOfPets();
+        }
+
+        if(!Report::count())
+        {
+            $this->createReports();
+        }
+    }
+
+    /**
+     *  Se le añade todos los estados de clientes posibles 
+     * */
+    protected function createReports()
+    {
+        foreach ($this->type_of_reports as $report)
+        {
+            Report::create([
+                'key' => $report,
+            ]);
         }
     }
 

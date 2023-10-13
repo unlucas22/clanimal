@@ -5,11 +5,15 @@ namespace App\Http\Livewire\Dashboard\Create;
 use Livewire\Component;
 use App\Models\{Pet, TypeOfPet};
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use DB;
 
 class Client extends Component
 {
-    public $status = ['ocasional', 'regular', 'VIP'];
+    /* Periocidad del cliente */
+    public $status;
+    /* periocidad del cliente seleccionado */
+    public $status_id;
 
     public $type_of_pets;
 
@@ -20,13 +24,15 @@ class Client extends Component
     public $email;
     public $phone;
     public $address;
-    public $status_id;
 
-    /* PET */
+    /* datos de la mascota */
     public $pet_name;
     public $type_of_pet_id;
     public $pet_sex;
     public $pet_age;
+    /**
+     * en proximas actualizaciones tendrá edad por meses, por el momento se puede poner 0.2 
+     * */
     //public $pet_month;
     public $pet_height;
     public $pet_weight;
@@ -51,6 +57,8 @@ class Client extends Component
 
     public function mount()
     {
+        $this->status = Report::get();
+
         $this->type_of_pets = TypeOfPet::get();
 
         if(count($this->type_of_pets))
@@ -58,7 +66,8 @@ class Client extends Component
             $this->type_of_pet_id = $this->type_of_pets[0]->id;
         }
 
-        $this->status_id = 'ocasional';
+        /* Normalmente será 'default' la primera key */
+        $this->status_id = (Report::first())->key;
     }
     
     public function render()
@@ -72,7 +81,7 @@ class Client extends Component
 
         DB::beginTransaction();
 
-        /* Para la notificacion */
+        /* Para la notificacion en SweetAlert */
         $special_msg = '';
 
         try
@@ -82,7 +91,7 @@ class Client extends Component
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'address' => $this->address,
-                'status_id' => $this->status_id,
+                'status' => $this->status_id,
                 'user_id' => Auth::user()->id,
             ]);
 
@@ -129,7 +138,10 @@ class Client extends Component
         }
         catch (\Exception $e)
         {
+            Log::error($e->getMessage());
+            
             DB::rollback();
+            
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'error',
