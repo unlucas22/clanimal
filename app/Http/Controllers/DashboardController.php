@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function showClient(Request $req)
     {
-        $client = Client::with(['pets', 'users'])->where('id', Hashids::decode($req->hashid))->firstOrFail();
+        $client = Client::with(['pets', 'users', 'reports'])->where('id', Hashids::decode($req->hashid))->firstOrFail();
 
         return view('livewire.dashboard.show.client', [
             'client' => $client,

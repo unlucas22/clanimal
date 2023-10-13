@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Create;
 
 use Livewire\Component;
-use App\Models\{Pet, TypeOfPet};
+use App\Models\{Pet, TypeOfPet, Report};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use DB;
@@ -57,7 +57,12 @@ class Client extends Component
 
     public function mount()
     {
-        $this->status = Report::get();
+        $reports = Report::get();
+
+        foreach ($reports as $report)
+        {
+            $this->status[] = $report->key;
+        }
 
         $this->type_of_pets = TypeOfPet::get();
 
@@ -86,12 +91,14 @@ class Client extends Component
 
         try
         {
+            $report = Report::where('key', $this->status_id)->firstOrFail();
+
             $client = \App\Models\Client::create([
                 'name' => $this->name,
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'address' => $this->address,
-                'status' => $this->status_id,
+                'report_id' => $report->id,
                 'user_id' => Auth::user()->id,
             ]);
 
@@ -145,7 +152,7 @@ class Client extends Component
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'error',
-                'iconColor' => 'green',
+                'iconColor' => 'red',
             ]);
         }
     }

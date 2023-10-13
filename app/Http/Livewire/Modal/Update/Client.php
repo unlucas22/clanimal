@@ -4,10 +4,11 @@ namespace App\Http\Livewire\Modal\Update;
 
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Support\Facades\{Auth, Log};
+use App\Models\Report;
 
 class Client extends ModalComponent
 {
-    public $status = ['ocasional', 'regular', 'VIP'];
+    public $status;
 
     public $item_id;
 
@@ -27,7 +28,7 @@ class Client extends ModalComponent
 
     public function mount()
     {
-        $item = \App\Models\Client::where('id', $this->item_id)->firstOrFail();
+        $item = \App\Models\Client::with('reports')->where('id', $this->item_id)->firstOrFail();
 
         $this->name = $item->name;
         $this->email = $item->email;
@@ -35,6 +36,17 @@ class Client extends ModalComponent
         $this->address = $item->address;
 
         $this->status_id = $item->status;
+
+        $reports = Report::get();
+
+        foreach ($reports as $report)
+        {
+            $this->status[] = $report->key;
+        }
+
+
+        /* Normalmente será 'default' la primera key */
+        $this->status_id = $item->reports->key;
     }
 
     public function render()
@@ -50,12 +62,14 @@ class Client extends ModalComponent
 
         try
         {
+            $report = Report::where('key', $this->status_id)->firstOrFail();
+
             \App\Models\Client::where('id', $this->item_id)->update([
                 'name' => $this->name,
                 'email' => $this->email,
                 'phone' => $this->phone,
                 'address' => $this->address,
-                'status' => $this->status_id,
+                'report_id' => $report->id,
                 'user_id' => Auth::user()->id,
             ]);
 

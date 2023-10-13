@@ -31,7 +31,7 @@ class Clients extends Component
 
     public function render()
     {
-        $items = Client::with('users')->withCount('pets')->when($this->name !== '', function($qry) {
+        $items = Client::with(['users', 'reports'])->withCount('pets')->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
         })->when($this->email !== '', function($qry) {
             $qry->where('email', 'like', '%'.$this->email.'%');

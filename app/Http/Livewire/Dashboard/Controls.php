@@ -21,7 +21,6 @@ class Controls extends Component
         'hostname' => 'Servicio de host',
         'device' => 'Dispositivo',
         'city' => 'Ciudad',
-        'confirmed' => 'Confirmado',
     ];
 
     public $device = '';
@@ -33,6 +32,11 @@ class Controls extends Component
         })->orderBy('created_at', 'desc')->paginate($this->rows);
 
         $this->table = 'controls';
+
+        $this->relationships = [
+            'Usuario',
+            'Acceso',
+        ];
 
         return view('livewire.dashboard.table', [
             'items' => $items,

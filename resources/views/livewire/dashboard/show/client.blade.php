@@ -19,19 +19,9 @@
 
     <div class="bg-white shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
         <div class="mt-16">
-            <div class="flex justify-end"><p class="text-center text-sm text-gray-400 font-medium pt-4">{!! $client->formatted_status !!}</div>
+            <div class="flex justify-end"><p class="text-center text-sm text-gray-400 font-medium pt-4">{!! $client->reports->formatted_status !!}</div>
             <h1 class="font-bold text-center text-3xl text-gray-900 pt-8">{{ $client->name }}</h1>
             </p>
-
-            <!-- NO ELIMINAR
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">Ocasional</span>
-
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">Ocasional</span>
-
-    <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Básico</span>
-
-    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">VIP</span>
-             -->
 
             <div class="flex justify-between items-center my-5 px-6 pt-8">
                 @if(Auth::user()->isAdmin())
@@ -133,5 +123,14 @@
         </div>
     </div>
 
+<!-- NO ELIMINAR
+    <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">Ocasional</span>
+
+    <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Básico</span>
+
+    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">VIP</span>
+
+    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">Sin definir</span>
+-->
 </div>
 </x-app-layout>
