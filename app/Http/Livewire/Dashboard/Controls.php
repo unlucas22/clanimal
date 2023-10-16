@@ -43,8 +43,16 @@ class Controls extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            // 'action_name' => 'user',
+            'action_name' => 'control',
             // 'head_name' => 'user',
+        ]);
+    }
+
+    /* actions */
+    public function updateConfirmed(int $item_id)
+    {
+        Control::where('id', $item_id)->update([
+            'confirmed' => true,
         ]);
     }
 }

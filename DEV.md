@@ -1,9 +1,6 @@
 ## Por hacer
 
-- model Caja
-- laravel audition
-
-- seguimiento de usuarios
+- Editar model qr y habilitarlos
 
 ## Create ClinicAnimal
 
