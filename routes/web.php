@@ -35,6 +35,7 @@ Route::middleware([
             Route::view('/roles', 'dashboard')->name('dashboard.roles');
             Route::view('/clients', 'dashboard')->name('dashboard.clients');
             Route::view('/controls', 'dashboard')->name('dashboard.controls');
+            Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
         });
 
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');

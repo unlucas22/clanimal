@@ -28,7 +28,7 @@
 
         <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
             <x-jet-button>
-                Actualizar Control del cliente
+                Actualizar
             </x-jet-button>
         </div>
     </form>

@@ -1,6 +1,6 @@
 ## Por hacer
 
-- Editar model qr y habilitarlos
+- crud de clasificacion
 
 ## Create ClinicAnimal
 
