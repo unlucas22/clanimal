@@ -21,7 +21,7 @@
 
         <!-- ROL -->
         <div class="form-group">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
+            <label for="ss1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
             <select id="ss1" class="w-full form-control" wire:model.defer="role_id">
                 @forelse($roles as $role)
                 <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -30,6 +30,19 @@
                 @endforelse
             </select>
             @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <!-- SEDE -->
+        <div class="form-group">
+            <label for="ss2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
+            <select id="ss2" class="w-full form-control" wire:model.defer="company_id">
+                @forelse($companies as $company)
+                <option value="{{ $company->id }}">{{ $role->name }}</option>
+                @empty
+                <option value="0">Error.</option>
+                @endforelse
+            </select>
+            @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
         <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">

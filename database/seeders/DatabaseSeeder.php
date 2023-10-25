@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company};
 
 class DatabaseSeeder extends Seeder
 {
@@ -42,6 +42,10 @@ class DatabaseSeeder extends Seeder
         'Perro', 'Gato', 'Conejo', 'Hamster', 'Pájaro', 'Tortuga', 'Pez', 'Serpiente', 'Lagarto', 'Rata', 'Iguana', 'Canario', 'Tarántula', 'Cotorra', 'Araña'
     ];
 
+    protected $sedes = [
+        'Central' => 'Av. Siempre Viva 1234', 'Formosa' => 'Anchorena y Carlos Casares',
+    ];
+
     /**
      * Seed the application's database.
      *
@@ -61,6 +65,11 @@ class DatabaseSeeder extends Seeder
             $this->createPermissions($role->id);
         }
 
+        if(!Company::count())
+        {
+            $this->createCompanies();
+        }
+
         if(!User::count())
         {
             User::factory(1)->create();
@@ -74,6 +83,20 @@ class DatabaseSeeder extends Seeder
         if(!Report::count())
         {
             $this->createReports();
+        }
+    }
+
+    /**
+     *  Se agregan sedes
+     * */
+    protected function createCompanies()
+    {
+        foreach ($this->sedes as $name => $email)
+        {
+            Company::create([
+                'name' => $name,
+                'address' => $email,
+            ]);
         }
     }
 

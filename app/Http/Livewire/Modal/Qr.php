@@ -13,7 +13,7 @@ class Qr extends ModalComponent
     public $link;
 
     protected $rules = [
-        'user_dni' => 'required|min:7|max:50'
+        'user_dni' => 'required|min:8|max:50'
     ];
 
     /**
@@ -47,7 +47,7 @@ class Qr extends ModalComponent
             ]);
 
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'Cliente encontrado con éxito.',
+                'title' => 'Trabajador encontrado con éxito.',
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);
@@ -58,7 +58,7 @@ class Qr extends ModalComponent
             \Log::error($e->getMessage());
 
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'Cliente con el dni '.$this->user_dni.' no encontrado, intente nuevamente.',
+                'title' => 'Trabajador con el dni '.$this->user_dni.' no encontrado, intente nuevamente.',
                 'icon' => 'error',
                 'iconColor' => 'red',
             ]);

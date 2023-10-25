@@ -1,5 +1,5 @@
 <div class="p-6">
-    <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Actualizar Control del cliente</h2>
+    <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Actualizar Control del trabajador</h2>
 
     <form wire:submit.prevent="save" class="space-y-10 pt-8 ">
         <div class="grid md:grid-cols-2 md:gap-6">

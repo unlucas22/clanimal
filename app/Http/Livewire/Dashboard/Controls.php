@@ -10,7 +10,7 @@ class Controls extends Component
 {
     use HasTable;
 
-    public $title = 'Control de usuarios por QR';
+    public $title = 'Control de trabajadores por QR';
 
     public $filters = [
         'device' => 'Dispositivo',
@@ -34,7 +34,7 @@ class Controls extends Component
         $this->table = 'controls';
 
         $this->relationships = [
-            'Usuario',
+            'Trabajador',
             'Acceso',
         ];
 

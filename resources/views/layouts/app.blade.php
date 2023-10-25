@@ -18,19 +18,6 @@
         <!-- Scripts -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <script src="{{ asset('js/app.js') }}" defer></script>
-
-        {{-- 
-        <style>
-            @font-face {
-                font-family: "Inter-Regular";
-                src: url('{{ asset('fonts/Inter-Regular.ttf') }}');
-            }
-
-            *{
-                font-family: "Inter-Regular";
-            }
-        </style>
-         --}}
         
         @if (isset($head))
         {{ $head }}

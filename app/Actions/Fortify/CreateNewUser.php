@@ -10,6 +10,7 @@ use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
+    
     use PasswordValidationRules;
 
     /**
@@ -22,9 +23,14 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'dni' => ['required', 'max:50', 'min:8'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'g-recaptcha-response' => ['required', 'captcha'],
             'password' => $this->passwordRules(),
+            'company_id' => ['required'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+        ], [
+            'captcha' => 'Error en el Captcha. Vuelva a intentarlo.',
         ])->validate();
 
         return User::create([
@@ -32,6 +38,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
             'role_id' => 1,
+            'cedula' => $input['dni'],
         ]);
     }
 }

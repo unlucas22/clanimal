@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->unsignedBigInteger('role_id')->default(1);
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies');
             $table->softDeletes();
             $table->timestamps();
         });

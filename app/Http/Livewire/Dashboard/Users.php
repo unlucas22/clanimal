@@ -15,6 +15,7 @@ class Users extends Component
     public $filters = [
         'name' => 'nombre',
         'email' => 'email',
+        'sede' => 'sede',
     ];
 
     public $columns = [
@@ -24,10 +25,15 @@ class Users extends Component
 
     public $name = '';
     public $email = '';
+    public $sede = '';
 
     public function render()
     {
-        $users = User::when($this->name !== '', function($qry) {
+        $users = User::with(['companies' => function($qry) {
+            $qry->when($this->sede !== '', function($query) {
+                return $query->where('name', 'like', '%'.$this->sede.'%');
+            });
+        }, 'roles'])->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
         })->when($this->email !== '', function($qry) {
             $qry->where('email', 'like', '%'.$this->email.'%');
@@ -37,6 +43,7 @@ class Users extends Component
 
         $this->relationships = [
             'Rol',
+            'Sede',
         ];
 
         $this->canActive = true;

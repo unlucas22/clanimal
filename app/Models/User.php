@@ -33,6 +33,7 @@ class User extends Authenticatable
         'role_id',
         'deleted_at',
         'cedula',
+        'company_id',
     ];
 
     /**
@@ -74,6 +75,11 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function companies()
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
     public function isActive()
