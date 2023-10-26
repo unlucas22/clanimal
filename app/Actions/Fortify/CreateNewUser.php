@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use App\Models\Role;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -23,7 +24,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'dni' => ['required', 'max:50', 'min:8'],
+            'cedula' => ['required', 'max:50', 'min:8', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'g-recaptcha-response' => ['required', 'captcha'],
             'password' => $this->passwordRules(),
@@ -37,8 +38,9 @@ class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
-            'role_id' => 1,
-            'cedula' => $input['dni'],
+            'role_id' => (Role::where('name', 'Ventas')->first())->id ?? 1,
+            'company_id' => $input['company_id'],
+            'cedula' => $input['cedula'],
         ]);
     }
 }

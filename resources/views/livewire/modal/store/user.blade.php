@@ -11,6 +11,14 @@
             @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
+        <!-- DNI -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="dni" value="{{ __('DNI') }}" />
+            <x-jet-input id="dni" type="text" class="mt-1 block w-full"  name="dni" wire:model="dni" required autofocus autocomplete="dni" />
+            <x-jet-input-error for="name" class="mt-2" />
+            @error('dni') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
         <!-- Correo -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="email" value="{{ __('Correo') }}" />
@@ -29,7 +37,7 @@
 
         <!-- ROL -->
         <div class="form-group">
-            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
+            <label for="ss1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
             <select id="ss1" class="w-full form-control" wire:model.defer="role_id">
                 @forelse($roles as $role)
                 <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -38,6 +46,19 @@
                 @endforelse
             </select>
             @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <!-- Sede -->
+        <div class="form-group">
+            <label for="ss3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
+            <select id="ss3" class="w-full form-control" wire:model.defer="company_id">
+                @forelse($sedes as $sede)
+                <option value="{{ $sede->id }}">{{ $sede->name }}</option>
+                @empty
+                <option value="0">Error.</option>
+                @endforelse
+            </select>
+            @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
         <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">

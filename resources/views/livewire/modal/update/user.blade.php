@@ -37,7 +37,7 @@
             <label for="ss2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
             <select id="ss2" class="w-full form-control" wire:model.defer="company_id">
                 @forelse($companies as $company)
-                <option value="{{ $company->id }}">{{ $role->name }}</option>
+                <option value="{{ $company->id }}">{{ $company->name }}</option>
                 @empty
                 <option value="0">Error.</option>
                 @endforelse

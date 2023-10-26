@@ -29,8 +29,8 @@
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="dni" value="{{ __('DNI') }}" />
-                <x-jet-input id="dni" class="block mt-1 w-full" type="text" name="dni" :value="old('dni')" required autofocus autocomplete="dni" />
+                <x-jet-label for="cedula" value="{{ __('DNI') }}" />
+                <x-jet-input id="cedula" class="block mt-1 w-full" type="text" name="cedula" :value="old('cedula')" required autofocus autocomplete="cedula" />
             </div>
 
             <div class="mt-4">
@@ -46,6 +46,19 @@
             <div class="mt-4">
                 <x-jet-label for="password_confirmation" value="{{ __('Confirmar Contraseña') }}" />
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+            </div>
+
+            <!-- Sede -->
+            @php($sedes = \App\Models\Company::get())
+            <div class="form-group mt-4">
+                <label for="ss3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
+                <select id="ss3" class="w-full form-control" name="company_id" :value="old('email')">
+                    @forelse($sedes as $sede)
+                    <option value="{{ $sede->id }}">{{ $sede->name }}</option>
+                    @empty
+                    <option value="0">Error.</option>
+                    @endforelse
+                </select>
             </div>
 
             <div class="mt-4 flex justify-center">

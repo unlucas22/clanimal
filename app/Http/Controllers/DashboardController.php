@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{Client, User, Control};
 use Illuminate\Support\Facades\{Auth, Cookie};
+use Illuminate\Support\Facades\Log;
 use BrowserDetect;
 use Hashids;
 use Carbon\Carbon;
@@ -58,7 +59,7 @@ class DashboardController extends Controller
         }
         catch (\Exception $e)
         {
-            \Log::error($e->getMessage());
+            Log::error($e->getMessage());
 
             Cookie::forget('qr_validation');
 
