@@ -29,7 +29,7 @@ class Users extends Component
 
     public function render()
     {
-        $users = User::with(['companies' => function($qry) {
+        $users = User::withCount('histories')->with(['companies' => function($qry) {
             $qry->when($this->sede !== '', function($query) {
                 return $query->where('name', 'like', '%'.$this->sede.'%');
             });

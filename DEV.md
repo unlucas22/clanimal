@@ -1,6 +1,5 @@
 ## Por hacer
 
-- Model Historial 
 - Hacer contador de días desde el created_at hasta updated_at para cambios en roles o sedes
 - En perfil de trabajador agregar dos pestañas modal de historial: para roles y sedes. 
 

@@ -54,11 +54,14 @@ class User extends ModalComponent
             
             if($this->old_role_id != $this->role_id)
             {
+                $new_rol = (Role::find(intval($this->role_id)))->name;
+
                 \App\Models\User::setHistory([
                     'name' => 'users',
                     'formatted_name' => 'Rol',
                     'id' => $this->item_id,
-                ], 'role_id', (Role::find($this->role_id))->name);
+                ], 'role_id', $new_rol);
+
             }
             else if($this->old_company_id != $this->company_id)
             {
@@ -92,18 +95,5 @@ class User extends ModalComponent
 
             Log::error($e->getMessage());
         }
-    }
-
-    public function updatedRoleId()
-    {
-        \App\Models\User::where('id', $this->item_id)->update([
-            'role_id' => $this->role_id
-        ]);
-
-        $this->dispatchBrowserEvent('swal', [
-            'title' => 'Rol actualizado',
-            'icon' => 'success',
-            'iconColor' => 'green',
-        ]);
     }
 }

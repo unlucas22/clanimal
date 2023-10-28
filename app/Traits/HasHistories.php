@@ -26,9 +26,9 @@ trait HasHistories {
 
 			$name = $table['formatted_name'] ?? $table['name'];
 
+			/* $db[$column] es igual da el value de role_id o company_id */
 			$old_value = $db[$column];
 
-			/* Personalizado */
 			if($column == 'company_id')
 			{
 				$old_value = Company::find($db[$column])->name;

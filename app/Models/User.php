@@ -100,6 +100,11 @@ class User extends Authenticatable
         return $this->hasMany(Client::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+
     public function controls()
     {
         return $this->hasMany(Control::class);
