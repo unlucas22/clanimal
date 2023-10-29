@@ -76,6 +76,24 @@
                             <span class="ml-3">Clientes y Mascotas</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
+                            ])>
+                            <x-icons.heroicons.calendar />
+                            <span class="ml-3">Turnos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.receptions') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
+                            ])>
+                            <x-icons.heroicons.wallet />
+                            <span class="ml-3">Recepción</span>
+                        </a>
+                    </li>
                 </ul>
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                     <li>
@@ -180,6 +198,22 @@
                             'bg-gray-100' => request()->routeIs('dashboard.clients')
                             ])>
                             <x-icons.heroicons.db />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
+                            ])>
+                            <x-icons.heroicons.calendar />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('dashboard.receptions') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
+                            ])>
+                            <x-icons.heroicons.wallet />
                         </a>
                     </li>
                 </ul>

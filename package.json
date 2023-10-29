@@ -24,7 +24,9 @@
         "@alpinejs/collapse": "^3.13.1",
         "@alpinejs/focus": "^3.13.1",
         "apexcharts": "^3.43.0",
+        "color-calendar": "^1.0.7",
         "flowbite": "^1.8.1",
+        "flowbite-datepicker": "^1.2.2",
         "sweetalert2": "^11.7.31"
     }
 }

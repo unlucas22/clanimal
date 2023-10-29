@@ -37,6 +37,9 @@ Route::middleware([
             Route::view('/controls', 'dashboard')->name('dashboard.controls');
             Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
             Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
+            Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
+            Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
+            Route::view('/servicios', 'dashboard')->name('dashboard.services');
         });
 
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');
@@ -44,8 +47,17 @@ Route::middleware([
         
         Route::get('/create/pet-images/{hashid}', [PetController::class, 'createPetImages'])->name('dashboard.create.pet-images');
         Route::post('/store/pet-images', [PetController::class, 'storePetImages'])->name('dashboard.update.pet-images');
+
+        Route::get('/create/shift/{hashid?}', [PetController::class, 'createShift'])->name('dashboard.create.shift');
+        Route::post('/store/shift', [PetController::class, 'storeShift'])->name('dashboard.store.shift');
+
+        Route::get('/create/reception/{hashid?}', [PetController::class, 'createReception'])->name('dashboard.create.reception');
+        Route::post('/store/reception', [PetController::class, 'storeReception'])->name('dashboard.store.reception');
     });
 
     Route::view('panel', 'panel')->name('panel.overview');
 
 });
+
+
+Route::post('get-turnos', [PetController::class, 'getShifts'])->name('api.get.shifts');

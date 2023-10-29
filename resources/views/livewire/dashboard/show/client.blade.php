@@ -61,6 +61,9 @@
                             <div>
                                 <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Añadir imagenes</button></a>
                             </div>
+                            <div>
+                                <a href="{{ route('dashboard.create.shift', ['hashid' => $pets[$i]->hashid]) }}"><button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold px-4 rounded-full">Generar Turno</button></a>
+                            </div>
                         </div>
                     </div>
 
