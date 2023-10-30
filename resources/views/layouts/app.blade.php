@@ -39,7 +39,14 @@
             @if (isset($header))
                 <header class="bg-white shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                        <div class="flex justify-between">
+                            <div class="flex justify-start">
+                                {{ $header }}
+                            </div>
+                            <div class="flex justify-end">
+                            <a href="javascript:history.go(-1)"><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-1 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Regresar</button></a>
+                            </div>
+                        </div>
                     </div>
                 </header>
             @endif
