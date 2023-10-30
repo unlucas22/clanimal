@@ -1,9 +1,14 @@
 ## To Do
 
-- Model Turnos (Shift) y Recepcion (Reception)
-- Model Servicios (Service) : peluquería, baño, etc. DBSEED
-- CRUD Servicios
-- Opcion ingreso, salida
+- Control de colaboradores
+- Tooltip
+- Programacion de citas
+- Ocultar
+- talla select option pequeño, mediano, grande
+- peso aclarar kilos
+- switch
+- usar colores primarios para los botones
+- lightbox para las imagenes de mascotas
 
 ## Create ClinicAnimal
 

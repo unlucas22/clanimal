@@ -52,10 +52,10 @@ class DashboardController extends Controller
                 ]);
 
                 /* 12 horas de expiracion */
-                Cookie::queue('qr_validation', $control->hashid, 60*12);
+                Cookie::queue('qr_validation', $user->hashid, 60*12);
             }
 
-            return redirect('login');
+            return redirect( route('perfil.colaborador') );
         }
         catch (\Exception $e)
         {

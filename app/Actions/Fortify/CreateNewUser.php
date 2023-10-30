@@ -11,7 +11,6 @@ use App\Models\Role;
 
 class CreateNewUser implements CreatesNewUsers
 {
-    
     use PasswordValidationRules;
 
     /**

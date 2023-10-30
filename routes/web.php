@@ -14,10 +14,6 @@ use App\Http\Controllers\{DashboardController, PetController};
 |
 */
 
-Route::get('/', function () {
-    return redirect('dashboard');
-});
-
 Route::get('qr/verification/{hashid}/{date}', [DashboardController::class, 'qrVerification'])->name('qr.verification');
 
 Route::middleware([
@@ -59,5 +55,16 @@ Route::middleware([
 
 });
 
+Route::get('control-de-colaboradores', function(){
+    return view('control');
+})->name('control');
+
+Route::get('perfil-colaborador', function(){
+    return view('perfil');
+})->name('perfil.colaborador');
 
 Route::post('get-turnos', [PetController::class, 'getShifts'])->name('api.get.shifts');
+
+Route::get('/', function () {
+    return redirect('dashboard');
+});
