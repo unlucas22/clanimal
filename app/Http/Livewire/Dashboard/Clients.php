@@ -46,7 +46,7 @@ class Clients extends Component
             // 'Promedio de visitas', Va en analytics
             'Monto gastado',
             'Clasificación',
-            'Registrado por',
+            // 'Registrado por',
         ];
 
         $this->updated_at = false;

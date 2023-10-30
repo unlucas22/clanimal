@@ -15,11 +15,17 @@
     <div class="flex justify-between pt-8 px-4">
         @foreach($filters as $index => $key)
         <div>
-            <input type="text" class="px-2 py-1 text-slate-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full" placeholder="Buscar por {{$key }}" wire:model="{{ $index }}">
+            <label for="{{ $index }}filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Buscar por {{$key }}</label>
+            <input type="text" id="{{ $index }}filter" wire:model="{{ $index }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
         </div>
+            {{--  
+            <input type="text" class="px-2 py-1 text-slate-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full" placeholder="" wire:model="{{ $index }}">
+            --}}
+
         @endforeach
         <div>
-            <select class="form-control" wire:click="changeRow($event.target.value)">
+            <label for="rowstable" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rows</label>
+            <select id="rowstable" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:click="changeRow($event.target.value)">
                 @foreach($rows_count as $row)
                 <option value="{{ $row }}">{{ $row }}</option>
                 @endforeach
@@ -97,11 +103,14 @@
                     </td>
                     @endif
                     <td class="{{ $td }}">
-                        <a data-tooltip="{ 'offset': 10 }" title="delete" wire:click="deleteItem({{$item->id}})" type="button" class="inline-block py-1 px-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out"><x-icons.heroicons.trash /></a>
-
+                        <div  class="py-2">
+                        <a data-tooltip="{ 'offset': 10 }" title="delete" wire:click="deleteItem({{$item->id}})" type="button" class="inline-block py-1 px-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Eliminar</a>
+                        </div>
+                        <div class="py-2">
                         @isset($action_name)
                         @include('components.actions.'.$action_name, ['item' => $item])
                         @endisset
+                        </div>
 
                     </td>
                 </tr class="bg-white border-b">

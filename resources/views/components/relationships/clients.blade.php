@@ -7,7 +7,8 @@
 <td class="{{ $td }}">
     {!! $item->reports->formatted_status !!}
 </td>
-{{-- añadir link al seguimiento --}}
+{{-- añadir link al seguimiento 
 <td class="{{ $td }}">
     {{ $item->users->name }}
 </td>
+--}}
