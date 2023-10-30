@@ -17,6 +17,7 @@ class Controls extends Component
     ];
 
     public $columns = [
+        'id' => 'ID',
         'ip' => 'Dirección IP',
         'hostname' => 'Servicio de host',
         'device' => 'Dispositivo',

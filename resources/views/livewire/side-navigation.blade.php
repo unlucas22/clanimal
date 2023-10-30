@@ -162,59 +162,66 @@
                         <a href="{{ route('dashboard.index') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 group',
                             'bg-gray-100' => request()->routeIs('dashboard.index')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-overviews" data-tooltip-placement="right">
                             <x-icons.flowbite.overview />
                         </a>
+                        <x-tooltip :id="'overviews'" :content="'Overview'"  />
                     </li>
                     @if(Auth::user()->role_id == 1)
                     <li>
                         <a href="{{ route('dashboard.controls') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.controls')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-controles" data-tooltip-placement="right">
                             <x-icons.heroicons.qr />
                         </a>
+                        <x-tooltip :id="'controles'" :content="'Controles por QR'"  />
                     </li>
                     <li>
                         <a href="{{ route('dashboard.users') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 group',
                             'bg-gray-100' => request()->routeIs('dashboard.users')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-usuarios" data-tooltip-placement="right">
                             <x-icons.heroicons.user />
                         </a>
+                        <x-tooltip :id="'usuarios'" :content="'Usuarios'"  />
                     </li>
                     <li>
                         <a href="{{ route('dashboard.roles') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.roles')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-roles" data-tooltip-placement="right">
                             <x-icons.heroicons.users />
                         </a>
+                        <x-tooltip :id="'roles'" :content="'Roles y Permisos'"  />
                     </li>
                     @endif
                     <li>
                         <a href="{{ route('dashboard.clients') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.clients')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-clientes" data-tooltip-placement="right">
                             <x-icons.heroicons.db />
                         </a>
+                        <x-tooltip :id="'clientes'" :content="'Clientes y Mascotas'"  />
                     </li>
                     <li>
                         <a href="{{ route('dashboard.shifts') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.shifts')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-turnos" data-tooltip-placement="right">
                             <x-icons.heroicons.calendar />
                         </a>
+                        <x-tooltip :id="'turnos'" :content="'Turnos'"  />
                     </li>
                     <li>
                         <a href="{{ route('dashboard.receptions') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.receptions')
-                            ])>
+                            ]) data-tooltip-target="tooltip-right-recepcion" data-tooltip-placement="right">
                             <x-icons.heroicons.wallet />
                         </a>
+                        <x-tooltip :id="'recepcion'" :content="'Recepción'"  />
                     </li>
                 </ul>
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">

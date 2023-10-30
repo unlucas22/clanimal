@@ -94,12 +94,12 @@
 
                     @if($created_at)
                     <td class="{{ $td }}">
-                        {{ $item->created_at->format('d M Y'); }}
+                        {{ $item->created_at->format('d/m/Y'); }}
                     </td>
                     @endif
                     @if($updated_at)
                     <td class="{{ $td }}">
-                        {{ $item->updated_at->format('d M Y'); }}
+                        {{ $item->updated_at->format('d/m/Y'); }}
                     </td>
                     @endif
                     <td class="{{ $td }}">
