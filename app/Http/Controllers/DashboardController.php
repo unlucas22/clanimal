@@ -49,6 +49,7 @@ class DashboardController extends Controller
                     'hostname' => $req->ipinfo->hostname ?? 'local',
                     'city' => $req->ipinfo->city ?? 'local',
                     'device' => $device,
+                    'motivo' => $req->motivo,
                 ]);
 
                 /* 12 horas de expiracion */

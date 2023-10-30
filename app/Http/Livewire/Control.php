@@ -35,6 +35,7 @@ class Control extends Component
 
     protected $rules = [
         'user_dni' => 'required|min:8|max:50',
+        'motivo_id' => 'required',
     ];
 
     /**
@@ -63,6 +64,7 @@ class Control extends Component
             $this->link = route('qr.verification', [
                 'hashid' => $user->hashid,
                 'date' => $date,
+                'motivo' => $this->motivos[$this->motivo_id],
             ]);
 
             $this->dispatchBrowserEvent('swal', [
