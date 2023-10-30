@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMotivoToControlsTable extends Migration
+class CreateReasonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddMotivoToControlsTable extends Migration
      */
     public function up()
     {
-        Schema::table('controls', function (Blueprint $table) {
-            $table->string('motivo', 50)->default('Ingreso a Tienda');
+        Schema::create('reasons', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 50);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddMotivoToControlsTable extends Migration
      */
     public function down()
     {
-        Schema::table('controls', function (Blueprint $table) {
-            $table->dropColumn('motivo');
-        });
+        Schema::dropIfExists('reasons');
     }
 }

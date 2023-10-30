@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Models\User;
+use App\Models\{User, Client};
 
 class Charts extends Component
 {
@@ -13,7 +13,7 @@ class Charts extends Component
     {
         return view('livewire.dashboard.charts', [
             'users_data' => $this->calcularPorcentajeCambio(),
-            'users_count' => User::count(),
+            'users_count' => Client::count(),
         ]);
     }
 
@@ -30,11 +30,11 @@ class Charts extends Component
 
         $porcentaje_cambio = 0;
 
-        $clientes_mes_actual = User::whereYear('created_at', $anio_actual)
+        $clientes_mes_actual = Client::whereYear('created_at', $anio_actual)
             ->whereMonth('created_at', $mes_actual)
             ->count();
 
-        $clientes_mes_pasado = User::whereYear('created_at', $anio_pasado)
+        $clientes_mes_pasado = Client::whereYear('created_at', $anio_pasado)
             ->whereMonth('created_at', $mes_pasado)
             ->count();
 

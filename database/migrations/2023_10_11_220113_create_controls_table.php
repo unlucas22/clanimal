@@ -22,6 +22,8 @@ class CreateControlsTable extends Migration
             $table->string('device');
             $table->string('city')->nullable();
             $table->boolean('confirmed')->default(false);
+            $table->unsignedBigInteger('reason_id');
+            $table->foreign('reason_id')->references('id')->on('reasons');
             $table->timestamps();
         });
     }

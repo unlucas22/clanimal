@@ -7,7 +7,7 @@
         <div class="p-2 ">
             <div class="font-semibold">Fecha: {{ now()->format('d/m/Y') }}</div>
             <div class="font-semibold">Hora: {{ now()->format('H:i') }}</div>
-            <div class="font-semibold">Motivo: {{ $control->motivo }}</div>
+            <div class="font-semibold">Motivo: {{ $control->reasons->name }}</div>
         </div>
     </div>
 </div>

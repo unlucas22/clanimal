@@ -104,7 +104,7 @@
                     @endif
                     <td class="{{ $td }}">
                         <div  class="py-2">
-                        <a data-tooltip="{ 'offset': 10 }" title="delete" wire:click="deleteItem({{$item->id}})" type="button" class="inline-block py-1 px-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Eliminar</a>
+                        <a data-tooltip="{ 'offset': 10 }" title="delete" wire:click="deleteItem({{$item->id}})" type="button" class="inline-block py-1 px-2 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out cursor-pointer">Eliminar</a>
                         </div>
                         <div class="py-2">
                         @isset($action_name)

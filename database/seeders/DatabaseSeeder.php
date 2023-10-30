@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report, Company};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason};
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -73,6 +74,13 @@ class DatabaseSeeder extends Seeder
         if(!User::count())
         {
             User::factory(1)->create();
+
+            $this->createUsersWithRoles();
+        }
+
+        if(!Reason::count())
+        {
+            $this->createReasons();
         }
 
         if(!TypeOfPet::count())
@@ -83,6 +91,31 @@ class DatabaseSeeder extends Seeder
         if(!Report::count())
         {
             $this->createReports();
+        }
+    }
+
+    /**
+     * Usuario con cada rol
+     * */
+    protected function createUsersWithRoles()
+    {
+        /* ID del ultimo digito de CEDULA */
+        $i = 1;
+        
+        foreach ($this->roles as $key => $name)
+        {
+            User::create([
+                'name' => $name,
+                'email' => $key.'@clinicanimal.com',
+                'cedula' => "4040040".$i,
+                'email_verified_at' => now(),
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'role_id' => (Role::where('key', $key)->first())->id,
+                'remember_token' => Str::random(10),
+                'company_id' => (Company::first())->id,
+            ]);
+
+            $i++;
         }
     }
 
@@ -109,6 +142,27 @@ class DatabaseSeeder extends Seeder
         {
             Report::create([
                 'key' => $report,
+            ]);
+        }
+    }
+
+    protected $reasons = [
+        'Ingreso a Tienda',
+        'Salida de Tienda',
+        'Salida a Break',
+        'Retorno de Break',
+        'Permiso',
+    ];
+
+    /**
+     *  Se le añade todos los estados de clientes posibles 
+     * */
+    protected function createReasons()
+    {
+        foreach ($this->reasons as $reason)
+        {
+            Reason::create([
+                'name' => $reason,
             ]);
         }
     }

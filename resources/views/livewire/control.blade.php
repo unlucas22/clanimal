@@ -25,11 +25,14 @@
         </div>
 
         <div class="form-group mt-4">
-            <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Motivo</label>
-            <select id="ss4" class="w-full form-control" wire:model.defer="motivo_id" :value="old('motivo')">
-                @foreach($motivos as $i => $motivo)
-                <option value="{{ $i }}" @if($i == 0) selected @endif>{{ $motivo }}</option>
-                @endforeach
+
+            <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Motivo</label>
+            <select id="ss4" wire:model.defer="motivo_id" :value="old('motivo')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                @forelse($motivos as $motivo)
+                <option value="{{ $motivo->id }}" @if($motivo->id == 1) selected @endif>{{ $motivo->name }}</option>
+                @empty
+                <option value="0" selected>Error: Sin Motivos establecidos.</option>
+                @endforelse
             </select>
         </div>
 

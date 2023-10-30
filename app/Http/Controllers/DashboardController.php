@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Client, User, Control};
+use App\Models\{Client, User, Control, Reason};
 use Illuminate\Support\Facades\{Auth, Cookie};
 use Illuminate\Support\Facades\Log;
 use BrowserDetect;
@@ -39,7 +39,7 @@ class DashboardController extends Controller
             // $now = now()->format('H');
 
             /* Que no se registre dos veces en la misma día */
-            if(!Control::whereDate('created_at', Carbon::today())->where('confirmed', false)->count() && !Cookie::has('qr_validation'))
+            if(!Cookie::has('qr_validation'))
             {
                 $device = 'Navegador: '.BrowserDetect::browserName().' - SO: '.BrowserDetect::platformName().' - Dispositivo: '.BrowserDetect::deviceFamily();
 
@@ -49,11 +49,11 @@ class DashboardController extends Controller
                     'hostname' => $req->ipinfo->hostname ?? 'local',
                     'city' => $req->ipinfo->city ?? 'local',
                     'device' => $device,
-                    'motivo' => $req->motivo,
+                    'reason_id' => $req->motivo,
                 ]);
 
-                /* 12 horas de expiracion */
-                Cookie::queue('qr_validation', $user->hashid, 60*12);
+                /* cookie con 25 minutos de expiracion */
+                Cookie::queue('qr_validation', $user->hashid, 25);
             }
 
             return redirect( route('perfil.colaborador') );

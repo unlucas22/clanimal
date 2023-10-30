@@ -17,6 +17,7 @@ class Control extends Model
         'city',
         'device',
         'confirmed',
+        'reason_id',
     ];
 
     /**
@@ -36,6 +37,11 @@ class Control extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function reasons()
+    {
+        return $this->belongsTo(Reason::class, 'reason_id', 'id');
     }
 
     public function isActive()

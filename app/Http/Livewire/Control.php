@@ -4,21 +4,17 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\{User, Reason};
 use Hashids;
 use Illuminate\Support\Facades\Validator;
 
 class Control extends Component
 {
 
-    public $motivos = [
-        'Ingreso a Tienda',
-        'Salida de Tienda',
-        'Salida a Break',
-        'Retorno de Break',
-        'Permiso',
-    ];
-
+    public function mount()
+    {
+        $this->motivo_id = (Reason::first())->id;
+    }
 
     /**
      *  Primero se pide la cedula
@@ -26,7 +22,9 @@ class Control extends Component
      * */
     public function render()
     {
-        return view('livewire.control');
+        return view('livewire.control', [
+            'motivos' => Reason::get()
+        ]);
     }
 
     public $user_dni;
@@ -64,7 +62,7 @@ class Control extends Component
             $this->link = route('qr.verification', [
                 'hashid' => $user->hashid,
                 'date' => $date,
-                'motivo' => $this->motivos[$this->motivo_id],
+                'motivo' => $this->motivo_id,
             ]);
 
             $this->dispatchBrowserEvent('swal', [

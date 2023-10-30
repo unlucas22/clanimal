@@ -12,10 +12,6 @@ class Controls extends Component
 
     public $title = 'Control de trabajadores por QR';
 
-    public $filters = [
-        'device' => 'Dispositivo',
-    ];
-
     public $columns = [
         'id' => 'ID',
         'ip' => 'Dirección IP',
@@ -24,12 +20,16 @@ class Controls extends Component
         'city' => 'Ciudad',
     ];
 
-    public $device = '';
+    public $filters = [];
+
+    public $name;
 
     public function render()
     {
-        $items = Control::with('users')->when($this->device !== '', function($qry) {
-            $qry->where('device', 'like', '%'.$this->device.'%');
+        $items = Control::with('users')->whereHas('users', function($qry){
+            $qry->when($this->name !== '', function($filter) {
+                $filter->where('users.name', 'like', '%'.$this->name.'%');
+            });
         })->orderBy('created_at', 'desc')->paginate($this->rows);
 
         $this->table = 'controls';
@@ -45,7 +45,7 @@ class Controls extends Component
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'control',
-            // 'head_name' => 'user',
+            'head_name' => 'control',
         ]);
     }
 

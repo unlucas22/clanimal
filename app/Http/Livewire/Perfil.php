@@ -19,7 +19,7 @@ class Perfil extends Component
     {
         $user = User::find($this->user_id)->firstOrFail();
 
-        $control = Control::where('user_id', $user->id)->firstOrFail();
+        $control = Control::with('reasons')->where('user_id', $user->id)->orderBy('created_at', 'desc')->firstOrFail();
 
         return view('livewire.perfil', [
             'user' => $user,
