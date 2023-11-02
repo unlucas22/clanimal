@@ -1,6 +1,5 @@
-<div x-data="{ open: false }" id="side-navigation">
+<div x-data="{ open: {{ $default }} }" id="side-navigation">
     
-    {{-- ESTO ES SOLO PARA MOBILE --}}
     <button @click="open = ! open" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
         <span class="sr-only">Abrir sidebar</span>
         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -17,7 +16,7 @@
 
                     @if(!\Agent::isMobile())
                     <li>
-                        <a @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <a  id="sidebarHide" @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <x-icons.heroicons.arrow-left />
                         </a>
                     </li>
@@ -76,13 +75,14 @@
                             <span class="ml-3">Clientes y Mascotas</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                        <a href="{{ route('dashboard.services') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
+                            'bg-gray-100' => request()->routeIs('dashboard.services')
                             ])>
-                            <x-icons.heroicons.calendar />
-                            <span class="ml-3">Turnos</span>
+                            <x-icons.heroicons.wrench />
+                            <span class="ml-3">Servicios</span>
                         </a>
                     </li>
                     <li>
@@ -137,25 +137,15 @@
         </aside>
     </div>
 
-    {{--  
-
-
-
-    PC VIEW 
-
-
-
-    --}}
     <div :class="{'hidden': open, 'block': ! open}">
         <aside id="default-sidebar" class="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
 
-                {{--  ACA IRIA EL LOGO --}}
                 <ul class="space-y-2">
                     <li>
-                        <a @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <button id="sidebarShow"><a @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                             <x-icons.heroicons.arrow-right />
-                        </a>
+                        </a></button>
                     </li>
 
                     <li>
@@ -206,13 +196,13 @@
                         <x-tooltip :id="'clientes'" :content="'Clientes y Mascotas'"  />
                     </li>
                     <li>
-                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                        <a href="{{ route('dashboard.services') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
-                            ]) data-tooltip-target="tooltip-right-turnos" data-tooltip-placement="right">
-                            <x-icons.heroicons.calendar />
+                            'bg-gray-100' => request()->routeIs('dashboard.services')
+                            ]) data-tooltip-target="tooltip-right-servicios" data-tooltip-placement="right">
+                            <x-icons.heroicons.wrench />
                         </a>
-                        <x-tooltip :id="'turnos'" :content="'Turnos'"  />
+                        <x-tooltip :id="'servicios'" :content="'Servicios'"  />
                     </li>
                     <li>
                         <a href="{{ route('dashboard.receptions') }}"  @class([
@@ -247,4 +237,33 @@
             </div>
         </aside>
     </div>
+    <script>
+        // Función para crear o actualizar una cookie
+        function updateCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+
+        // Función para eliminar una cookie
+        function deleteCookie(name) {
+            document.cookie = name + '=; Max-Age=-1; path=/; domain={{ url('/') }};';
+            console.log("Cookie eliminada:", name);
+        }
+
+        // Evento para controlar la visibilidad del sidebar
+        document.getElementById('sidebarShow').addEventListener('click', function() {
+            deleteCookie('sidebar');
+            updateCookie('sidebar', 'true', 30);
+        });
+
+        document.getElementById('sidebarHide').addEventListener('click', function() {
+            deleteCookie('sidebar');
+            updateCookie('sidebar', 'false', 30);
+        });
+    </script>
 </div>

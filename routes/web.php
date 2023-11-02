@@ -33,7 +33,7 @@ Route::middleware([
             Route::view('/controls', 'dashboard')->name('dashboard.controls');
             Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
             Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
-            Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
+            // Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
             Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
             Route::view('/servicios', 'dashboard')->name('dashboard.services');
         });

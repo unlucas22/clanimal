@@ -7,66 +7,64 @@
 
 <div class="pt-8">
     <div class="bg-white shadow rounded-lg max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8  mx-auto">
-        <div class="mt-12">
-            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Generar turno</h2>
+        <div class="mt-12 flex justify-center">
 
-            <form method="POST" action="{{ route('dashboard.store.shift') }}" class="space-y-10">
+            <form method="POST" action="{{ route('dashboard.store.shift') }}" class="space-y-10 max-w-md">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Generar turno</h2>
 
                 @csrf
 
-                <div class="flex justify-center gap-8">
-                    <div>
-                        <!-- Mascota -->
-                        <div class="form-group mb-4">
-                            <label for="ss2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Mascota</label>
-                            <select id="ss2" class="w-full form-control" name="pet_id">
-                                @if($pet !== null)
-                                <option value="{{ $pet->id }}" selected>{{ $pet->name }}</option>
-                                @else
-                                @forelse($pets as $pet)
-                                <option value="{{ $pet->id }}">{{ $pet->name }}</option>
-                                @empty
-                                <option value="0">Sin mascotas registradas.</option>
-                                @endforelse
-                                @endif
-                            </select>
-                        </div>
-
-                        <!-- Servicio -->
-                        <div class="form-group">
-                            <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Servicio</label>
-                            <select id="ss4" class="w-full form-control" name="service_id">
-                                @forelse($services as $service)
-                                <option value="{{ $service->id }}">{{ $service->name }}</option>
-                                @empty
-                                <option value="0">Sin mascotas registradas.</option>
-                                @endforelse
-                            </select>
-                        </div>
+                <div>
+                    <!-- Mascota -->
+                    <div class="form-group mb-4">
+                        <label for="ss2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Mascota</label>
+                        <select id="ss2" class="w-full form-control" name="pet_id">
+                            @if($pet !== null)
+                            <option value="{{ $pet->id }}" selected>{{ $pet->name }}</option>
+                            @else
+                            @forelse($pets as $pet)
+                            <option value="{{ $pet->id }}">{{ $pet->name }}</option>
+                            @empty
+                            <option value="0">Sin mascotas registradas.</option>
+                            @endforelse
+                            @endif
+                        </select>
                     </div>
-                    <div>
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <caption class="p-5 text-lg font-semibold text-center text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-                                    Turnos del día
-                                </caption>
-                                <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                                            Hora
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Mascota
-                                        </th>
-                                        <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                                            Servicio
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tablaTurnos">
-                                </tbody>
-                            </table>
-                        </div>
+
+                    <!-- Servicio -->
+                    <div class="form-group">
+                        <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Servicio</label>
+                        <select id="ss4" class="w-full form-control" name="service_id">
+                            @forelse($services as $service)
+                            <option value="{{ $service->id }}">{{ $service->name }}</option>
+                            @empty
+                            <option value="0">Sin mascotas registradas.</option>
+                            @endforelse
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <caption class="p-5 text-lg font-semibold text-center text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+                                Turnos del día
+                            </caption>
+                            <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                                        Hora
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Mascota
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                                        Servicio
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaTurnos">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -148,9 +146,8 @@
                 </script>
 
                 <div class="p-4">
-                    <x-jet-button>
-                        {{ __('Agendar') }}
-                    </x-jet-button>                
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">   Agendar Cita
+                    </button>                
                 </div>
 
             </form>

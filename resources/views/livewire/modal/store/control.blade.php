@@ -26,6 +26,11 @@
             </select>
         </div>
 
+        <div class="form-group">
+            <label for="hora" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Hora</label>
+            <input type="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="selecciona la hora" id="hora" name="hora"  value="{{ old('hora') ?? now()->format('H:i') }}" min="06:00" max="20:00" required>
+        </div>
+
         <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
             <x-jet-button>
                 Crear

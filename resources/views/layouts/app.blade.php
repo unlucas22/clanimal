@@ -56,7 +56,7 @@
                 {{ $slot }}
             </main>
 
-            <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-32"><div class="border-t border-slate-200 pt-10 pb-16 dark:border-slate-200/5"><div class="text-center"><p class="mt-4 text-sm leading-6 text-slate-500">© <!-- -->{{ date('Y') }}<!-- --> {{ config('app.name', 'Laravel') }} | All rights reserved.</p></div></div></footer>
+            <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10"><div class="border-t border-slate-200 pt-10 pb-16 dark:border-slate-200/5"><div class="text-center"><p class="mt-4 text-sm leading-6 text-slate-500">© <!-- -->{{ date('Y') }}<!-- --> {{ config('app.name', 'Laravel') }} | All rights reserved.</p></div></div></footer>
         </div>
 
         @stack('modals')
