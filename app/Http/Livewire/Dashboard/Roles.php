@@ -13,7 +13,7 @@ class Roles extends Component
     public $title = 'Roles y Permisos';
 
     public $filters = [
-        'name' => 'nombre',
+        'name' => '',
     ];
 
     public $columns = [

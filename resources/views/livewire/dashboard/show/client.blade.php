@@ -1,118 +1,80 @@
-<x-app-layout>
+<div>
 
-<x-slot name="header">
-    <div class="flex justify-between">
-        <div class="flex justify-start">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Cliente  #{{ $client->id }} {{ $client->name }}
-            </h2>
+    <div class="flex justify-between gap-8">
+        <div class="w-full">
+            <div class="flex justify-center gap-4">
+                
+                <div><img class="w-24 h-24 rounded" src="{{ asset('img/profile-client.png') }}"></div>
+
+                <div>
+                    <div class="flex justify-between w-full gap-8 pt-4">
+                        <div><h1 class="font-bold text-center text-3xl text-gray-900 w-full">{{ $client->name }}</h1></div>
+                        <div><p class="text-center text-sm text-gray-400 font-medium pt-4 w-full">{!! $client->reports->formatted_status !!}</p></div>
+                    </div>
+
+                    <div class="pt-4">
+                        <div><strong>DNI:</strong> {{ $client->dni ?? '' }}</div>
+                        <div><strong>Dirección:</strong> {{ $client->address ?? '' }}</div>
+                    </div>
+
+                </div>
+                
+            </div>
         </div>
-        <div class="flex justify-end">
-            <button onclick="window.history.back();" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Regresar</button>
+        <div class="w-full">
+            <div class="flex justify-center gap-8">
+                <div><a type="button" href="tel:{{ $client->phone }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center"><svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
+                    <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
+                    </svg>
+                    {{ $client->phone }}</a></div>
+
+                <div><a target="_blank" href="https://api.whatsapp.com/send/?phone={{ $client->phone }}" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center me-2 mb-2">
+                    <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
+                    <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
+                    </svg>
+                    Whatsapp
+                </a></div>
+
+                <div><a type="button" href="mailto:{{ $client->email }}" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 inline-flex items-center me-2 mb-2"><svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
+                    <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
+                    </svg>
+                Correo
+            </a></div>
+            </div>
         </div>
     </div>
 
-</x-slot>
+    <div class="w-full pt-8">
 
-<div>
-@php($sd = 'w-full border-t border-gray-100 text-gray-600 py-4 pl-6 pr-3 w-full block hover:bg-gray-100 transition duration-150')
+        <div class="flex justify-between gap-8">
+            <div>
+                <h3 class="font-medium text-gray-900 text-left px-6"><span class="text-lg font-semibold">Mascotas ({{ count($pets) }})</span></h3>
 
-    <div class="bg-white shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
-        <div class="mt-16">
-            <div class="flex justify-end"><p class="text-center text-sm text-gray-400 font-medium pt-4">{!! $client->reports->formatted_status !!}</div>
-            <h1 class="font-bold text-center text-3xl text-gray-900 pt-8">{{ $client->name }}</h1>
-            </p>
-
-            <div class="flex justify-between items-center my-5 px-6 pt-8">
-                @if(Auth::user()->isAdmin())
-                <a href="" class="text-gray-500 hover:text-gray-900 bg-blue-50 hover:bg-blue-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3">Analytics</a>
-                @endif
-                <a href="#" class="text-gray-800 hover:text-black bg-yellow-300 hover:bg-yellow-200 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3">Añadir Mascota</a>
-            </div>
-
-            <div class="w-full pt-8">
-                <h3 class="font-medium text-gray-900 text-left px-6"><span class="text-lg font-semibold">Información.</span></h3>
-                <div class="mt-5 w-full flex flex-col items-center overflow-hidden text-sm">
-                    <a href="mailto:{{ $client->email }}" class="{{ $sd }}">
-                        <x-icons.svgrepo.arrow-right :class="'rounded-full h-6 w-6 shadow-md inline-block mr-2'" />
-                            <strong>Email:</strong>: {{ $client->email }}
-                    </a>
-                    <a href="tel:{{ str_replace(' ', '', $client->phone) }}" class="{{ $sd }}">
-                        <x-icons.svgrepo.arrow-right :class="'rounded-full h-6 w-6 shadow-md inline-block mr-2'" />
-                            <strong>Teléfono:</strong> {{ $client->phone }}
-                    </a>
-                    <a href="#" class="{{ $sd }}">
-                        <x-icons.svgrepo.arrow-right :class="'rounded-full h-6 w-6 shadow-md inline-block mr-2'" />
-                            <strong>Registrado por:</strong> {{ $client->users->name }}
-                    </a>
-                </div>
-            </div>
-
-            <div class="w-full pt-8">
-                <h3 class="font-medium text-gray-900 text-left px-6"><span class="text-lg font-semibold">Mascotas.</span> <em>En total: {{ count($pets) }}</em></h3>
-                <div class="mt-5 w-full flex flex-col items-center overflow-hidden text-sm">
+                <div class="mt-5 w-full grid grid-cols-2 overflow-hidden text-sm">
                     @for($i=0; $i < count($pets); $i++)
-                    
-                    <div class="flex justify-end gap-14 py-4">
-                        <div class="flex justify-start">
-                            <h3 class="text-xl font-semibold">Mascota: {{ $pets[$i]->name }}</h3>
-                        </div>
-                        <div class="flex justify-end gap-8">
-                            <div>
-                                <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Añadir imagenes</button></a>
+
+
+                    <div class="block bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" style="min-width: 300px;">
+
+                        <div class="grid grid-cols-2">
+                            <div class="w-20 h-20">
+                                @forelse($pets[$i]->pet_photos as $photo)
+                                    @if($photo->first)
+                                        <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><img class="w-20 h-20" src="{{ $photo->formatted_path }}"></a>
+                                    @endif
+                                @empty
+                                <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><img class="w-full" src="{{ asset('img/blank-photo.jpg') }}"></a>
+                                @endforelse
                             </div>
-                            <div>
-                                <a href="{{ route('dashboard.create.shift', ['hashid' => $pets[$i]->hashid]) }}"><button type="button" class="bg-green-500 hover:bg-green-700 text-white font-bold px-4 rounded-full">Generar Turno</button></a>
+                            
+                            <div class="p-4 text-left">
+                                <h3 class="text-xl font-semibold ">{{ $pets[$i]->name }}</h3>
+                                <div>
+                                    {{ $pets[$i]->type_of_pets->name }}, {{ $pets[$i]->sex }}, {{ $pets[$i]->age }}
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    @php($columns = ['Tipo de Mascota' => $pets[$i]->type_of_pets->name,'Sexo' => $pets[$i]->sex,'Edad' => $pets[$i]->age,'Altura' => $pets[$i]->height,'Peso' => $pets[$i]->weight,'Observación' => $pets[$i]->note])
-
-                    @foreach($columns as $key => $value)
-                        @if($value != null)
-                            <p href="#" class="{{ $sd }}">
-                                @switch($pets[$i]->type_of_pets->name)
-
-                                    @case('Gato')
-                                        <x-icons.svgrepo.cat :class="'rounded-full h-6 shadow-md inline-block mr-2 w-6'" />
-                                    @break
-
-                                    @case('Perro')
-                                        <x-icons.svgrepo.dog :class="'rounded-full h-6 shadow-md inline-block mr-2 w-6'" />
-                                    @break
-
-                                    @case('Hamster')
-                                        <x-icons.svgrepo.hamster :class="'rounded-full h-6 shadow-md inline-block mr-2 w-6'" />
-                                    @break
-
-                                    @case('Pájaro')
-                                        <x-icons.svgrepo.bird :class="'rounded-full h-6 shadow-md inline-block mr-2 w-6'" />
-                                    @break
-
-                                    @default
-                                        <x-icons.svgrepo.question :class="'rounded-full h-6 shadow-md inline-block mr-2 w-6'" />
-                                    @break
-                                @endswitch
-                                    <strong>{{ $key }}:</strong> {{ $value }}
-                            </p>
-
-                        @endif
-                    @endforeach
-                        @if(count($pets[$i]->pet_photos))
-                        <div class="p-4">
-                            <div>IMAGENES</div>
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 pt-4">
-                                @forelse($pets[$i]->pet_photos as $photo)
-                                    <div>
-                                        <img src="{{ $photo->formatted_path }}">
-                                    </div>
-                                @empty
-                                <div>No hay imagenes cargadas. <a href="#">Carga aqui</a></div>
-                                @endforelse
-                            </div>
-                        </div>
-                        @endif
                     @endfor
 
                     @if(!count($pets))
@@ -123,17 +85,34 @@
                     @endif
                 </div>
             </div>
+            <div>
+                <h3 class="font-medium text-gray-900 text-left px-6"><span class="text-lg font-semibold">Compras o servicios</span></h3>
+
+                <div class="pt-4">
+                    <div class="relative overflow-x-auto">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Especialidad
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Monto
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Fecha
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
         </div>
+
     </div>
 
-<!-- NO ELIMINAR
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">Ocasional</span>
-
-    <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Básico</span>
-
-    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">VIP</span>
-
-    <span class="bg-indigo-100 text-indigo-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300">Sin definir</span>
--->
 </div>
-</x-app-layout>

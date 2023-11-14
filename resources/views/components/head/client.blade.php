@@ -5,6 +5,7 @@
 	    </x-jet-button>
 	</a>
 </div>
+{{-- 
 <div class="flex justify-end">
 	<a href="{{ route('dashboard.classifications') }}">
 		<x-jet-button class="bg-yellow-400 hover:bg-yellow-300">
@@ -12,3 +13,4 @@
 	    </x-jet-button>
 	</a>
 </div>
+ --}}

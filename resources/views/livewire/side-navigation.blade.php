@@ -1,26 +1,9 @@
-<div x-data="{ open: {{ $default }} }" id="side-navigation">
-    
-    <button @click="open = ! open" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-        <span class="sr-only">Abrir sidebar</span>
-        <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-        </svg>
-    </button>
+<div id="side-navigation">
 
-
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden">
-        <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
+    <div>
+        <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-48 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <ul class="space-y-2">
-
-
-                    @if(!\Agent::isMobile())
-                    <li>
-                        <a  id="sidebarHide" @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <x-icons.heroicons.arrow-left />
-                        </a>
-                    </li>
-                    @endif
                     
                     <li>
                         <img class="w-full" src="{{ asset('img/logo.jpeg') }}">
@@ -35,6 +18,9 @@
                             <span class="ml-3">General</span>
                         </a>
                     </li>
+
+                    <x-hr :content="'Gerencia'" />
+
                     @if(Auth::user()->role_id == 1)
                     <li>
                         <a href="{{ route('dashboard.controls') }}"  @class([
@@ -42,7 +28,7 @@
                             'bg-gray-100' => request()->routeIs('dashboard.controls')
                             ])>
                             <x-icons.heroicons.qr />
-                            <span class="ml-3">Controles por QR</span>
+                            <span class="ml-3">Controles de Colaboradores</span>
                         </a>
                     </li>
                     <li>
@@ -54,17 +40,9 @@
                             <span class="ml-3">Usuarios</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('dashboard.roles') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.roles')
-                            ])>
-                            <x-icons.heroicons.users />
-                            <span class="ml-3">Roles y Permisos</span>
-                        </a>
-                    </li>
-
                     @endif
+
+                    <x-hr :content="'Recepción'" />
 
                     <li>
                         <a href="{{ route('dashboard.clients') }}"  @class([
@@ -72,9 +50,31 @@
                             'bg-gray-100' => request()->routeIs('dashboard.clients')
                             ])>
                             <x-icons.heroicons.db />
-                            <span class="ml-3">Clientes y Mascotas</span>
+                            <span class="ml-3">Clientes</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
+                            ])>
+                            <x-icons.heroicons.calendar />
+                            <span class="ml-3">Citas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.receptions') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
+                            ])>
+                            <x-icons.heroicons.wallet />
+                            <span class="ml-3">Recepción</span>
+                        </a>
+                    </li>
+
+                    <x-hr :content="'Sistema'" />
 
                     <li>
                         <a href="{{ route('dashboard.services') }}"  @class([
@@ -85,15 +85,37 @@
                             <span class="ml-3">Servicios</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="{{ route('dashboard.receptions') }}"  @class([
+                        <a href="{{ route('dashboard.sedes') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
+                            'bg-gray-100' => request()->routeIs('dashboard.sedes')
                             ])>
-                            <x-icons.heroicons.wallet />
-                            <span class="ml-3">Recepción</span>
+                            <x-icons.heroicons.wrench />
+                            <span class="ml-3">Sedes</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.classifications') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.classifications')
+                            ])>
+                            <x-icons.heroicons.wrench />
+                            <span class="ml-3">Clasificaciones</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.roles') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.roles')
+                            ])>
+                            <x-icons.heroicons.users />
+                            <span class="ml-3">Roles y Permisos</span>
+                        </a>
+                    </li>
+
                 </ul>
                 <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
                     <li>
@@ -136,134 +158,4 @@
             </div>
         </aside>
     </div>
-
-    <div :class="{'hidden': open, 'block': ! open}">
-        <aside id="default-sidebar" class="fixed top-0 left-0 z-40 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
-            <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-
-                <ul class="space-y-2">
-                    <li>
-                        <button id="sidebarShow"><a @click="open = ! open" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                            <x-icons.heroicons.arrow-right />
-                        </a></button>
-                    </li>
-
-                    <li>
-                        <a href="{{ route('dashboard.index') }}" @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 group',
-                            'bg-gray-100' => request()->routeIs('dashboard.index')
-                            ]) data-tooltip-target="tooltip-right-overviews" data-tooltip-placement="right">
-                            <x-icons.flowbite.overview />
-                        </a>
-                        <x-tooltip :id="'overviews'" :content="'Overview'"  />
-                    </li>
-                    @if(Auth::user()->role_id == 1)
-                    <li>
-                        <a href="{{ route('dashboard.controls') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.controls')
-                            ]) data-tooltip-target="tooltip-right-controles" data-tooltip-placement="right">
-                            <x-icons.heroicons.qr />
-                        </a>
-                        <x-tooltip :id="'controles'" :content="'Controles por QR'"  />
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.users') }}" @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg  hover:bg-gray-100 group',
-                            'bg-gray-100' => request()->routeIs('dashboard.users')
-                            ]) data-tooltip-target="tooltip-right-usuarios" data-tooltip-placement="right">
-                            <x-icons.heroicons.user />
-                        </a>
-                        <x-tooltip :id="'usuarios'" :content="'Usuarios'"  />
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.roles') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.roles')
-                            ]) data-tooltip-target="tooltip-right-roles" data-tooltip-placement="right">
-                            <x-icons.heroicons.users />
-                        </a>
-                        <x-tooltip :id="'roles'" :content="'Roles y Permisos'"  />
-                    </li>
-                    @endif
-                    <li>
-                        <a href="{{ route('dashboard.clients') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.clients')
-                            ]) data-tooltip-target="tooltip-right-clientes" data-tooltip-placement="right">
-                            <x-icons.heroicons.db />
-                        </a>
-                        <x-tooltip :id="'clientes'" :content="'Clientes y Mascotas'"  />
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.services') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.services')
-                            ]) data-tooltip-target="tooltip-right-servicios" data-tooltip-placement="right">
-                            <x-icons.heroicons.wrench />
-                        </a>
-                        <x-tooltip :id="'servicios'" :content="'Servicios'"  />
-                    </li>
-                    <li>
-                        <a href="{{ route('dashboard.receptions') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
-                            ]) data-tooltip-target="tooltip-right-recepcion" data-tooltip-placement="right">
-                            <x-icons.heroicons.wallet />
-                        </a>
-                        <x-tooltip :id="'recepcion'" :content="'Recepción'"  />
-                    </li>
-                </ul>
-                <ul class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700">
-                    <li>
-                        <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="flex-shrink-0 w-6 h-6 text-gray-400 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                            </svg>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="hidden absolute bottom-0 left-0 justify-center p-4 space-x-4 w-full lg:flex bg-white dark:bg-gray-800 z-20 border-r border-gray-200 dark:border-gray-700">
-                <a href="{{ route('profile.show') }}" data-tooltip-target="tooltip-settings" class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 dark:hover:text-white hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path>
-                    </svg>
-                </a>
-                <div id="tooltip-settings" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip">
-                    Configuración
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                </div>
-            </div>
-        </aside>
-    </div>
-    <script>
-        // Función para crear o actualizar una cookie
-        function updateCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + value + expires + "; path=/";
-        }
-
-        // Función para eliminar una cookie
-        function deleteCookie(name) {
-            document.cookie = name + '=; Max-Age=-1; path=/; domain={{ url('/') }};';
-            console.log("Cookie eliminada:", name);
-        }
-
-        // Evento para controlar la visibilidad del sidebar
-        document.getElementById('sidebarShow').addEventListener('click', function() {
-            deleteCookie('sidebar');
-            updateCookie('sidebar', 'true', 30);
-        });
-
-        document.getElementById('sidebarHide').addEventListener('click', function() {
-            deleteCookie('sidebar');
-            updateCookie('sidebar', 'false', 30);
-        });
-    </script>
 </div>

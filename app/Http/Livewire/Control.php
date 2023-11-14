@@ -4,7 +4,7 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Illuminate\Http\Request;
-use App\Models\{User, Reason};
+use App\Models\{User, Reason, Company};
 use Hashids;
 use Illuminate\Support\Facades\Validator;
 
@@ -14,6 +14,7 @@ class Control extends Component
     public function mount()
     {
         $this->motivo_id = (Reason::first())->id;
+        $this->company_id = (Company::first())->id;
     }
 
     /**
@@ -23,17 +24,20 @@ class Control extends Component
     public function render()
     {
         return view('livewire.control', [
-            'motivos' => Reason::get()
+            'motivos' => Reason::get(),
+            'sedes' => Company::get(),
         ]);
     }
 
     public $user_dni;
     public $motivo_id;
+    public $company_id;
     public $link;
 
     protected $rules = [
         'user_dni' => 'required|min:8|max:50',
         'motivo_id' => 'required',
+        'company_id' => 'required',
     ];
 
     /**
@@ -63,6 +67,7 @@ class Control extends Component
                 'hashid' => $user->hashid,
                 'date' => $date,
                 'motivo' => $this->motivo_id,
+                'company' => $this->company_id,
             ]);
 
             $this->dispatchBrowserEvent('swal', [

@@ -1,16 +1,8 @@
-## To Do
+# Bugs
 
-- Control de colaboradores
-- Tooltip
-- Programacion de citas
-- Ocultar
-- talla select option pequeño, mediano, grande
-- peso aclarar kilos
-- switch
-- usar colores primarios para los botones
-- lightbox para las imagenes de mascotas
+- Multiples querys para el mismo input (de busqueda) da problemas
 
-## Create ClinicAnimal
+## ClinicAnimal
 
 - composer create-project laravel/laravel clinicanimal
 - cd clinicanimal
@@ -30,3 +22,5 @@
 - composer require milon/barcode
 - composer require hisorange/browser-detect
 - composer require ipinfo/ipinfolaravel
+- composer require laraveles/spanish
+- php artisan vendor:publish --tag=lang

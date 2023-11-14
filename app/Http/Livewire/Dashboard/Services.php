@@ -13,7 +13,7 @@ class Services extends Component
     public $title = 'Servicios';
 
     public $filters = [
-        'name' => 'nombre',
+        'name' => '',
     ];
 
     public $columns = [

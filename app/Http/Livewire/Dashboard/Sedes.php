@@ -13,8 +13,7 @@ class Sedes extends Component
     public $title = 'Sedes';
 
     public $filters = [
-        'name' => 'nombre',
-        'address' => 'dirección',
+        'name' => '',
     ];
 
     public $columns = [

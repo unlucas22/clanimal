@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
     ];
 
     protected $sedes = [
-        'Central' => 'Av. Siempre Viva 1234', 'Formosa' => 'Anchorena y Carlos Casares',
+        'Central' => 'Carlos Casares y Don Bosco', 'Capital' => 'Anchorena y Santa Fe',
     ];
 
     /**
@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Roles para colaboradores
         if(!Role::count())
         {
             $this->createRoles();
@@ -61,16 +62,19 @@ class DatabaseSeeder extends Seeder
 
         $role = Role::where('key', 'administrador')->first();
 
+        // Permisos para el administrador
         if(!Permission::where('role_id', $role->id)->count())
         {
             $this->createPermissions($role->id);
         }
 
+        // Sedes
         if(!Company::count())
         {
             $this->createCompanies();
         }
 
+        // Colaboradores
         if(!User::count())
         {
             User::factory(1)->create();
@@ -78,16 +82,19 @@ class DatabaseSeeder extends Seeder
             $this->createUsersWithRoles();
         }
 
+        // Motivos para el control
         if(!Reason::count())
         {
             $this->createReasons();
         }
 
+        // Especies
         if(!TypeOfPet::count())
         {
             $this->createTypeOfPets();
         }
 
+        // Clasificaciones para los clientes
         if(!Report::count())
         {
             $this->createReports();

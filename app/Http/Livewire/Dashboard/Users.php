@@ -13,9 +13,7 @@ class Users extends Component
     public $title = 'Usuarios';
 
     public $filters = [
-        'name' => 'nombre',
-        'email' => 'email',
-        'sede' => 'sede',
+        'input' => '',
     ];
 
     public $columns = [
@@ -23,20 +21,14 @@ class Users extends Component
         'email' => 'Email',
     ];
 
-    public $name = '';
-    public $email = '';
-    public $sede = '';
+    public $input = '';
 
     public function render()
     {
-        $users = User::withCount('histories')->with(['companies' => function($qry) {
-            $qry->when($this->sede !== '', function($query) {
-                return $query->where('name', 'like', '%'.$this->sede.'%');
-            });
-        }, 'roles'])->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->when($this->email !== '', function($qry) {
-            $qry->where('email', 'like', '%'.$this->email.'%');
+        $users = User::withCount('histories')->with(['companies', 'roles'])->when($this->input !== '', function($qry) {
+            $qry->where('name', 'like', '%'.$this->input.'%');
+        })->when($this->input !== '', function($qry) {
+            $qry->where('email', 'like', '%'.$this->input.'%');
         })->orderBy('updated_at', 'desc')->withTrashed()->paginate($this->rows);
 
         $this->table = 'users';

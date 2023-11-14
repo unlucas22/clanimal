@@ -16,8 +16,8 @@ class Control extends Model
         'ip',
         'city',
         'device',
-        'confirmed',
         'reason_id',
+        'company_id',
     ];
 
     /**
@@ -42,10 +42,5 @@ class Control extends Model
     public function reasons()
     {
         return $this->belongsTo(Reason::class, 'reason_id', 'id');
-    }
-
-    public function isActive()
-    {
-        return $this->confirmed;
     }
 }

@@ -14,12 +14,10 @@ class DashboardController extends Controller
 {
     public function showClient(Request $req)
     {
-        $client = Client::with(['pets', 'users', 'reports'])->where('id', Hashids::decode($req->hashid))->firstOrFail();
+        $id = Hashids::decode($req->hashid);
 
-        return view('livewire.dashboard.show.client', [
-            'client' => $client,
-            'pets' => $client->pets,
-            'pet_photos_count' => $client->pets->count()
+        return view('show.client', [
+           'id' => $id,
         ]);
     }
 
@@ -34,9 +32,15 @@ class DashboardController extends Controller
         {
             $user = User::where('id', Hashids::decode($req->hashid))->firstOrFail();
 
-            /* en caso de que requiera una validacion por hora */
+            /* validacion por hora o bien lo puedo hacer por minutos */
             // $date = Hashids::decode($req->date);
-            // $now = now()->format('H');
+            
+            /*if(now()->format('H') != $date){
+                Cookie::forget('qr_validation');
+
+                return redirect('login');
+            }
+            $now = (Carbon::parse($date.':'.now()->format('i:s')))->format('Y-m-d H:i:s');*/
 
             /* Que no se registre dos veces en la misma día */
             if(!Cookie::has('qr_validation'))
@@ -50,6 +54,8 @@ class DashboardController extends Controller
                     'city' => $req->ipinfo->city ?? 'local',
                     'device' => $device,
                     'reason_id' => $req->motivo,
+                    'company_id' => $req->company,
+                    'date' => now(),
                 ]);
 
                 /* cookie con 25 minutos de expiracion */
@@ -60,6 +66,8 @@ class DashboardController extends Controller
         }
         catch (\Exception $e)
         {
+
+            ddd($req);
             Log::error($e->getMessage());
 
             Cookie::forget('qr_validation');

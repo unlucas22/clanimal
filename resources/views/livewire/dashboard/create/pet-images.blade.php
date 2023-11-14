@@ -1,12 +1,19 @@
 <x-app-layout>
 <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Imagenes de {{ $pet->name }}
-    </h2>
+    <div class="flex justify-between gap-8">
+        <div class="flex justify-start">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Imagenes de {{ $pet->name }}
+            </h2>
+        </div>
+        <div class="flex justify-end">
+            <button onclick="window.history.back();" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Regresar</button>
+        </div>
+    </div>
 </x-slot>
 
-<div class="pt-8">
-    <div class="bg-white shadow rounded-lg max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8  mx-auto">
+<div class="pt-8 flex justify-end">
+    <div class="bg-white shadow rounded-lg max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
         <div class="mt-16">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Cargar las imagenes de la mascota</h2>
             <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl"> Las imagenes deben tener las siguientes extensiones .png, .jpeg, .jpg</p>

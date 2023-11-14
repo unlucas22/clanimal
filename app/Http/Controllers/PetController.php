@@ -133,24 +133,7 @@ class PetController extends Controller
             return redirect()->back();
         }
     }
-
-    /* Generar turno */
-    public function createShift(Request $req)
-    {
-        $pet = null;
-        $pets = Pet::get();
-        if($req->hashid !== null)
-        {
-            $pet = Pet::where('id', Hashids::decode($req->hashid))->firstOrFail();
-        }
-        
-        return view('livewire.dashboard.create.shift', [
-            'pet' => $pet,
-            'pets' => $pets,
-            'services' => Service::get(),
-        ]);
-    }
-
+    
     /**
      * Carga e inserta las imagenes en la DB
      * 

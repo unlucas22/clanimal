@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Modal\Store;
 
 use Illuminate\Http\Request;
 use LivewireUI\Modal\ModalComponent;
-use App\Models\{User, Reason};
+use App\Models\{User, Reason, Company};
 use Illuminate\Support\Facades\Log;
 use BrowserDetect;
 
@@ -21,14 +21,17 @@ class Control extends ModalComponent
     public function mount()
     {
         $this->motivo_id = (Reason::first())->id;
+        $this->company_id = (Company::first())->id;
     }
 
     public $dni;
     public $motivo_id;
+    public $company_id;
 
     protected $rules = [
         'dni' => 'required|min:8|max:50',
         'motivo_id' => 'required',
+        'company_id' => 'required',
     ];
 
     public function submit(Request $req)
@@ -48,6 +51,8 @@ class Control extends ModalComponent
                 'city' => $req->ipinfo->city ?? 'local',
                 'device' => $device,
                 'reason_id' => $this->motivo_id,
+                'company_id' => $this->company_id,
+                'date' => now(),
             ]);
 
             $this->dispatchBrowserEvent('swal', [

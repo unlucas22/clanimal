@@ -21,6 +21,8 @@ class Client extends Component
 
     /* CLIENT */
     public $name;
+    public $dni;
+    public $last_name;
     public $email;
     public $phone;
     public $address;
@@ -39,19 +41,20 @@ class Client extends Component
     public $pet_description;
 
     public $rules = [
-        'name' => 'required|string|max:255',
+        'name' => 'required|string|max:50',
+        'last_name' => 'required|string|max:50',
         'email' => 'required|email|max:255|unique:clients,email',
         'phone' => 'nullable|string|max:20',
-        'address' => 'nullable|string|max:255',
+        'address' => 'nullable|string|max:50',
         'status_id' => 'nullable|string',
+        'dni' => 'required',
 
         'pet_name' => 'nullable|string|max:100',
         'type_of_pet_id' => 'nullable|integer',
         'pet_sex' => 'nullable|in:macho,hembra',
-        'pet_age' => 'nullable|integer|min:0',
-        // 'pet_month' => 'nullable|integer',
-        'pet_height' => 'nullable|numeric|min:0',
-        'pet_weight' => 'nullable|numeric|min:0',
+        'pet_age' => 'nullable|max:30',
+        'pet_height' => 'nullable|min:0',
+        'pet_weight' => 'nullable|min:0',
         'pet_description' => 'nullable|string',
     ];
 
@@ -94,8 +97,9 @@ class Client extends Component
             $report = Report::where('key', $this->status_id)->firstOrFail();
 
             $client = \App\Models\Client::create([
-                'name' => $this->name,
+                'name' => $this->name.' '.$this->last_name,
                 'email' => $this->email,
+                'dni' => $this->dni,
                 'phone' => $this->phone,
                 'address' => $this->address,
                 'report_id' => $report->id,

@@ -13,7 +13,7 @@ class Classifications extends Component
     public $title = 'Clasificación de clientes';
 
     public $filters = [
-        'key' => 'titulo',
+        'key' => '',
     ];
 
     public $columns = [

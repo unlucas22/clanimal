@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'America/Argentina/Buenos_Aires',
+    'timezone' => 'America/Lima',
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'es_AR',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -168,6 +168,7 @@ return [
 
         Jenssegers\Agent\AgentServiceProvider::class,
         hisorange\BrowserDetect\ServiceProvider::class,
+        Laraveles\Spanish\SpanishServiceProvider::class,
 
         /*
          * Application Service Providers...

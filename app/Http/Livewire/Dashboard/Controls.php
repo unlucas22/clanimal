@@ -10,33 +10,38 @@ class Controls extends Component
 {
     use HasTable;
 
-    public $title = 'Control de trabajadores por QR';
+    public $title = 'Registro de Control de colaboradores';
 
     public $columns = [
         'id' => 'ID',
         'ip' => 'Dirección IP',
-        'hostname' => 'Servicio de host',
-        'device' => 'Dispositivo',
-        'city' => 'Ciudad',
+        'date' => 'Fecha y Hora',
+        'device' => 'Dispositivo (User Agent)',
     ];
 
     public $filters = [];
 
-    public $name;
+    public $input = '';
 
     public function render()
     {
-        $items = Control::with('users')->whereHas('users', function($qry){
-            $qry->when($this->name !== '', function($filter) {
-                $filter->where('users.name', 'like', '%'.$this->name.'%');
+        $items = Control::with(['users', 'reasons'])->whereHas('users', function($qry){
+            $qry->when($this->input !== '', function($filter) {
+                $filter->where('users.name', 'like', '%'.$this->input.'%');
             });
-        })->orderBy('created_at', 'desc')->paginate($this->rows);
+        })/*->when($this->input !== '', function($qry) {
+            $qry->where('ip', 'like', '%'.$this->input.'%')->orWhere('created_at', 'like', '%'.$this->input.'%');
+        })*/->orderBy('created_at', 'desc')->paginate($this->rows);
 
         $this->table = 'controls';
+
+        $this->updated_at = false;
+        $this->created_at = false;
 
         $this->relationships = [
             'Trabajador',
             'Acceso',
+            'Motivo',
         ];
 
         return view('livewire.dashboard.table', [
@@ -46,14 +51,6 @@ class Controls extends Component
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'control',
             'head_name' => 'control',
-        ]);
-    }
-
-    /* actions */
-    public function updateConfirmed(int $item_id)
-    {
-        Control::where('id', $item_id)->update([
-            'confirmed' => true,
         ]);
     }
 }

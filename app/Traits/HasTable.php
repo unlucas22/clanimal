@@ -23,18 +23,20 @@ trait HasTable {
     /**
      *  rows por default 
      * */
-    public $rows = 20;
+    public $rows = 25;
     
     /**
      *  cantidad de rows para seleccionar 
      * */
-    public $rows_count = [20, 50, 100];
+    public $rows_count = [25, 50, 100];
 
     /**
      * Se habilitan las columnas timestamp 
      * */
     public $created_at = true;
     public $updated_at = true;
+
+    public $can_delete = true;
 
     /**
      * Tabla para manipular data simple 

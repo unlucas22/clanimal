@@ -1,6 +1,6 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-12 flex justify-end">
+        <div class="max-w-7xl w-full px-2">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 @livewire(\Request::route()->getName())
             </div>

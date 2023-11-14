@@ -10,18 +10,18 @@ class Clients extends Component
 {
     use HasTable;
 
-    public $title = 'Clientes y Mascotas';
+    public $title = 'Clientes';
 
     public $filters = [
-        'name' => 'nombre',
-        'email' => 'correo electronico',
-        'phone' => 'número de celular'
+        'name' => '',
     ];
 
     public $columns = [
-        'name' => 'Nombre completo',
-        'email' => 'Correo electronico',
-        'phone' => 'Número de celular',
+        'id' => 'ID',
+        'name' => 'Nombres y Apellidos',
+        'dni' => 'DNI',
+        //'email' => 'Correo electronico',
+        'phone' => 'Teléfono',
         'address' => 'Dirección'
     ];
 
@@ -42,12 +42,14 @@ class Clients extends Component
         $this->table = 'clients';
 
         $this->relationships = [
-            'Mascotas en total',
+            // 'Mascotas en total',
             // 'Promedio de visitas', Va en analytics
-            'Monto gastado',
-            'Clasificación',
+            // 'Monto gastado',
+            'Calificación',
             // 'Registrado por',
         ];
+
+        $this->can_delete = false;
 
         $this->updated_at = false;
 
