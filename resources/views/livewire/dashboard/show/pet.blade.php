@@ -1,0 +1,167 @@
+<div>
+
+    <div>
+        <h1 class="text-2xl">Detalle de mascota</h1>
+    </div>
+
+    <div class="mt-4 "><strong>Dueño:</strong></div>
+
+    <div class="flex justify-between gap-8">
+        <div class="w-full">
+            <div class="flex justify-center gap-4">
+                
+                <div><img class="w-24 h-24 rounded" src="{{ asset('img/profile-client.png') }}"></div>
+
+                <div>
+                    <div class="flex justify-between w-full gap-8 pt-4">
+                        <div><h1 class="font-bold text-center text-3xl text-gray-900 w-full">{{ $client->name }}</h1></div>
+                        <div><p class="text-center text-sm text-gray-400 font-medium pt-4 w-full">{!! $client->reports->formatted_status !!}</p></div>
+                    </div>
+
+                    <div class="pt-4">
+                        <div><strong>DNI:</strong> {{ $client->dni ?? '' }}</div>
+                        <div><strong>Dirección:</strong> {{ $client->address ?? '' }}</div>
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+        <div class="w-full">
+            <div class="flex justify-center gap-8">
+                <div><a type="button" href="tel:{{ $client->phone }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center">
+                    <x-icons.heroicons.phone :class="'w-4 h-4 me-2'" />
+
+                    {{ $client->phone }}</a></div>
+
+                <div><a target="_blank" href="https://api.whatsapp.com/send/?phone={{ $client->phone }}" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center me-2 mb-2">
+                    <x-icons.svgrepo.whatsapp :class="'w-4 h-4 me-2'" />
+                    Whatsapp
+                </a></div>
+
+                <div><a type="button" href="mailto:{{ $client->email }}" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 inline-flex items-center me-2 mb-2">
+                    <x-icons.heroicons.mail :class="'w-4 h-4 me-2'" />
+                Correo
+            </a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full pt-8">
+
+        <div class="flex justify-between gap-8 pt-4">
+            <div>
+                <div class="flex justify-between">
+                    <div class="flex justify-start">
+                        <h3 class="font-medium text-gray-900 text-left text-2xl"><span class="text-lg font-semibold">Información de Pelusa</span></h3>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 me-2 mb-2">
+                            <x-icons.heroicons.qr :class="'w-4 h-4 me-2'" />
+                            Imprimir QR
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-5 w-full grid grid-cols-2 overflow-hidden text-sm">
+
+                    <div class="block bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" style="min-width: 300px;">
+
+                        <div class="grid grid-cols-4">
+                            <div class="w-20 h-20">
+                                @forelse($pet->pet_photos as $photo)
+                                    <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pet->hashid]) }}"><img class="w-20 h-20" src="{{ $photo->formatted_path }}"></a>
+                                @empty
+                                <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pet->hashid]) }}"><img class="w-full" src="{{ asset('img/blank-photo.jpg') }}"></a>
+                                @endforelse
+                            </div>
+                            
+                            <div class="p-4 text-left col-span-3">
+                                <h3 class="text-xl font-semibold ">{{ $pet->name }}</h3>
+                                <div>
+                                    {{ $pet->type_of_pets->name }}, {{ $pet->gender }}, {{ $pet->age }}, {{ $pet->weigth }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="pt-8">
+
+                    <div class="mb-4">
+                        <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Observaciones</label>
+                        <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:model.defer="note" placeholder="">{{ $pet->note }}</textarea>
+                    </div>                        
+
+                    <button wire:click="updateNote" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">Guardar</button>
+
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <h2 class="mb-2 text-xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Imagenes de {{ $pet->name }} (SECCION DE PRUEBA)</h2>
+                    <p class="mb-4 font-light text-center text-gray-500 text-sm"> Las imagenes deben tener las siguientes extensiones .png, .jpeg, .jpg</p>
+
+                    <div class="flex justify-center">
+                        
+                        <div class="grid grid-cols-3 gap-2" id="files-boxs" style="max-width: 350px;">
+                            @for($i=0; $i < count($pet_photos); $i++)
+                            <div class="">
+                                <img class="h-auto max-w-lg rounded-lg" src="{{ $pet_photos[$i]->formatted_path }}">
+                            </div>
+                            @endfor
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="w-full pt-8">
+        <h3 class="font-medium text-gray-900 text-left"><span class="text-lg font-semibold">Servicios y productos contratados para {{ $pet->name }}</span></h3>
+
+        <div class="flex justify-between gap-8 pt-4">
+            <div>
+                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+                    <input type="search" id="default-search" class="block w-full ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar" required>
+                </div>
+
+            </div>
+            <div class="p-2">
+                Total Historico: S/0 Soles
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <div class="relative overflow-x-auto">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                Especialidad
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Monto
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                Fecha
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+</div>

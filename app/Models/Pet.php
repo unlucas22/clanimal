@@ -49,4 +49,9 @@ class Pet extends Model
     {
         return $this->hasMany(PetPhoto::class);
     }
+
+    public function scopeHashid($query, $hashid)
+    {
+        return $query->where('id', Hashids::decode($hashid));
+    }
 }

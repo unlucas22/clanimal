@@ -56,16 +56,14 @@
                         <div class="grid grid-cols-4">
                             <div class="w-20 h-20">
                                 @forelse($pets[$i]->pet_photos as $photo)
-                                    @if($photo->first)
-                                        <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><img class="w-20 h-20" src="{{ $photo->formatted_path }}"></a>
-                                    @endif
+                                    <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><img class="w-20 h-20" src="{{ $photo->formatted_path }}"></a>
                                 @empty
                                 <a href="{{ route('dashboard.create.pet-images', ['hashid' => $pets[$i]->hashid]) }}"><img class="w-full" src="{{ asset('img/blank-photo.jpg') }}"></a>
                                 @endforelse
                             </div>
                             
                             <div class="p-4 text-left col-span-3">
-                                <h3 class="text-xl font-semibold ">{{ $pets[$i]->name }}</h3>
+                                <h3 class="text-xl font-semibold "><a href="{{ route('dashboard.show.pet', ['hashid' => $pets[$i]->hashid]) }}">{{ $pets[$i]->name }}</a></h3>
                                 <div>
                                     {{ $pets[$i]->type_of_pets->name }}, {{ $pets[$i]->gender }}, {{ $pets[$i]->age }}
                                 </div>

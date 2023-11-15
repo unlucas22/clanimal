@@ -74,6 +74,7 @@
                         </a>
                     </li>
 
+                    {{-- 
                     <li>
                         <a href="{{ route('dashboard.receptions') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -83,6 +84,7 @@
                             <span class="ml-3">Recepción</span>
                         </a>
                     </li>
+                     --}}
 
                     <x-hr :content="'Sistema'" />
 

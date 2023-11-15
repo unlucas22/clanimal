@@ -48,7 +48,11 @@ Route::middleware([
         Route::get('/create/pet/{hashid?}', function(){
             return view('create.pet');
         })->name('dashboard.create.pet');
-        Route::post('/store/pet', [PetController::class, 'storePet'])->name('dashboard.store.pet');
+        // Route::post('/store/pet', [PetController::class, 'storePet'])->name('dashboard.store.pet');
+
+        Route::get('/show/pet/{hashid}', function(){
+            return view('show.pet');
+        })->name('dashboard.show.pet');
 
         Route::get('/create/shift/{hashid?}', function() {
             return view('create.turno');  
