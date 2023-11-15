@@ -36,6 +36,7 @@ Route::middleware([
             Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
             Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
             Route::view('/servicios', 'dashboard')->name('dashboard.services');
+            Route::view('/mascotas', 'dashboard')->name('dashboard.pets');
         });
 
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');

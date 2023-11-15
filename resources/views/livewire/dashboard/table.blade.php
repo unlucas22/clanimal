@@ -51,7 +51,7 @@
                         Actualizado
                     </th>
                     @endif
-                    <th scope="col" class="{{ $colStyle }}">
+                    <th scope="col" class="{{ $colStyle }}" style="max-width: 250px;">
                         Acciones
                     </th>
                 </tr>
@@ -90,15 +90,18 @@
                         {{ $item->updated_at->format('d/m/Y'); }}
                     </td>
                     @endif
-                    <td class="py-4 px-1 flex justify-between gap-2">
+                    <td class="py-4 px-1 flex justify-center">
+
+                        <div class="flex justify-between gap-2" style="max-width: 250px;">
                         @if($can_delete)
-                        <div>
-                        <a data-tooltip="{ 'offset': 10 }" title="delete" wire:click="deleteItem({{$item->id}})" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer">Eliminar</a>
+                            <div>
+                            <a data-tooltip="{ 'offset': 10 }" title="delete" wire:click="deleteItem({{$item->id}})" type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 cursor-pointer">Eliminar</a>
+                            </div>
+                            @endif
+                            @isset($action_name)
+                            @include('components.actions.'.$action_name, ['item' => $item])
+                            @endisset
                         </div>
-                        @endif
-                        @isset($action_name)
-                        @include('components.actions.'.$action_name, ['item' => $item])
-                        @endisset
                     </td>
                 </tr class="bg-white border-b">
                 @empty
