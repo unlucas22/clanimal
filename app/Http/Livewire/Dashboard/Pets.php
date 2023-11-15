@@ -17,20 +17,25 @@ class Pets extends Component
     ];
 
     public $columns = [
+        'id' => 'ID',
         'name' => 'Mascota',
+        'age' => 'Edad',
+        'gender' => 'Sexo',
+        'height' => 'Talla',
     ];
 
     public $name = '';
 
     public function render()
     {
-        $items = Pet::with('clients')->when($this->name !== '', function($qry) {
+        $items = Pet::with(['clients', 'type_of_pets'])->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
         })->orderBy('created_at', 'desc')->paginate($this->rows);
 
         $this->table = 'pets';
 
         $this->relationships = [
+            'Especie',
             'Cliente',
             'DNI',
         ];

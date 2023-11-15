@@ -53,7 +53,7 @@
 
                     <div class="block bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700" style="min-width: 300px;">
 
-                        <div class="grid grid-cols-2">
+                        <div class="grid grid-cols-4">
                             <div class="w-20 h-20">
                                 @forelse($pets[$i]->pet_photos as $photo)
                                     @if($photo->first)
@@ -64,7 +64,7 @@
                                 @endforelse
                             </div>
                             
-                            <div class="p-4 text-left">
+                            <div class="p-4 text-left col-span-3">
                                 <h3 class="text-xl font-semibold ">{{ $pets[$i]->name }}</h3>
                                 <div>
                                     {{ $pets[$i]->type_of_pets->name }}, {{ $pets[$i]->gender }}, {{ $pets[$i]->age }}
@@ -82,6 +82,8 @@
                     <a href="{{ route('dashboard.create.pet', ['hashid' => $client->hashid]) }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">Añadir Mascota</a>
                 </div>
             </div>
+
+            {{-- Tabla de prueba, despues se mueve a un componente individual --}}
             <div>
                 <h3 class="font-medium text-gray-900 text-left"><span class="text-lg font-semibold">Compras o servicios</span></h3>
 
