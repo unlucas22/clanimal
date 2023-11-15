@@ -100,7 +100,7 @@
 
             <div>
                 <div>
-                    <h2 class="mb-2 text-xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Imagenes de {{ $pet->name }} (SECCION DE PRUEBA)</h2>
+                    <h2 class="mb-2 text-xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Imagenes de {{ $pet->name }}</h2>
                     <p class="mb-4 font-light text-center text-gray-500 text-sm"> Las imagenes deben tener las siguientes extensiones .png, .jpeg, .jpg</p>
 
                     <div class="flex justify-center">
@@ -108,7 +108,7 @@
                         <div class="grid grid-cols-3 gap-2" id="files-boxs" style="max-width: 350px;">
                             @for($i=0; $i < count($pet_photos); $i++)
                             <div class="">
-                                <img class="h-auto max-w-lg rounded-lg" src="{{ $pet_photos[$i]->formatted_path }}">
+                                <img class="h-auto rounded-lg" onclick="showModal('{{ $photo->formatted_path }}')" src="{{ $pet_photos[$i]->formatted_path }}">
                             </div>
                             @endfor
                         </div>
@@ -119,13 +119,44 @@
 
     </div>
 
+    <!-- The Modal -->
+    <div id="modal"
+        class="hidden fixed top-0 left-0 z-80 w-screen h-screen bg-black/70 flex justify-center items-center">
+
+        <!-- The close button -->
+        <a class="fixed z-90 top-6 right-8 text-white text-5xl font-bold" href="javascript:void(0)"
+            onclick="closeModal()">&times;</a>
+
+        <!-- A big image will be displayed here -->
+        <img id="modal-img" class="max-w-[800px] max-h-[600px] object-cover" />
+    </div>
+
+    <script>
+        // Get the modal by id
+        var modal = document.getElementById("modal");
+
+        // Get the modal image tag
+        var modalImg = document.getElementById("modal-img");
+
+        // this function is called when a small image is clicked
+        function showModal(src) {
+            modal.classList.remove('hidden');
+            modalImg.src = src;
+        }
+
+        // this function is called when the close button is clicked
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+    </script>
+
     <div class="w-full pt-8">
         <h3 class="font-medium text-gray-900 text-left"><span class="text-lg font-semibold">Servicios y productos contratados para {{ $pet->name }}</span></h3>
 
         <div class="flex justify-between gap-8 pt-4">
             <div>
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
-                <div class="relative">
+                <div class="">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -141,7 +172,7 @@
         </div>
 
         <div class="pt-4">
-            <div class="relative overflow-x-auto">
+            <div class=" overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
