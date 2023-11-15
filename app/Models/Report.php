@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * En un futuro el modelo report tendrá columnas de Analytics para el control del cliente
+ * En un futuro el modelo Report tendrá columnas de Analytics para el control del cliente,
+ * por el momento es solo para su clasificacion
  * */
 class Report extends Model
 {

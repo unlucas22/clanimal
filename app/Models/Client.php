@@ -17,6 +17,7 @@ class Client extends Model
         'address',
         'user_id',
         'report_id',
+        'dni',
     ];
 
     /**
@@ -27,6 +28,11 @@ class Client extends Model
     protected $appends = [
         'hashid',
     ];
+
+    public function scopeHashid($query, $hashid)
+    {
+        return $query->where('id', Hashids::decode($hashid));
+    }
 
     public function getHashidAttribute()
     {

@@ -12,6 +12,9 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    /**
+     * Mostrar Perfil del Cliente
+     * */
     public function showClient(Request $req)
     {
         $id = Hashids::decode($req->hashid);

@@ -11,12 +11,17 @@ use DB;
 
 class PetController extends Controller
 {
+    /* Limite de imagenes para las mascotas */
     public $limit = 3;
 
+    /**
+     * Cargar Imagenes para mascotas
+     * 
+     * @param Request $req hashid de la mascota
+     * */
     public function createPetImages(Request $req)
     {
         $pet = Pet::where('id', Hashids::decode($req->hashid))->firstOrFail();
-        $this->limit = $req->limit ?? 3; 
 
         return view('livewire.dashboard.create.pet-images', [
             'pet' => $pet,
@@ -24,6 +29,11 @@ class PetController extends Controller
         ]);
     }
 
+    public function storePet(Request $req)
+    {
+        ddd($req);
+    }
+    
     /**
      * Obtener todos los turnos del día o de la fecha seleccionada
      * 

@@ -4,15 +4,25 @@ namespace App\Http\Livewire\Dashboard\Create;
 
 use Livewire\Component;
 use App\Models\{Pet, Service, Client};
+use Illuminate\Http\Request;
 
 class Shift extends Component
 {
-    public $pets;
+    public $pets = [];
     public $dni;
+    public $client;
 
-    public function mount()
+    public function mount(Request $req)
     {
-        $this->pets = Pet::get();
+        if($req->hashid !== null){
+            $client = Client::with('pets')->hashid($req->hashid)->firstOrFail();
+
+            $this->dni = $client->dni;
+
+            $this->client = $client->name;
+
+            $this->pets = $client->pets;
+        }
     }
 
     public function render()
@@ -25,10 +35,18 @@ class Shift extends Component
     public function searchClient()
     {
         try {
-            Client::with('pets')->where('dni', $this->dni)->firstOrFail();
+            $client = Client::with('pets')->where('dni', $this->dni)->firstOrFail();
+
+
+            $this->dni = $client->dni;
+
+            $this->client = $client->name;
+
+            $this->pets = $client->pets;
+
         } catch (\Exception $e) {
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'No se encontró al cliente con el dni: '.$this->dni,
+                'title' => 'No se encontró al cliente con el dni proprocionado',
                 'icon' => 'error',
                 'iconColor' => 'red',
             ]);

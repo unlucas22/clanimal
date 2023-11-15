@@ -44,7 +44,15 @@ Route::middleware([
         Route::get('/create/pet-images/{hashid}', [PetController::class, 'createPetImages'])->name('dashboard.create.pet-images');
         Route::post('/store/pet-images', [PetController::class, 'storePetImages'])->name('dashboard.update.pet-images');
 
-        Route::view('/create/shift/{hashid?}', 'create.turno')->name('dashboard.create.shift');
+        Route::get('/create/pet/{hashid?}', function(){
+            return view('create.pet');
+        })->name('dashboard.create.pet');
+        Route::post('/store/pet', [PetController::class, 'storePet'])->name('dashboard.store.pet');
+
+        Route::get('/create/shift/{hashid?}', function() {
+            return view('create.turno');  
+        })->name('dashboard.create.shift');
+        
         Route::post('/store/shift', [PetController::class, 'storeShift'])->name('dashboard.store.shift');
 
         Route::get('/create/reception/{hashid?}', [PetController::class, 'createReception'])->name('dashboard.create.reception');

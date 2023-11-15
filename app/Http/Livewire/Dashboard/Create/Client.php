@@ -4,8 +4,7 @@ namespace App\Http\Livewire\Dashboard\Create;
 
 use Livewire\Component;
 use App\Models\{Pet, TypeOfPet, Report};
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\{Auth, Log};
 use DB;
 
 class Client extends Component
@@ -159,5 +158,29 @@ class Client extends Component
                 'iconColor' => 'red',
             ]);
         }
+    }
+
+    /**
+     * Buscar el cliente por dni
+     *  */
+    public function searchClient() {
+
+        $client = \App\Models\Client::where('dni', $this->dni)->first();
+
+        if($client == null) {
+            // api
+            // return $json;
+        } else {
+            $this->dispatchBrowserEvent('swal', [
+                'title' => 'Cliente ya registrado. Redireccionando...',
+                'icon' => 'success',
+                'iconColor' => 'green',
+            ]);
+
+            return redirect()->route('dashboard.show.client', [
+                'hashid' => $client->hashid,
+            ]);
+        }
+
     }
 }
