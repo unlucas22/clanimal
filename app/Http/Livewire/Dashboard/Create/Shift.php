@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class Shift extends Component
 {
+    /* mascotas del cliente */
     public $pets = [];
     public $dni;
     public $client;
@@ -32,6 +33,7 @@ class Shift extends Component
         ]);
     }
 
+    /* Buscar Cliente por DNI y llenar inputs */
     public function searchClient()
     {
         try {

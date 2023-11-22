@@ -3,9 +3,12 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Traits\HasStatus;
 
 class CreateShiftsTable extends Migration
 {
+    use HasStatus;
+
     /**
      * Run the migrations.
      *
@@ -22,7 +25,8 @@ class CreateShiftsTable extends Migration
             $table->unsignedBigInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
             $table->timestamp('appointment');
-            $table->enum('status', ['pendiente', 'cancelado', 'completado'])->default('pendiente');
+            $table->enum('status', $this->all_status)->default('programado');
+            $table->timestamp('delivery_at')->nullable();
             $table->timestamps();
         });
     }

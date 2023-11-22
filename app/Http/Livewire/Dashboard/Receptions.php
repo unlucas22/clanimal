@@ -3,45 +3,24 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Traits\HasTable;
-use App\Models\Reception;
+use App\Models\Shift;
+use App\Traits\HasStatus;
 
 class Receptions extends Component
 {
-    use HasTable;
+    use HasStatus;
 
     public $title = 'Recepción';
 
-    public $filters = [];
-
-    public $columns = [
-        'entry' => 'Ingreso',
-        'delivery' => 'Salida',
-    ];
-
     public function render()
     {
-        $items = Reception::with(['users', 'pets', 'services', 'shifts'])->orderBy('updated_at', 'desc')->paginate($this->rows);
+        $shifts = Shift::with(['users', 'pets', 'services'])->whereIn('status', $this->status_lista_de_espera)->orderBy('updated_at', 'desc')->paginate(25);
 
-        $this->table = 'receptions';
+        $notifications = Shift::with(['users', 'pets', 'services'])->whereIn('status', $this->status_notificaciones)->orderBy('updated_at', 'desc')->paginate(25);
 
-        $this->relationships = [
-            'Creado Por',
-            'Mascota',
-            'Cliente',
-            'Tipo de Servicio',
-            'Turno',
-        ];
-
-        $this->created_at = false;
-
-        return view('livewire.dashboard.table', [
-            'items' => $items,
-            'rows_count' => $this->rows_count,
-            'columns' => $this->columns,
-            'columns_count' => $this->getColumnsCount($this->columns),
-            // 'action_name' => 'sede',
-            'head_name' => 'reception',
+        return view('livewire.dashboard.receptions', [
+            'shifts' => $shifts,
+            'notifications' => $notifications,
         ]);
     }
 }

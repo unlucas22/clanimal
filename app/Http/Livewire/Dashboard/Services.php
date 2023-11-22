@@ -25,7 +25,7 @@ class Services extends Component
 
     public function render()
     {
-        $items = Service::withCount(['shifts', 'receptions'])->when($this->name !== '', function($qry) {
+        $items = Service::withCount(['shifts'])->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
         })->orderBy('shifts_count', 'desc')->paginate($this->rows);
 
@@ -33,7 +33,6 @@ class Services extends Component
 
         $this->relationships = [
             'Turnos',
-            'Recepciones',
         ];
 
         $this->created_at = false;

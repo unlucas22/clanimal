@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{DashboardController, PetController};
+use App\Http\Controllers\{DashboardController, PetController, ProductController};
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +34,16 @@ Route::middleware([
             Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
             Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
             Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
+
+            /* Turnos */
+            Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
+            Route::view('/atencion-veterinaria', 'dashboard')->name('dashboard.atencion-veterinaria');
+            Route::view('/peluqueria-canina', 'dashboard')->name('dashboard.peluqueria-canina');
+
             Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
             Route::view('/servicios', 'dashboard')->name('dashboard.services');
             Route::view('/mascotas', 'dashboard')->name('dashboard.pets');
+            Route::view('/productos', 'dashboard')->name('dashboard.products');
         });
 
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');
@@ -48,6 +55,11 @@ Route::middleware([
         Route::get('/create/pet/{hashid?}', function(){
             return view('create.pet');
         })->name('dashboard.create.pet');
+
+        Route::get('/create/product', function(){
+            return view('create.product');
+        })->name('dashboard.create.product');
+
         // Route::post('/store/pet', [PetController::class, 'storePet'])->name('dashboard.store.pet');
 
         Route::get('/show/pet/{hashid}', function(){
@@ -60,6 +72,8 @@ Route::middleware([
         
         Route::post('/store/shift', [PetController::class, 'storeShift'])->name('dashboard.store.shift');
 
+        Route::post('/store/product', [ProductController::class, 'store'])->name('dashboard.store.product');
+
         Route::get('/create/reception/{hashid?}', [PetController::class, 'createReception'])->name('dashboard.create.reception');
         Route::post('/store/reception', [PetController::class, 'storeReception'])->name('dashboard.store.reception');
     });
@@ -67,6 +81,10 @@ Route::middleware([
     Route::view('panel', 'panel')->name('panel.overview');
 
 });
+
+Route::get('/qr/client-pet/{hashid}', function(){
+    return view('show.client-pet');
+})->name('qr.client-pet');
 
 Route::get('control-de-colaboradores', function(){
     return view('control');

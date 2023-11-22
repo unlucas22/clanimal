@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Livewire\Modal;
+namespace App\Http\Livewire\Modal\Qr;
 
 use LivewireUI\Modal\ModalComponent;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Hashids;
 
-class Qr extends ModalComponent
+class Control extends ModalComponent
 {
     public $user_dni;
     public $link;
@@ -22,7 +22,7 @@ class Qr extends ModalComponent
      * */
     public function render()
     {
-        return view('livewire.modal.qr');
+        return view('livewire.modal.qr.control');
     }
 
     /**

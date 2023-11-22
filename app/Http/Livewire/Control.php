@@ -5,8 +5,8 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Models\{User, Reason, Company};
-use Hashids;
 use Illuminate\Support\Facades\Validator;
+use Hashids;
 
 class Control extends Component
 {

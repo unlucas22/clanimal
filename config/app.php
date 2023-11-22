@@ -169,6 +169,7 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         hisorange\BrowserDetect\ServiceProvider::class,
         Laraveles\Spanish\SpanishServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -237,6 +238,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         'BrowserDetect' => hisorange\BrowserDetect\Facade::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];

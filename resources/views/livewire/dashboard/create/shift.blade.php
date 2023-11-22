@@ -41,13 +41,14 @@
                 <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Especialidad</label>
                     <select id="ss4" name="service_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @forelse($services as $service)
-                        <option value="{{ $service->id }}">{{ $service->name }}</option>
+                        <option @if($loop->first) selected @endif value="{{ $service->id }}">{{ $service->name }}</option>
                         @empty
                         <option value="0">Sin especialidades registradas.</option>
                     @endforelse
                     </select>
             </div>
         </div>
+        {{-- 
         <div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -72,6 +73,7 @@
                 </table>
             </div>
         </div>
+         --}}
 
         <div class="flex justify-center gap-8">
             <div class="flex justify-center">
@@ -84,7 +86,7 @@
                             <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                           </svg>
                       </div>
-                      <input datepicker datepicker-format="mm/dd/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="datepicker" placeholder="Seleccionar Fecha" name="fecha" id="fecha" onchange="handler(event);">
+                      <input datepicker datepicker-format="mm/dd/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="datepicker" placeholder="Seleccionar Fecha" name="fecha" id="fecha" value="{{ now()->format('m/d/Y') }}" onchange="handler(event);">
                     </div>
                 </div>
             </div>
@@ -114,8 +116,6 @@
 
             var token = $('meta[name="csrf-token"]').attr('content');
 
-            console.log(fecha);
-
             var datos = {
                 _token: token,
                 fecha: fecha,
@@ -127,12 +127,10 @@
                 type: 'POST',
                 data: datos,
                 success: function(response) {
-                    console.log(response);
 
                     $('#tablaTurnos').empty();
                     
                     var tabla = $('#tablaTurnos');
-
 
                     response.forEach(function(turno) {
                         var fila = '<tr class="border-b border-gray-200 dark:border-gray-700">' +

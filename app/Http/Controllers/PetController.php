@@ -35,6 +35,8 @@ class PetController extends Controller
     }
     
     /**
+     * ¡Función en desuso!
+     * 
      * Obtener todos los turnos del día o de la fecha seleccionada
      * 
      * @param \Request $req (fecha, csrf_token, ipinfo)

@@ -31,10 +31,7 @@ class Client extends Component
     public $type_of_pet_id;
     public $pet_sex;
     public $pet_age;
-    /**
-     * en proximas actualizaciones tendrá edad por meses, por el momento se puede poner 0.2 
-     * */
-    //public $pet_month;
+
     public $pet_height;
     public $pet_weight;
     public $pet_description;

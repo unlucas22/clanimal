@@ -3,11 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand};
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
+    /* Roles para los trabajadores */
     protected $roles = [
         'administrador' => 'Administrador',
         'gerente' => 'Gerente', 
@@ -20,6 +21,7 @@ class DatabaseSeeder extends Seeder
         'publicista' => 'Publicista',
     ];
 
+    /* Tipo de calificacion para los clientes */
     protected $type_of_reports = [
         'default',
         'ocasional',
@@ -27,6 +29,7 @@ class DatabaseSeeder extends Seeder
         'regular',
     ];
 
+    /* Permisos para cada rol */
     protected $permissions = [
         'estadistica',
         'recursos humanos',
@@ -39,12 +42,47 @@ class DatabaseSeeder extends Seeder
         'marketing',
     ];
 
+    /* Tipos de mascotas */
     protected $type_of_pets = [
         'Perro', 'Gato', 'Conejo', 'Hamster', 'Pájaro', 'Tortuga', 'Pez', 'Serpiente', 'Lagarto', 'Rata', 'Iguana', 'Canario', 'Tarántula', 'Cotorra', 'Araña'
     ];
 
+    /* Sedes (Locales) */
     protected $sedes = [
         'Central' => 'Carlos Casares y Don Bosco', 'Capital' => 'Anchorena y Santa Fe',
+    ];
+
+    /* Razones para el control de colaboradores */
+    protected $reasons = [
+        'Ingreso a Tienda',
+        'Salida de Tienda',
+        'Salida a Break',
+        'Retorno de Break',
+        'Permiso',
+    ];
+
+    protected $services = [
+        'Atención Veterinaria' => '',
+        'Peluquería Canina' => '',
+    ];
+
+    public $product_categories = [
+        'Categoría 1',
+        'Categoría 2',
+        'Categoría 3',
+    ];
+
+    public $product_brands = [
+        'DogChow',
+        'Sabrositos',
+        'Marca 3',
+    ];
+
+    public $product_presentations = [
+        'Saco',
+        'Kilo',
+        'Blíster',
+        'Paquete',
     ];
 
     /**
@@ -99,6 +137,93 @@ class DatabaseSeeder extends Seeder
         {
             $this->createReports();
         }
+
+        if(!Service::count())
+        {
+            $this->createServices();
+        }
+
+        if(!Client::count())
+        {
+            $this->createClients();
+        }
+
+        if(!ProductBrand::count())
+        {
+            $this->createBrands();
+        }
+
+        if(!ProductCategory::count())
+        {
+            $this->createCategories();
+        }
+
+        if(!ProductPresentation::count())
+        {
+            $this->createPresentations();
+        }
+    }
+
+    protected function createPresentations()
+    {
+        foreach ($this->product_presentations as $key)
+        {
+            ProductPresentation::create([
+                'name' => $key,
+            ]);
+        }
+    }
+
+    /* Categorías para producto */
+    protected function createCategories()
+    {
+        foreach ($this->product_categories as $key)
+        {
+            ProductCategory::create([
+                'name' => $key,
+            ]);
+        }
+    }
+
+    /**
+     * Marcas
+     * */
+    protected function createBrands()
+    {
+        foreach ($this->product_brands as $key)
+        {
+            ProductBrand::create([
+                'name' => $key,
+            ]);
+        }
+    }
+
+
+    protected function createClients()
+    {
+        for ($i=0; $i < 3; $i++)
+        { 
+            Client::create([
+                'name' => 'Cliente Apellido '.Str::random(),
+                'email' => "cliente{$i}@gmail.com",
+                'phone' => "112233445{$i}",
+                'address' => "Av. Siempre Viva 123{$i}",
+                'dni' => "5050050{$i}",
+                'report_id' => (Report::first())->id,
+                'user_id' => (User::first())->id,
+            ]);
+        }
+    }
+
+    protected function createServices()
+    {
+        foreach ($this->services as $key => $description)
+        {
+            Service::create([
+                'name' => $key,
+                'description' => $description
+            ]);
+        }
     }
 
     /**
@@ -152,14 +277,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
     }
-
-    protected $reasons = [
-        'Ingreso a Tienda',
-        'Salida de Tienda',
-        'Salida a Break',
-        'Retorno de Break',
-        'Permiso',
-    ];
 
     /**
      *  Se le añade todos los estados de clientes posibles 

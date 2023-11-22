@@ -4,11 +4,11 @@
         <div class="w-full">
             <div class="flex justify-center gap-4">
                 
-                <div><img class="w-24 h-24 rounded" src="{{ asset('img/profile-client.png') }}"></div>
+                <div><img class="w-24 h-30 rounded" src="{{ asset('img/profile-client.png') }}"></div>
 
                 <div>
                     <div class="flex justify-between w-full gap-8 pt-4">
-                        <div><h1 class="font-bold text-center text-3xl text-gray-900 w-full">{{ $client->name }}</h1></div>
+                        <div><h1 class="font-bold text-3xl text-gray-900 w-full">{{ $client->name }}</h1></div>
                         <div><p class="text-center text-sm text-gray-400 font-medium pt-4 w-full">{!! $client->reports->formatted_status !!}</p></div>
                     </div>
 

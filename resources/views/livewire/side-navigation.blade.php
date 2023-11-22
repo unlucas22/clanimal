@@ -19,7 +19,7 @@
                         </a>
                     </li>
 
-                    <x-hr :content="'Gerencia'" />
+                    <x-hr :content="'Sistema'" />
 
                     @if(Auth::user()->role_id == 1)
                     <li>
@@ -42,7 +42,27 @@
                     </li>
                     @endif
 
-                    <x-hr :content="'Recepción'" />
+                    <x-hr :content="'Operaciones'" />
+
+                    <li>
+                        <a href="{{ route('dashboard.receptions') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
+                            ])>
+                            <x-icons.heroicons.wallet />
+                            <span class="ml-3">Recepción</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
+                            ])>
+                            <x-icons.heroicons.calendar />
+                            <span class="ml-3">Citas</span>
+                        </a>
+                    </li>
 
                     <li>
                         <a href="{{ route('dashboard.clients') }}"  @class([
@@ -59,32 +79,40 @@
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.pets')
                             ])>
-                            <x-icons.svgrepo.dog :class="'w-6 h-6 text-gray-400 transition duration-75 group-hover:text-gray-900'" />
+                            <x-icons.svgrepo.dog :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
                             <span class="ml-3">Mascotas</span>
                         </a>
                     </li>
 
                     <li>
-                        <a href="{{ route('dashboard.shifts') }}"  @class([
+                        <a href="{{ route('dashboard.peluqueria-canina') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.shifts')
+                            'bg-gray-100' => request()->routeIs('dashboard.peluqueria-caninca')
                             ])>
-                            <x-icons.heroicons.calendar />
-                            <span class="ml-3">Citas</span>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Peluquería Canina</span>
                         </a>
                     </li>
 
-                    {{-- 
                     <li>
-                        <a href="{{ route('dashboard.receptions') }}"  @class([
+                        <a href="{{ route('dashboard.atencion-veterinaria') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.receptions')
+                            'bg-gray-100' => request()->routeIs('dashboard.atencion-veterinaria')
                             ])>
-                            <x-icons.heroicons.wallet />
-                            <span class="ml-3">Recepción</span>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Atención Veterinaria</span>
                         </a>
                     </li>
-                     --}}
+
+                    <li>
+                        <a href="{{ route('dashboard.products') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.products')
+                            ])>
+                            <x-icons.heroicons.gift :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Productos</span>
+                        </a>
+                    </li>
 
                     <x-hr :content="'Sistema'" />
 

@@ -10,11 +10,11 @@
         <div class="w-full">
             <div class="flex justify-center gap-4">
                 
-                <div><img class="w-24 h-24 rounded" src="{{ asset('img/profile-client.png') }}"></div>
+                <div><img class="w-24 h-30 rounded" src="{{ asset('img/profile-client.png') }}"></div>
 
                 <div>
                     <div class="flex justify-between w-full gap-8 pt-4">
-                        <div><h1 class="font-bold text-center text-3xl text-gray-900 w-full">{{ $client->name }}</h1></div>
+                        <div><h1 class="font-bold text-3xl text-gray-900 w-full">{{ $client->name }}</h1></div>
                         <div><p class="text-center text-sm text-gray-400 font-medium pt-4 w-full">{!! $client->reports->formatted_status !!}</p></div>
                     </div>
 
@@ -56,7 +56,7 @@
                         <h3 class="font-medium text-gray-900 text-left text-2xl"><span class="text-lg font-semibold">Información de Pelusa</span></h3>
                     </div>
                     <div class="flex justify-end">
-                        <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 me-2 mb-2">
+                        <button wire:click='$emit("openModal", "modal.qr.pet", @json(["pet_hashid" => $pet->hashid]))' type="button" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 me-2 mb-2">
                             <x-icons.heroicons.qr :class="'w-4 h-4 me-2'" />
                             Imprimir QR
                         </button>

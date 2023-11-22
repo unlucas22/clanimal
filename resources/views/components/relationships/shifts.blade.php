@@ -1,7 +1,4 @@
 <td class="{{ $td }}">
-    {{ $item->users->name }}
-</td>
-<td class="{{ $td }}">
     {{ $item->pets->name }}
 </td>
 <td class="{{ $td }}">
@@ -9,4 +6,7 @@
 </td>
 <td class="{{ $td }}">
     {{ $item->services->name }}
+</td>
+<td class="{{ $td }}">
+    {!! $item->formatted_status !!}
 </td>
