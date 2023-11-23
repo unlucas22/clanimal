@@ -19,6 +19,16 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="{{ route('dashboard.sales') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.sales')
+                            ])>
+                            <x-icons.heroicons.money :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Ventas</span>
+                        </a>
+                    </li>
+
                     <x-hr :content="'Sistema'" />
 
                     @if(Auth::user()->role_id == 1)
@@ -28,7 +38,7 @@
                             'bg-gray-100' => request()->routeIs('dashboard.controls')
                             ])>
                             <x-icons.heroicons.qr />
-                            <span class="ml-3">Controles de Colaboradores</span>
+                            <span class="ml-3">Control de Colaboradores</span>
                         </a>
                     </li>
                     <li>
@@ -37,7 +47,7 @@
                             'bg-gray-100' => request()->routeIs('dashboard.users')
                             ])>
                             <x-icons.heroicons.user />
-                            <span class="ml-3">Usuarios</span>
+                            <span class="ml-3">Colaboradores</span>
                         </a>
                     </li>
                     @endif
@@ -114,7 +124,41 @@
                         </a>
                     </li>
 
-                    <x-hr :content="'Sistema'" />
+                    <x-hr :content="'Configuración'" />
+
+                    {{-- Productos --}}
+
+                    <li>
+                        <a href="{{ route('product.brands') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('product.brands')
+                            ])>
+                            <x-icons.heroicons.wrench-one />
+                            <span class="ml-3">Marcas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('product.categories') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('product.categories')
+                            ])>
+                            <x-icons.heroicons.wrench-one />
+                            <span class="ml-3">Categorías</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('product.presentations') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('product.presentations')
+                            ])>
+                            <x-icons.heroicons.wrench-one />
+                            <span class="ml-3">Tipo de presentación</span>
+                        </a>
+                    </li>
+
+                    {{-- General --}}
 
                     <li>
                         <a href="{{ route('dashboard.services') }}"  @class([

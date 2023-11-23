@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductPresentationsTable extends Migration
+class CreatePresalePhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateProductPresentationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_presentations', function (Blueprint $table) {
+        Schema::create('presale_photos', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->text('description')->nullable();
-            $table->boolean('active')->default(true);
+            $table->unsignedBigInteger('presale_id');
+            $table->foreign('presale_id')->references('id')->on('presales');
+            $table->text('path')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateProductPresentationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_presentations');
+        Schema::dropIfExists('presale_photos');
     }
 }

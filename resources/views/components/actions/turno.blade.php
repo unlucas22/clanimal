@@ -1,6 +1,6 @@
-<div><a wire:click='$emit("openModal", "modal.update.shift", @json(["item_id" => $item->id]))' type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer" >Modificar</a></div>
-
-@if($item->status != 'cancelado')
+{{-- <div><a wire:click='$emit("openModal", "modal.update.shift", @json(["item_id" => $item->id]))' type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer" >Modificar</a></div>
+ --}}
+@if($item->status != 'cancelado' && $item->status != 'listo para retiro' && $item->status != 'en atención' && $item->status != 'terminado')
 <div><button onclick="callCancelButton({{ $item->id }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-2 py-1 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 cursor-pointer" >Cancelar</button></div>
 @endif
 

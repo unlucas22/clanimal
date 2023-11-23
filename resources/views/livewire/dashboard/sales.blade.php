@@ -8,34 +8,29 @@
 
 <div class="py-4">
 
-    <div class="px-2">
+    <div class="px-2 py-4">
         Módulo para el registro de clientes, programación de citas y servicios
     </div>
 
+    {{-- 
     <div class="flex justify-end">
         <div class="flex justify-between gap-8 px-4">
             <div class="flex justify-start">
                 <a href="{{ route('dashboard.create.client') }}">
                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Nuevo Cliente
-                    </button>
-                </a>
-            </div>
-
-            <div class="flex justify-start">
-                <a href="{{ route('dashboard.create.shift') }}">
-                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Nueva Cita
+                        Nuevo Venta
                     </button>
                 </a>
             </div>
         </div>
         
     </div>
+     --}}
 
     {{-- CITAS --}}
     <div>
         <h3 class="px-2 font-bold text-2xl text-gray-800 leading-tight">
-            Lista de espera
+            Procesar pago de servicios veterinarios
         </h3>
 
         <div class="relative overflow-x-auto sm:overflow-hidden mt-10 sm:mt-5">
@@ -43,7 +38,7 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 text-center">
                     <tr>
 
-                    @php($shifts_column = ['ID', 'Cliente', 'DNI', 'Teléfono', 'Mascota', 'Especialidad', 'Fecha de Atención', 'Estado'])
+                    @php($shifts_column = ['ID', 'Cliente', 'DNI','Servicios', 'Valor de Venta', 'IGV', 'Monto total', 'Fecha'])
 
                     @php($colStyle = 'px-6 py-4')
                         @foreach($shifts_column as $key)
@@ -59,44 +54,47 @@
                 <tbody class="bg-white text-center">
                     @php($td = 'px-6 py-4')
 
-                    @forelse($shifts as $shift)
+                    @forelse($sales as $sale)
                     <tr >
                         <td class="{{ $td }}">
-                            {{ $shift->id }}
+                            {{ $sale->id }}
                         </td>
                         <td class="{{ $td }}">
-                            {{ $shift->pets->clients->name }}
+                            {{ $sale->clients->name }}
                         </td>
                         <td class="{{ $td }}">
-                            {{ $shift->pets->clients->dni }}
-                        </td>
-
-                        <td class="{{ $td }}">
-                            {{ $shift->pets->clients->phone ?? '' }}
+                            {{ $sale->clients->name }}
                         </td>
 
                         <td class="{{ $td }}">
-                            {{ $shift->pets->name }}
+                            @forelse($sale->presales as $presale)
+                            {{ $presale->description }} -
+                            @empty
+                            sin productos
+                            @endforelse
                         </td>
 
                         <td class="{{ $td }}">
-                            {{ $shift->services->name }}
-                        </td>
-
-                        {{-- ordenado por fecha desc --}}
-                        <td class="{{ $td }}">
-                            {{ $shift->appointment->format('H:i m/d') }}
+                            ${{ $sale->total }}
                         </td>
 
                         <td class="{{ $td }}">
-                            {!! $shift->formatted_status !!}
+                            ${{ $sale->total * 0.18 }}
+                        </td>
+
+                        <td class="{{ $td }}">
+                            ${{ ($sale->total * 0.18)+$sale->total }}
+                        </td>
+
+                        <td class="{{ $td }}">
+                            {{ $sale->created_at->format('H:i m/d') }}
                         </td>
 
                         <td class="py-4 px-1 flex justify-center">
 
                             <div class="flex justify-between gap-2">
                                 <div>
-                                    <button wire:click='$emit("openModal", "modal.update.shift-status", @json(["item_id" => $shift->id, "status_id" => $shift->status]))' type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Cambiar estado</button>
+                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Procesar Pago</button>
                                 </div>
                             </div>
                         </td>
@@ -111,10 +109,9 @@
         </div>
     </div>
 
-    {{-- Notificaciones --}}
     <div class="pt-8">
         <h3 class="px-2 font-bold text-2xl text-gray-800 leading-tight">
-            Notificaciones
+            Gestión de Ventas
         </h3>
 
         <div class="relative overflow-x-auto sm:overflow-hidden mt-10 sm:mt-5">

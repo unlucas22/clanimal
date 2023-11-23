@@ -170,6 +170,7 @@ class DatabaseSeeder extends Seeder
         {
             ProductPresentation::create([
                 'name' => $key,
+                'description' => $key,
             ]);
         }
     }
@@ -181,6 +182,7 @@ class DatabaseSeeder extends Seeder
         {
             ProductCategory::create([
                 'name' => $key,
+                'description' => $key,
             ]);
         }
     }
@@ -194,6 +196,7 @@ class DatabaseSeeder extends Seeder
         {
             ProductBrand::create([
                 'name' => $key,
+                'description' => $key,
             ]);
         }
     }

@@ -10,6 +10,8 @@ use DB;
 
 trait HasTable {
 
+    public $relationship_name = null;
+
     /**
      * para @class en <td> 
      * */

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Hashids;
 
 /**
  * Turnos
@@ -52,8 +53,19 @@ class Shift extends Model
      * @var array
      */
     protected $appends = [
-        'formatted_status'
+        'hashid',
+        'formatted_status',
     ];
+
+    public function getHashidAttribute()
+    {
+        return Hashids::encode($this->id);
+    }
+
+    public function scopeHashid($query, $hashid)
+    {
+        return $query->where('id', Hashids::decode($hashid));
+    }
 
     /**
      * Para los cruds

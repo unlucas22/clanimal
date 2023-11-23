@@ -10,7 +10,7 @@
     @isset($description) <div class="px-2 pt-1">{{ $description }}</div> @endisset
     <div class="py-4">
         @isset($head_name)
-        <div class="flex justify-between pt-8 px-4">
+        <div class="flex justify-between pt-4 px-4">
                 @include('components.head.'.$head_name)
         </div>
         @endisset
@@ -79,7 +79,13 @@
                         @endforeach
 
                         @if(count($relationships) != null)
-                            @include('components.relationships.'.$table, ['item' => $item, 'td' => $td ])
+
+                            @if($relationship_name !== null)
+                                @include('components.relationships.'.$relationship_name, ['item' => $item, 'td' => $td ])
+                            @else
+
+                                @include('components.relationships.'.$table, ['item' => $item, 'td' => $td ])
+                            @endif
                         @endif
 
                         @if($created_at)

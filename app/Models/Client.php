@@ -18,6 +18,7 @@ class Client extends Model
         'user_id',
         'report_id',
         'dni',
+        'ruc',
     ];
 
     /**

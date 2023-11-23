@@ -20,6 +20,7 @@ class CreateClientsTable extends Migration
             $table->string('phone', 50)->nullable();
             $table->string('address', 250)->nullable();
             $table->string('dni')->unique();
+            $table->string('ruc')->nullable();
             $table->unsignedBigInteger('report_id');
             $table->foreign('report_id')->references('id')->on('reports');
             //$table->enum('status', ['ocasional', 'regular', 'VIP'])->default('ocasional');
