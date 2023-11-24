@@ -84,7 +84,9 @@ class Product extends Model
 
         $impuestos = $precio_venta_sin_igv * ($tasa_impuesto / 100);
 
-        return ($precio_venta_con_igv - $impuestos) - $this->precio_compra;
+        $total = ($precio_venta_con_igv - $impuestos) - $this->precio_compra
+
+        return ($total / $this->precio_compra) * 100;
     }
 
 
