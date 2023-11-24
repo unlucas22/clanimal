@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Create\Venta;
 
 use Livewire\Component;
-use App\Models\{Product, Client, User};
+use App\Models\{Product, Client, User, ProductDetail, ProductForSale};
 
 class Productos extends Component
 {
@@ -17,6 +17,8 @@ class Productos extends Component
 
     public $user_referente;
 
+    public $total = 0;
+
     public $client_razon_social;
 
     public $client_ruc;
@@ -24,6 +26,8 @@ class Productos extends Component
     public $factura = true;
 
     public $productos_guardados = [];
+
+    public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
 
     /**
      * Buscar el cliente por dni
@@ -47,14 +51,87 @@ class Productos extends Component
         }
     }
 
+    public function agregarProducto($item_id, $cantidad = 1)
+    {
+        try {
+            $product_for_sale = ProductForSale::create([
+                'product_detail_id' => $item_id,
+                'cantidad' => $cantidad
+            ]);
+
+            $this->productos_guardados[] = $product_for_sale->id;
+            
+            $this->emit('refreshComponent');
+
+
+            $this->setTotal();
+
+        } catch (\Exception $e) {
+            ddd($e->getMessage());
+        }
+
+    }
+
+    public function setTotal()
+    {
+        $total = 0;
+
+        foreach ($this->productos_guardados as $product)
+        {
+            $pfs = ProductForSale::with(['product_details'])->where('id', $product)->first();
+
+            for ($i=0; $i < $pfs->cantidad; $i++)
+            { 
+                $total += $pfs->product_details->descuento();
+            }
+
+        }
+
+        $this->total = $total;
+    }
+
     public function render()
     {
+        $this->emit('refreshComponent');
+
         $products = Product::with(['product_presentations', 'product_details'])->where('stock', '!=', 0)->limit(20)->get();
+
+        $productos_para_compra = [];
+
+        foreach ($this->productos_guardados as $product) {
+
+            $productos_para_compra[] = ProductForSale::with(['product_details'])->where('id', $product)->first();
+        }
+
+        $this->setTotal();
 
         return view('livewire.dashboard.create.venta.productos', [
             'products' => $products,
             'users' => User::get(),
+            'productos_para_compra' => $productos_para_compra,
         ]);
+    }
+
+    public function retirarProductoParaCompra($item_id)
+    {
+        try {
+
+
+            foreach ($this->productos_guardados as $index => $id)
+            {
+                if($item_id == $id)
+                {
+                    array_splice($this->productos_guardados, $index, 1);
+
+                    ProductForSale::where('id', $item_id)->delete();
+                }
+            }
+
+        $this->emit('refreshComponent');
+
+        } catch (\Exception $e) {
+            ddd($e->getMessage());   
+        }
     }
 
     public function submit()

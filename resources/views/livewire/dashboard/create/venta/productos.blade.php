@@ -64,15 +64,15 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <div style="max-width: 75px;">
-                                            <input type="number" name="amount-{{ $product_detail->id }}" id="amount-{{ $product_detail->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product_detail->amount }}" min="1" value="1">
+                                            <input type="number" name="amount_{{ $product_detail->id }}" id="amount-{{ $product_detail->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product_detail->amount }}" min="1" value="1" onchange="sumTotalFromAmount({{ $product_detail->id }}, {{ $product_detail->descuento() }})">
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        $0
+                                        $<span id="total-from-amount-{{ $product_detail->id }}">{{ $product_detail->descuento() }}</span>
                                     </td>
 
                                     <td class="px-6 py-4">
-                                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_detail->id }}, document.getElementById('amount-{{ $product_detail->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
                                     </td>
                                 </tr>
                             @empty
@@ -86,6 +86,23 @@
                         </tbody>
                     </table>
                 </div>
+
+                <script>
+                    function sumTotalFromAmount(id, precio)
+                    {
+
+                        let total = 0;
+
+                        let cantidad = document.getElementById('amount-'+id).value;
+
+                        /* se suma ya con el descuento aplicado */
+                        for (var i = 0; i < cantidad; i++) {
+                            total += precio;
+                        }
+
+                        document.getElementById('total-from-amount-'+id).innerHTML = total;
+                    }
+                </script>
 
             </div>
 
@@ -154,26 +171,26 @@
                                     <th scope="col" class="px-6 py-3">
                                         Cantidad
                                     </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($productos_guardados as $producto)
+                                @forelse($productos_para_compra as $producto)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $producto->name }}
+                                            {{ $producto->product_details->products->name }}
                                         </th>
                                         <td class="px-6 py-4">
-                                            {{ $producto->product_detail->product_presentations->name }}
+                                            ${{ $producto->product_details->precio_venta_con_igv }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            ${{ $producto->product_detail->precio_venta_con_igv }}
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            {{ $producto->cantidad ?? 0 }}
+                                            {{ $producto->cantidad ?? 1 }}
                                         </td>
 
                                         <td class="px-6 py-4">
-                                            <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Retirar</button>
+                                            <button type="button" wire:click="retirarProductoParaCompra({{ $producto->id }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Retirar</button>
                                         </td>
                                     </tr>
                                 @empty
@@ -241,7 +258,7 @@
                 <div class="flex justify-between gap-8">
                     <div>
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            S/ 0 Soles
+                            S/ {{ $total }} Soles
                         </h2>
                     </div>
                     <div>
