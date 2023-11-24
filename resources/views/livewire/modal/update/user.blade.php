@@ -55,6 +55,13 @@
             @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
+        <!-- password -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="password" value="{{ __('Contraseña') }}" />
+            <x-jet-input id="password" type="text" class="mt-1 block w-full" wire:model="password" autocomplete="password" />
+            <x-jet-input-error for="password" class="mt-2" />
+        </div>
+
         <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
             <x-jet-button>
                 Actualizar usuario

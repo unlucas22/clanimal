@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Modal\Update;
 use LivewireUI\Modal\ModalComponent;
 use App\Models\{Role, Company};
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class User extends ModalComponent
 {
@@ -14,6 +15,8 @@ class User extends ModalComponent
     public $email;
 
     public $active;
+
+    public $password = null;
 
     public $role_id;
     public $old_role_id;
@@ -38,7 +41,7 @@ class User extends ModalComponent
         $this->old_role_id = $item->role_id;
         
         $this->company_id = $item->company_id;
-        $this->old_company_id = $item->old_company_id;
+        $this->old_company_id = $item->company_id;
     }
 
     public function render()
@@ -82,6 +85,13 @@ class User extends ModalComponent
                 'role_id' => $this->role_id,
                 'company_id' => $this->company_id,
             ]);
+
+            if($this->password !== null)
+            {
+                \App\Models\User::where('id', $this->item_id)->update([
+                    'password' => Hash::make($this->password),
+                ]);
+            }
 
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Datos actualizados',
