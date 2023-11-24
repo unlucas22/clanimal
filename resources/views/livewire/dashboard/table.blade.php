@@ -28,7 +28,7 @@
             @endif
         </div>
         
-        <div class="relative overflow-x-auto sm:overflow-hidden mt-10 sm:mt-5">
+        <div class="overflow-x-auto sm:overflow-hidden mt-10 sm:mt-5">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 text-center">
                     <tr>
