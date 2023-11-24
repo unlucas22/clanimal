@@ -378,7 +378,7 @@
         <div class="flex justify-center">
 
 
-            <div class="grid grid-cols-6 gap-4">
+            <div class="grid grid-cols-7 gap-4">
 
                 <div class="relative z-0 w-full mb-6 group">
                     <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
@@ -409,18 +409,36 @@
                         let total = val + (val * (18/100));
 
                         document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
+
+                        let descuento = document.getElementById('discount_details'+item_id).value;
+
+                        descuento = (descuento / 100) * total; 
+
+                        total -= descuento;
+
+                        document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
                     }
                 </script>
-
-                <div class="relative z-0 w-full mb-6 group">
-                    <x-form.input :name="'discount_details['.$i.']'" :model="'discount_details.'.$i"  :label="'Descuento %'" :value="'0'" :type="'number'" />
-                </div>
 
                 <div class="relative z-0 w-full mb-6 group">
                     <x-form.input :id="'precio_venta_con_igv_details.'.$i" :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'disabled'" />
                 </div>
 
-                <div class="pt-6">
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="discount_details{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento %</label>
+                        <input type="number" name="discount_details[{{ $i }}]" id="discount_details{{ $i }}" wire:model.defer="discount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" value="0">
+                    </div>
+                </div>
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Venta Total</label>
+                        <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                    </div>
+                </div>
+
+                <div class="pt-8">
                     <a wire:click="eliminarPrecio" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Eliminar</a>
                 </div>
 
