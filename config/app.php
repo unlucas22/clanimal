@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'reniec' => env('RENIEC_TOKEN', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

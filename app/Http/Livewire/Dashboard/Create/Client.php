@@ -6,9 +6,12 @@ use Livewire\Component;
 use App\Models\{Pet, TypeOfPet, Report};
 use Illuminate\Support\Facades\{Auth, Log};
 use DB;
+use App\Traits\Reniec;
 
 class Client extends Component
 {
+    use Reniec;
+
     /* Periocidad del cliente */
     public $status;
     /* periocidad del cliente seleccionado */
@@ -35,6 +38,8 @@ class Client extends Component
     public $pet_height;
     public $pet_weight;
     public $pet_description;
+
+    public $loading = false;
 
     public $rules = [
         'name' => 'required|string|max:50',
@@ -162,11 +167,36 @@ class Client extends Component
      *  */
     public function searchClient() {
 
+        $this->loading = true;
+
+
         $client = \App\Models\Client::where('dni', $this->dni)->first();
 
         if($client == null) {
-            // api
-            // return $json;
+            $json = $this->consultarDNI($this->dni);
+
+            if($json !== null) {
+
+                if($json["success"] == true) {
+                    $this->name = ucwords(strtolower($json["nombres"]));
+                    $this->last_name = ucwords(strtolower($json["apellidoMaterno"].' '.$json["apellidoPaterno"]));
+                } else {
+                    $this->dispatchBrowserEvent('swal', [
+                        'title' => 'No se encontró al cliente con el dni proprocionado.',
+                        'icon' => 'error',
+                        'iconColor' => 'red',
+                    ]);    
+                }
+
+            } else {
+                $this->dispatchBrowserEvent('swal', [
+                    'title' => 'No se encontró al cliente con el dni proprocionado.',
+                    'icon' => 'error',
+                    'iconColor' => 'red',
+                ]);
+            }
+
+
         } else {
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Cliente ya registrado. Redireccionando...',
@@ -178,6 +208,8 @@ class Client extends Component
                 'hashid' => $client->hashid,
             ]);
         }
+
+        $this->loading = false;
 
     }
 }
