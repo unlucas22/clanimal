@@ -18,11 +18,6 @@ class Products extends Component
 
     public $columns = [
         'id' => 'ID',
-        'name' => 'Producto',
-        'precio_compra' => 'Precio Compra',
-        'precio_venta' => 'Precio Venta',
-        'stock' => 'Stock',
-        'fecha_de_vencimiento_formatted' => 'Fecha de Vencimiento',
     ];
 
     /* eliminar */
@@ -44,6 +39,10 @@ class Products extends Component
             'Imagen',
             'Categoría',
             'Marca',
+            'Producto',
+            'Stock',
+            'Precio Compra',
+            'Precio Venta (IGV)',
             'Ganancia',
         ];
 

@@ -40,6 +40,8 @@ class Product extends Model
         'hashid',
         'photo_url',
         'fecha_de_vencimiento_formatted',
+        'ganancia',
+        'precio_venta_total'
     ];
 
     /**
@@ -50,6 +52,41 @@ class Product extends Model
     protected $casts = [
         'fecha_de_vencimiento' => 'datetime',
     ];
+
+    public function getPrecioVentaTotalAttribute()
+    {
+        $products = $this->product_details;
+
+        $precio_venta_con_igv = 0;
+
+        foreach ($products as $product)
+        {
+            $precio_venta_con_igv += $product->precio_venta_con_igv;
+        }
+
+        return $precio_venta_con_igv;
+    }
+
+    public function getGananciaAttribute()
+    {
+        $products = $this->product_details;
+
+        $precio_venta_con_igv = 0;
+        $precio_venta_sin_igv = 0;
+
+        $tasa_impuesto = 18;
+
+        foreach ($products as $product)
+        {
+            $precio_venta_con_igv += $product->precio_venta_con_igv;
+            $precio_venta_sin_igv += $product->precio_venta_sin_igv;
+        }
+
+        $impuestos = $precio_venta_sin_igv * ($tasa_impuesto / 100);
+
+        return ($precio_venta_con_igv - $impuestos) - $this->precio_compra;
+    }
+
 
     public function getHashidAttribute()
     {

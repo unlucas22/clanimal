@@ -6,13 +6,30 @@
     @endif
 </td>
 
-
 <td class="{{ $td }}">
     {{ $item->product_categories->name }}
 </td>
+
 <td class="{{ $td }}">
     {{ $item->product_brands->name }}
 </td>
+
 <td class="{{ $td }}">
-    $0
+    {{ $item->name }}
+</td>
+
+<td class="{{ $td }}">
+    {{ $item->stock }}
+</td>
+
+<td class="{{ $td }}">
+    {{ $item->precio_compra }}
+</td>
+
+<td class="{{ $td }}">
+    ${{ $item->precio_venta_total }}
+</td>
+
+<td class="{{ $td }}">
+    ${{ $item->ganancia }}
 </td>
