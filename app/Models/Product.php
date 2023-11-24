@@ -14,7 +14,6 @@ class Product extends Model
         'name',
         'product_brand_id',
         'product_category_id',
-        'product_detail_id',
         'user_id',
         'active',
         'precio_compra',
@@ -38,11 +37,26 @@ class Product extends Model
     protected $appends = [
         'hashid',
         'photo_url',
+        'fecha_de_vencimiento_formatted',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'fecha_de_vencimiento' => 'datetime',
     ];
 
     public function getHashidAttribute()
     {
         return Hashids::encode($this->id);
+    }
+
+    public function getFechaDeVencimientoFormattedAttribute()
+    {
+        return $this->fecha_de_vencimiento->format('Y-m-d');
     }
 
     public function product_brands()
@@ -55,11 +69,6 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class, 'product_category_id', 'id');
     }
 
-    public function product_details()
-    {
-        return $this->belongsTo(ProductDetail::class, 'product_detail_id', 'id');
-    }
-
     public function product_presentations()
     {
         return $this->belongsTo(ProductPresentation::class, 'product_presentation_id', 'id');
@@ -68,6 +77,11 @@ class Product extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function product_details()
+    {
+        return $this->hasMany(ProductDetail::class);
     }
 
     /**

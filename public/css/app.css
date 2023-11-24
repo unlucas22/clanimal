@@ -3126,6 +3126,10 @@ input:checked + .toggle-bg {
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
+.max-w-7xl{
+		max-width: 100%;
+		margin-left:250px;
+	}
 .after\:absolute::after {
   content: var(--tw-content);
   position: absolute;

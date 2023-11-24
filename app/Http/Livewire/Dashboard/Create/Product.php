@@ -21,6 +21,29 @@ class Product extends Component
     public $precio_compra;
     public $alerta_stock = 1;
 
+    /* foreach por cada id */
+    public $product_details = 2;
+
+    public $amount_details = [
+        1, 2
+    ];
+
+    public $discount_details = [
+        0, 0
+    ];
+
+    public $precio_venta_details = [
+        0, 0
+    ];
+
+    public $precio_venta_con_igv_details = [
+        0, 0
+    ];
+
+    public $product_presentation_details_id = [
+        1, 2
+    ];
+
     public $listeners = ['getBarcode'];
 
     public $rules = [
@@ -36,11 +59,23 @@ class Product extends Component
         'alerta_stock' => 'nullable',
     ];
 
+    public function agregarPrecio()
+    {
+        ++$this->product_details;
+    }
+
+    public function eliminarPrecio()
+    {
+        --$this->product_details;
+    }
+
     public function mount()
     {
         $this->product_brand_id = (ProductBrand::first())->id ?? null;
         $this->product_category_id = (ProductCategory::first())->id ?? null;
         $this->product_presentation_id = (ProductPresentation::first())->id ?? null;
+
+        /* product details */
     }
 
     public function render()
@@ -55,7 +90,7 @@ class Product extends Component
     public function getBarcode()
     {
         /* de prueba */
-        $this->barcode = 4445645656;
+        $this->barcode = random_int(1000000000, 9999999999);
     }
 
     public function submit()

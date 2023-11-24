@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Livewire\Dashboard\Create;
+namespace App\Http\Livewire\Modal\Update;
 
-use Livewire\Component;
-use App\Models\{TypeOfPet, Client};
-use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Request;
+use LivewireUI\Modal\ModalComponent;
+use Illuminate\Support\Facades\{Auth, Log};
+use App\Models\TypeOfPet;
 
-class Pet extends Component
+class Pet extends ModalComponent
 {
-
-    public $dni;
-    public $client;
+    public $item_id;
 
     public $type_of_pets;
 
@@ -26,29 +23,27 @@ class Pet extends Component
     //public $pet_month;
     public $pet_height;
     public $pet_weight;
-    public $pet_description;
 
     public $rules = [
-        'dni' => 'required',
-
         'pet_name' => 'nullable|string|max:100',
         'type_of_pet_id' => 'nullable|integer',
         'pet_sex' => 'nullable|in:macho,hembra',
         'pet_age' => 'nullable|max:30',
         'pet_height' => 'nullable|min:0',
         'pet_weight' => 'nullable|min:0',
-        'pet_description' => 'nullable|string',
     ];
 
-    public function mount(Request $req)
+    public function mount($item_id)
     {
-        if($req->hashid !== null){
-            $client = Client::hashid($req->hashid)->firstOrFail();
+        $model = \App\Models\Pet::where('id', $item_id)->firstOrFail();
+        
+        $this->pet_name = $model->name;
+        $this->type_of_pet_id = $model->type_of_pet_id;
+        $this->pet_sex = $model->gender;
+        $this->pet_age = $model->age;
 
-            $this->dni = $client->dni;
-
-            $this->client = $client->name;
-        }
+        $this->pet_height = $model->height;
+        $this->pet_weight = $model->weight;
 
         $this->type_of_pets = TypeOfPet::get();
 
@@ -60,65 +55,40 @@ class Pet extends Component
 
     public function render()
     {
-        return view('livewire.dashboard.create.pet');
-    }
-
-    /**
-     * Buscar el cliente por dni
-     *  */
-    public function searchClient() {
-
-        $client = Client::where('dni', $this->dni)->first();
-
-        if($client == null) {
-            // api
-            // return $json;
-        } else {
-            $this->client = $client->name;
-        }
-
+        return view('livewire.modal.update.pet');
     }
 
     public function submit()
     {
-
         $this->validate();
 
         try {
 
-            $client = Client::where('dni', $this->dni)->firstOrFail();
-
-            \App\Models\Pet::create([
+            \App\Models\Pet::where('id', $this->item_id)->update([
                 'name' => $this->pet_name,
                 'type_of_pet_id' => $this->type_of_pet_id,
                 'gender' => $this->pet_sex,
                 'age' => $this->pet_age,
                 'height' => $this->pet_height,
                 'weight' => $this->pet_weight,
-                'note' => $this->pet_description,
-                'client_id' => $client->id,
             ]);
-            
+
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'Mascota creado con éxito',
+                'title' => 'Mascota actualizado con éxito',
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);
 
-            return redirect()->route('dashboard.show.client', [
-                'hashid' => $client->hashid,
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            return redirect()->route('dashboard.pets');
             
+        } catch (\Exception $e) {
+            Log::info($e->getMessage());
+
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'error',
                 'iconColor' => 'red',
             ]);
-
-            return false;
         }
     }
 }

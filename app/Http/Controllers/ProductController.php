@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\{Product, ProductBrand, ProductCategory, ProductDetail, ProductPresentation};
 use Illuminate\Support\Facades\{Auth, Log};
 use Carbon\Carbon;
+use DB;
 
 class ProductController extends Controller
 {
     public function store(Request $req)
     {
+        DB::beginTransaction();
 
         try {
-            
+
             $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
 
             $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();
@@ -22,7 +24,7 @@ class ProductController extends Controller
 
             $input = "photo";
 
-            if($req->file($input) == null)
+            if($req->file($input) != null)
             {
                 $photo_path = $this->storeImage($req, $input);
             }
@@ -35,7 +37,7 @@ class ProductController extends Controller
                 'product_category_id' => $product_category->id,
                 'product_presentation_id' => intval($req->product_presentation_id),
                 // 'product_detail_id' => null,
-                'active' => $req->active,
+                'active' => $req->active == 'on' ? true : false,
                 'user_id' => Auth::user()->id,
                 'precio_compra' => $req->precio_compra,
                 'precio_venta' => $req->precio_venta ?? $req->precio_compra,
@@ -48,9 +50,25 @@ class ProductController extends Controller
                 'amount_presentation' => $req->amount_presentation,
             ]);
 
-            return redirect()->route('dashboard.productos');
+            for ($i=0; $i < intval($req->product_details); $i++)
+            {
+                ProductDetail::create([
+                    'product_id' => $product->id,
+                    'product_presentation_id' => $req->product_presentation_details_id[$i],
+                    'amount' => $req->amount_details[$i],
+                    'discount' => $req->discount_details[$i],
+                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                    'precio_venta_con_igv' => $req->precio_venta_con_igv_details[$i],
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('dashboard.products');
 
         } catch (\Exception $e) {
+
+            DB::rollback();
 
             \Log::error($e->getMessage());
 

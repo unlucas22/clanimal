@@ -23,4 +23,13 @@ class Receptions extends Component
             'notifications' => $notifications,
         ]);
     }
+
+    public function marcarComoEntregado($item_id)
+    {
+        Shift::where('id', $item_id)->update([
+            'status' => 'terminado',
+        ]);
+
+        $this->emit('refreshComponent');
+    }
 }

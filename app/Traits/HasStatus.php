@@ -14,6 +14,6 @@ trait HasStatus {
 	];
 
 	/* Lista especifica para el modulo de recepción */
-	public $status_lista_de_espera = ['confirmado', 'retrasado', 'programado', 'reprogramado', 'cancelado'];
-	public $status_notificaciones = ['en atención', 'listo para retiro', 'terminado'];
+	public $status_lista_de_espera = ['confirmado', 'retrasado', 'programado', 'reprogramado', 'cancelado', 'en atención'];
+	public $status_notificaciones = ['listo para retiro', 'terminado'];
 }

@@ -22,7 +22,7 @@ class Products extends Component
         'precio_compra' => 'Precio Compra',
         'precio_venta' => 'Precio Venta',
         'stock' => 'Stock',
-        'fecha_de_vencimiento' => 'Fecha de Vencimiento',
+        'fecha_de_vencimiento_formatted' => 'Fecha de Vencimiento',
     ];
 
     public $name;
@@ -42,7 +42,7 @@ class Products extends Component
 
         $this->created_at = false;
 
-        $this->can_delete = false;
+        //$this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $items,

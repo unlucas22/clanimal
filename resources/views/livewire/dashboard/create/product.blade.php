@@ -359,6 +359,62 @@
                 <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado Activo</span>
             </label>
         </div>
+
+        {{-- UNIDADES Y PRECIOS SECCION DINAMICA --}}
+        <div class="flex justify-between">
+            <div>
+                <h2 class="mb-4 text-lg tracking-tight font-extrabold text-gray-900 dark:text-white mt-2">Unidades Y Precios</h2>
+            </div>
+            <div>
+                <div>
+                    <button wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar Precio</button>
+                </div>    
+            </div>
+        </div>
+
+        <input type="hidden" name="product_details" wire:model="product_details" value="{{ $product_details }}">
+
+        @for($i=0; $i < $product_details; $i++)
+        <div class="flex justify-center">
+
+
+            <div class="grid grid-cols-6 gap-4">
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required'" />
+                </div>
+                
+                <div class="relative z-0 w-full mb-6 group">
+
+                    <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
+                        @foreach($product_presentations as $product_presentation)
+                        <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
+                        @endforeach
+                    </x-form.select>
+                    </select>
+                </div>
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <x-form.input :name="'precio_venta_details['.$i.']'" :model="'precio_venta_details.'.$i" :label="'Precio Venta sin IGV'" :type="'number'" :required="'required'" />
+                </div>
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <x-form.input :name="'discount_details['.$i.']'" :model="'discount_details.'.$i"  :model="'discount.'.$i" :label="'Descuento %'" :type="'number'" />
+                </div>
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <x-form.input :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'required'" />
+                </div>
+
+                <div class="pt-6">
+                    <button wire:click="eliminarPrecio" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Eliminar</button>
+                </div>
+
+            </div>
+
+
+        </div>
+        @endfor
             
         <div class="p-4 flex justify-center gap-8">
             <div>

@@ -22,9 +22,6 @@ class CreateProductsTable extends Migration
             $table->foreign('product_brand_id')->references('id')->on('product_brands');
             $table->unsignedBigInteger('product_brand_id');
 
-            $table->foreign('product_detail_id')->references('id')->on('product_details');
-            $table->unsignedBigInteger('product_detail_id')->nullable();
-
             $table->foreign('product_presentation_id')->references('id')->on('product_presentations');
             $table->unsignedBigInteger('product_presentation_id')->nullable();
 
@@ -40,7 +37,7 @@ class CreateProductsTable extends Migration
 
             $table->boolean('active')->default(true);
 
-            $table->string('barcode')->nullable();
+            $table->string('barcode')->unique();
             $table->text('palabras_clave')->nullable();
             $table->timestamp('fecha_de_vencimiento')->nullable();
             $table->integer('alerta_stock')->nullable();

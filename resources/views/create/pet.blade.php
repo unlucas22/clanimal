@@ -15,7 +15,7 @@
 </x-slot>
 
 <div class="pt-8 flex justify-end">
-    <div class="bg-white shadow rounded-lg max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8  mx-auto">
+    <div class="bg-white shadow rounded-lg max-w-7xl w-full mx-auto py-6 px-4 sm:px-6 lg:px-8  mx-auto">
         <div class="mt-6 flex justify-center">
             @livewire('dashboard.create.pet')
         </div>

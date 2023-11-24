@@ -69,7 +69,7 @@ class User extends ModalComponent
                     'name' => 'users',
                     'formatted_name' => 'Sede',
                     'id' => $this->item_id,
-                ], 'company_id', (Company::find($this->company_id))->name);
+                ], 'company_id', (Company::where('id', $this->company_id))->name);
             }
 
             \App\Models\User::where('id', $this->item_id)->update([
@@ -84,6 +84,8 @@ class User extends ModalComponent
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);
+
+            return redirect()->route('dashboard.users');
         } 
         catch (\Exception $e)
         {
