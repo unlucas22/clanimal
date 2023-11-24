@@ -12,6 +12,8 @@ class Productos extends Component
 
     public $client_name;
 
+    public $search;
+
     public $pets = [];
     public $pet_id;
 
@@ -23,11 +25,18 @@ class Productos extends Component
 
     public $client_ruc;
 
+    public $products = [];
+
     public $factura = true;
 
     public $productos_guardados = [];
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
+
+    public function mount()
+    {
+        $this->products = Product::with(['product_presentations', 'product_details'])->where('stock', '!=', 0)->get();
+    }
 
     /**
      * Buscar el cliente por dni
@@ -63,13 +72,25 @@ class Productos extends Component
             
             $this->emit('refreshComponent');
 
-
             $this->setTotal();
 
         } catch (\Exception $e) {
             ddd($e->getMessage());
         }
 
+    }
+
+    public function buscarProductos()
+    {
+        if($this->search != null) {
+            $this->products = Product::with(['product_presentations', 'product_details'])->where('name', 'like', '%'.$this->search.'%')->where('stock', '!=', 0)->get();
+
+            $this->emit('refreshComponent');
+        }else{
+            $this->products = Product::with(['product_presentations', 'product_details'])->where('stock', '!=', 0)->get();
+
+            $this->emit('refreshComponent');
+        }
     }
 
     public function setTotal()
@@ -92,10 +113,6 @@ class Productos extends Component
 
     public function render()
     {
-        $this->emit('refreshComponent');
-
-        $products = Product::with(['product_presentations', 'product_details'])->where('stock', '!=', 0)->limit(20)->get();
-
         $productos_para_compra = [];
 
         foreach ($this->productos_guardados as $product) {
@@ -106,7 +123,7 @@ class Productos extends Component
         $this->setTotal();
 
         return view('livewire.dashboard.create.venta.productos', [
-            'products' => $products,
+            'products' => $this->products,
             'users' => User::get(),
             'productos_para_compra' => $productos_para_compra,
         ]);

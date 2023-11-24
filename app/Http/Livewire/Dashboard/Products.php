@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 use App\Traits\HasTable;
-use App\Models\Product;
+use App\Models\{Product, ProductDetail};
 
 class Products extends Component
 {
@@ -25,6 +25,13 @@ class Products extends Component
         'fecha_de_vencimiento_formatted' => 'Fecha de Vencimiento',
     ];
 
+    /* eliminar */
+    public function eliminar($item_id)
+    {
+        ProductDetail::where('product_id', $item_id)->delete();
+        Product::where('id', $item_id)->delete();
+    }
+
     public $name;
 
     public function render()
@@ -42,7 +49,7 @@ class Products extends Component
 
         $this->created_at = false;
 
-        //$this->can_delete = false;
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $items,

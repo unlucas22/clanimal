@@ -24,6 +24,7 @@ class Product extends Component
     /* foreach por cada id */
     public $product_details = 2;
 
+    /* EN UN FUTURO DESAPARECE codigo: (27-46) por una tabla como ocurre en Ventas */
     public $amount_details = [
         1, 2
     ];
