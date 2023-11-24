@@ -45,6 +45,16 @@
             @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
+        <!-- ROL -->
+        <div class="form-group">
+            <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Estado Cuenta</label>
+            <select id="ss4" class="w-full form-control" wire:model.defer="active">
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
+            @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
         <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
             <x-jet-button>
                 Actualizar usuario

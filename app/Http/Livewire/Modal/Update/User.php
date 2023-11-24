@@ -13,6 +13,8 @@ class User extends ModalComponent
     public $name;
     public $email;
 
+    public $active;
+
     public $role_id;
     public $old_role_id;
 
@@ -30,6 +32,7 @@ class User extends ModalComponent
 
         $this->name = $item->name;
         $this->email = $item->email;
+        $this->active = $item->active;
         
         $this->role_id = $item->role_id;
         $this->old_role_id = $item->role_id;
@@ -69,12 +72,13 @@ class User extends ModalComponent
                     'name' => 'users',
                     'formatted_name' => 'Sede',
                     'id' => $this->item_id,
-                ], 'company_id', (Company::where('id', $this->company_id))->name);
+                ], 'company_id', (Company::where('id', $this->company_id)->first())->name);
             }
 
             \App\Models\User::where('id', $this->item_id)->update([
                 'name' => $this->name,
                 'email' => $this->email,
+                'active' => $this->active,
                 'role_id' => $this->role_id,
                 'company_id' => $this->company_id,
             ]);
@@ -91,8 +95,8 @@ class User extends ModalComponent
         {
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Error al actualizar los datos',
-                'icon' => 'success',
-                'iconColor' => 'green',
+                'icon' => 'error',
+                'iconColor' => 'red',
             ]);
 
             Log::error($e->getMessage());

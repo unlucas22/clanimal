@@ -37,6 +37,7 @@ class User extends Authenticatable
         'deleted_at',
         'cedula',
         'company_id',
+        'active',
     ];
 
     /**

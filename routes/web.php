@@ -17,7 +17,8 @@ use App\Http\Controllers\{DashboardController, PetController, ProductController}
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
+    'active'
 ])->group(function () {
 
     Route::view('/dashboard', 'dashboard')->name('dashboard.index');
@@ -30,22 +31,22 @@ Route::middleware([
             Route::view('/roles', 'dashboard')->name('dashboard.roles');
             Route::view('/clients', 'dashboard')->name('dashboard.clients');
             Route::view('/controls', 'dashboard')->name('dashboard.controls');
-            Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
-            Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
-            Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
-
-            /* Turnos */
-            Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
-            Route::view('/atencion-veterinaria', 'dashboard')->name('dashboard.atencion-veterinaria');
-            Route::view('/peluqueria-canina', 'dashboard')->name('dashboard.peluqueria-canina');
-
-            Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
-            Route::view('/servicios', 'dashboard')->name('dashboard.services');
-            Route::view('/mascotas', 'dashboard')->name('dashboard.pets');
-            Route::view('/productos', 'dashboard')->name('dashboard.products');
-
-            Route::view('/sales', 'dashboard')->name('dashboard.sales');
         });
+
+        Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
+        Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
+        Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
+
+        /* Turnos */
+        Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
+        Route::view('/atencion-veterinaria', 'dashboard')->name('dashboard.atencion-veterinaria');
+        Route::view('/peluqueria-canina', 'dashboard')->name('dashboard.peluqueria-canina');
+        Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
+        Route::view('/servicios', 'dashboard')->name('dashboard.services');
+        Route::view('/mascotas', 'dashboard')->name('dashboard.pets');
+        Route::view('/productos', 'dashboard')->name('dashboard.products');
+
+        Route::view('/sales', 'dashboard')->name('dashboard.sales');
 
         /* Producto */
         Route::get('/create/product', function(){

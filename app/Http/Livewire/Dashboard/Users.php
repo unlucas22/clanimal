@@ -36,6 +36,7 @@ class Users extends Component
         $this->relationships = [
             'Rol',
             'Sede',
+            'Estado',
         ];
 
         $this->canActive = true;
