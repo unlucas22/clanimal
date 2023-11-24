@@ -18,7 +18,7 @@ class Pet extends Component
     /* datos de la mascota */
     public $pet_name;
     public $type_of_pet_id;
-    public $pet_sex;
+    public $pet_sex = 'macho';
     public $pet_age;
     /**
      * en proximas actualizaciones tendrá edad por meses, por el momento se puede poner 0.2 

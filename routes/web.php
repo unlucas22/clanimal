@@ -94,6 +94,10 @@ Route::middleware([
             return view('create.venta.peluqueria-canina');  
         })->name('dashboard.venta.peluqueria-canina');
 
+        Route::get('venta/productos', function() {
+            return view('create.venta.productos');  
+        })->name('dashboard.venta.productos');
+
     });
 
     Route::view('panel', 'panel')->name('panel.overview');
