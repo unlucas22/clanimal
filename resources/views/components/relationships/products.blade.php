@@ -31,5 +31,5 @@
 </td>
 
 <td class="{{ $td }}">
-    ${{ $item->ganancia }}
+    %{{ $item->ganancia }}
 </td>
