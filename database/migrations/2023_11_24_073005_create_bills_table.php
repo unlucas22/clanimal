@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSalesTable extends Migration
+class CreateBillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id');
             $table->foreign('client_id')->references('id')->on('clients');
             $table->unsignedBigInteger('client_id');
             $table->boolean('active')->default(false);
-            $table->timestamp('completed_at')->nullable();
+            $table->enum('metodo_de_pago', ['efectivo', 'tarjeta', 'virtual'])->default('efectivo');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateSalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('bills');
     }
 }

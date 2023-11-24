@@ -16,6 +16,7 @@ class ProductController extends Controller
 
         try {
 
+
             $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
 
             $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();
@@ -58,7 +59,8 @@ class ProductController extends Controller
                     'amount' => $req->amount_details[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    'precio_venta_con_igv' => $req->precio_venta_con_igv_details[$i],
+                    //'precio_venta_con_igv' => $req->precio_venta_con_igv_details[$i],
+                    'precio_venta_con_igv' => $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18)
                 ]);
             }
 
@@ -71,8 +73,6 @@ class ProductController extends Controller
             DB::rollback();
 
             \Log::error($e->getMessage());
-
-            ddd($e->getMessage());
 
             return back();
         }

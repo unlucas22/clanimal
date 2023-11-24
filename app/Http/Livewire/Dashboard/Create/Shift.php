@@ -39,7 +39,6 @@ class Shift extends Component
         try {
             $client = Client::with('pets')->where('dni', $this->dni)->firstOrFail();
 
-
             $this->dni = $client->dni;
 
             $this->client = $client->name;

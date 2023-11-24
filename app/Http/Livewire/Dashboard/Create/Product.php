@@ -53,7 +53,7 @@ class Product extends Component
         'name' => 'required',
         'palabras_clave' => 'required',
 
-        'barcode' => 'required',
+        'barcode' => 'required|unique:products',
         'amount' => 'required',
         'amount_presentation' => 'required',
         'precio_compra' => 'required',
@@ -70,13 +70,12 @@ class Product extends Component
         --$this->product_details;
     }
 
+    /* Select options */
     public function mount()
     {
         $this->product_brand_id = (ProductBrand::first())->id ?? null;
         $this->product_category_id = (ProductCategory::first())->id ?? null;
         $this->product_presentation_id = (ProductPresentation::first())->id ?? null;
-
-        /* product details */
     }
 
     public function render()
@@ -90,7 +89,6 @@ class Product extends Component
 
     public function getBarcode()
     {
-        /* de prueba */
         $this->barcode = random_int(1000000000, 9999999999);
     }
 

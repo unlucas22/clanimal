@@ -395,15 +395,29 @@
                 </div>
 
                 <div class="relative z-0 w-full mb-6 group">
-                    <x-form.input :name="'precio_venta_details['.$i.']'" :model="'precio_venta_details.'.$i" :label="'Precio Venta sin IGV'" :type="'number'" :required="'required'" />
+                    <div>
+                        <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Venta sin IGV</label>
+                        <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" required>
+                    </div>
+                </div>
+
+                <script>
+                    function sumarImpuesto(item_id) {
+
+                        let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
+
+                        let total = val + (val * (18/100));
+
+                        document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
+                    }
+                </script>
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <x-form.input :name="'discount_details['.$i.']'" :model="'discount_details.'.$i"  :label="'Descuento %'" :value="'0'" :type="'number'" />
                 </div>
 
                 <div class="relative z-0 w-full mb-6 group">
-                    <x-form.input :name="'discount_details['.$i.']'" :model="'discount_details.'.$i"  :label="'Descuento %'" :type="'number'" />
-                </div>
-
-                <div class="relative z-0 w-full mb-6 group">
-                    <x-form.input :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'required'" />
+                    <x-form.input :id="'precio_venta_con_igv_details.'.$i" :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'disabled'" />
                 </div>
 
                 <div class="pt-6">
