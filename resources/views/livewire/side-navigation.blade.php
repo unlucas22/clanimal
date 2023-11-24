@@ -201,6 +201,15 @@
                             <span class="ml-3">Roles y Permisos</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="#"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group'
+                            ])>
+                            <x-icons.heroicons.users />
+                            <span class="ml-3">Caja</span>
+                        </a>
+                    </li>
                     @endif
 
                 </ul>

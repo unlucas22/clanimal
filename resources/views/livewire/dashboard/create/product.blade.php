@@ -5,7 +5,7 @@
         @csrf
 
 
-        <div class="flex justify-between gap-8">
+        <div class="flex justify-between gap-8" wire:ignore>
             <div class="w-full">
 
                 <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marca</div>
