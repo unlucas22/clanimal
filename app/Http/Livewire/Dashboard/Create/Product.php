@@ -89,7 +89,7 @@ class Product extends Component
 
     public function getBarcode()
     {
-        $this->barcode = random_int(1000000000, 9999999999);
+        $this->barcode = random_int(100000000000, 999999999999);
     }
 
     public function submit()
