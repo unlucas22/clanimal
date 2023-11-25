@@ -8,14 +8,14 @@ use DB;
 
 trait NubeFact {
 
-    public function generarFactura($bill, $operacion = "generar_comprobante")
+    public function generarFactura($bill)
     {
-        $client = $bill->clients;
 
         $products = [];
 
-        foreach ($bill->product_for_sales as $product) {
-
+        foreach ($bill->product_for_sales as $product)
+        {
+            /* Calculo de impuestos en total */
             $igv = ($product->product_details->precio_venta_con_igv - $product->product_details->precio_venta_sin_igv);
 
             $products[] = [
@@ -35,60 +35,8 @@ trait NubeFact {
                 "anticipo_documento_numero" => ""
             ];
         }
-        // consultar_comprobante
-
-        $data = array(
-            "operacion"				=> $operacion,
-            "tipo_de_comprobante"               => "1",
-            "serie"                             => "FFF1",
-            "numero"				=> "1",
-            "sunat_transaction"			=> "1",
-            "cliente_tipo_de_documento"		=> "6",
-            "cliente_numero_de_documento"	=> $bill->ruc ?? 20600695771,
-            "cliente_denominacion"              => $bill->razon_social ?? "NUBEFACT SA",
-            "cliente_direccion"                 => $client->address,
-            "cliente_email"                     => $client->email,
-            "cliente_email_1"                   => "",
-            "cliente_email_2"                   => "",
-            "fecha_de_emision"                  => $bill->created_at->format('d-m-Y'),
-            "fecha_de_vencimiento"              => "",
-            "moneda"                            => "1",
-            "tipo_de_cambio"                    => "",
-            "porcentaje_de_igv"                 => "18",
-            "descuento_global"                  => "",
-            "descuento_global"                  => "",
-            "total_descuento"                   => $bill->descuento ?? 0,
-            "total_anticipo"                    => "",
-            "total_gravada"                     => $bill->total - $bill->igv,
-            "total_inafecta"                    => "",
-            "total_exonerada"                   => "",
-            "total_igv"                         => $bill->igv,
-            "total_gratuita"                    => "",
-            "total_otros_cargos"                => "",
-            "total"                             => $bill->total,
-            "percepcion_tipo"                   => "",
-            "percepcion_base_imponible"         => "",
-            "total_percepcion"                  => "",
-            "total_incluido_percepcion"         => "",
-            "detraccion"                        => "false",
-            "observaciones"                     => "",
-            "documento_que_se_modifica_tipo"    => "",
-            "documento_que_se_modifica_serie"   => "",
-            "documento_que_se_modifica_numero"  => "",
-            "tipo_de_nota_de_credito"           => "",
-            "tipo_de_nota_de_debito"            => "",
-            "enviar_automaticamente_a_la_sunat" => "true",
-            "enviar_automaticamente_al_cliente" => "false",
-            "codigo_unico"                      => "",
-            "condiciones_de_pago"               => "",
-            "medio_de_pago"                     => $bill->metodo_de_pago_formatted,
-            "placa_vehiculo"                    => "",
-            "orden_compra_servicio"             => "",
-            "tabla_personalizada_codigo"        => "",
-            "formato_de_pdf"                    => "",
-            "items" => $products
-        );
-        	
+         
+        $data = $bill->ruc != null ? $this->datosDeFactura($bill, $products) : $this->datosDeBoleta($bill, $products); 
         $data_json = json_encode($data);
 
         $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";
@@ -132,6 +80,120 @@ trait NubeFact {
         }
 
         return $leer_respuesta;
+    }
+
+    public function datosDeFactura($bill, $products)
+    {
+        $client = $bill->clients;
+
+        return array(
+            "operacion"             => "generar_comprobante",
+            "tipo_de_comprobante"               => "1",
+            "serie"                             => "FFF1",
+            "numero"                => $bill->id,
+            "sunat_transaction"         => "1",
+            "cliente_tipo_de_documento"     => "6",
+            "cliente_numero_de_documento"   => $bill->ruc,
+            "cliente_denominacion"              => $bill->razon_social ?? "NUBEFACT SA",
+            "cliente_direccion"                 => $client->address,
+            "cliente_email"                     => $client->email,
+            "cliente_email_1"                   => "",
+            "cliente_email_2"                   => "",
+            "fecha_de_emision"                  => $bill->created_at->format('d-m-Y'),
+            "fecha_de_vencimiento"              => "",
+            "moneda"                            => "1",
+            "tipo_de_cambio"                    => "",
+            "porcentaje_de_igv"                 => "18",
+            "descuento_global"                  => "",
+            "descuento_global"                  => "",
+            "total_descuento"                   => $bill->descuento ?? 0,
+            "total_anticipo"                    => "",
+            "total_gravada"                     => $bill->total - $bill->igv,
+            "total_inafecta"                    => "",
+            "total_exonerada"                   => "",
+            "total_igv"                         => $bill->igv,
+            "total_gratuita"                    => "",
+            "total_otros_cargos"                => "",
+            "total"                             => $bill->total,
+            "percepcion_tipo"                   => "",
+            "percepcion_base_imponible"         => "",
+            "total_percepcion"                  => "",
+            "total_incluido_percepcion"         => "",
+            "detraccion"                        => "false",
+            "observaciones"                     => "",
+            "documento_que_se_modifica_tipo"    => "",
+            "documento_que_se_modifica_serie"   => "",
+            "documento_que_se_modifica_numero"  => "",
+            "tipo_de_nota_de_credito"           => "",
+            "tipo_de_nota_de_debito"            => "",
+            "enviar_automaticamente_a_la_sunat" => "true",
+            "enviar_automaticamente_al_cliente" => "false",
+            "codigo_unico"                      => "",
+            "condiciones_de_pago"               => "",
+            "medio_de_pago"                     => $bill->metodo_de_pago_formatted,
+            "placa_vehiculo"                    => "",
+            "orden_compra_servicio"             => "",
+            "tabla_personalizada_codigo"        => "",
+            "formato_de_pdf"                    => "",
+            "items" => $products
+        );
+    }
+
+    public function datosDeBoleta($bill, $products)
+    {
+        $client = $bill->clients;
+
+        return array(
+            "operacion"             => "generar_comprobante",
+            "tipo_de_comprobante"               => "1",
+            "serie"                             => "FFF1",
+            "numero"                => $bill->id,
+            "sunat_transaction"         => "1",
+            "cliente_tipo_de_documento"     => "1",
+            "cliente_numero_de_documento"   => $client->dni,
+            "cliente_denominacion"              => $client->name,
+            "cliente_direccion"                 => $client->address,
+            "cliente_email"                     => $client->email,
+            "cliente_email_1"                   => "",
+            "cliente_email_2"                   => "",
+            "fecha_de_emision"                  => $bill->created_at->format('d-m-Y'),
+            "fecha_de_vencimiento"              => "",
+            "moneda"                            => "1",
+            "tipo_de_cambio"                    => "",
+            "porcentaje_de_igv"                 => "18",
+            "descuento_global"                  => "",
+            "descuento_global"                  => "",
+            "total_descuento"                   => $bill->descuento ?? 0,
+            "total_anticipo"                    => "",
+            "total_gravada"                     => $bill->total - $bill->igv,
+            "total_inafecta"                    => "",
+            "total_exonerada"                   => "",
+            "total_igv"                         => $bill->igv,
+            "total_gratuita"                    => "",
+            "total_otros_cargos"                => "",
+            "total"                             => $bill->total,
+            "percepcion_tipo"                   => "",
+            "percepcion_base_imponible"         => "",
+            "total_percepcion"                  => "",
+            "total_incluido_percepcion"         => "",
+            "detraccion"                        => "false",
+            "observaciones"                     => "",
+            "documento_que_se_modifica_tipo"    => "",
+            "documento_que_se_modifica_serie"   => "",
+            "documento_que_se_modifica_numero"  => "",
+            "tipo_de_nota_de_credito"           => "",
+            "tipo_de_nota_de_debito"            => "",
+            "enviar_automaticamente_a_la_sunat" => "true",
+            "enviar_automaticamente_al_cliente" => "false",
+            "codigo_unico"                      => "",
+            "condiciones_de_pago"               => "",
+            "medio_de_pago"                     => $bill->metodo_de_pago_formatted,
+            "placa_vehiculo"                    => "",
+            "orden_compra_servicio"             => "",
+            "tabla_personalizada_codigo"        => "",
+            "formato_de_pdf"                    => "",
+            "items" => $products
+        );
     }
 }
 

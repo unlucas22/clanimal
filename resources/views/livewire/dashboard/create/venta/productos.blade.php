@@ -259,9 +259,11 @@
                     </div>
                 </div>
 
+                <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendedor Referente</div>
+                
                 <div class="w-full" wire:ignore>
 
-                    <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendedor Referente</div>
+                    
                     <div class='relative searchable-list-brand'>
                         <input type='text' class='data-list-brand peer block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' id="product-brand" spellcheck="false"  placeholder="Buscar una marca" name="vendedor_id"></input>
                         <svg class="outline-none cursor-pointer fill-gray-400 absolute transition-all duration-200 h-full w-4 -rotate-90 right-2 top-[50%] -translate-y-[50%]"
@@ -382,7 +384,7 @@
                         @foreach($users as $user) "{{ $user->name }}", @endforeach
                     ];
                     data.forEach(v=>(dataListBrand.append(v))); 
-                </script>
+                    </script>
                 </div>
 
                 <div>Realizar el cobro de los productos antes de procesar el pago.</div>

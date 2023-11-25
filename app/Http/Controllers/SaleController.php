@@ -39,28 +39,23 @@ class SaleController extends Controller
             ]);
 
             /* Asignar productos comprados a la venta */
-
             $products = $this->asignProductToBill($req->productos_guardados, $bill->id);
 
-            if($req->active == 'on')
+            /* generar factura o boleta */
+            $factura = $this->generarFactura($bill);
+
+            if($factura == null)
             {
-                $factura = $this->generarFactura($bill);
-
-                if($factura == null)
-                {
-                    return Redirect::back()->withErrors('Ya existe la factura en NubeFacT ');
-                }
-
-                $bill = Bill::update([
-                    'enlace' => $factura->enlace,
-                ]);
-                
-                return Redirect::to($factura->enlace);
+                return Redirect::back()->withErrors('Hubo un error con NubeFact');
             }
 
-            DB::commit();
+            $bill = Bill::update([
+                'enlace' => $factura->enlace,
+            ]);
 
-            return redirect('dashboard/sales');
+            DB::commit();
+            
+            return Redirect::to($factura->enlace);
 
         } catch (\Exception $e) {
             DB::rollback();
