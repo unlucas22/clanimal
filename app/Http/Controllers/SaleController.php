@@ -48,7 +48,7 @@ class SaleController extends Controller
 
                 if($factura == null)
                 {
-                    return back();
+                    return Redirect::back()->withErrors('Ya existe la factura en NubeFacT ');
                 }
 
                 $bill = Bill::update([

@@ -1,4 +1,9 @@
 <div>
+    <div class="text-center text-red-500 font-semibold">
+        @if($errors->any())
+        <h4>{{$errors->first()}}</h4>
+        @endif
+    </div>
     <div class="flex justify-between gap-8">
         <div class="w-full">
             
