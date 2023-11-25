@@ -118,7 +118,7 @@
                     <tr>
 
                     @php($colStyle = 'px-6 py-4')
-                        @foreach(['ID', 'Cliente', 'DNI', 'Metodo de Pago', 'Productos/Servicios', 'Fecha de Atención'] as $key)
+                        @foreach(['ID', 'Cliente', 'DNI', 'Metodo de Pago', 'Productos/Servicios', 'Total', 'En Caja', 'Fecha de Atención'] as $key)
                         <th scope="col" class="{{ $colStyle }}">
                             {{ $key }}
                         </th>
@@ -157,6 +157,14 @@
                             {{ $notification->product_for_sales_count }}
                         </td>
 
+                        <td class="{{ $td }}" style="min-width: 200px;">
+                            {{ $notification->total }}
+                        </td>
+
+                        <td class="{{ $td }}" style="min-width: 200px;">
+                            {{ $notification->users->name }}
+                        </td>
+
                         <td class="{{ $td }}">
                             {{ $notification->created_at->format('H:i m/d') }}
                         </td>
@@ -168,7 +176,7 @@
                                 
                                 @if($notification->enlace !== null)
                                 <div>
-                                    <a href="{{ $notification->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Abrir</button></a>
+                                    <a target="_blank" href="{{ $notification->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Abrir</button></a>
                                 </div>
                                 @else
                                 <div>
