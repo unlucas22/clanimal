@@ -1870,6 +1870,9 @@ input:checked + .toggle-bg {
 .me-2 {
   margin-inline-end: 0.5rem;
 }
+.me-3 {
+  margin-inline-end: 0.75rem;
+}
 .ml-1 {
   margin-left: 0.25rem;
 }
@@ -2216,6 +2219,15 @@ input:checked + .toggle-bg {
 }
 .transform-none {
   transform: none;
+}
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 .cursor-default {
   cursor: default;

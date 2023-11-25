@@ -71,22 +71,23 @@ class Product extends Model
     {
         $products = $this->product_details;
 
-        $precio_venta_con_igv = 0;
         $precio_venta_sin_igv = 0;
 
         $tasa_impuesto = 18;
 
         foreach ($products as $product)
         {
-            $precio_venta_con_igv += $product->precio_venta_con_igv;
-            $precio_venta_sin_igv += $product->precio_venta_sin_igv;
+            if($product->product_presentation_id == $this->product_presentation_id)
+            {
+                $precio_venta_sin_igv += $product->precio_venta_sin_igv;
+            }
         }
 
-        $impuestos = $precio_venta_sin_igv * ($tasa_impuesto / 100);
+        //$impuestos = $precio_venta_sin_igv * ($tasa_impuesto / 100);
 
-        $total = ($precio_venta_con_igv - $impuestos) - $this->precio_compra;
+        $ganancia = $precio_venta_sin_igv - $this->precio_compra;
 
-        return doubleval( ($total / $this->precio_compra) * 100);
+        return doubleval( ($ganancia / $this->precio_compra) * 100);
     }
 
 

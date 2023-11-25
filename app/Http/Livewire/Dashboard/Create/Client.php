@@ -169,44 +169,46 @@ class Client extends Component
 
         $this->loading = true;
 
+        if($this->dni != null)
+        {
+            $client = \App\Models\Client::where('dni', $this->dni)->first();
 
-        $client = \App\Models\Client::where('dni', $this->dni)->first();
+            if($client == null) {
+                $json = $this->consultarDNI($this->dni);
 
-        if($client == null) {
-            $json = $this->consultarDNI($this->dni);
+                if($json !== null) {
 
-            if($json !== null) {
+                    if($json["success"] == true) {
+                        $this->name = ucwords(strtolower($json["nombres"]));
+                        $this->last_name = ucwords(strtolower($json["apellidoMaterno"].' '.$json["apellidoPaterno"]));
+                    } else {
+                        $this->dispatchBrowserEvent('swal', [
+                            'title' => 'No se encontró al cliente con el dni proprocionado.',
+                            'icon' => 'error',
+                            'iconColor' => 'red',
+                        ]);    
+                    }
 
-                if($json["success"] == true) {
-                    $this->name = ucwords(strtolower($json["nombres"]));
-                    $this->last_name = ucwords(strtolower($json["apellidoMaterno"].' '.$json["apellidoPaterno"]));
                 } else {
                     $this->dispatchBrowserEvent('swal', [
                         'title' => 'No se encontró al cliente con el dni proprocionado.',
                         'icon' => 'error',
                         'iconColor' => 'red',
-                    ]);    
+                    ]);
                 }
+
 
             } else {
                 $this->dispatchBrowserEvent('swal', [
-                    'title' => 'No se encontró al cliente con el dni proprocionado.',
-                    'icon' => 'error',
-                    'iconColor' => 'red',
+                    'title' => 'Cliente ya registrado. Redireccionando...',
+                    'icon' => 'success',
+                    'iconColor' => 'green',
+                ]);
+
+                return redirect()->route('dashboard.show.client', [
+                    'hashid' => $client->hashid,
                 ]);
             }
-
-
-        } else {
-            $this->dispatchBrowserEvent('swal', [
-                'title' => 'Cliente ya registrado. Redireccionando...',
-                'icon' => 'success',
-                'iconColor' => 'green',
-            ]);
-
-            return redirect()->route('dashboard.show.client', [
-                'hashid' => $client->hashid,
-            ]);
         }
 
         $this->loading = false;
