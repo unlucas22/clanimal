@@ -117,7 +117,7 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 text-center">
                     <tr>
 
-                    @php($colStyle = 'px-6 py-4')
+                    @php($colStyle = 'px-2 py-4')
                         @foreach(['ID', 'Cliente', 'DNI', 'Metodo de Pago', 'Productos/Servicios', 'Total', 'En Caja', 'Fecha de Atención'] as $key)
                         <th scope="col" class="{{ $colStyle }}">
                             {{ $key }}
@@ -129,7 +129,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white text-center">
-                    @php($td = 'px-6 py-4')
+                    @php($td = 'px-2 py-4')
 
                     @forelse($notifications as $notification)
                     <tr >
@@ -149,19 +149,19 @@
                         </td>
                          --}}
 
-                        <td class="{{ $td }}" style="min-width: 200px;">
+                        <td class="{{ $td }}">
                             {{ $notification->metodo_de_pago_formatted }}
                         </td>
 
-                        <td class="{{ $td }}" style="min-width: 200px;">
+                        <td class="{{ $td }}">
                             {{ $notification->product_for_sales_count }}
                         </td>
 
-                        <td class="{{ $td }}" style="min-width: 200px;">
+                        <td class="{{ $td }}">
                             {{ $notification->total }}
                         </td>
 
-                        <td class="{{ $td }}" style="min-width: 200px;">
+                        <td class="{{ $td }}">
                             {{ $notification->users->name }}
                         </td>
 
