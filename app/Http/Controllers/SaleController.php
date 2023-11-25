@@ -54,11 +54,13 @@ class SaleController extends Controller
                 $bill = Bill::update([
                     'enlace' => $factura->enlace,
                 ]);
+                
+                return Redirect::to($factura->enlace);
             }
 
             DB::commit();
 
-            return Redirect::to($factura->enlace);
+            return redirect('dashboard/sales');
 
         } catch (\Exception $e) {
             DB::rollback();
