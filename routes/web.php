@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{DashboardController, PetController, ProductController};
+use App\Http\Controllers\{DashboardController, PetController, ProductController, SaleController};
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +99,9 @@ Route::middleware([
             return view('create.venta.productos');  
         })->name('dashboard.venta.productos');
 
+        Route::post('venta/productos', [SaleController::class, 'store'])->name('dashboard.store.venta.productos');
+
+        Route::get('venta/factura/{bill_id}', [SaleController::class, 'show'])->name('dashboard.show.venta.factura');
     });
 
     Route::view('panel', 'panel')->name('panel.overview');

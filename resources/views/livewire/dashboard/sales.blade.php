@@ -118,7 +118,7 @@
                     <tr>
 
                     @php($colStyle = 'px-6 py-4')
-                        @foreach(['ID', 'Cliente', 'DNI', 'Mascota', 'Especialidad', 'Fecha de Atención', 'Estado'] as $key)
+                        @foreach(['ID', 'Cliente', 'DNI', 'Metodo de Pago', 'Productos/Servicios', 'Fecha de Atención'] as $key)
                         <th scope="col" class="{{ $colStyle }}">
                             {{ $key }}
                         </th>
@@ -137,10 +137,10 @@
                             {{ $notification->id }}
                         </td>
                         <td class="{{ $td }}">
-                            {{ $notification->pets->clients->name }}
+                            {{ $notification->clients->name }}
                         </td>
                         <td class="{{ $td }}">
-                            {{ $notification->pets->clients->dni }}
+                            {{ $notification->ruc ?? $notification->clients->dni }}
                         </td>
 
                         {{-- 
@@ -149,46 +149,48 @@
                         </td>
                          --}}
 
-                        <td class="{{ $td }}">
-                            {{ $notification->pets->name }}
-                        </td>
-
-                        <td class="{{ $td }}">
-                            {{ $notification->services->name }}
-                        </td>
-
-                        <td class="{{ $td }}">
-                            {{ $notification->delivery_at->format('H:i m/d') }}
+                        <td class="{{ $td }}" style="min-width: 200px;">
+                            {{ $notification->metodo_de_pago_formatted }}
                         </td>
 
                         <td class="{{ $td }}" style="min-width: 200px;">
-                            {!! $notification->formatted_status !!}
+                            {{ $notification->product_for_sales_count }}
                         </td>
+
+                        <td class="{{ $td }}">
+                            {{ $notification->created_at->format('H:i m/d') }}
+                        </td>
+
 
                         <td class="py-4 px-1 w-full block">
 
                             <div class="flex justify-between gap-2" style="max-width: 250px;">
                                 
-                                {{-- 
+                                @if($notification->enlace !== null)
                                 <div>
-                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Nueva Cita</button>
+                                    <a href="{{ $notification->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Abrir</button></a>
                                 </div>
-                                 --}}
+                                @else
                                 <div>
-                                    <a target="_blank" href="https://api.whatsapp.com/send/?phone={{ $notification->pets->clients->phone }}" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center me-2 mb-2">
+                                    @if($notification->clients->phone == null)
+                                    <a target="_blank" href="https://api.whatsapp.com/send/?phone={{ $notification->clients->phone }}" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center me-2 mb-2">
                                         <x-icons.svgrepo.whatsapp :class="'w-4 h-4 me-2'" />
                                         Whatsapp
                                     </a>
+                                    @else
+                                    <a target="_blank" href="mailto:{{ $notification->clients->email }}" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center me-2 mb-2">
+                                        <x-icons.heroicons.phone :class="'w-4 h-4 me-2'" />
+                                        Telefono
+                                    </a>
+                                    @endif
                                 </div>
-                                <div>
-                                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Marcar como entregado</button>
-                                </div>
+                                @endif
                             </div>
                         </td>
                     </tr class="bg-white border-b">
                     @empty
                     <tr class="text-center py-3">
-                        <td colspan="{{ count($shifts_column)+1 }}" class="py-3 italic">No hay Notificaciones</td>
+                        <td colspan="{{ count($shifts_column)+1 }}" class="py-3 italic">No hay Ventas</td>
                     </tr>
                     @endforelse
                 </tbody>

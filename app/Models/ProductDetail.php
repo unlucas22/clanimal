@@ -26,6 +26,11 @@ class ProductDetail extends Model
         return $this->precio_venta_con_igv - $descuento;
     }
 
+    public function diferenciaConImpuestos()
+    {
+        return $this->precio_venta_con_igv - $this->precio_venta_sin_igv;
+    }
+
     public function product_presentations()
     {
         return $this->belongsTo(ProductPresentation::class, 'product_presentation_id', 'id');

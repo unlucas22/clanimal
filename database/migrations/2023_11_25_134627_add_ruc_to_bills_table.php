@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-/* SIN USAR */
-class CreateCashRegistersTable extends Migration
+class AddRucToBillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +13,8 @@ class CreateCashRegistersTable extends Migration
      */
     public function up()
     {
-        Schema::create('cash_registers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('bills', function (Blueprint $table) {
+            $table->string('ruc')->nullable();
         });
     }
 
@@ -27,6 +25,8 @@ class CreateCashRegistersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cash_registers');
+        Schema::table('bills', function (Blueprint $table) {
+            $table->dropColumn('ruc');
+        });
     }
 }

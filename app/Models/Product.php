@@ -53,6 +53,11 @@ class Product extends Model
         'fecha_de_vencimiento' => 'datetime',
     ];
 
+    public function scopeWithStock($query)
+    {
+        return $query->where('stock', '!=', 0)->where('active', 1)->limit(5);
+    }
+
     public function getPrecioVentaTotalAttribute()
     {
         $products = $this->product_details;

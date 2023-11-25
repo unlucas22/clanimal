@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Models\{Shift, Sale};
+use App\Models\{Shift, Sale, Bill};
 
 class Sales extends Component
 {
@@ -11,7 +11,7 @@ class Sales extends Component
     {
         $sales = Sale::with(['presales', 'clients', 'users'])->where('active', true)->get();
 
-        $notifications = [];
+        $notifications = Bill::with(['clients', 'users', 'referentes'])->where('enlace', '!=', null)->withCount('product_for_sales')->get();
 
         return view('livewire.dashboard.sales', [
             'sales' => $sales,

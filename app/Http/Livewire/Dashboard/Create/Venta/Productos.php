@@ -4,54 +4,78 @@ namespace App\Http\Livewire\Dashboard\Create\Venta;
 
 use Livewire\Component;
 use App\Models\{Product, Client, User, ProductDetail, ProductForSale};
+use Illuminate\Support\Facades\Log;
 
 class Productos extends Component
 {
-    public $dni;
+    /* Datos del Cliente */
     public $client_id;
-
+    public $client_razon_social;
+    public $client_ruc;
     public $client_name;
 
-    public $search;
-
+    /* Mascotas del Cliente */
     public $pets = [];
     public $pet_id;
 
+    /* Busqueda */
+    public $search;
+    public $dni;
+
+    /* Colaborador referido */
     public $user_referente;
 
+    /* Para la caja */
     public $total = 0;
-
-    public $client_razon_social;
-
-    public $client_ruc;
-
-    public $products = [];
-
+    public $igv = 0;
     public $factura = true;
 
+    /* Productos */
+    public $products = [];
     public $productos_guardados = [];
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
 
     public function mount()
     {
-        $this->products = Product::with(['product_presentations', 'product_details'])->where('stock', '!=', 0)->get();
+        $this->products = $this->getProducts();
+    }
+
+    public function render()
+    {
+        /* productos guardados para la venta */
+        $productos_para_compra = [];
+
+        foreach ($this->productos_guardados as $product)
+        {
+            $productos_para_compra[] = ProductForSale::with(['product_details'])->where('id', $product)->first();
+        }
+
+        $this->setTotal();
+
+        return view('livewire.dashboard.create.venta.productos', [
+            'products' => $this->products,
+            'users' => User::get(),
+            'productos_para_compra' => $productos_para_compra,
+        ]);
     }
 
     /**
-     * Buscar el cliente por dni
+     * Buscar el cliente registrado por dni
      *  */
     public function searchClient() {
 
         $client = Client::with('pets')->where('dni', $this->dni)->first();
 
-        if($client != null) {
+        if($client != null)
+        {
             $this->client_name = $client->name;
             $this->client_id = $client->id;
 
             $this->pets = $client->pets;
-
-        } else {
+        }
+        else
+        {
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'No se encontró al cliente',
                 'icon' => 'error',
@@ -71,31 +95,34 @@ class Productos extends Component
             $this->productos_guardados[] = $product_for_sale->id;
             
             $this->emit('refreshComponent');
-
             $this->setTotal();
 
         } catch (\Exception $e) {
-            ddd($e->getMessage());
+            Log::info($e->getMessage());
         }
 
     }
 
     public function buscarProductos()
     {
-        if($this->search != null) {
-            $this->products = Product::with(['product_presentations', 'product_details'])->where('name', 'like', '%'.$this->search.'%')->where('stock', '!=', 0)->get();
-
-            $this->emit('refreshComponent');
-        }else{
-            $this->products = Product::with(['product_presentations', 'product_details'])->where('stock', '!=', 0)->get();
-
-            $this->emit('refreshComponent');
+        if($this->search != null)
+        {
+            $this->products = Product::with(['product_presentations', 'product_details'])->withStock()->where('name', 'like', '%'.$this->search.'%')->get();
         }
+        else
+        {
+            $this->products = $this->getProducts();
+        }
+        
+        $this->emit('refreshComponent');
     }
 
+    /* Calcular total con impuestos y descuentos */
     public function setTotal()
     {
         $total = 0;
+        /* calcula los impuestos totales */
+        $igv = 0;
 
         foreach ($this->productos_guardados as $product)
         {
@@ -104,35 +131,19 @@ class Productos extends Component
             for ($i=0; $i < $pfs->cantidad; $i++)
             { 
                 $total += $pfs->product_details->descuento();
+
+                $igv += $pfs->product_details->diferenciaConImpuestos();
             }
 
         }
 
         $this->total = $total;
-    }
-
-    public function render()
-    {
-        $productos_para_compra = [];
-
-        foreach ($this->productos_guardados as $product) {
-
-            $productos_para_compra[] = ProductForSale::with(['product_details'])->where('id', $product)->first();
-        }
-
-        $this->setTotal();
-
-        return view('livewire.dashboard.create.venta.productos', [
-            'products' => $this->products,
-            'users' => User::get(),
-            'productos_para_compra' => $productos_para_compra,
-        ]);
+        $this->igv = $igv;
     }
 
     public function retirarProductoParaCompra($item_id)
     {
         try {
-
 
             foreach ($this->productos_guardados as $index => $id)
             {
@@ -144,15 +155,15 @@ class Productos extends Component
                 }
             }
 
-        $this->emit('refreshComponent');
+            $this->emit('refreshComponent');
 
         } catch (\Exception $e) {
-            ddd($e->getMessage());   
+            Log::info($e->getMessage());   
         }
     }
 
-    public function submit()
+    public function getProducts()
     {
-        //
+        return Product::with(['product_presentations', 'product_details'])->withStock()->get();
     }
 }

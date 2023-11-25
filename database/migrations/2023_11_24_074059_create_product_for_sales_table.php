@@ -17,8 +17,6 @@ class CreateProductForSalesTable extends Migration
             $table->id();
             $table->foreign('product_detail_id')->references('id')->on('product_details');
             $table->unsignedBigInteger('product_detail_id');
-            $table->foreign('bill_id')->references('id')->on('bills');
-            $table->unsignedBigInteger('bill_id')->nullable();
             $table->integer('cantidad');
             //$table->timestamps();
         });

@@ -16,6 +16,8 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
 
     'reniec' => env('RENIEC_TOKEN', null),
+    
+    'nubefact' => env('NUBEFACT_TOKEN', null),
 
     /*
     |--------------------------------------------------------------------------

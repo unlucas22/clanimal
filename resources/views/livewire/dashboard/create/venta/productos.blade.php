@@ -50,9 +50,9 @@
                             @forelse($products as $product)
                             @forelse($product->product_details as $product_detail)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
                                         {{ $product->name }}
-                                    </th>
+                                    </td>
                                     <td class="px-6 py-4">
                                         {{ $product_detail->product_presentations->name }}
                                     </td>
@@ -90,7 +90,6 @@
                 <script>
                     function sumTotalFromAmount(id, precio)
                     {
-
                         let total = 0;
 
                         let cantidad = document.getElementById('amount-'+id).value;
@@ -124,7 +123,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Agregar Texto" wire:model.defer="dni" name="dni" min="8" max="8">
+                            <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="DNI" wire:model.defer="dni" name="dni" min="8" max="8">
                             <a class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer" wire:click="searchClient">Buscar</a>
                         </div>
                         @error('dni') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -135,8 +134,15 @@
                 </div>
             </div>
 
-            <form wire:submit.prevent="submit" class="space-y-10">
+            <form action="{{ route('dashboard.store.venta.productos') }}" method="POST" class="space-y-10">
                 @csrf
+
+                <input type="hidden" wire:model="client_id" name="client_id">
+
+                <input type="hidden" wire:model="productos_guardados" name="productos_guardados">
+
+                <input type="hidden" wire:model="igv" name="igv" value="0">
+                <input type="hidden" wire:model="total" name="total" value="0">
 
                 <div class="flex justify-between gap-8">
                     <div class="w-full">
@@ -165,10 +171,10 @@
                                     <th scope="col" class="px-6 py-3">
                                         Producto
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-1 text-center py-3">
                                         Precio unidad
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="text-center py-3">
                                         Cantidad
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -179,17 +185,17 @@
                             <tbody>
                                 @forelse($productos_para_compra as $producto)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:100px;">
                                             {{ $producto->product_details->products->name }}
                                         </th>
-                                        <td class="px-6 py-4">
+                                        <td class="px-1 text-center py-4">
                                             ${{ $producto->product_details->precio_venta_con_igv }}
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="py-4 text-center">
                                             {{ $producto->cantidad ?? 1 }}
                                         </td>
 
-                                        <td class="px-6 py-4">
+                                        <td class="py-4">
                                             <button type="button" wire:click="retirarProductoParaCompra({{ $producto->id }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Retirar</button>
                                         </td>
                                     </tr>
@@ -229,19 +235,19 @@
                 <div>
                     <div class="mb-4">Metodo de Pago</div>
 
-                    <div class="grid grid-cols-3 gap-4">
+                    <div class="flex justify-center gap-8">
                         
-                        <div class="flex items-center mb-4">
-                            <input checked id="default-radio-1" type="radio" value="" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <div class="flex items-center">
+                            <input checked id="default-radio-1" type="radio" value="efectivo" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Efectivo</label>
                         </div>
                         <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="default-radio-2" type="radio" value="tarjeta" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tarjeta de Debito/Credito</label>
                         </div>
 
                         <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="default-radio-2" type="radio" value="virtual" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yape/Plin/QR</label>
                         </div>
 

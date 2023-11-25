@@ -13,11 +13,37 @@ class ProductForSale extends Model
 
     protected $fillable = [
         'product_detail_id',
+        'bill_id',
         'cantidad',
     ];
 
     public function product_details()
     {
         return $this->belongsTo(ProductDetail::class, 'product_detail_id', 'id');
+    }
+
+    /* Calcular total con impuestos y descuentos */
+    public function getTotalByAmount()
+    {
+        $total = 0;
+
+        for ($i=0; $i < $this->cantidad; $i++)
+        { 
+            $total += $this->product_details->descuento();
+        }
+
+        return $total;
+    }
+
+    public function getSubTotalByAmount()
+    {
+        $total = 0;
+
+        for ($i=0; $i < $this->cantidad; $i++)
+        { 
+            $total += $this->product_details->precio_venta_sin_igv;
+        }
+
+        return $total;
     }
 }
