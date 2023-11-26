@@ -18,6 +18,7 @@ class Bill extends Model
         'razon_social',
         'ruc',
         'referente_id',
+        'enlace',
     ];
 
     /**
