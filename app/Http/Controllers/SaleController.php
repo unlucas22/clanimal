@@ -49,8 +49,8 @@ class SaleController extends Controller
                 return Redirect::back()->withErrors('Hubo un error con NubeFact');
             }
 
-            $bill = Bill::update([
-                'enlace' => $factura->enlace,
+            $bill = Bill::where('id', $bill->id)->update([
+                'enlace' => $factura['enlace'],
             ]);
 
             DB::commit();

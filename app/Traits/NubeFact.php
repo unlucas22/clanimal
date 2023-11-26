@@ -73,11 +73,7 @@ trait NubeFact {
 
         if (isset($leer_respuesta['errors']))
         {
-
             Log::info($leer_respuesta['errors']);
-
-            ddd($leer_respuesta);
-            return null;
         }
 
         return $leer_respuesta;
@@ -90,7 +86,7 @@ trait NubeFact {
         return array(
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "1",
-            "serie"                             => 'F' . rand(100, 999),
+            "serie"                             => 'FFF1',
             "numero"                => intval($bill->id),
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "6",
@@ -147,7 +143,7 @@ trait NubeFact {
         return array(
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "2",
-            "serie"                             => 'B' . rand(100, 999),
+            "serie"                             => 'BBB1',
             "numero"                => intval($bill->id) + 3,
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "1",
