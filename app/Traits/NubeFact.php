@@ -10,7 +10,6 @@ trait NubeFact {
 
     public function generarFactura($bill)
     {
-
         $products = [];
 
         foreach ($bill->product_for_sales as $product)
@@ -74,8 +73,10 @@ trait NubeFact {
 
         if (isset($leer_respuesta['errors']))
         {
+
             Log::info($leer_respuesta['errors']);
 
+            ddd($leer_respuesta);
             return null;
         }
 
@@ -89,8 +90,8 @@ trait NubeFact {
         return array(
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "1",
-            "serie"                             => "FFF".$bill->id+3,
-            "numero"                => $bill->id,
+            "serie"                             => 'F' . rand(100, 999),
+            "numero"                => intval($bill->id),
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "6",
             "cliente_numero_de_documento"   => $bill->ruc,
@@ -146,8 +147,8 @@ trait NubeFact {
         return array(
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "2",
-            "serie"                             => "BBB".$bill->id+3,
-            "numero"                => $bill->id + 3,
+            "serie"                             => 'B' . rand(100, 999),
+            "numero"                => intval($bill->id) + 3,
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "1",
             "cliente_numero_de_documento"   => $client->dni,
