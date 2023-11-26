@@ -145,9 +145,9 @@ trait NubeFact {
 
         return array(
             "operacion"             => "generar_comprobante",
-            "tipo_de_comprobante"               => "1",
+            "tipo_de_comprobante"               => "2",
             "serie"                             => "FFF1",
-            "numero"                => $bill->id,
+            "numero"                => $bill->id + 3,
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "1",
             "cliente_numero_de_documento"   => $client->dni,
