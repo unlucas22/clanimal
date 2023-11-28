@@ -44,7 +44,6 @@ class Client extends ModalComponent
             $this->status[] = $report->key;
         }
 
-
         /* Normalmente será 'default' la primera key */
         $this->status_id = $item->reports->key;
     }

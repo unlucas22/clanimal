@@ -8,12 +8,13 @@ use App\Traits\NubeFact;
 use Illuminate\Support\Facades\{Auth, Log};
 use DB;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\SaleStoreRequest;
 
 class SaleController extends Controller
 {
     use NubeFact;
 
-    public function store(Request $req)
+    public function store(SaleStoreRequest $req)
     {
         DB::beginTransaction();
 
@@ -36,6 +37,7 @@ class SaleController extends Controller
                 'igv' => $req->igv,
                 'razon_social' => $req->cliente_razon_social ?? null,
                 'ruc' => $req->cliente_ruc ?? null,
+                'tarjeta' => $req->tarjeta ?? null,
             ]);
 
             /* Asignar productos comprados a la venta */
@@ -57,7 +59,9 @@ class SaleController extends Controller
                 'enlace' => $enlace,
             ]);
             
-            return Redirect::to($enlace);
+            return redirect()->route('dashboard.show.venta.factura', [
+                'bill_id' => $bill->id
+            ]);
 
         } catch (\Exception $e) {
             DB::rollback();
@@ -70,7 +74,11 @@ class SaleController extends Controller
     {
         $bill = Bill::with(['clients', 'users', 'product_for_sales'])->where('id', $req->bill_id)->first();
 
-        return Redirect::to($bill->enlace);
+        return view('show.comprobante', [
+            'bill' => $bill
+        ]);
+
+        // Redirect::to($bill->enlace);
     }
 
     public function asignProductToBill($ids, $bill_id)

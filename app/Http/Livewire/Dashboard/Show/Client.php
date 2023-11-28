@@ -10,7 +10,8 @@ class Client extends Component
     public $pets;
     public $pet_photos_count;
 
-    public function mount($id){
+    public function mount($id)
+    {
         $client = \App\Models\Client::with(['pets', 'users', 'reports'])->where('id', $id)->firstOrFail();
 
         $this->client = $client;

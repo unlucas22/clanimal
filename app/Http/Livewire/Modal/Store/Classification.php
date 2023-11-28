@@ -42,7 +42,9 @@ class Classification extends ModalComponent
             return redirect(route('dashboard.classifications'));
         
         } catch (\Exception $e) {
+
             Log::error($e->getMessage());
+            
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'success',

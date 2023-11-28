@@ -13,6 +13,7 @@ class Productos extends Component
     public $client_razon_social;
     public $client_ruc;
     public $client_name;
+    public $client_tarjeta;
 
     /* Mascotas del Cliente */
     public $pets = [];
@@ -29,6 +30,7 @@ class Productos extends Component
     public $total = 0;
     public $igv = 0;
     public $factura = true;
+    public $radio = 'efectivo';
 
     /* Productos */
     public $products = [];

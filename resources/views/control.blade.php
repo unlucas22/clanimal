@@ -1,19 +1,4 @@
 <x-guest-layout>
-
-    <x-slot name="head">
-        {{-- 
-    @php($public_key = '6Lf391shAAAAAEij46zNjIHm2O8e6oYXPP56Llzk')
-    <script type="text/javascript">
-        var onloadGReCaptcha = function() {
-            grecaptcha.render('recaptcha', {
-                'sitekey' : '{{ $public_key }}',
-                'theme' : 'default'
-            });
-        };
-    </script>
-     --}}
-    </x-slot>
-
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-logo/>
@@ -54,6 +39,4 @@
         }
     </script>
     @endif
-    {{-- 
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadGReCaptcha&render=explicit&?hl=es" async defer></script>  --}}
 </x-guest-layout>

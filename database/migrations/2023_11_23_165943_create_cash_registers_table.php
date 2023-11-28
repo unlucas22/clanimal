@@ -16,6 +16,11 @@ class CreateCashRegistersTable extends Migration
     {
         Schema::create('cash_registers', function (Blueprint $table) {
             $table->id();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id');
+            $table->double('amount')->default(0);
+            $table->enum('status', ['validacion', 'completado', 'rechazado'])->default('validacion');
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }

@@ -29,9 +29,7 @@ class Controls extends Component
             $qry->when($this->input !== '', function($filter) {
                 $filter->where('users.name', 'like', '%'.$this->input.'%');
             });
-        })/*->when($this->input !== '', function($qry) {
-            $qry->where('ip', 'like', '%'.$this->input.'%')->orWhere('created_at', 'like', '%'.$this->input.'%');
-        })*/->orderBy('created_at', 'desc')->paginate($this->rows);
+        })->orderBy('created_at', 'desc')->paginate($this->rows);
 
         $this->table = 'controls';
 

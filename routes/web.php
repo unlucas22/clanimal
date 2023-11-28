@@ -31,8 +31,11 @@ Route::middleware([
             Route::view('/roles', 'dashboard')->name('dashboard.roles');
             Route::view('/clients', 'dashboard')->name('dashboard.clients');
             Route::view('/controls', 'dashboard')->name('dashboard.controls');
+            Route::view('/cajeros', 'dashboard')->name('dashboard.cajeros');
         });
 
+        Route::view('/proveedores', 'dashboard')->name('dashboard.suppliers');
+        Route::view('/compras', 'dashboard')->name('dashboard.compras');
         Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
         Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
         Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
@@ -101,12 +104,13 @@ Route::middleware([
 
         Route::post('venta/productos', [SaleController::class, 'store'])->name('dashboard.store.venta.productos');
 
-        Route::get('venta/factura/{bill_id}', [SaleController::class, 'show'])->name('dashboard.show.venta.factura');
+        Route::get('comprobante/{bill_id}', [SaleController::class, 'show'])->name('dashboard.show.venta.factura');
     });
 
     Route::view('panel', 'panel')->name('panel.overview');
-
 });
+
+
 
 /* QR de colaboradores */
 

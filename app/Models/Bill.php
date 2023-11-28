@@ -19,6 +19,7 @@ class Bill extends Model
         'ruc',
         'referente_id',
         'enlace',
+        'tarjeta',
     ];
 
     /**

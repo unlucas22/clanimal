@@ -25,5 +25,4 @@
         </div>
         
     </x-jet-authentication-card>
-    <script src="https://www.google.com/recaptcha/api.js?onload=onloadGReCaptcha&render=explicit&?hl=es" async defer></script>
 </x-guest-layout>

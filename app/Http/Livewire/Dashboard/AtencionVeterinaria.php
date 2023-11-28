@@ -21,10 +21,8 @@ class AtencionVeterinaria extends Component
 
     public function render()
     {
-        $items = Shift::with(['users', 'pets', 'services'])->whereHas('services', function($query)
-        {
+        $items = Shift::with(['users', 'pets', 'services'])->whereHas('services', function($query) {
             $query->where('name', 'Atención Veterinaria');
-
         })->orderBy('updated_at', 'desc')->paginate($this->rows);
 
         $this->table = 'shifts';

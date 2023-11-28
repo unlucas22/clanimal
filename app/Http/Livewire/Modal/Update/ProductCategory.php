@@ -13,6 +13,11 @@ class ProductCategory extends ModalComponent
     
     public $item_id;
 
+    public $rules = [
+        'name' => 'required|min:2|max:50',
+        'description' => 'nullable|max:255',
+    ];
+
     public function mount($item_id)
     {
         $model = \App\Models\ProductCategory::where('id', $item_id)->firstOrFail();
@@ -21,11 +26,6 @@ class ProductCategory extends ModalComponent
         $this->description = $model->description;
         $this->active = $model->active;
     }
-
-    public $rules = [
-        'name' => 'required|min:2|max:50',
-        'description' => 'nullable|max:255',
-    ];
 
     public function render()
     {

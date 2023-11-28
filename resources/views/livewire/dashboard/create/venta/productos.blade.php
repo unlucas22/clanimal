@@ -1,9 +1,4 @@
 <div>
-    <div class="text-center text-red-500 font-semibold">
-        @if($errors->any())
-        <h4>{{$errors->first()}}</h4>
-        @endif
-    </div>
     <div class="flex justify-between gap-8">
         <div class="w-full">
             
@@ -16,7 +11,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
-                    <input wire:model="search" type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar..." required>
+                    <input wire:model="search" type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar..." required minlength="8" maxlength="8">
                     <button wire:click="buscarProductos" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
                 </div>
             </div>
@@ -112,6 +107,11 @@
 
         </div>
         <div class="w-full">
+            @if($errors->any())
+            <div class="text-center text-red-500 font-semibold pb-4">
+                <h4>{{$errors->first()}}</h4>
+            </div>
+            @endif
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     Compras realizadas
@@ -243,21 +243,25 @@
                     <div class="flex justify-center gap-8">
                         
                         <div class="flex items-center">
-                            <input checked id="default-radio-1" type="radio" value="efectivo" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input checked id="default-radio-1" type="radio" wire:model="radio" value="efectivo" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Efectivo</label>
                         </div>
                         <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="tarjeta" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="default-radio-2" type="radio" value="tarjeta" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tarjeta de Debito/Credito</label>
                         </div>
 
                         <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="virtual" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <input id="default-radio-2" type="radio" value="virtual" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yape/Plin/QR</label>
                         </div>
 
                     </div>
                 </div>
+
+                @if($radio == 'tarjeta')
+                    <x-form.input :label="'Tarjeta'" :name="'client_tarjeta'" :model="'client_tarjeta'" :placeholder="''" :required="'required'" />
+                @endif
 
                 <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendedor Referente</div>
                 

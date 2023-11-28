@@ -31,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->string('name', 200);
             $table->double('precio_compra');
             $table->double('precio_venta');
-            $table->integer('stock')->default(1);
+            //$table->integer('stock')->default(1);
 
             $table->integer('amount_presentation')->default(1);
 

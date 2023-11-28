@@ -29,6 +29,26 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="{{ route('dashboard.compras') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.compras')
+                            ])>
+                            <x-icons.heroicons.money :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Compras</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.suppliers') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.suppliers')
+                            ])>
+                            <x-icons.heroicons.db />
+                            <span class="ml-3">Proveedores</span>
+                        </a>
+                    </li>
+
                     @if(Auth::user()->role_id == 1)
                     <x-hr :content="'Sistema'" />
 
@@ -161,6 +181,16 @@
                     {{-- General --}}
 
                     @if(Auth::user()->role_id == 1)
+
+                    <li>
+                        <a href="{{ route('dashboard.cajeros') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.cajeros')
+                            ])>
+                            <x-icons.heroicons.users :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Cajeros</span>
+                        </a>
+                    </li>
 
                     <li>
                         <a href="{{ route('dashboard.services') }}"  @class([

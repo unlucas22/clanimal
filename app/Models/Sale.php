@@ -51,4 +51,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');
     }
+
+    public function scopeActive($qry)
+    {
+        return $qry->where('active', true);
+    }
 }

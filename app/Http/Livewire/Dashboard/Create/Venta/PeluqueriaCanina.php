@@ -25,6 +25,12 @@ class PeluqueriaCanina extends Component
 
     public $listeners = ['enviarCaja'];
 
+    public $rules = [
+        'description' => 'required|string',
+        'price' => 'required',
+        'user_id' => 'required',
+    ];
+
     public function mount(Request $req)
     {
 
@@ -85,12 +91,6 @@ class PeluqueriaCanina extends Component
             'presales' => $presales,
         ]);
     }
-
-    public $rules = [
-        'description' => 'required|string',
-        'price' => 'required',
-        'user_id' => 'required',
-    ];
 
     public function agregarItem()
     {

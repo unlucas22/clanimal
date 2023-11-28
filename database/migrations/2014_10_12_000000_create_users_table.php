@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles');
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies');
+            $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

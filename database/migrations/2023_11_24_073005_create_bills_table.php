@@ -21,6 +21,14 @@ class CreateBillsTable extends Migration
             $table->unsignedBigInteger('client_id');
             $table->boolean('active')->default(false);
             $table->enum('metodo_de_pago', ['efectivo', 'tarjeta', 'virtual'])->default('efectivo');
+            $table->foreign('referente_id')->references('id')->on('users');
+            $table->unsignedBigInteger('referente_id')->nullable();
+            $table->double('total');
+            $table->double('igv');
+            $table->string('razon_social')->nullable();
+            $table->string('ruc')->nullable();
+            $table->string('enlace')->nullable();
+            $table->string('tarjeta')->nullable();
             $table->timestamps();
         });
     }

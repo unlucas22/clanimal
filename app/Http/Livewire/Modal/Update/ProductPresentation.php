@@ -13,6 +13,11 @@ class ProductPresentation extends ModalComponent
     
     public $item_id;
 
+    public $rules = [
+        'name' => 'required|min:2|max:50',
+        'description' => 'nullable|max:255',
+    ];
+    
     public function mount($item_id)
     {
         $model = \App\Models\ProductPresentation::where('id', $item_id)->firstOrFail();
@@ -22,10 +27,6 @@ class ProductPresentation extends ModalComponent
         $this->active = $model->active;
     }
 
-    public $rules = [
-        'name' => 'required|min:2|max:50',
-        'description' => 'nullable|max:255',
-    ];
 
     public function render()
     {

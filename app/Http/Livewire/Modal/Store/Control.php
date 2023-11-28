@@ -10,6 +10,16 @@ use BrowserDetect;
 
 class Control extends ModalComponent
 {
+    public $dni;
+    public $motivo_id;
+    public $company_id;
+
+    protected $rules = [
+        'dni' => 'required|min:8|max:50',
+        'motivo_id' => 'required',
+        'company_id' => 'required',
+    ];
+
     public function render()
     {
         return view('livewire.modal.store.control', [
@@ -24,16 +34,6 @@ class Control extends ModalComponent
         $this->company_id = (Company::first())->id;
     }
 
-    public $dni;
-    public $motivo_id;
-    public $company_id;
-
-    protected $rules = [
-        'dni' => 'required|min:8|max:50',
-        'motivo_id' => 'required',
-        'company_id' => 'required',
-    ];
-
     public function submit(Request $req)
     {
         $this->validate();
@@ -42,6 +42,7 @@ class Control extends ModalComponent
 
             $user = User::where('cedula', $this->dni)->firstOrFail();
 
+            /* Juntar todos los datos del dispositivo en un string */
             $device = 'Navegador: '.BrowserDetect::browserName().' - SO: '.BrowserDetect::platformName().' - Dispositivo: '.BrowserDetect::deviceFamily();
 
             \App\Models\Control::create([
@@ -66,7 +67,9 @@ class Control extends ModalComponent
             return redirect(route('dashboard.controls'));
         
         } catch (\Exception $e) {
+
             Log::error($e->getMessage());
+            
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
                 'icon' => 'success',

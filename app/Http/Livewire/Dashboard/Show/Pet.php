@@ -18,8 +18,8 @@ class Pet extends Component
         'note' => 'required|min:1',
     ];
 
-    public function mount(Request $req) {
-        
+    public function mount(Request $req)
+    {
         if($req->hashid == null)
         {
             return back();

@@ -37,9 +37,6 @@ class Control extends ModalComponent
 
     public function render()
     {
-        /* dejarlo por el momento como testeo */
-        // $users = User::get();
-
         return view('livewire.modal.update.control');
     }
 

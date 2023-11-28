@@ -53,6 +53,7 @@ class ProductBrand extends ModalComponent
             return redirect()->route('product.brands');
             
         } catch (\Exception $e) {
+            
             Log::info($e->getMessage());
 
             $this->dispatchBrowserEvent('swal', [

@@ -22,6 +22,14 @@ class AtencionVeterinaria extends Component
     public $shift_id;
     public $sale_id;
 
+    public $rules = [
+        'description' => 'required|string',
+        'price' => 'required',
+        'user_id' => 'required',
+    ];
+
+    public $listeners = ['enviarCaja'];
+
     public function mount(Request $req)
     {
         $shift = Shift::with('pets')->hashid($req->hashid)->firstOrFail();
@@ -80,12 +88,6 @@ class AtencionVeterinaria extends Component
         ]);
     }
 
-    public $rules = [
-        'description' => 'required|string',
-        'price' => 'required',
-        'user_id' => 'required',
-    ];
-
     public function agregarItem()
     {
         $this->validate();
@@ -132,8 +134,6 @@ class AtencionVeterinaria extends Component
 
         $this->emit('refreshComponent');
     }
-
-    public $listeners = ['enviarCaja'];
 
     public function enviarCaja()
     {

@@ -35,6 +35,7 @@ class ProductForSale extends Model
         return $total;
     }
 
+    /* obtener subtotal, sin impuestos */
     public function getSubTotalByAmount()
     {
         $total = 0;

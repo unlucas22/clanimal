@@ -8,13 +8,13 @@ use App\Traits\HasStatus;
 class ShiftStatus extends ModalComponent
 {
     use HasStatus;
-
+    
+    public $item_id;
+    public $status_id;
+    
     protected $listeners = [
        'statusSelected'
     ];
-
-    public $item_id;
-    public $status_id;
 
     public function mount($item_id, $status_id)
     {
