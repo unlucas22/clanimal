@@ -17,10 +17,10 @@ class CreateProductsTable extends Migration
             $table->id();
             
             $table->foreign('product_category_id')->references('id')->on('product_categories');
-            $table->unsignedBigInteger('product_category_id');
+            $table->unsignedBigInteger('product_category_id')->nullable();
             
             $table->foreign('product_brand_id')->references('id')->on('product_brands');
-            $table->unsignedBigInteger('product_brand_id');
+            $table->unsignedBigInteger('product_brand_id')->nullable();
 
             $table->foreign('product_presentation_id')->references('id')->on('product_presentations');
             $table->unsignedBigInteger('product_presentation_id')->nullable();
@@ -42,6 +42,7 @@ class CreateProductsTable extends Migration
             $table->timestamp('fecha_de_vencimiento')->nullable();
             $table->integer('alerta_stock')->nullable();
             $table->string('photo_path', 2048)->nullable();
+            
             $table->timestamps();
         });
     }

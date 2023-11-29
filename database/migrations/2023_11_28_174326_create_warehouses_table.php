@@ -15,8 +15,8 @@ class CreateWarehousesTable extends Migration
     {
         Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
-            $table->foreign('company_id')->references('id')->on('companies');
-            $table->unsignedBigInteger('company_id');
+            // $table->foreign('company_id')->references('id')->on('companies');
+            // $table->unsignedBigInteger('company_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
@@ -25,8 +25,6 @@ class CreateWarehousesTable extends Migration
             $table->double('total');
             $table->string('factura');
             $table->timestamp('fecha');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('product_id')->nullable();
             $table->timestamps();
         });
     }

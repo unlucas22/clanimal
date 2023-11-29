@@ -3,13 +3,100 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Product, ProductBrand, ProductCategory, ProductDetail, ProductPresentation};
+use App\Models\{Product, ProductBrand, ProductCategory, ProductDetail, ProductPresentation, Warehouse, ProductInWarehouse};
 use Illuminate\Support\Facades\{Auth, Log};
 use Carbon\Carbon;
 use DB;
+use App\Http\Requests\ProductStoreRequest;
+
 
 class ProductController extends Controller
 {
+    /**
+     * Compras realizadas a proveedor
+     * */
+    public function storeWarehouse(ProductStoreRequest $req)
+    {
+        DB::beginTransaction();
+
+        ddd($req);
+
+        try {
+            $warehouse = Warehouse::create([
+                'user_id' => Auth::user()->id,
+                'supplier_id' => $req->supplier_id,
+                // 'stock' => $req->stock, Actualizar esto al momento de asignar a productos
+                'fecha' => $req->fecha,
+                'factura' => $req->factura,
+                'total' => $req->total,
+                'status' => $req->status ?? 'pendiente',
+            ]);
+
+            /* Asignar productos comprados al almacen */
+            $products = [];
+
+            for ($i=0; $i < intval($req->product_details); $i++)
+            { 
+                $product = Product::where('id', $id)->update([
+                    'name' => $req->product_name[$i],
+                    // 'product_brand_id',
+                    // 'product_category_id',
+                    'user_id' => Auth::user()->id,
+                    'precio_compra' => $req->precio_compra[$i],
+                    'precio_venta' => $req->precio_venta[$i],
+                    // 'stock' => $req->stock[$i],
+                ]);
+
+                $products_in_warehouse = ProductInWarehouse::create([
+                    'product_id' => $product->id,
+                    'warehouse_id' => $warehouse->id,
+                ]);
+            }
+
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            Log::info($e->getMessage());
+
+            ddd($e->getMessage());
+
+            DB::rollback();
+        }
+    }
+
+    /**
+     * Se crea el producto con los detalles basicos para despues ser completados en productos
+     * */
+    public function asignProductToWarehouse($ids, $warehouse_id)
+    {
+        $products = [];
+
+        // en un principio no se utilizaria en el return
+        $products_in_warehouse = [];
+
+        $ids_array = explode(',', $ids);
+
+        // Eliminar espacios en blanco y asegurarse de que cada elemento sea único
+        $unique_ids = array_map('trim', array_unique($ids_array));
+
+        foreach ($unique_ids as $id)
+        {
+            
+
+            $products[] = Product::where('id', $id)->first();
+
+            // asignar al warehouse
+            $products_in_warehouse[] = ProductInWarehouse::create([
+                'product_id' => $product->id,
+                'warehouse_id' => $warehouse_id,
+            ]);
+
+        }
+
+        return [$products, $products_in_warehouse];
+    }
+
     public function store(Request $req)
     {
         DB::beginTransaction();

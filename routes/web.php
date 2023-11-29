@@ -56,6 +56,12 @@ Route::middleware([
             return view('create.product');
         })->name('dashboard.create.product');
 
+        Route::get('/create/warehouse', function(){
+            return view('create.warehouse');
+        })->name('dashboard.create.warehouse');
+
+        Route::post('store/warehouse', [ProductController::class, 'storeWarehouse'])->name('dashboard.store.warehouse');
+
         Route::post('/store/product', [ProductController::class, 'store'])->name('dashboard.store.product');
 
         /* Configuracion de producto */

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier};
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -85,6 +85,13 @@ class DatabaseSeeder extends Seeder
         'Paquete',
     ];
 
+    public $suppliers = [
+        'Prueba',
+        'Test Inc',
+        'Lorem Ipsum',
+        'Sit Amet',
+    ];
+
     /**
      * Seed the application's database.
      *
@@ -161,6 +168,23 @@ class DatabaseSeeder extends Seeder
         if(!ProductPresentation::count())
         {
             $this->createPresentations();
+        }
+
+        if(!Supplier::count())
+        {
+            $this->createSuppliers();
+        }
+    }
+
+    protected function createSuppliers()
+    {
+        foreach ($this->suppliers as $supplier)
+        {
+            Supplier::create([
+                'name' => $supplier,
+                'ruc' => random_int(10000000000, 99999999999),
+                'phone' => '11'.random_int(10000000, 99999999),
+            ]);
         }
     }
 

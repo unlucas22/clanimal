@@ -2146,6 +2146,9 @@ input:checked + .toggle-bg {
 .flex-grow {
   flex-grow: 1;
 }
+.border-collapse {
+  border-collapse: collapse;
+}
 .origin-top {
   transform-origin: top;
 }
@@ -2264,11 +2267,17 @@ input:checked + .toggle-bg {
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
+.grid-cols-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
 .grid-cols-6 {
   grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 .grid-cols-7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+.grid-cols-9 {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
 }
 .flex-row {
   flex-direction: row;
@@ -2784,6 +2793,9 @@ input:checked + .toggle-bg {
 }
 .pt-10 {
   padding-top: 2.5rem;
+}
+.pt-16 {
+  padding-top: 4rem;
 }
 .pt-2 {
   padding-top: 0.5rem;

@@ -44,5 +44,5 @@ class SaleStoreRequest extends FormRequest
             'radio.required' => __('El metodo de pago es obligatorio'),
             'productos_guardados.required' => __('Tiene que agregar productos en la compra'),
         ];
-     }
+    }
 }

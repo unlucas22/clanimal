@@ -26,7 +26,6 @@ class Product extends Model
         'fecha_de_vencimiento',
         'alerta_stock',
         'photo_path',
-        'amount',
         'product_presentation_id',
         'amount_presentation',
     ];
@@ -95,6 +94,10 @@ class Product extends Model
         return doubleval( ($ganancia / $this->precio_compra) * 100);
     }
 
+    public function product_in_warehouses()
+    {
+        return $this->hasMany(ProductInWarehouse::class);
+    }
 
     public function getHashidAttribute()
     {

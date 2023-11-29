@@ -34,4 +34,9 @@ class ProductBrand extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function scopeActive($qry)
+    {
+        return $qry->where('active', 1);
+    }
 }

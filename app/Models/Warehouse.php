@@ -15,7 +15,7 @@ class Warehouse extends Model
     protected $fillable = [
         'user_id',
         'supplier_id',
-        'company_id',
+        //'company_id',
         'product_id',
         'stock',
         'fecha',
@@ -40,9 +40,13 @@ class Warehouse extends Model
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    public function products()
+    /**
+     * Con esto se asigna el nuevo producto al warehouse, 
+     * en vez de tener un nullable en products del warehouse
+     * */
+    public function product_in_warehouses()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->hasMany(ProductInWarehouse::class);
     }
 
     //$table->enum('status', ['crédito', 'pendiente' ,'cancelado'])->default('pendiente');

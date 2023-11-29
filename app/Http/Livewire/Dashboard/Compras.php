@@ -10,7 +10,7 @@ class Compras extends Component
 {
     use HasTable;
 
-    public $title = 'Configuración Cajas';
+    public $title = 'Compras';
 
     public $filters = [
         'name' => '',
@@ -20,19 +20,23 @@ class Compras extends Component
     public $columns = [
         'id' => 'ID',
         'fecha' => 'Fecha de recepción',
+        'factura' => 'Factura',
+        'total' => 'Monto Total',
+        'status' => 'Estado'
     ];
 
     public function render()
     {
-        $items = Warehouse::with(['users', 'companies', 'suppliers'])->when($this->name !== '', function($qry) {
+        $items = Warehouse::with(['products', 'companies', 'suppliers'])->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
         })->orderBy('updated_at', 'desc')->paginate($this->rows);
 
-        $this->table = 'cashers';
+        $this->table = 'warehouses';
 
         $this->relationships = [
-            // 'Cajera ',
-            // 'Local ',
+            'Proveedor ',
+            'Local',
+            'Producto',
         ];
 
         $this->updated_at = false;
@@ -42,8 +46,8 @@ class Compras extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            // 'action_name' => 'cajeros',
-            // 'head_name' => 'cajeros',
+            'action_name' => 'warehouse',
+            'head_name' => 'warehouse',
         ]);
     }
 }
