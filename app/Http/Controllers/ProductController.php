@@ -19,49 +19,68 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
 
-        ddd($req);
-
         try {
+
+            $total = 0;
+
+            for ($i=0; $i < intval($req->product_details); $i++)
+            {
+                $total += $req->precio_venta_details[$i] + ($req->precio_venta_details[$i] * (18/100));
+            }
+
+            $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
+
             $warehouse = Warehouse::create([
                 'user_id' => Auth::user()->id,
                 'supplier_id' => $req->supplier_id,
-                // 'stock' => $req->stock, Actualizar esto al momento de asignar a productos
-                'fecha' => $req->fecha,
+                'fecha' => $fecha,
                 'factura' => $req->factura,
-                'total' => $req->total,
                 'status' => $req->status ?? 'pendiente',
             ]);
 
             /* Asignar productos comprados al almacen */
             $products = [];
+            $product_details = [];
+
+            $products_in_warehouse = [];
 
             for ($i=0; $i < intval($req->product_details); $i++)
-            { 
-                $product = Product::where('id', $id)->update([
+            {
+                $product = Product::create([
                     'name' => $req->product_name[$i],
-                    // 'product_brand_id',
-                    // 'product_category_id',
                     'user_id' => Auth::user()->id,
                     'precio_compra' => $req->precio_compra[$i],
-                    'precio_venta' => $req->precio_venta[$i],
-                    // 'stock' => $req->stock[$i],
+                    'precio_venta' => $req->precio_venta_details[$i],
                 ]);
 
-                $products_in_warehouse = ProductInWarehouse::create([
+                $product_details[] = ProductDetail::create([
+                    'product_id' => $product->id,
+                    'amount' => $req->amount_details[$i],
+                    'product_presentation_id' => $req->product_presentation_details_id[$i],
+                    'discount' => $req->discount_details[$i],
+                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                    'precio_venta_con_igv' => $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18)
+                ]);
+
+                $products_in_warehouse[] = ProductInWarehouse::create([
                     'product_id' => $product->id,
                     'warehouse_id' => $warehouse->id,
                 ]);
+
+                $products[] = $product;
             }
 
             DB::commit();
+
+            return redirect()->route('dashboard.compras');
 
         } catch (\Exception $e) {
 
             Log::info($e->getMessage());
 
-            ddd($e->getMessage());
-
             DB::rollback();
+
+            ddd($e->getMessage());
         }
     }
 
@@ -82,8 +101,6 @@ class ProductController extends Controller
 
         foreach ($unique_ids as $id)
         {
-            
-
             $products[] = Product::where('id', $id)->first();
 
             // asignar al warehouse

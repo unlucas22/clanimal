@@ -11,18 +11,15 @@ class Warehouse extends Component
     public $factura;
     public $supplier_id;
 
-    public $total = 0;
-    
+    public $status = 'crédito';
+
     public $name;
     public $palabras_clave;
     public $barcode = null;
 
     public $amount = 1;
     public $amount_presentation = 1;
-
-    public $precio_compra;
-    public $alerta_stock = 1;
-
+    
     public $product_presentation_id;
 
     /* foreach por cada id */
@@ -33,15 +30,23 @@ class Warehouse extends Component
         1, 2
     ];
 
+    /* Descuento */
     public $discount_details = [
         0, 0
     ];
 
+    /* Precio venta */
     public $precio_venta_details = [
         0, 0
     ];
 
+    /* Precio de cada venta con impuestos */
     public $precio_venta_total = [
+        0, 0
+    ];
+
+    /* Precio de cada producto */
+    public $precio_compra = [
         0, 0
     ];
 
@@ -63,7 +68,6 @@ class Warehouse extends Component
         'amount' => 'required',
         'amount_presentation' => 'required',
         'precio_compra' => 'required',
-        'alerta_stock' => 'nullable',
     ];
 
     public function agregarPrecio()

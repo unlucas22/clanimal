@@ -37,7 +37,7 @@ class CreateProductsTable extends Migration
 
             $table->boolean('active')->default(true);
 
-            $table->string('barcode')->unique();
+            $table->string('barcode')->nullable();
             $table->text('palabras_clave')->nullable();
             $table->timestamp('fecha_de_vencimiento')->nullable();
             $table->integer('alerta_stock')->nullable();

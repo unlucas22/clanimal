@@ -28,7 +28,6 @@ class ProductStoreRequest extends FormRequest
             'product_details' => 'required',
             'fecha' => 'required',
             'factura' => 'required',
-            'total' => 'required',
         ];
     }
 

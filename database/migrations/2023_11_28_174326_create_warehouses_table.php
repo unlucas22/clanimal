@@ -22,7 +22,6 @@ class CreateWarehousesTable extends Migration
             $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->unsignedBigInteger('supplier_id');
             $table->enum('status', ['crédito', 'pendiente' ,'cancelado'])->default('pendiente');
-            $table->double('total');
             $table->string('factura');
             $table->timestamp('fecha');
             $table->timestamps();

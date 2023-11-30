@@ -15,9 +15,6 @@ class Warehouse extends Model
     protected $fillable = [
         'user_id',
         'supplier_id',
-        //'company_id',
-        'product_id',
-        'stock',
         'fecha',
         'factura',
         'total',
@@ -33,11 +30,6 @@ class Warehouse extends Model
     public function suppliers()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
-    }
-
-    public function companies()
-    {
-        return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
     /**

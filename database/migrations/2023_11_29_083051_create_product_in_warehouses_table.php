@@ -20,7 +20,7 @@ class CreateProductInWarehousesTable extends Migration
             $table->unsignedBigInteger('warehouse_id');
 
             $table->foreign('product_id')->references('id')->on('products');
-            $table->unsignedBigInteger('product_id');            
+            $table->unsignedBigInteger('product_id');
 
             $table->timestamps();
         });

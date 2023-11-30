@@ -12,6 +12,7 @@ class ProductInWarehouse extends Model
     protected $fillable = [
         'warehouse_id',
         'product_id',
+        'stock',
     ];
 
     public function products()

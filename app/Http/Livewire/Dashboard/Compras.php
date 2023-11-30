@@ -27,16 +27,15 @@ class Compras extends Component
 
     public function render()
     {
-        $items = Warehouse::with(['products', 'companies', 'suppliers'])->when($this->name !== '', function($qry) {
+        $items = Warehouse::with('suppliers')->withCount('product_in_warehouses')->when($this->name !== '', function($qry) {
             $qry->where('name', 'like', '%'.$this->name.'%');
         })->orderBy('updated_at', 'desc')->paginate($this->rows);
 
         $this->table = 'warehouses';
 
         $this->relationships = [
-            'Proveedor ',
-            'Local',
-            'Producto',
+            'Proveedor',
+            'Productos',
         ];
 
         $this->updated_at = false;
