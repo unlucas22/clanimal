@@ -24,9 +24,6 @@ class Sedes extends Component
     ];
 
     public $name = '';
-    public $address = '';
-    public $email = '';
-    public $phone = '';
 
     protected $listeners = ['deleteItem' => 'delete'];
 
