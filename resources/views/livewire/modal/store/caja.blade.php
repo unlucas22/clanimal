@@ -46,7 +46,7 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-center px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
+        <div class="px-4 py-3 text-right sm:px-6 sm:rounded-bl-md sm:rounded-br-md">
             <x-jet-button>
                 Asignar
             </x-jet-button>

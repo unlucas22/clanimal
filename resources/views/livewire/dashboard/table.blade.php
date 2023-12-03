@@ -89,7 +89,7 @@
                     >
                         @foreach($columns as $index => $key)
                             <td class="{{ $td }}">
-                                {{ $item->$index }}
+                                {!! $item->$index !!}
                             </td>
                         @endforeach
 
@@ -162,4 +162,13 @@
             </div>
         </div>
     </div>
+    {{-- 
+        <div class="flex items-center">
+             <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  Activo
+        </div>
+
+        <div class="flex items-center">
+             <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Inactivo
+        </div>'
+     --}}
 </div>
