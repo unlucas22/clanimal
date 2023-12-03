@@ -23,6 +23,16 @@ class Services extends Component
 
     public $name = '';
 
+
+    protected $listeners = ['deleteItem' => 'delete'];
+
+    public function delete($item_id)
+    {
+        $this->deleteItem($item_id);
+
+        $this->emit('refreshComponent');
+    }
+
     public function render()
     {
         $items = Service::withCount(['shifts'])->when($this->name !== '', function($qry) {

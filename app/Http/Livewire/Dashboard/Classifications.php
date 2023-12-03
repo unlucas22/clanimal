@@ -21,6 +21,15 @@ class Classifications extends Component
         'name' => 'Titulo especial',
     ];
 
+    protected $listeners = ['deleteItem' => 'delete'];
+
+    public function delete($item_id)
+    {
+        $this->deleteItem($item_id);
+
+        $this->emit('refreshComponent');
+    }
+
     public $key = '';
 
     public function render()

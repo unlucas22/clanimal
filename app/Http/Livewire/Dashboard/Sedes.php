@@ -28,6 +28,15 @@ class Sedes extends Component
     public $email = '';
     public $phone = '';
 
+    protected $listeners = ['deleteItem' => 'delete'];
+
+    public function delete($item_id)
+    {
+        $this->deleteItem($item_id);
+
+        $this->emit('refreshComponent');
+    }
+
     public function render()
     {
         $items = Company::withCount('users')->when($this->name !== '', function($qry) {

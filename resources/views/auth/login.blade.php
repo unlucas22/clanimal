@@ -1,5 +1,18 @@
 <x-app-layout>
 
+<x-slot name="head">
+    @php($public_key = '6Lf391shAAAAAEij46zNjIHm2O8e6oYXPP56Llzk')
+    <!-- recaptcha -->
+    <script type="text/javascript">
+        var onloadGReCaptcha = function() {
+            grecaptcha.render('recaptcha', {
+                'sitekey' : '{{ $public_key }}',
+                'theme' : 'default'
+            });
+        };
+    </script>
+</x-slot>
+
     <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
         
         <a href="{{ url('/') }}" class="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white">
@@ -32,6 +45,11 @@
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
                     <input type="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" name="password" required autocomplete="current-password">
                 </div>
+
+                <div class="mt-4 flex justify-center">
+                    <div id="recaptcha" style="max-width: 300px;"></div>
+                </div>
+                
                 <div class="flex items-start">
                     <div class="flex items-center h-5">
                         <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:focus:ring-primary-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" name="remember">
@@ -54,5 +72,7 @@
         @endif
 
     </div>
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadGReCaptcha&render=explicit&?hl=es" async defer></script>
 
 </x-app-layout>

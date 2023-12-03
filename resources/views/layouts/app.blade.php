@@ -27,7 +27,7 @@
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        <script>
+        <style>
 
             @font-face {
                 font-family: Inter;
@@ -36,7 +36,7 @@
             html{
                 -webkit-text-size-adjust:100%;font-feature-settings:normal;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;
             }
-        </script>
+        </style>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -54,6 +54,34 @@
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         <div class="flex justify-end">
                             {{ $header }}
+
+                            <div style="margin-left: 50px;">
+                                <div class="flex items-center ml-3">
+                                    <div>
+                                      <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button-2" aria-expanded="false" data-dropdown-toggle="dropdown-2">
+                                        <span class="sr-only">Open user menu</span>
+                                        <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="user photo">
+                                      </button>
+                                    </div>
+                                    
+                                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-2" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(1652.5px, 61.25px);" data-popper-placement="bottom">
+                                      <div class="px-4 py-3" role="none">
+                                        <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                          {{ Auth::user()->name }}
+                                        </p>
+                                        <p class="text-sm font-semibold text-gray-900 truncate dark:text-gray-300" role="none">
+                                          {{ Auth::user()->email }}
+                                        </p>
+                                      </div>
+                                      <ul class="py-1" role="none">
+                                        <li>
+                                          <a href="{{ url('user/profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Configuración</a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+
+                            </div>
                         </div>
                     </div>
                 </header>

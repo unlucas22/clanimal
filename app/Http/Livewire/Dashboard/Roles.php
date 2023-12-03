@@ -18,8 +18,17 @@ class Roles extends Component
 
     public $columns = [
         'name' => 'Titulo',
-        'description' => 'Descripción'
+        //'description' => 'Descripción'
     ];
+
+    protected $listeners = ['deleteItem' => 'delete'];
+
+    public function delete($item_id)
+    {
+        $this->deleteItem($item_id);
+
+        $this->emit('refreshComponent');
+    }
 
     public $name = '';
 
