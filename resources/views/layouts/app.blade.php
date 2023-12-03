@@ -95,7 +95,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main style="padding-top:45px">
                 {{ $slot }}
             </main>
 
