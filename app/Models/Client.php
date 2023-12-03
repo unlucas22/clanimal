@@ -54,5 +54,4 @@ class Client extends Model
     {
         return $this->belongsTo(Report::class, 'report_id', 'id');
     }
-
 }

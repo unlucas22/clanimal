@@ -7,7 +7,7 @@
 
 <div class="pt-8 flex justify-end">
     <div class="bg-white shadow rounded-lg max-w-7xl px-8 w-full">
-        <div class="flex justify-center">
+        <div>
             @livewire('dashboard.product-brands')
         </div>
     </div>
