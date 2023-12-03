@@ -41,7 +41,7 @@ class Caja extends ModalComponent
         ]);
     }
 
-    public function submit()
+    public function save()
     {
         $this->validate();
 

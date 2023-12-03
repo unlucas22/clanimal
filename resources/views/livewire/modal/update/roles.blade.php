@@ -4,7 +4,7 @@
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Actualizar Clasificación
+                    Actualizar Rol
                 </h3>
                 <button wire:click="closeModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="crud-modal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -17,21 +17,19 @@
             <form wire:submit.prevent="save" class="space-y-10 p-4">
 
                 <div class="grid gap-4 mb-4">
-                    <!-- key -->
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="key" value="{{ __('Nombre') }}" />
-                        <x-jet-input id="key" type="text" class="mt-1 block w-full" wire:model="key" autocomplete="key" />
-                        <x-jet-input-error for="key" class="mt-2" />
-                        @error('key') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
+             
+                <!-- name -->
+                <div>
+                    <x-jet-label for="name" value="{{ __('Titulo') }}" />
+                    <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model="name" autocomplete="name" />
+                    <x-jet-input-error for="name" class="mt-2" />
+                    @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-                    <!-- name -->
-                    <div class="col-span-6 sm:col-span-4">
-                        <x-jet-label for="name" value="{{ __('Titulo especial') }}" />
-                        <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model="name" autocomplete="name" />
-                        <x-jet-input-error for="name" class="mt-2" />
-                        @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
+                <div>
+                    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripción</label>
+                    <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" wire:model="description"></textarea>
+                </div>
 
                 </div>
 

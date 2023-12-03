@@ -14,9 +14,9 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="submit" class="space-y-10 p-4">
+            <form wire:submit.prevent="save" class="space-y-10 p-4">
 
-                <div class="grid gap-4 mb-4 grid-cols-2">
+                <div class="grid gap-4 mb-4">
                     <!-- name -->
         <div>
             <x-jet-label for="name" value="{{ __('Titulo') }}" />

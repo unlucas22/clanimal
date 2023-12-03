@@ -1,12 +1,12 @@
 <div id="side-navigation">
 
     <div>
-        <aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-48 h-screen transition-transform -translate-x-full sm:translate-x-0" style="min-width:250px;" aria-label="Sidenav">
+        <aside id="default-sidebar" class="fixed top-0 left-0 {{-- z-40 --}} w-48 h-screen transition-transform -translate-x-full sm:translate-x-0" style="min-width:250px;" aria-label="Sidenav">
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <ul class="space-y-2">
                     
                     <li>
-                        <img class="w-full" src="{{ asset('img/logo.jpeg') }}">
+                        logo
                     </li>
 
                     <li>
@@ -237,7 +237,7 @@
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group'
                             ])>
                             <x-icons.heroicons.users />
-                            <span class="ml-3">Caja</span>
+                            <span class="ml-3">Footer</span>
                         </a>
                     </li>
                     @endif

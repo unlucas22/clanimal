@@ -33,7 +33,7 @@ class ProductPresentation extends ModalComponent
         return view('livewire.modal.update.product-presentation');
     }
 
-    public function submit()
+    public function save()
     {
         $this->validate();
 

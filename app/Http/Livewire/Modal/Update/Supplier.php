@@ -37,7 +37,7 @@ class Supplier extends ModalComponent
         return view('livewire.modal.update.supplier');
     }
 
-    public function submit()
+    public function save()
     {
         $this->validate();
 

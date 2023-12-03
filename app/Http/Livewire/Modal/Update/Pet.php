@@ -58,7 +58,7 @@ class Pet extends ModalComponent
         return view('livewire.modal.update.pet');
     }
 
-    public function submit()
+    public function save()
     {
         $this->validate();
 

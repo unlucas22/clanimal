@@ -1,5 +1,5 @@
 <div class="p-6">
-    <form {{-- method="POST" action="{{ route('dashboard.store.pet') }}" --}} wire:submit.prevent="submit" class="space-y-10 max-w-md">
+    <form {{-- method="POST" action="{{ route('dashboard.store.pet') }}" --}} wire:submit.prevent="save" class="space-y-10 max-w-md">
     <h2 class="mb-4 text-2xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-2">Actualizar mascota</h2>
 
         @csrf

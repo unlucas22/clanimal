@@ -18,7 +18,7 @@ class Roles extends Component
 
     public $columns = [
         'name' => 'Titulo',
-        //'description' => 'Descripción'
+        'description' => 'Descripción'
     ];
 
     protected $listeners = ['deleteItem' => 'delete'];
@@ -42,7 +42,7 @@ class Roles extends Component
 
         $this->relationships = [
             'Accesos',
-            'Descripción de los permisos',
+            // 'Descripción de los permisos',
             'Usuarios con el Rol',
         ];
 
@@ -54,7 +54,7 @@ class Roles extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            // 'action_name' => 'user',
+            'action_name' => 'roles',
             // 'head_name' => 'user',
         ]);
     }
