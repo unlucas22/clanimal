@@ -1,9 +1,9 @@
 <x-slot name="title">{{ $title ?? 'Panel' }}</x-slot>
 
 <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+    {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{ $title ?? 'Panel' }}
-    </h2>
+    </h2> --}}
 </x-slot>
 
 <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
