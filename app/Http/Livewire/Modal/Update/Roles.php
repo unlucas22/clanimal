@@ -12,11 +12,9 @@ class Roles extends ModalComponent
     public $item_id;
 
     public $name;
-    public $key;
     public $description;
 
     protected $rules = [
-        'key' => 'required|min:1|max:100',
         'name' => 'required|min:1|max:100',
         'description' => 'nullable|max:100',
     ];
@@ -25,7 +23,6 @@ class Roles extends ModalComponent
     {
         $item = Role::where('id', $this->item_id)->firstOrFail();
         $this->name = $item->name;
-        $this->key = $item->key;
         $this->description = $item->description;
     }
 
@@ -40,22 +37,20 @@ class Roles extends ModalComponent
 
         try {
 
-            Company::where('id', $this->item_id)->update([
+            Role::where('id', $this->item_id)->update([
                 'name' => $this->name,
-                'address' => $this->address,
-                'email' => $this->email,
-                'phone' => $this->phone,
+                'description' => $this->description,
             ]);
 
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'Sede actualizado con éxito',
+                'title' => 'Rol actualizado con éxito',
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);
 
             $this->closeModal();
 
-            //return redirect(route('dashboard.sedes'));
+            return redirect(route('dashboard.roles'));
         
         } catch (\Exception $e) {
             Log::error($e->getMessage());
