@@ -157,6 +157,9 @@
                 </div>
             </div>
         </div>
+        <div class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
+            {{ $items->links() }}
+        </div>
         {{-- 
             <div class="flex items-center">
                  <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  Activo

@@ -183,10 +183,11 @@
                             'bg-gray-100' => request()->routeIs('dashboard.cajeros')
                             ])>
                             <x-icons.heroicons.users :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
-                            <span class="ml-3">Cajeros</span>
+                            <span class="ml-3">Cajas</span>
                         </a>
                     </li>
 
+                    {{-- 
                     <li>
                         <a href="{{ route('dashboard.services') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -196,6 +197,7 @@
                             <span class="ml-3">Servicios</span>
                         </a>
                     </li>
+                     --}}
 
                     <li>
                         <a href="{{ route('dashboard.sedes') }}"  @class([
