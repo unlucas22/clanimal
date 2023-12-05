@@ -12,13 +12,12 @@ class Permission extends Model
     protected $fillable = [
         'name',
         'description',
-        'role_id',
     ];
 
-    public $timestamps = false;
-
-    public function roles()
+    public function permission_for_roles()
     {
-        return $this->belongsTo(Role::class, 'role_id', 'id');
+        return $this->hasMany(PermissionForRole::class);
     }
+
+    public $timestamps = false;
 }

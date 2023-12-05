@@ -1,6 +1,6 @@
 <td class="{{ $td }}">
-    @forelse($item->permissions as $permission)
-    {{ $permission->name }},
+    @forelse($item->permission_for_roles as $permission)
+    {{ $permission->permissions->name }},
     @empty
     Sin accesos definidos.
     @endforelse

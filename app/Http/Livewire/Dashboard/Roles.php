@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 use App\Traits\HasTable;
-use App\Models\{Role, Permission};
+use App\Models\{Role, Permission, PermissionForRole, User};
 
 class Roles extends Component
 {
@@ -21,6 +21,12 @@ class Roles extends Component
 
     public function delete($item_id)
     {
+        PermissionForRole::where('role_id', $item_id)->delete();
+
+        User::where('role_id', $item_id)->update([
+            'role_id' => (Role::where('name', 'default')->first())->id,
+        ]);
+
         $this->deleteItem($item_id);
     }
 
@@ -36,7 +42,7 @@ class Roles extends Component
                 ->orWhere('description', 'like', '%' . $this->search . '%');
         }
 
-        $query->with('permissions');
+        $query->with('permission_for_roles');
 
         $query->withCount('users');
 

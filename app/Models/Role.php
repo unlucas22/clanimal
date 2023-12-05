@@ -17,13 +17,13 @@ class Role extends Model
 
     public $timestamps = false;
 
+    public function permission_for_roles()
+    {
+        return $this->hasMany(PermissionForRole::class);
+    }
+
     public function users()
     {
         return $this->hasMany(User::class);
-    }
-
-    public function permissions()
-    {
-        return $this->hasMany(Permission::class);
     }
 }

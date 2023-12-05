@@ -40,6 +40,7 @@ class DatabaseSeeder extends Seeder
         'ventas',
         'almacen',
         'marketing',
+        'default',
     ];
 
     /* Tipos de mascotas */
@@ -357,7 +358,6 @@ class DatabaseSeeder extends Seeder
         {
             Permission::create([
                 'name' => $name,
-                'role_id' => $role_id,
             ]);
         }
     }
