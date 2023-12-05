@@ -1,4 +1,4 @@
-<div>
+<div class="flex justify-center pt-8 p-6">
     <div class="flex justify-between gap-8">
         <div class="w-full">
             

@@ -1,1 +1,1 @@
-<div><x-btn-edit :content="'Abrir'" /></div>
+<div><x-btn/></div>

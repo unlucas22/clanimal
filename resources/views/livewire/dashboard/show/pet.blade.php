@@ -154,7 +154,7 @@
         <h3 class="font-medium text-gray-900 text-left"><span class="text-lg font-semibold">Servicios y productos contratados para {{ $pet->name }}</span></h3>
 
         <div class="flex justify-between gap-8 pt-4">
-            <div>
+            <div class="relative">
                 <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
                 <div class="">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

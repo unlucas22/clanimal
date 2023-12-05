@@ -106,7 +106,10 @@ class Product extends Model
 
     public function getFechaDeVencimientoFormattedAttribute()
     {
-        return $this->fecha_de_vencimiento->format('Y-m-d');
+        if($this->fecha_de_vencimiento !== null)
+        {
+            return $this->fecha_de_vencimiento->format('Y-m-d');
+        }
     }
 
     public function product_brands()

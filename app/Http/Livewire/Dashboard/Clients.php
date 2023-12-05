@@ -19,7 +19,7 @@ class Clients extends Component
         'name' => 'Nombres y Apellidos',
         'dni' => 'DNI',
         //'email' => 'Correo electronico',
-        'phone' => 'Teléfono',
+        //'phone' => 'Teléfono',
         'address' => 'Dirección'
     ];
 
