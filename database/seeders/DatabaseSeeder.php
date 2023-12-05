@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         'almacen' => 'Almacén', 
         'auditor' => 'Auditor', 
         'publicista' => 'Publicista',
+        'default' => 'Default',
     ];
 
     /* Tipo de calificacion para los clientes */
@@ -40,7 +41,6 @@ class DatabaseSeeder extends Seeder
         'ventas',
         'almacen',
         'marketing',
-        'default',
     ];
 
     /* Tipos de mascotas */
