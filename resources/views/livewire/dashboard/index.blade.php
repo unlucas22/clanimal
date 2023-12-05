@@ -1,7 +1,7 @@
 @php($rol = Auth::user()->roles->key)
 
-<div class="py-0 sm:py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="py-12 flex justify-center px-8">
+    <div>
     @switch($rol)
 
         @case('administrador')

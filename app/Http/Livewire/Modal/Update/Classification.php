@@ -45,6 +45,10 @@ class Classification extends ModalComponent
             'icon' => 'success',
             'iconColor' => 'green',
         ]);
+
+        $this->emit('refreshParent');
+
+        $this->closeModal();
     }
 
 }

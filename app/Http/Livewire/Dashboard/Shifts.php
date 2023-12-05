@@ -11,7 +11,7 @@ class Shifts extends Component
 {
     use HasTable;
 
-    protected $listeners = ['cancel' => 'cancelShift'];
+    protected $listeners = ['cancel' => 'cancelShift', 'refreshParent' => '$refresh'];
 
     public $title = 'Turnos';
 

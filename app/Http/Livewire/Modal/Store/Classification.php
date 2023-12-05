@@ -37,9 +37,9 @@ class Classification extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            $this->closeModal();
+            $this->emit('refreshParent');
 
-            return redirect(route('dashboard.classifications'));
+            $this->closeModal();
         
         } catch (\Exception $e) {
 

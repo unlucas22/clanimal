@@ -79,7 +79,9 @@ class Pet extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            return redirect()->route('dashboard.pets');
+            $this->emit('refreshParent');
+
+            $this->closeModal();
             
         } catch (\Exception $e) {
             Log::info($e->getMessage());

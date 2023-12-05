@@ -16,6 +16,8 @@ class Products extends Component
         'id' => 'ID',
     ];
 
+    public $listeners = ['refreshParent' => '$refresh'];
+
     /* eliminar */
     public function eliminar($item_id)
     {

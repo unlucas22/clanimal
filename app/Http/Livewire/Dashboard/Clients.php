@@ -23,6 +23,8 @@ class Clients extends Component
         'address' => 'Dirección'
     ];
 
+    public $listeners = ['refreshParent' => '$refresh'];
+
     public function getItems()
     {
         $query = Client::query();

@@ -43,9 +43,9 @@ class Sede extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            $this->closeModal();
+            $this->emit('refreshParent');
 
-            return redirect(route('dashboard.sedes'));
+            $this->closeModal();
         
         } catch (\Exception $e) {
             Log::error($e->getMessage());

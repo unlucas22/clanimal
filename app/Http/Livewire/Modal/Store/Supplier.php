@@ -44,9 +44,9 @@ class Supplier extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            $this->closeModal();
+            $this->emit('refreshParent');
 
-            return redirect()->route('dashboard.suppliers');
+            $this->closeModal();
 
         } catch (\Exception $e) {
             Log::info($e->getMessage());

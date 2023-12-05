@@ -19,6 +19,8 @@ class Users extends Component
 
     public $search = '';
 
+    public $listeners = ['refreshParent' => '$refresh'];
+
     public function getItems()
     {
         $query = User::query();

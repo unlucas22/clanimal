@@ -22,14 +22,15 @@ class Compras extends Component
         'status' => 'Estado'
     ];
 
+    public $listeners = ['refreshParent' => '$refresh'];
+
     public function getItems()
     {
         $query = Warehouse::query();
 
         if($this->search != '')
         {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('factura', 'like', '%' . $this->search . '%')
+            $query->where('factura', 'like', '%' . $this->search . '%')
                 ->orWhere('fecha', 'like', '%' . $this->search . '%');
         }
 

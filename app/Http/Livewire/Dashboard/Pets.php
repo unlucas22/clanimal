@@ -20,6 +20,8 @@ class Pets extends Component
         'height' => 'Talla',
     ];
 
+    public $listeners = ['refreshParent' => '$refresh'];
+
     public $search = '';
 
     public function getItems()

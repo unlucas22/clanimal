@@ -19,6 +19,8 @@ class PeluqueriaCanina extends Component
 
     public $search = '';
 
+    public $listeners = ['refreshParent' => '$refresh'];
+
     public function getItems()
     {
         $query = Shift::query();

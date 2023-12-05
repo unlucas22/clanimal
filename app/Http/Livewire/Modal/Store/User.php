@@ -61,9 +61,9 @@ class User extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            $this->closeModal();
+            $this->emit('refreshParent');
 
-            return redirect(route('dashboard.users'));
+            $this->closeModal();
         
         } catch (\Exception $e) {
 

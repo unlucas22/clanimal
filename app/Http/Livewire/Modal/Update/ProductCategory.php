@@ -50,7 +50,9 @@ class ProductCategory extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            return redirect()->route('product.brands');
+            $this->emit('refreshParent');
+
+            $this->closeModal();
             
         } catch (\Exception $e) {
             Log::info($e->getMessage());

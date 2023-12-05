@@ -17,7 +17,7 @@ class Roles extends Component
         'description' => 'Descripción'
     ];
 
-    protected $listeners = ['deleteItem' => 'delete'];
+    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
 
     public function delete($item_id)
     {

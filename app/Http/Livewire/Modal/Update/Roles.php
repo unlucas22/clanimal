@@ -6,6 +6,7 @@ use LivewireUI\Modal\ModalComponent;
 use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 use App\Models\{Role, Permission, PermissionForRole};
+use Livewire\Component;
 
 class Roles extends ModalComponent
 {
@@ -77,9 +78,12 @@ class Roles extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
+            $this->emit('refreshParent');
+
             $this->closeModal();
 
-            return redirect(route('dashboard.roles'));
+            //return redirect(route('dashboard.roles'));
+
         
         } catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -39,7 +39,9 @@ class ProductPresentation extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            return redirect()->route('product.presentations');
+            $this->emit('refreshParent');
+
+            $this->closeModal();
             
         } catch (\Exception $e) {
             Log::info($e->getMessage());

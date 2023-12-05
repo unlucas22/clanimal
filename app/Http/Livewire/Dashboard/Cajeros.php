@@ -18,7 +18,7 @@ class Cajeros extends Component
         'formatted_active' => 'Estado',
     ];
 
-    protected $listeners = ['deleteItem' => 'delete'];
+    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
 
     public function delete($item_id)
     {

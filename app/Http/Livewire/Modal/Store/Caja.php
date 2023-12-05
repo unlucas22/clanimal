@@ -54,9 +54,9 @@ class Caja extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            $this->closeModal();
+            $this->emit('refreshParent');
 
-            return redirect()->route('dashboard.cajeros');
+            $this->closeModal();
 
         } catch (\Exception $e) {
             Log::info($e->getMessage());

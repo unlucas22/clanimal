@@ -17,7 +17,7 @@ class Classifications extends Component
         'name' => 'Titulo especial',
     ];
 
-    protected $listeners = ['deleteItem' => 'delete'];
+    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
 
     public function delete($item_id)
     {

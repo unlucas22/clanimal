@@ -36,9 +36,9 @@ class Service extends ModalComponent
                 'iconColor' => 'green',
             ]);
 
-            $this->closeModal();
+            $this->emit('refreshParent');
 
-            return redirect(route('dashboard.services'));
+            $this->closeModal();
         
         } catch (\Exception $e) {
             Log::error($e->getMessage());
