@@ -109,9 +109,9 @@ class DatabaseSeeder extends Seeder
         $role = Role::where('key', 'administrador')->first();
 
         // Permisos para el administrador
-        if(!Permission::where('role_id', $role->id)->count())
+        if(!Permission::count())
         {
-            $this->createPermissions($role->id);
+            $this->createPermissions();
         }
 
         // Sedes
@@ -352,7 +352,7 @@ class DatabaseSeeder extends Seeder
      * @param foreign $role_id
      * 
      * */
-    protected function createPermissions($role_id)
+    protected function createPermissions()
     {
         foreach ($this->permissions as $name)
         {
