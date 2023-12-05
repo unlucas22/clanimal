@@ -19,6 +19,12 @@
             <x-logo :width="'300'" :height="'200'" />
         </a>
 
+        @if(!Cookie::has('qr_validation'))
+        <div class="py-4 w-full max-w-xl">
+            <a href="{{ route('control') }}"><button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 w-full">Control de Colaboradores</button></a>
+        </div>
+        @endif
+
         <!-- Card -->
         <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow dark:bg-gray-800">
             <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -64,12 +70,6 @@
                 <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Iniciar sesión</button>
             </form>
         </div>
-
-        @if(!Cookie::has('qr_validation'))
-        <div class="py-4">
-            <a href="{{ route('control') }}"><button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 w-full">Control de Colaboradores</button></a>
-        </div>
-        @endif
 
     </div>
 
