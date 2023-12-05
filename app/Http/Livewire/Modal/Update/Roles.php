@@ -21,14 +21,17 @@ class Roles extends ModalComponent
 
     public function mount()
     {
-        $item = Role::where('id', $this->item_id)->firstOrFail();
+        $item = Role::with('permissions')->where('id', $this->item_id)->firstOrFail();
         $this->name = $item->name;
         $this->description = $item->description;
+
     }
 
     public function render()
     {
-        return view('livewire.modal.update.roles');
+        return view('livewire.modal.update.roles', [
+            'permissions' => Permission::get(),
+        ]);
     }
 
     public function save()

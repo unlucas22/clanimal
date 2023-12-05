@@ -1,7 +1,7 @@
 <div class="p-6">
     <h2 class="mb-4 text-3xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Registro Manual de Colaborades</h2>
 
-    <form wire:submit.prevent="submit" class="space-y-10">
+    <form wire:submit.prevent="submit" class="space-y-4">
 
         <!-- dni -->
         <div>

@@ -10,10 +10,18 @@
         <link rel="icon" type="image/x-icon" href="{{ url('images/favicon.ico') }}">
 
         <!-- Fonts -->
-        {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
-
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
+        <style>
+            @font-face {
+                font-family: Inter;
+            }
+
+            html{
+                -webkit-text-size-adjust:100%;font-feature-settings:normal;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;
+            }
+        </style>
+        
         <!-- Styles -->
         @livewireStyles
 
@@ -27,37 +35,27 @@
 
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
-        <style>
-
-            @font-face {
-                font-family: Inter;
-            }
-
-            html{
-                -webkit-text-size-adjust:100%;font-feature-settings:normal;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;
-            }
-        </style>
     </head>
     <body class="font-sans antialiased">
+
         <x-jet-banner />
 
         <div class="min-h-screen bg-gray-50">
-            {{-- @livewire('navigation-menu')  --}}
 
-            @if(Auth::check())
-            @livewire('side-navigation')
-            @endif
-
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow fixed w-full">
+            @auth
+                {{-- sidebar --}}
+                @livewire('side-navigation')
+                
+                <header class="bg-white shadow fixed z-10 w-full">
                     <div class="mx-auto py-2 px-4 sm:px-6 lg:px-8">
 
                         <div class="flex justify-between">
                             <div><img width="170" src="{{ asset('img/logo.jpeg') }}"></div>
 
                             <div class="flex justify-end py-4">
+                                @if (isset($header))
                                 <div class="mt-1">{{ $header }}</div>
+                                @endif
 
                                 <div style="margin-left: 50px;">
                                     <div class="flex items-center ml-3">
@@ -92,14 +90,12 @@
 
                     </div>
                 </header>
-            @endif
+            @endauth
 
             <!-- Page Content -->
-            <main style="padding-top:45px">
+            <main style="padding-top:80px;">
                 {{ $slot }}
             </main>
-
-            <footer class="text-center px-4 sm:px-6 lg:px-8 mt-10"><div class="border-t border-slate-200 pt-10 pb-16 dark:border-slate-200/5"><div class="text-center"><p class="mt-4 text-sm leading-6 text-slate-500">© <!-- -->{{ date('Y') }}<!-- --> {{ config('app.name', 'Laravel') }} | Todos los derechos reservados.</p></div></div></footer>
         </div>
 
         @stack('modals')

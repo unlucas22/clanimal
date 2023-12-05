@@ -1,11 +1,5 @@
 @php($rol = Auth::user()->roles->key)
 
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        @if($rol == 'administrador') {{ __('Overview') }} @else {{ __('Panel') }} @endif
-    </h2>
-</x-slot>
-
 <div class="py-0 sm:py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
     @switch($rol)
@@ -21,13 +15,6 @@
                 <div class="mt-14">
                     @livewire('dashboard.charts')
                 </div>
-
-                {{-- 
-                <div class="mt-14" id="orders">
-                    @livewire('dashboard.orders')
-                </div>
-                --}}
-
             @break
 
         @default

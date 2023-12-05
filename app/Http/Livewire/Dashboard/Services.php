@@ -12,33 +12,39 @@ class Services extends Component
 
     public $title = 'Servicios';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'name' => 'Titulo',
         'description' => 'Descripción'
     ];
 
-    public $name = '';
-
+    public $search = '';
 
     protected $listeners = ['deleteItem' => 'delete'];
 
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
+    }
 
-        $this->emit('refreshComponent');
+    public function getItems()
+    {
+        $query = Service::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('description', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount(['shifts']);
+
+        $query->orderBy('shifts_count', 'desc');
+
+        return $query->paginate($this->rows);
     }
 
     public function render()
     {
-        $items = Service::withCount(['shifts'])->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('shifts_count', 'desc')->paginate($this->rows);
-
         $this->table = 'services';
 
         $this->relationships = [
@@ -49,7 +55,7 @@ class Services extends Component
         $this->updated_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

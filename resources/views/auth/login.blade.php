@@ -13,10 +13,10 @@
     </script>
 </x-slot>
 
-    <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 mx-auto md:h-screen dark:bg-gray-900">
         
-        <a href="{{ url('/') }}" class="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white">
-            <x-logo height="'200'" />
+        <a href="{{ url('/') }}" class="flex items-center justify-center text-2xl font-semibold dark:text-white">
+            <x-logo :width="'300'" :height="'200'" />
         </a>
 
         <!-- Card -->
@@ -66,7 +66,7 @@
         </div>
 
         @if(!Cookie::has('qr_validation'))
-        <div class="pt-4">
+        <div class="py-4">
             <a href="{{ route('control') }}"><button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 w-full">Control de Colaboradores</button></a>
         </div>
         @endif

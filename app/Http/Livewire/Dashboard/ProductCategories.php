@@ -11,10 +11,6 @@ class ProductCategories extends Component
 
     public $title = 'Categorías';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'id' => 'ID',
         'name' => 'Titulo',
@@ -31,14 +27,29 @@ class ProductCategories extends Component
         $this->emit('refreshComponent');
     }
 
-    public $name = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = \App\Models\ProductCategory::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('description', 'like', '%' . $this->search . '%')
+                ->orWhere('id', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount('products');
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
+
 
     public function render()
     {
-        $items = \App\Models\ProductCategory::withCount('products')->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'product_categories';
 
         $this->relationships = [
@@ -50,7 +61,7 @@ class ProductCategories extends Component
         $this->created_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

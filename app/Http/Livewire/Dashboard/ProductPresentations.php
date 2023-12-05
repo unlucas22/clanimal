@@ -11,10 +11,6 @@ class ProductPresentations extends Component
 
     public $title = 'Tipo de Presentación';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'id' => 'ID',
         'name' => 'Titulo',
@@ -27,18 +23,30 @@ class ProductPresentations extends Component
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
-
-        $this->emit('refreshComponent');
     }
 
-    public $name = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = \App\Models\ProductPresentation::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('description', 'like', '%' . $this->search . '%')
+                ->orWhere('id', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount('products');
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = \App\Models\ProductPresentation::withCount('products')->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'product_presentations';
 
         $this->relationships = [
@@ -50,7 +58,7 @@ class ProductPresentations extends Component
         $this->created_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

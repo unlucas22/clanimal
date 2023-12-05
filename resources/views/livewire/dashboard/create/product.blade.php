@@ -1,5 +1,5 @@
-<div class="flex justify-center">
-    <form method="POST" action="{{ route('dashboard.store.product') }}" {{-- wire:submit.prevent="submit"  --}} class="space-y-10" enctype="multipart/form-data">
+<div class="flex justify-center p-4">
+    <form method="POST" action="{{ route('dashboard.store.product') }}" class="space-y-10" enctype="multipart/form-data">
     <h2 class="mb-4 text-2xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-2">Registrar producto</h2>
 
         @csrf
@@ -46,7 +46,6 @@
         </div>
 
         <script>
-        // see how to use at the end of the script
         const domParser = new DOMParser();
         const dataListBrand = {
             el:document.querySelector('.data-list-brand'),
@@ -248,15 +247,8 @@
         ];
         data.forEach(v=>(dataListBrand.append(v))); 
 
-        // remove item
-        // dataListBrand.remove("Peach");
-
-        // get selected value
-        // dataListBrand.currentvalue
-
-        // how to use
         dataListCategory.init(); 
-        // add items
+
         const dataCategory = [
             @foreach($product_categories as $product_category) "{{ $product_category->name }}", @endforeach
         ];
@@ -296,12 +288,12 @@
 
             <div class="grid grid-cols-6 gap-4">
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class=" w-full mb-6 group">
                     <x-form.input :name="'amount'" :type="'number'" :model="'amount'" :label="'Cantidad'" :required="'required'" />
                     @error('amount') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class=" w-full mb-6 group">
 
                     <x-form.select :name="'product_presentation_id'" :model="'product_presentation_id'" :label="'Tipo de Presentación'" :required="'required'">
                         @foreach($product_presentations as $product_presentation)
@@ -317,7 +309,7 @@
                     @error('amount_presentation') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class=" w-full mb-6 group">
                     <x-form.input :name="'precio_compra'" :model="'precio_compra'" :label="'Precio Compra'" :type="'number'" :required="'required'" />
                     @error('precio_compra') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
@@ -356,7 +348,7 @@
             <label class="relative inline-flex items-center mb-5 cursor-pointer">
                 <input type="checkbox" name="active" checked class="sr-only peer">
                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado Activo</span>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
             </label>
         </div>
 
@@ -380,11 +372,11 @@
 
             <div class="grid grid-cols-7 gap-4">
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="w-full mb-6 group">
                     <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
                 </div>
                 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="w-full mb-6 group">
 
                     <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
                         @foreach($product_presentations as $product_presentation)
@@ -394,7 +386,7 @@
                     </select>
                 </div>
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="w-full mb-6 group">
                     <div>
                         <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Venta sin IGV</label>
                         <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" required>
@@ -420,18 +412,18 @@
                     }
                 </script>
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="w-full mb-6 group">
                     <x-form.input :id="'precio_venta_con_igv_details.'.$i" :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'disabled'" />
                 </div>
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="w-full mb-6 group">
                     <div>
                         <label for="discount_details{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento %</label>
                         <input type="number" name="discount_details[{{ $i }}]" id="discount_details{{ $i }}" wire:model.defer="discount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" value="0">
                     </div>
                 </div>
 
-                <div class="relative z-0 w-full mb-6 group">
+                <div class="w-full mb-6 group">
                     <div>
                         <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Venta Total</label>
                         <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" disabled>

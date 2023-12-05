@@ -8,8 +8,6 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
-        {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"> --}}
-
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
          <!-- Styles -->
@@ -28,8 +26,6 @@
             <div class="font-sans text-gray-900 antialiased">
                 {{ $slot }}
             </div>
-
-            <div class="text-center"><footer class="px-4 sm:px-6 lg:px-8 mt-10"><div class="border-t border-slate-200 pt-10 pb-16 dark:border-slate-200/5"><div class="text-center"><p class="mt-4 text-sm leading-6 text-slate-500">© <!-- -->{{ date('Y') }}<!-- --> {{ config('app.name', 'Laravel') }} | All rights reserved.</p></div></div></footer></div>
         </div>
         
         @stack('modals')

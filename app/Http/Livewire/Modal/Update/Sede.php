@@ -57,7 +57,7 @@ class Sede extends ModalComponent
 
             $this->closeModal();
 
-            //return redirect(route('dashboard.sedes'));
+            return redirect(route('dashboard.sedes'));
         
         } catch (\Exception $e) {
             Log::error($e->getMessage());

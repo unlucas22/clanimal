@@ -1,23 +1,12 @@
 <x-slot name="title">Recepción de Clientes y Mascotas</x-slot>
 
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Recepción de Clientes y Mascotas
-    </h2>
-</x-slot>
-
 <div class="py-4">
-
-    <div class="px-2 py-4">
-        Módulo para el registro de clientes, programación de citas y servicios
-    </div>
-
     <div class="flex justify-end">
         <div class="flex justify-between gap-8 px-4">
             <div class="flex justify-start">
                 <a href="{{ route('dashboard.venta.productos') }}">
                     <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Nuevo Venta
+                        Agregar Nueva Venta
                     </button>
                 </a>
             </div>

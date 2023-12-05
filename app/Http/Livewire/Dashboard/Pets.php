@@ -12,10 +12,6 @@ class Pets extends Component
 
     public $title = 'Mascotas';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'id' => 'ID',
         'name' => 'Mascota',
@@ -24,14 +20,29 @@ class Pets extends Component
         'height' => 'Talla',
     ];
 
-    public $name = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Pet::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('age', 'like', '%' . $this->search . '%')
+                ->orWhere('gender', 'like', '%' . $this->search . '%')
+                ->orWhere('id', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount(['clients', 'type_of_pets']);
+
+        $query->orderBy('created_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = Pet::with(['clients', 'type_of_pets'])->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('created_at', 'desc')->paginate($this->rows);
-
         $this->table = 'pets';
 
         $this->relationships = [
@@ -44,7 +55,7 @@ class Pets extends Component
         $this->updated_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

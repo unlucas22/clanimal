@@ -7,11 +7,11 @@
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->product_categories->name }}
+    {{ $item->product_categories->name ?? 'Sin categoría' }}
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->product_brands->name }}
+    {{ $item->product_brands->name ?? 'Sin marca' }}
 </td>
 
 <td class="{{ $td }}">

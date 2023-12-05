@@ -11,10 +11,6 @@ class Suppliers extends Component
 
     public $title = 'Proveedores';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'id' => 'ID',
         'name' => 'Nombre',
@@ -23,14 +19,28 @@ class Suppliers extends Component
         'phone' => 'Contacto',
     ];
 
-    public $name = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = \App\Models\Supplier::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('ruc', 'like', '%' . $this->search . '%')
+                ->orWhere('address', 'like', '%' . $this->search . '%')
+                ->orWhere('phone', 'like', '%' . $this->search . '%')
+                ->orWhere('id', 'like', '%' . $this->search . '%');
+        }
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = \App\Models\Supplier::when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'suppliers';
 
         $this->relationships = [
@@ -42,7 +52,7 @@ class Suppliers extends Component
         $this->created_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

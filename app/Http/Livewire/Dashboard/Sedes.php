@@ -12,10 +12,6 @@ class Sedes extends Component
 
     public $title = 'Sedes';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'name' => 'Titulo',
         'address' => 'Dirección',
@@ -23,23 +19,36 @@ class Sedes extends Component
         'phone' => 'Telefono',
     ];
 
-    public $name = '';
+    public $search = '';
 
     protected $listeners = ['deleteItem' => 'delete'];
 
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
+    }
 
-        $this->emit('refreshComponent');
+    public function getItems()
+    {
+        $query = Company::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('address', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%')
+                ->orWhere('phone', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount('users');
+
+        $query->orderBy('created_at', 'desc');
+
+        return $query->paginate($this->rows);
     }
 
     public function render()
     {
-        $items = Company::withCount('users')->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('users_count', 'desc')->paginate($this->rows);
-
         $this->table = 'companies';
 
         $this->relationships = [
@@ -49,7 +58,7 @@ class Sedes extends Component
         $this->created_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

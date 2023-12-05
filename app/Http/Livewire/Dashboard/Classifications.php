@@ -12,10 +12,6 @@ class Classifications extends Component
 
     public $title = 'Clasificación de clientes';
 
-    public $filters = [
-        'key' => '',
-    ];
-
     public $columns = [
         'key' => 'Nombre',
         'name' => 'Titulo especial',
@@ -26,18 +22,29 @@ class Classifications extends Component
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
-
-        $this->emit('refreshComponent');
     }
 
-    public $key = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Report::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('key', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount('clients');
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = Report::withCount('clients')->when($this->key !== '', function($qry) {
-            $qry->where('key', 'like', '%'.$this->key.'%');
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'reports';
 
         $this->relationships = [
@@ -47,7 +54,7 @@ class Classifications extends Component
         $this->created_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

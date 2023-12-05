@@ -10,23 +10,38 @@ class PeluqueriaCanina extends Component
 {
     use HasTable;
 
-    public $title = 'Veterinaria';
-
-    public $filters = [];
+    public $title = 'Peluquería Canina';
 
     public $columns = [
         'id' => 'ID',
         'appointment' => 'Cita',
     ];
 
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Shift::query();
+
+        $query->whereHas('services', function($query) {
+            $query->where('name', 'Peluquería Canina');
+        });
+
+        if($this->search != '')
+        {
+            $query->where('id', 'like', '%' . $this->search . '%')
+                ->orWhere('appointment', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount(['users', 'pets', 'services']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
+
     public function render()
     {
-        $items = Shift::with(['users', 'pets', 'services'])->whereHas('services', function($query)
-        {
-            $query->where('name', 'Peluquería Canina');
-
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'shifts';
 
         $this->relationships = [
@@ -42,7 +57,7 @@ class PeluqueriaCanina extends Component
         $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

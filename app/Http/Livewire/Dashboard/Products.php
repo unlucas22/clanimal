@@ -12,10 +12,6 @@ class Products extends Component
 
     public $title = 'Productos';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'id' => 'ID',
     ];
@@ -27,12 +23,28 @@ class Products extends Component
         Product::where('id', $item_id)->delete();
     }
 
-    public $name;
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Product::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('palabras_clave', 'like', '%' . $this->search . '%')
+                ->orWhere('barcode', 'like', '%' . $this->search . '%');
+        }
+
+        $query->with(['product_brands', 'product_categories']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = Product::with(['product_brands', 'product_categories'])->orderBy('updated_at', 'desc')->get();
-
         $this->table = 'products';
 
         $this->relationships = [
@@ -51,7 +63,7 @@ class Products extends Component
         $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

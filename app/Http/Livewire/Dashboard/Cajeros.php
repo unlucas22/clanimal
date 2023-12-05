@@ -12,10 +12,6 @@ class Cajeros extends Component
 
     public $title = 'Configuración Cajas';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'id' => 'ID',
         'name' => 'Nombre Caja',
@@ -27,18 +23,28 @@ class Cajeros extends Component
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
-
-        $this->emit('refreshComponent');
     }
 
-    public $name = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Casher::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%');
+        }
+
+        $query->with(['users', 'companies']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = Casher::with(['users', 'companies'])->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'cashers';
 
         $this->relationships = [
@@ -49,7 +55,7 @@ class Cajeros extends Component
         $this->updated_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
@@ -57,51 +63,4 @@ class Cajeros extends Component
             'head_name' => 'cajeros',
         ]);
     }
-
-    /*
-public $filters = [
-    'name' => '',
-];
-
-public $columns = [
-    'id' => 'ID',
-    'status' => 'Estado',
-    'amount' => 'Monto en caja',
-    'closed_at' => 'Cerrado',
-    'created_at' => 'Abierto',
-];
-
-public $name = '';
-
-public function render()
-{
-    $items = CashRegister::with(['users', 'operations'])->when($this->name !== '', function($qry) {
-        $qry->where('name', 'like', '%'.$this->name.'%');
-    })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
-    $this->table = 'cash_registers';
-
-    $this->relationships = [
-        // 'Cajera ',
-        // 'Efectivo ',
-        // 'Tarjeta ',
-        // 'Tarjeta Virtual ',
-    ];
-
-    $this->can_delete = false;
-
-    $this->created_at = false;
-    $this->updated_at = false;
-
-    return view('livewire.dashboard.table', [
-        'items' => $items,
-        'rows_count' => $this->rows_count,
-        'columns' => $this->columns,
-        'columns_count' => $this->getColumnsCount($this->columns),
-        // 'action_name' => 'client',
-        'head_name' => 'cajeros',
-    ]);
-}
-
-    */
 }

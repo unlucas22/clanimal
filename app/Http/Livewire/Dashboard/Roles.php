@@ -12,10 +12,6 @@ class Roles extends Component
 
     public $title = 'Roles y Permisos';
 
-    public $filters = [
-        'name' => '',
-    ];
-
     public $columns = [
         'name' => 'Titulo',
         'description' => 'Descripción'
@@ -26,23 +22,33 @@ class Roles extends Component
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
-
-        $this->emit('refreshComponent');
     }
 
-    public $name = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Role::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('description', 'like', '%' . $this->search . '%');
+        }
+
+        $query->with('permissions');
+
+        $query->withCount('users');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = Role::with('permissions')->withCount('users')->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('users_count', 'desc')->paginate($this->rows);
-
         $this->table = 'roles';
 
         $this->relationships = [
             'Accesos',
-            // 'Descripción de los permisos',
             'Usuarios con el Rol',
         ];
 
@@ -50,7 +56,7 @@ class Roles extends Component
         $this->updated_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

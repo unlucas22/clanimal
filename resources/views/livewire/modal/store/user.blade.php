@@ -14,72 +14,68 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="submit" class="space-y-10 p-4">
+            <form wire:submit.prevent="submit" class="space-y-4 p-4">
 
-                <div class="grid gap-4 mb-4 grid-cols-2">
-                    <!-- name -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="name" value="{{ __('Nombre') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model="name" autocomplete="name" />
-            <x-jet-input-error for="name" class="mt-2" />
-            @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
+                <!-- name -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="name" value="{{ __('Nombre') }}" />
+                    <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model="name" autocomplete="name" />
+                    <x-jet-input-error for="name" class="mt-2" />
+                    @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- DNI -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="dni" value="{{ __('DNI') }}" />
-            <x-jet-input id="dni" type="text" class="mt-1 block w-full"  name="dni" wire:model="dni" required autofocus autocomplete="dni" />
-            <x-jet-input-error for="name" class="mt-2" />
-            @error('dni') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
+                <!-- DNI -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="dni" value="{{ __('DNI') }}" />
+                    <x-jet-input id="dni" type="text" class="mt-1 block w-full"  name="dni" wire:model="dni" required autofocus autocomplete="dni" />
+                    <x-jet-input-error for="name" class="mt-2" />
+                    @error('dni') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- Correo -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="email" value="{{ __('Correo') }}" />
-            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model="email" autocomplete="email" />
-            <x-jet-input-error for="email" class="mt-2" />
-            @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
+                <!-- Correo -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="email" value="{{ __('Correo') }}" />
+                    <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model="email" autocomplete="email" />
+                    <x-jet-input-error for="email" class="mt-2" />
+                    @error('email') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- Password -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="password" value="{{ __('Contraseña') }}" />
-            <x-jet-input id="password" type="text" class="mt-1 block w-full" wire:model="password" autocomplete="password" />
-            <x-jet-input-error for="password" class="mt-2" />
-            @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
+                <!-- Password -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="password" value="{{ __('Contraseña') }}" />
+                    <x-jet-input id="password" type="text" class="mt-1 block w-full" wire:model="password" autocomplete="password" />
+                    <x-jet-input-error for="password" class="mt-2" />
+                    @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- ROL -->
-        <div class="form-group">
-            <label for="ss1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
-            <select id="ss1" class="w-full form-control" wire:model.defer="role_id">
-                @forelse($roles as $role)
-                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                @empty
-                <option value="0">Error.</option>
-                @endforelse
-            </select>
-            @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
+                <!-- ROL -->
+                <div class="form-group">
+                    <label for="ss1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
+                    <select id="ss1" class="w-full form-control" wire:model.defer="role_id">
+                        @forelse($roles as $role)
+                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @empty
+                        <option value="0">Error.</option>
+                        @endforelse
+                    </select>
+                    @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- Sede -->
-        <div class="form-group">
-            <label for="ss3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
-            <select id="ss3" class="w-full form-control" wire:model.defer="company_id">
-                @forelse($sedes as $sede)
-                <option value="{{ $sede->id }}">{{ $sede->name }}</option>
-                @empty
-                <option value="0">Error.</option>
-                @endforelse
-            </select>
-            @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
-
+                <!-- Sede -->
+                <div class="form-group">
+                    <label for="ss3" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
+                    <select id="ss3" class="w-full form-control" wire:model.defer="company_id">
+                        @forelse($sedes as $sede)
+                        <option value="{{ $sede->id }}">{{ $sede->name }}</option>
+                        @empty
+                        <option value="0">Error.</option>
+                        @endforelse
+                    </select>
+                    @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-700">
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
                         Registrar Sede
                     </button>
                 </div>

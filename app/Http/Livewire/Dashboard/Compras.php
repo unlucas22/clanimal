@@ -12,10 +12,7 @@ class Compras extends Component
 
     public $title = 'Compras';
 
-    public $filters = [
-        'name' => '',
-    ];
-    public $name = '';
+    public $search = '';
 
     public $columns = [
         'id' => 'ID',
@@ -25,12 +22,28 @@ class Compras extends Component
         'status' => 'Estado'
     ];
 
+    public function getItems()
+    {
+        $query = Warehouse::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('factura', 'like', '%' . $this->search . '%')
+                ->orWhere('fecha', 'like', '%' . $this->search . '%');
+        }
+
+        $query->with('suppliers');
+
+        $query->withCount('product_in_warehouses');
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
+
     public function render()
     {
-        $items = Warehouse::with('suppliers')->withCount('product_in_warehouses')->when($this->name !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->name.'%');
-        })->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'warehouses';
 
         $this->relationships = [
@@ -41,7 +54,7 @@ class Compras extends Component
         $this->updated_at = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

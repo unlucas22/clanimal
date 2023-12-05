@@ -1,4 +1,4 @@
-<div>
+<div class="p-6 pt-8">
 
     <div>
         <h1 class="text-2xl">Detalle de mascota</h1>

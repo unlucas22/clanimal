@@ -1,5 +1,5 @@
-<div>
-    <form {{-- method="POST" action="{{ route('dashboard.store.pet') }}" --}} wire:submit.prevent="submit" class="space-y-10 max-w-md">
+<div class="flex justify-center pt-8">
+    <form wire:submit.prevent="submit" class="space-y-10">
     <h2 class="mb-4 text-2xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-2">Registrar nueva mascota</h2>
 
         @csrf

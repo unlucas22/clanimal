@@ -4,12 +4,7 @@
         <aside id="default-sidebar" class="fixed top-0 left-0 {{-- z-40 --}} w-48 h-screen transition-transform -translate-x-full sm:translate-x-0" style="min-width:250px;" aria-label="Sidenav">
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <ul class="space-y-2">
-                    
-                    <li>
-                        logo
-                    </li>
-
-                    <li>
+                    <li style="padding-top: 80px;">
                         <a href="{{ route('dashboard.index') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.index')
@@ -117,7 +112,7 @@
                     <li>
                         <a href="{{ route('dashboard.peluqueria-canina') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.peluqueria-caninca')
+                            'bg-gray-100' => request()->routeIs('dashboard.peluqueria-canina')
                             ])>
                             <x-icons.heroicons.house />
                             <span class="ml-3">Peluquería Canina</span>

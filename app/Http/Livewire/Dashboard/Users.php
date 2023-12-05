@@ -12,25 +12,34 @@ class Users extends Component
 
     public $title = 'Usuarios';
 
-    public $filters = [
-        'input' => '',
-    ];
-
     public $columns = [
         'name' => 'Nombre',
         'email' => 'Email',
     ];
 
-    public $input = '';
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = User::query();
+
+        if($this->search != '')
+        {
+            $query->where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('email', 'like', '%' . $this->search . '%');
+        }
+
+        $query->with(['companies', 'roles']);
+
+        $query->withCount('histories');
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $users = User::withCount('histories')->with(['companies', 'roles'])->when($this->input !== '', function($qry) {
-            $qry->where('name', 'like', '%'.$this->input.'%');
-        })->when($this->input !== '', function($qry) {
-            $qry->where('email', 'like', '%'.$this->input.'%');
-        })->orderBy('updated_at', 'desc')->withTrashed()->paginate($this->rows);
-
         $this->table = 'users';
 
         $this->relationships = [
@@ -41,8 +50,10 @@ class Users extends Component
 
         $this->canActive = true;
 
+        $this->created_at = false;
+
         return view('livewire.dashboard.table', [
-            'items' => $users,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

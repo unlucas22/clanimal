@@ -15,17 +15,32 @@ class Shifts extends Component
 
     public $title = 'Turnos';
 
-    public $filters = [];
-
     public $columns = [
         'id' => 'ID',
         'appointment' => 'Cita',
     ];
 
+    public $search = '';
+
+    public function getItems()
+    {
+        $query = Shift::query();
+
+        if($this->search != '')
+        {
+            $query->where('id', 'like', '%' . $this->search . '%')
+                ->orWhere('appointment', 'like', '%' . $this->search . '%');
+        }
+
+        $query->with(['users', 'pets', 'services']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
+
     public function render()
     {
-        $items = Shift::with(['users', 'pets', 'services'])->orderBy('updated_at', 'desc')->paginate($this->rows);
-
         $this->table = 'shifts';
 
         $this->relationships = [
@@ -41,7 +56,7 @@ class Shifts extends Component
         $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

@@ -19,18 +19,33 @@ class Controls extends Component
         'device' => 'Dispositivo (User Agent)',
     ];
 
-    public $filters = [];
+    public $search = '';
 
-    public $input = '';
+    public function getItems()
+    {
+        $query = Control::query();
+
+        $query->whereHas('users', function($qry){
+            $qry->when($this->search !== '', function($filter) {
+                $filter->where('users.name', 'like', '%'.$this->search.'%');
+            });
+        });
+
+        if($this->search != '')
+        {
+            $query->where('id', 'like', '%' . $this->search . '%')
+                ->orWhere('ip', 'like', '%' . $this->search . '%');
+        }
+
+        $query->withCount(['users', 'reasons']);
+
+        $query->orderBy('created_at', 'desc');
+
+        return $query->paginate($this->rows);
+    }
 
     public function render()
     {
-        $items = Control::with(['users', 'reasons'])->whereHas('users', function($qry){
-            $qry->when($this->input !== '', function($filter) {
-                $filter->where('users.name', 'like', '%'.$this->input.'%');
-            });
-        })->orderBy('created_at', 'desc')->paginate($this->rows);
-
         $this->table = 'controls';
 
         $this->updated_at = false;
@@ -43,7 +58,7 @@ class Controls extends Component
         ];
 
         return view('livewire.dashboard.table', [
-            'items' => $items,
+            'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),

@@ -14,7 +14,6 @@
             <div class="pt-4">
                 Escanea el QR o bien haz <a href="{{ $link }}" class="font-bold">click aquí</a> para dar el checkout
             </div>
-
         </div>
 
         @else
@@ -42,7 +41,6 @@
         </div>
 
         <div class="form-group mt-4">
-
             <label for="ss4w" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sede</label>
             <select id="ss4w" wire:model.defer="company_id" :value="old('company_id')" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 @forelse($sedes as $sede)
@@ -53,13 +51,6 @@
             </select>
             @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
-
-        {{-- 
-        <div class="mt-4 flex justify-center">
-            <div id="recaptcha" style="max-width: 300px;"></div>
-            @error('g-recaptcha-response') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
-         --}}
 
         <div class="flex items-center justify-end mt-4">
             <x-jet-button class="ml-4">

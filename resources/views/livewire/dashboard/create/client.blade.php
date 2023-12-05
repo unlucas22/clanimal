@@ -1,19 +1,11 @@
-<x-slot name="header">
-
-    <div class="flex justify-between gap-8">
-        <div class="flex justify-start">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Registrar nuevo cliente
-            </h2>
-        </div>
+<div class="pt-8">
+    
+    
+    <div class="p-4">
+        
         <div class="flex justify-end">
             <button onclick="javascript:history.go(-1)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Regresar</button>
         </div>
-    </div>
-</x-slot>
-
-<div class="py-0 sm:py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         
         <div>
             <h1 class="mt-8 text-2xl">Datos del cliente</h1>
@@ -79,22 +71,6 @@
                     </div>
                 </div>
 
-                {{-- 
-                @if(Auth::user()->isAdmin())
-                <div>
-                    <x-form.select :name="'status_id'" :model="'status_id'" :label="'Clasificación'">
-                        @forelse($status as $key)
-                        <option @if($loop->first) selected @endif value="{{ $key }}">{{ ucwords($key) }}</option>
-                        @empty
-                        <option>Error.</option>
-                        @endforelse
-                    </x-form.select>
-
-                    @error('status_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                </div>
-                @endif
-                 --}}
-
                 <label class="relative inline-flex items-center mb-5 cursor-pointer">
                     <input type="checkbox" wire:model="asign_pet" class="sr-only peer">
                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -105,9 +81,6 @@
 
                 <div class="flex justify-between mt-8">
                     <div><h2 class="text-2xl">Agregar Mascota</h2></div>
-                    {{-- <div>
-                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">+ Agregar</button>
-                    </div> --}}
                 </div>
 
                 <div class="flex justify-between pt-4 gap-4">

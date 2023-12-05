@@ -1,16 +1,6 @@
 <x-slot name="title">Recepción de Clientes y Mascotas</x-slot>
 
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Recepción de Clientes y Mascotas
-    </h2>
-</x-slot>
-
 <div class="py-4">
-
-    <div class="px-2">
-        Módulo para el registro de clientes, programación de citas y servicios
-    </div>
 
     <div class="flex justify-end">
         <div class="flex justify-between gap-8 px-4">

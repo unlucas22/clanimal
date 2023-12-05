@@ -1,15 +1,7 @@
 <x-app-layout>
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Marcas
-    </h2>
-</x-slot>
+    
+<x-basic-card>
+    @livewire('dashboard.product-brands')
+</x-basic-card>
 
-<div class="pt-8 flex justify-end">
-    <div class="bg-white shadow rounded-lg max-w-7xl px-8 w-full">
-        <div>
-            @livewire('dashboard.product-brands')
-        </div>
-    </div>
-</div>
 </x-app-layout>
