@@ -1,11 +1,3 @@
-# Bugs
-
-- Multiples querys para el mismo input (de busqueda) da problemas
-
-# Pending
-
-- En Ventas falta más filtros para productos
-
 ## ClinicAnimal
 
 - composer create-project laravel/laravel clinicanimal

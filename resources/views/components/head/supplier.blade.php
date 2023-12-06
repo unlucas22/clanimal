@@ -1,7 +1,5 @@
 <div>
 	<a wire:click='$emit("openModal", "modal.store.supplier")'>
-		<x-jet-button>
-	        Registrar Proveedor
-	    </x-jet-button>
+		<x-btn-nuevo/>
 	</a>
 </div>

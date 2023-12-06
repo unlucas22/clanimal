@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="submit" class="space-y-10 pt-8">
+    <form wire:submit.prevent="submit" class="space-y-10">
 
         @if($link !== null)
         <div>
@@ -52,12 +52,9 @@
             @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-jet-button class="ml-4">
-                {{ __('Continuar') }}
-            </x-jet-button>
-        </div>
-
+        <x-jet-button class="w-full px-5 py-3 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+            {{ __('Continuar') }}
+        </x-jet-button>
         @endif
     </form>
 </div>

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
 
 <x-slot name="head">
     @php($public_key = '6Lf391shAAAAAEij46zNjIHm2O8e6oYXPP56Llzk')
@@ -75,4 +75,4 @@
 
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadGReCaptcha&render=explicit&?hl=es" async defer></script>
 
-</x-app-layout>
+</x-guest-layout>

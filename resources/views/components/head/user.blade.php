@@ -1,8 +1,6 @@
 <div class="flex justify-start">
 	<a wire:click='$emit("openModal", "modal.store.user")'>
-		<x-jet-button>
-	        Crear nuevo
-	    </x-jet-button>
+		<x-btn-nuevo/>
 	</a>
 </div>
 {{-- 

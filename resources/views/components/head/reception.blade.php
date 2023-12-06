@@ -1,8 +1,6 @@
 <div class="flex justify-start">
 	<a href="{{ route('dashboard.create.reception') }}">
-		<x-jet-button>
-	        Registrar
-	    </x-jet-button>
+		<x-btn-nuevo/>
 	</a>
 </div>
 

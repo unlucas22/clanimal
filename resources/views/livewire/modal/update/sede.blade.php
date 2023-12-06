@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="save" class="space-y-10 p-4">
+            <form wire:submit.prevent="save" class="space-y-10 p-4" id="form">
 
                 <div class="grid gap-4 mb-4 ">
 
@@ -37,10 +37,35 @@
                     <!-- phone -->
                     <div class="col-span-6 sm:col-span-4">
                         <x-jet-label for="phone" value="{{ __('Telefono') }}" />
-                        <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model="phone" autocomplete="phone" />
+                        <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="phone" autocomplete="phone" />
                         <x-jet-input-error for="phone" class="mt-2" />
                         @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        <div id="error-message" style="color:red;"></div>
                     </div>
+
+                    <script>
+                        var telefonoRegex = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+
+                        var inputTelefono = document.getElementById('phone');
+                        var errorMessage = document.getElementById('error-message');
+                        var submitBtn = document.getElementById('submit');
+
+                        inputTelefono.addEventListener('input', function () {
+                            validarTelefono();
+                        });
+
+                        function validarTelefono() {
+                            var numeroTelefono = inputTelefono.value;
+
+                            if (telefonoRegex.test(numeroTelefono)) {
+                                errorMessage.textContent = '';
+                                submitBtn.removeAttribute('disabled'); 
+                            } else {
+                                errorMessage.textContent = 'Número de teléfono no válido';
+                                submitBtn.setAttribute('disabled', 'disabled');
+                            }
+                        }
+                    </script>
 
                     <!-- Correo -->
                     <div class="col-span-6 sm:col-span-4">
@@ -53,7 +78,7 @@
                 </div>
 
                 <div class="items-center pt-2 border-t border-gray-200 rounded-b dark:border-gray-700">
-                    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button id="submit" type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Actualizar
                     </button>
                 </div>

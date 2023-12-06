@@ -1,7 +1,5 @@
 <div>
     <a wire:click='$emit("openModal", "modal.store.control")'>
-        <x-jet-button>
-            Control Manual
-        </x-jet-button>
+        <x-btn-nuevo/>
     </a>
 </div>

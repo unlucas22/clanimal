@@ -10,7 +10,7 @@ class Cajeros extends Component
 {
     use HasTable;
 
-    public $title = 'Configuración Cajas';
+    public $title = 'Cajas';
 
     public $columns = [
         'id' => 'ID',

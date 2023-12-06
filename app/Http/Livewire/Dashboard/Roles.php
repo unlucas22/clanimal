@@ -67,7 +67,7 @@ class Roles extends Component
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'roles',
-            // 'head_name' => 'user',
+            'head_name' => 'roles',
         ]);
     }
 
