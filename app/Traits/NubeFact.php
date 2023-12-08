@@ -45,7 +45,8 @@ trait NubeFact {
         //Invocamos el servicio de NUBEFACT
         $ch = curl_init();
 
-        if ($ch === false) {
+        if ($ch === false)
+        {
             Log::info('Error al inicializar cURL');
         }
 
@@ -63,7 +64,8 @@ trait NubeFact {
 
         $respuesta  = curl_exec($ch);
 
-        if (curl_errno($ch)) {
+        if (curl_errno($ch))
+        {
             Log::info('Error cURL: ' . curl_error($ch));
         }
 

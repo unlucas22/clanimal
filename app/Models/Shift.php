@@ -32,6 +32,16 @@ class Shift extends Model
         'delivery_at' => 'datetime',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'hashid',
+        'formatted_status',
+    ];
+    
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -47,15 +57,6 @@ class Shift extends Model
         return $this->belongsTo(Service::class, 'service_id', 'id');
     }
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'hashid',
-        'formatted_status',
-    ];
 
     public function getHashidAttribute()
     {

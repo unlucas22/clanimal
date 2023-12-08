@@ -12,18 +12,15 @@ class Clients extends Component
 
     public $title = 'Clientes';
 
+    public $listeners = ['refreshParent' => '$refresh'];
     public $search = '';
 
     public $columns = [
         'id' => 'ID',
         'name' => 'Nombres y Apellidos',
         'dni' => 'DNI',
-        //'email' => 'Correo electronico',
-        //'phone' => 'Teléfono',
         'address' => 'Dirección'
     ];
-
-    public $listeners = ['refreshParent' => '$refresh'];
 
     public function getItems()
     {

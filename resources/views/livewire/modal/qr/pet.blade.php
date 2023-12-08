@@ -11,13 +11,6 @@
             </div>
 
             <a href="{{ $link }}">click aquí (link de prueba)</a>
-
-            {{-- 
-            <div class="pt-4">
-                Escanea el QR o bien haz  para dar con el perfil
-            </div>
-             --}}
-
         </div>
 
         <hr>

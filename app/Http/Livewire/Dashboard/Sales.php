@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Models\{Shift, Sale, Bill};
+use App\Models\{Sale, Bill};
 
 class Sales extends Component
 {

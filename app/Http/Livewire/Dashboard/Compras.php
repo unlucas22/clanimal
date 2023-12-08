@@ -18,8 +18,8 @@ class Compras extends Component
         'id' => 'ID',
         'fecha' => 'Fecha de recepción',
         'factura' => 'Factura',
-        'total' => 'Monto Total',
-        'status' => 'Estado'
+        'monto_formatted' => 'Monto Total',
+        'status_formatted' => 'Estado'
     ];
 
     public $listeners = ['refreshParent' => '$refresh'];

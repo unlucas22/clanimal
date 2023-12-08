@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{Product, ProductBrand, ProductCategory, ProductDetail, ProductPresentation, Warehouse, ProductInWarehouse};
 use Illuminate\Support\Facades\{Auth, Log};
+use App\Http\Requests\ProductStoreRequest;
 use Carbon\Carbon;
 use DB;
-use App\Http\Requests\ProductStoreRequest;
-
 
 class ProductController extends Controller
 {
@@ -79,8 +78,6 @@ class ProductController extends Controller
             Log::info($e->getMessage());
 
             DB::rollback();
-
-            ddd($e->getMessage());
         }
     }
 
@@ -119,8 +116,6 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-
-
             $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
 
             $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();

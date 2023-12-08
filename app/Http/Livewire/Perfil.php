@@ -3,8 +3,8 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Hashids;
 use App\Models\{User, Control};
+use Hashids;
 
 class Perfil extends Component
 {

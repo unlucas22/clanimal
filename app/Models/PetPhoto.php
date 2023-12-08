@@ -14,11 +14,6 @@ class PetPhoto extends Model
         'pet_id',
     ];
 
-    public function pets()
-    {
-        return $this->belongsTo(Pet::class, 'pet_id', 'id');
-    }
-
     /**
      * The accessors to append to the model's array form.
      *
@@ -27,6 +22,12 @@ class PetPhoto extends Model
     protected $appends = [
         'formatted_path',
     ];
+    
+    public function pets()
+    {
+        return $this->belongsTo(Pet::class, 'pet_id', 'id');
+    }
+
 
     public function getFormattedPathAttribute()
     {

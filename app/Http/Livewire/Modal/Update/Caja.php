@@ -35,7 +35,7 @@ class Caja extends ModalComponent
 
     public function render()
     {
-        return view('livewire.modal.store.caja', [
+        return view('livewire.modal.update.caja', [
             'users' => User::get(),
             'sedes' => Company::get(),
         ]);

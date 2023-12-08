@@ -1,1 +1,1 @@
-<div><x-btn/></div>
+<div><a href="{{ route('dashboard.show.warehouse', ['hashid' => $item->hashid]) }}"><x-btn/></a></div>

@@ -13,11 +13,12 @@ class Permission extends Model
         'name',
         'description',
     ];
+    
+    public $timestamps = false;
 
     public function permission_for_roles()
     {
         return $this->hasMany(PermissionForRole::class);
     }
 
-    public $timestamps = false;
 }

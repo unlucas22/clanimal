@@ -10,6 +10,16 @@ use Hashids;
 
 class Control extends Component
 {
+    public $user_dni;
+    public $motivo_id;
+    public $company_id;
+    public $link;
+
+    protected $rules = [
+        'user_dni' => 'required|min:8|max:50',
+        'motivo_id' => 'required',
+        'company_id' => 'required',
+    ];
 
     public function mount()
     {
@@ -29,17 +39,6 @@ class Control extends Component
         ]);
     }
 
-    public $user_dni;
-    public $motivo_id;
-    public $company_id;
-    public $link;
-
-    protected $rules = [
-        'user_dni' => 'required|min:8|max:50',
-        'motivo_id' => 'required',
-        'company_id' => 'required',
-    ];
-
     /**
      *  con el link escaneado redirije a DashboardController con el id hasheado 
      * */
@@ -58,7 +57,6 @@ class Control extends Component
         {
             $user = User::where('cedula', $this->user_dni)->firstOrFail();
 
-            /* modificar config.app para obtener el timezone adecuado */
             $date = Hashids::encode(
                 intval(now()->format('H'))
             );

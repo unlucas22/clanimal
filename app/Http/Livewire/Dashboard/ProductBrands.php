@@ -19,6 +19,7 @@ class ProductBrands extends Component
     ];
 
     protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
+    public $search = '';
 
     public function delete($item_id)
     {
@@ -27,7 +28,6 @@ class ProductBrands extends Component
         $this->emit('refreshComponent');
     }
 
-    public $search = '';
 
     public function getItems()
     {

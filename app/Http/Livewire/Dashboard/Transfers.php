@@ -4,40 +4,36 @@ namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 use App\Traits\HasTable;
+use App\Models\Transfer;
 
-class ProductPresentations extends Component
+class Transfers extends Component
 {
-    use HasTable;
+     use HasTable;
 
-    public $title = 'Tipo de Presentación';
+    public $title = 'Salida de Productos';
 
     public $columns = [
         'id' => 'ID',
-        'name' => 'Titulo',
-        'description' => 'Descripción',
-        'formatted_active' => 'Estado',
+        'fecha_envio' => 'Fecha de Envío',
+        'fecha_recepcion' => 'Fecha de Recepción',
+        'status_formatted' => 'Estado',
     ];
 
-    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
     public $search = '';
-
-    public function delete($item_id)
-    {
-        $this->deleteItem($item_id);
-    }
 
     public function getItems()
     {
-        $query = \App\Models\ProductPresentation::query();
+        $query = Transfer::query();
 
         if($this->search != '')
         {
-            $query->where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('description', 'like', '%' . $this->search . '%')
+            $query->where('fecha_envio', 'like', '%' . $this->search . '%')
+                ->orWhere('fecha_recepcion', 'like', '%' . $this->search . '%')
+                ->orWhere('status', 'like', '%' . $this->search . '%')
                 ->orWhere('id', 'like', '%' . $this->search . '%');
         }
 
-        $query->withCount('products');
+        $query->with(['companies', 'product_for_transfers']);
 
         $query->orderBy('updated_at', 'desc');
 
@@ -46,13 +42,12 @@ class ProductPresentations extends Component
 
     public function render()
     {
-        $this->table = 'product_presentations';
+        $this->table = 'transfers';
 
         $this->relationships = [
+            'Destino Sede',
             'Total Productos',
         ];
-
-        $this->relationship_name = 'product-details';
 
         $this->created_at = false;
 
@@ -61,8 +56,8 @@ class ProductPresentations extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            'action_name' => 'product-presentation',
-            'head_name' => 'product-presentation',
+            // 'action_name' => 'supplier',
+            'head_name' => 'transfer',
         ]);
     }
 }

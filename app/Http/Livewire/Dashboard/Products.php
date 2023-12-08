@@ -18,14 +18,13 @@ class Products extends Component
 
     public $listeners = ['refreshParent' => '$refresh'];
 
-    /* eliminar */
+    public $search = '';
+
     public function eliminar($item_id)
     {
         ProductDetail::where('product_id', $item_id)->delete();
         Product::where('id', $item_id)->delete();
     }
-
-    public $search = '';
 
     public function getItems()
     {

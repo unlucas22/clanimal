@@ -110,8 +110,6 @@ class PetController extends Controller
             return redirect(route('dashboard.receptions'));
         
         } catch (\Exception $e) {
-
-            ddd($e->getMessage());
             Log::error($e->getMessage());
             return redirect()->back();
         }
@@ -159,7 +157,6 @@ class PetController extends Controller
 
         try
         {
-
             $image = null;
 
             for ($i=0; $i < $this->limit; $i++)
@@ -191,8 +188,6 @@ class PetController extends Controller
         {
             Log::error($e->getMessage());
             DB::rollback();
-
-            ddd($e->getMessage());
         }
     }
 

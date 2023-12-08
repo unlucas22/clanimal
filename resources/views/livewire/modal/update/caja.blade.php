@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="submit" class="space-y-4 p-4">
+            <form wire:submit.prevent="save" class="space-y-4 p-4">
 
                 <!-- name -->
                 <div class="col-span-6 sm:col-span-4">

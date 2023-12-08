@@ -4,9 +4,13 @@ namespace App\Traits;
 
 trait Captcha {
 
+    /* Reemplazar en .env */
     public $public_key = '6Lf391shAAAAAEij46zNjIHm2O8e6oYXPP56Llzk';
     protected $secret_key = '6Lf391shAAAAABeT08kWBOSMKFtTRoon_2dh1gz5';
 
+    /**
+     * Validacion del Captcha
+     * */
     public function captchaValidation($g_response)
     {
         if(!isset($g_response) || empty($g_response))
@@ -23,16 +27,13 @@ trait Captcha {
 
         $grecaptcha = json_decode(curl_exec($ch), true);
 
-    //        ddd([$grecaptcha, curl_exec($ch)]);
-        
         curl_close($ch);
 
         if($grecaptcha['success'] === false)
         {
-            // sprintf('Captcha invalido: %s, vuelva a intentarlo', $grecaptcha['error-codes'][0])
+            // Captcha invalido: vuelva a intentarlo
             return false;
         }
-
 
         return true;
     }

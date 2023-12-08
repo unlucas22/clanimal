@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Client, User, Control, Reason};
-use Illuminate\Support\Facades\{Auth, Cookie};
-use Illuminate\Support\Facades\Log;
+use App\Models\{User, Control};
+use Illuminate\Support\Facades\{Auth, Cookie, Log};
 use BrowserDetect;
 use Hashids;
 use Carbon\Carbon;
@@ -45,7 +44,7 @@ class DashboardController extends Controller
             }
             $now = (Carbon::parse($date.':'.now()->format('i:s')))->format('Y-m-d H:i:s');*/
 
-            /* Que no se registre dos veces en la misma día */
+            /* Que no se registre dos veces en la misma hora */
             if(!Cookie::has('qr_validation'))
             {
                 $device = 'Navegador: '.BrowserDetect::browserName().' - SO: '.BrowserDetect::platformName().' - Dispositivo: '.BrowserDetect::deviceFamily();
@@ -69,8 +68,6 @@ class DashboardController extends Controller
         }
         catch (\Exception $e)
         {
-
-            ddd($req);
             Log::error($e->getMessage());
 
             Cookie::forget('qr_validation');

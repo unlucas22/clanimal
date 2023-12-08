@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWarehousesTable extends Migration
+class CreateTransfersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateWarehousesTable extends Migration
      */
     public function up()
     {
-        Schema::create('warehouses', function (Blueprint $table) {
+        Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            $table->foreign('company_id')->references('id')->on('companies');
+            $table->unsignedBigInteger('company_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
-            $table->unsignedBigInteger('supplier_id');
-            $table->enum('status', ['crédito', 'pendiente' ,'cancelado'])->default('pendiente');
-            $table->string('factura');
-            $table->text('motivo')->nullable();
-            $table->timestamp('fecha');
+            $table->enum('status', ['completado', 'en proceso', 'cancelado']);
+            $table->timestamp('fecha_envio');
+            $table->timestamp('fecha_recepcion')->nullable();
+            $table->text('motivo');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateWarehousesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('warehouses');
+        Schema::dropIfExists('transfers');
     }
 }

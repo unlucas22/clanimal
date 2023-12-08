@@ -1,4 +1,4 @@
-<div>
+<div class="p-4">
     <div class="mb-4">
         <h2 class="font-semibold text-xl">Compras realizadas a proveedores</h2>
     </div>

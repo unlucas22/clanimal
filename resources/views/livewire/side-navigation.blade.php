@@ -35,12 +35,12 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('dashboard.suppliers') }}"  @class([
+                        <a href="{{ route('dashboard.transfers') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.suppliers')
+                            'bg-gray-100' => request()->routeIs('dashboard.transfers')
                             ])>
-                            <x-icons.heroicons.db />
-                            <span class="ml-3">Proveedores</span>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Salida de Productos</span>
                         </a>
                     </li>
 
@@ -198,6 +198,16 @@
                         </a>
                     </li>
                      --}}
+
+                    <li>
+                        <a href="{{ route('dashboard.suppliers') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.suppliers')
+                            ])>
+                            <x-icons.heroicons.db />
+                            <span class="ml-3">Proveedores</span>
+                        </a>
+                    </li>
 
                     <li>
                         <a href="{{ route('dashboard.sedes') }}"  @class([

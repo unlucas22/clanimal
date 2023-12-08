@@ -18,13 +18,12 @@ class Classifications extends Component
     ];
 
     protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
+    public $search = '';
 
     public function delete($item_id)
     {
         $this->deleteItem($item_id);
     }
-
-    public $search = '';
 
     public function getItems()
     {

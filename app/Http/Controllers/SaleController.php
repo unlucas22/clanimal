@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Product, Sale, Bill, ProductForSale};
-use App\Traits\NubeFact;
+use App\Models\{Bill, ProductForSale};
 use Illuminate\Support\Facades\{Auth, Log};
-use DB;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\SaleStoreRequest;
+use App\Traits\NubeFact;
+use DB;
 
 class SaleController extends Controller
 {
@@ -65,8 +65,6 @@ class SaleController extends Controller
 
         } catch (\Exception $e) {
             DB::rollback();
-
-            ddd($e->getMessage());
         }
     }
 
@@ -77,8 +75,6 @@ class SaleController extends Controller
         return view('show.comprobante', [
             'bill' => $bill
         ]);
-
-        // Redirect::to($bill->enlace);
     }
 
     public function asignProductToBill($ids, $bill_id)

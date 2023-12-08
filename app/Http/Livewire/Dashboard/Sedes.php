@@ -23,6 +23,9 @@ class Sedes extends Component
 
     protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
 
+    /**
+     *  ¡para un futuro: asignar a otra sede los colaboradores y productos!
+     * */
     public function delete($item_id)
     {
         $this->deleteItem($item_id);

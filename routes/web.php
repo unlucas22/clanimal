@@ -13,7 +13,6 @@ use App\Http\Controllers\{DashboardController, PetController, ProductController,
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -21,11 +20,12 @@ Route::middleware([
     'active'
 ])->group(function () {
 
+    /*** Index: Charts e informacion general ***/
     Route::view('/dashboard', 'dashboard')->name('dashboard.index');
     
     Route::prefix('dashboard')->group(function () {
 
-        /* Modulos para admin */
+        /*** Modulos para administradores: configuracion y colaboradores ***/
         Route::middleware(['admin'])->group(function () {
             Route::view('/users', 'dashboard')->name('dashboard.users');
             Route::view('/roles', 'dashboard')->name('dashboard.roles');
@@ -40,39 +40,58 @@ Route::middleware([
         Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
         Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
 
-        /* Turnos */
+        /* Turnos y Recepcion */
         Route::view('/turnos', 'dashboard')->name('dashboard.shifts');
         Route::view('/atencion-veterinaria', 'dashboard')->name('dashboard.atencion-veterinaria');
         Route::view('/peluqueria-canina', 'dashboard')->name('dashboard.peluqueria-canina');
         Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
+        
+        /*** Modulo en Desuso ---> Servicios ***/
         Route::view('/servicios', 'dashboard')->name('dashboard.services');
-        Route::view('/mascotas', 'dashboard')->name('dashboard.pets');
+
+
+        /*** Producto ***/
+        
         Route::view('/productos', 'dashboard')->name('dashboard.products');
-
-        Route::view('/sales', 'dashboard')->name('dashboard.sales');
-
-        /* Producto */
+        
         Route::get('/create/product', function(){
             return view('create.product');
         })->name('dashboard.create.product');
 
+        Route::post('/store/product', [ProductController::class, 'store'])->name('dashboard.store.product');
+
+        /*** Almacen de Productos ***/
         Route::get('/create/warehouse', function(){
             return view('create.warehouse');
         })->name('dashboard.create.warehouse');
 
+        Route::get('/show/warehouse/{hashid}', function(){
+            return view('show.warehouse');
+        })->name('dashboard.show.warehouse');
+
         Route::post('store/warehouse', [ProductController::class, 'storeWarehouse'])->name('dashboard.store.warehouse');
 
-        Route::post('/store/product', [ProductController::class, 'store'])->name('dashboard.store.product');
+        /*** Salida de Productos ***/
 
-        /* Configuracion de producto */
+        Route::view('/salida-de-productos', 'dashboard')->name('dashboard.transfers');
+
+        Route::get('/create/salida-de-productos', function(){
+            return view('create.transfer');
+        })->name('dashboard.create.transfer');
+
+        /*** Configuracion para productos ***/
         Route::view('product/categories', 'create.product.category')->name('product.categories');
         Route::view('product/brands', 'create.product.brand')->name('product.brands');
         Route::view('product/presentations', 'create.product.presentation')->name('product.presentations');
 
-        /* Cliente Y Mascotas */
+        /*** Cliente ***/
         Route::view('/create/client', 'dashboard')->name('dashboard.create.client');
         Route::get('/show/client/{hashid}', [DashboardController::class, 'showClient'])->name('dashboard.show.client');
-        
+
+        /*** Mascotas ***/
+
+        Route::view('/mascotas', 'dashboard')->name('dashboard.pets');
+
         Route::get('/create/pet-images/{hashid}', [PetController::class, 'createPetImages'])->name('dashboard.create.pet-images');
         Route::post('/store/pet-images', [PetController::class, 'storePetImages'])->name('dashboard.update.pet-images');
 
@@ -84,7 +103,8 @@ Route::middleware([
             return view('show.pet');
         })->name('dashboard.show.pet');
 
-        /* Turno y Recepción */
+
+        /*** Turno y Recepción ***/
 
         Route::get('/create/shift/{hashid?}', function() {
             return view('create.turno');  
@@ -95,7 +115,10 @@ Route::middleware([
         Route::get('/create/reception/{hashid?}', [PetController::class, 'createReception'])->name('dashboard.create.reception');
         Route::post('/store/reception', [PetController::class, 'storeReception'])->name('dashboard.store.reception');
 
-        /* Venta */
+        /*** Venta de Servicios y Productos ***/
+        
+        Route::view('/sales', 'dashboard')->name('dashboard.sales');
+        
         Route::get('venta/atencion-veterinaria/{hashid}', function() {
             return view('create.venta.atencion-veterinaria');  
         })->name('dashboard.venta.atencion-veterinaria');
@@ -110,15 +133,12 @@ Route::middleware([
 
         Route::post('venta/productos', [SaleController::class, 'store'])->name('dashboard.store.venta.productos');
 
+        /*** Comprobante de Compra ***/
         Route::get('comprobante/{bill_id}', [SaleController::class, 'show'])->name('dashboard.show.venta.factura');
     });
-
-    Route::view('panel', 'panel')->name('panel.overview');
 });
 
-
-
-/* QR de colaboradores */
+/*** QR de colaboradores ***/
 
 Route::get('qr/verification/{hashid}/{date}', [DashboardController::class, 'qrVerification'])->name('qr.verification');
 
@@ -133,10 +153,10 @@ Route::get('perfil-colaborador', function(){
     return view('perfil');
 })->name('perfil.colaborador');
 
-/* Obtener día y hora con turno */
+/*** JSON en desuso para obtener turnos del día ***/
 Route::post('get-turnos', [PetController::class, 'getShifts'])->name('api.get.shifts');
 
-/* Vista General */
+/*** Redirección general ***/
 Route::get('/', function () {
     return redirect('dashboard');
 });

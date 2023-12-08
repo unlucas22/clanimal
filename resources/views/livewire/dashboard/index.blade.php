@@ -18,7 +18,7 @@
             @break
 
         @default
-            {{-- REDIRECT ???  --}}
+            {{-- FUTUROS COMPONENTES PARA COLABORADORES  --}}
             @break
 
     @endswitch
