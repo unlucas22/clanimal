@@ -107,13 +107,11 @@ class Transfer extends Component
     {
         try {
 
-            foreach ($this->productos_guardados as $index => $id)
+            foreach ($this->productos_guardados as $index => $producto)
             {
-                if($item_id == $id)
+                if($item_id == $producto['id'])
                 {
                     array_splice($this->productos_guardados, $index, 1);
-
-                    ProductForTransfer::where('id', $item_id)->delete();
                 }
             }
 
