@@ -18,6 +18,8 @@ class Transfers extends Component
         'fecha_recepcion' => 'Fecha de Recepción',
         'status_formatted' => 'Estado',
     ];
+    
+    public $listeners = ['refreshParent' => '$refresh'];
 
     public $search = '';
 
@@ -51,12 +53,14 @@ class Transfers extends Component
 
         $this->created_at = false;
 
+        $this->can_delete = false;
+
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            // 'action_name' => 'supplier',
+            'action_name' => 'transfer',
             'head_name' => 'transfer',
         ]);
     }
