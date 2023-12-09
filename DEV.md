@@ -1,8 +1,3 @@
-## Pending
-
-- Modulo Productos para Tienda
-- Modulo Traslados
-
 ## ClinicAnimal
 
 - composer create-project laravel/laravel clinicanimal

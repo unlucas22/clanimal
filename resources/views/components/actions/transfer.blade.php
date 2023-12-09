@@ -6,5 +6,5 @@
 </div>
 @endif
 
-<div><a href="#">
+<div><a href="{{ route('dashboard.show.transfer', ['hashid' => $item->hashid]) }}">
     <x-btn/></a></div>

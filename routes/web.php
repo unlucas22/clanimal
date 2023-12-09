@@ -79,6 +79,10 @@ Route::middleware([
             return view('create.transfer');
         })->name('dashboard.create.transfer');
 
+        Route::get('/show/transfer/{hashid}', function(){
+            return view('show.transfer');
+        })->name('dashboard.show.transfer');
+
         /*** Configuracion para productos ***/
         Route::view('product/categories', 'create.product.category')->name('product.categories');
         Route::view('product/brands', 'create.product.brand')->name('product.brands');
