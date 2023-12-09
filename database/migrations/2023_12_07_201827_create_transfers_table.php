@@ -22,7 +22,7 @@ class CreateTransfersTable extends Migration
             $table->enum('status', ['completado', 'en proceso', 'cancelado']);
             $table->timestamp('fecha_envio');
             $table->timestamp('fecha_recepcion')->nullable();
-            $table->text('motivo');
+            $table->text('motivo')->nullable();
             $table->timestamps();
         });
     }

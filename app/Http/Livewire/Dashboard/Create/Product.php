@@ -18,7 +18,7 @@ class Product extends Component
     public $amount = 1;
     public $amount_presentation = 1;
 
-    public $precio_compra;
+    public $precio_compra = 1;
     public $alerta_stock = 1;
 
     /* foreach por cada id */

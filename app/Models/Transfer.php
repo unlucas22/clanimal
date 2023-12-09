@@ -81,4 +81,9 @@ class Transfer extends Model
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
+
+    public function product_for_transfers()
+    {
+        return $this->hasMany(ProductForTransfer::class);
+    }
 }

@@ -80,13 +80,10 @@
                 </h2>
             </div>
 
-            <form {{-- action="{{ route('dashboard.store.venta.productos') }}" method="POST"  --}} class="space-y-10">
+            <form wire:submit.prevent="submit" class="space-y-10">
                 @csrf
 
                 <input type="hidden" wire:model="productos_guardados" name="productos_guardados">
-
-                <input type="hidden" wire:model="igv" name="igv" value="0">
-                <input type="hidden" wire:model="total" name="total" value="0">
 
                 <div>
                     <div>Productos:</div>
@@ -138,137 +135,43 @@
 
                 </div>
 
-                <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Destino Sede</div>
-                
-                <div class="w-full" wire:ignore>
-
-                    
-                    <div class='relative searchable-list-brand'>
-                        <input type='text' class='data-list-brand peer block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' id="product-brand" spellcheck="false"  placeholder="Buscar una marca" name="vendedor_id"></input>
-                        <svg class="outline-none cursor-pointer fill-gray-400 absolute transition-all duration-200 h-full w-4 -rotate-90 right-2 top-[50%] -translate-y-[50%]"
-                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <path d="M0 256l512 512L1024 256z"></path>
-                        </svg>
-                        <ul class='absolute option-list-brand overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
-                            left-0 bg-white rounded-sm scale-0 opacity-0 
-                            transition-all 
-                            duration-200 origin-top-left'>
-                        </ul>
+                <div >
+                    <label for="fecha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de envío</label>
+                    <div class="relative max-w-sm">
+                      <div class="absolute flex items-center pl-3 mt-3 pointer-events-none">
+                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                          </svg>
+                      </div>
+                      <input datepicker datepicker-format="mm/dd/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="datepicker" placeholder="Seleccionar Fecha" name="fecha" id="fecha" wire:model="fecha_envio" required value="{{ now()->format('m/d/Y') }}" disabled onchange="handler(event);">
                     </div>
+                </div>
 
-                    <script>
-                    // see how to use at the end of the script
-                    const domParser = new DOMParser();
-                    const dataListBrand = {
-                        el:document.querySelector('.data-list-brand'),
-                        listEl:document.querySelector('.option-list-brand'),
-                        arrow:document.querySelector(".searchable-list-brand>svg"),
-                        currentValue:null,
-                        listOpened :false,
-                        optionTemplate:
-                        `
-                        <li
-                            class='data-option-brand select-none break-words inline-block text-sm text-gray-500 bg-gray-100 odd:bg-gray-200 hover:bg-gray-300 hover:text-gray-700 transition-all duration-200 font-bold p-3 cursor-pointer max-w-full '>
-                                [[REPLACEMENT]]
-                        </li>
-                        `,
-                        optionElements:[],
-                        options:[], 
-                        find(str){
-                            for(let i = 0;i<dataListBrand.options.length;i++){
-                                const option = dataListBrand.options[i];
-                                if(!option.toLowerCase().includes(str.toLowerCase())){
-                                    dataListBrand.optionElements[i].classList.remove('block');
-                                    dataListBrand.optionElements[i].classList.add('hidden');
-                                }else{
-                                    dataListBrand.optionElements[i].classList.remove('hidden');
-                                    dataListBrand.optionElements[i].classList.add('block');
-                                }
-                            }
-                        },  
-                        remove(value){
-                            const foundIndex = dataListBrand.options.findIndex(v=>v===value);
-                            if(foundIndex!==-1){
-                                dataListBrand.listEl.removeChild(dataListBrand.optionElements[foundIndex])
-                                dataListBrand.optionElements.splice(foundIndex,1);
-                                dataListBrand.options.splice(value,1);
-                            }
-                        },
-                        append(value){    
-                            if(!value || typeof value === 'object' || typeof value === 'symbol' || typeof value ==='function') return;
-                            value = value.toString().trim();
-                            if(value.length === 0) return; 
-                            if(dataListBrand.options.includes(value)) return;
-
-                            const html = dataListBrand.optionTemplate.replace('[[REPLACEMENT]]',value);
-                            const targetEle = domParser.parseFromString(html, "text/html").querySelector('li');
-                            targetEle.innerHTML = targetEle.innerHTML.trim();
-                            dataListBrand.listEl.appendChild(targetEle);
-                            dataListBrand.optionElements.push(targetEle);  
-                            dataListBrand.options.push(value);
-
-                            if(!dataListBrand.currentValue) dataListBrand.setValue(value);
-                  
-                            targetEle.onmousedown = (e)=>{
-                                dataListBrand.optionElements.forEach((el,index)=>{
-                                    if(e.target===el){
-                                        dataListBrand.setValue(dataListBrand.options[index]);
-                                        dataListBrand.hideList();
-                                        return;
-                                    }
-                                })
-                            }
-                        },  
-                        setValue(value){
-                            dataListBrand.el.value = value;
-                            dataListBrand.currentValue = value;
-                        },
-                        showList(){
-                            dataListBrand.listOpened = true;
-                            dataListBrand.listEl.classList.add('opacity-100');
-                            dataListBrand.listEl.classList.add('scale-100');
-                            dataListBrand.arrow.classList.add("rotate-0");
-                        },
-                        hideList(){
-                            dataListBrand.listOpened = false;
-                            dataListBrand.listEl.classList.remove('opacity-100');
-                            dataListBrand.listEl.classList.remove('scale-100');
-                            dataListBrand.arrow.classList.remove("rotate-0");
-                        },
-                        init(){ 
-                            dataListBrand.arrow.onclick = ()=>{
-                                dataListBrand.listOpened ? dataListBrand.hideList(): dataListBrand.showList();
-                            } 
-                            dataListBrand.el.oninput = (e)=>{
-                                dataListBrand.find(e.target.value);
-                            }
-                            dataListBrand.el.onclick= (el)=>{
-                                dataListBrand.showList();
-                                for(let el of dataListBrand.optionElements){
-                                    el.classList.remove('hidden');
-                                }
-                            }
-                            dataListBrand.el.onblur = (e)=>{
-                                dataListBrand.hideList();
-                                dataListBrand.setValue(dataListBrand.currentValue);
-                            }
-                        }
+                <div wire:ignore>
+                <script>
+                    window.onload = function(){
+                        const datepickerEl = document.getElementById('datepicker');
+                        
+                        new Datepicker(datepickerEl, {
+                            // options
+                        });
                     }
-
-                    // how to use
-                    dataListBrand.init(); 
-                    // add items
-                    const data = [
-                        @foreach($sedes as $sede) "{{ $sede->name }}", @endforeach
-                    ];
-                    data.forEach(v=>(dataListBrand.append(v))); 
-                    </script>
+                </script>
+                </div>
+  
+                <div class="w-full">
+                    <x-form.select :name="'company_id'" :model="'company_id'" :label="'Destino Sede'">
+                        @forelse($sedes as $sede)
+                        <option @if($loop->first) selected @endif value="{{ $sede->id }}">{{ ucwords($sede->name) }}</option>
+                        @empty
+                        <option>Error.</option>
+                        @endforelse
+                    </x-form.select>
                 </div>
 
                 <div class="flex justify-between gap-8">
                     <div>
-                        <button class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" disabled>Guardar</button>
+                        <button class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Guardar</button>
                     </div>
                 </div>
 

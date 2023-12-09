@@ -47,7 +47,7 @@ class Warehouse extends Component
 
     /* Precio de cada producto */
     public $precio_compra = [
-        0, 0
+        1, 1
     ];
 
     public $product_presentation_details_id = [

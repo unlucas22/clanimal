@@ -20,7 +20,7 @@ class CreateProductDetailsTable extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('product_id');
             $table->integer('amount')->default(1);
-            $table->integer('discount')->nullable();
+            $table->integer('discount')->default(0)->nullable();
             $table->double('precio_venta_sin_igv');
             $table->double('precio_venta_con_igv');
             $table->timestamps();

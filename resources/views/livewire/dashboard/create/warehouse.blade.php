@@ -74,7 +74,7 @@
                 </div>
                 <div>
                     <div>
-                        <a wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">Agregar Precio</a>
+                        <a wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">Agregar Producto</a>
                     </div>    
                 </div>
             </div>
@@ -125,7 +125,7 @@
                     <div class="relative z-0 w-full mb-6 group">
                         <div>
                             <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio compra</label>
-                            <input type="number" step="0.1" name="precio_compra[{{ $i }}]" id="precio_compra{{ $i }}" wire:model.defer="precio_compra.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required min=0>
+                            <input type="number" step="0.1" name="precio_compra[{{ $i }}]" id="precio_compra{{ $i }}" wire:model.defer="precio_compra.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" placeholder="" required min=0>
                         </div>
                     </div>
 

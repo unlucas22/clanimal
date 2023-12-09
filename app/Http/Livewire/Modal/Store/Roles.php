@@ -89,8 +89,8 @@ class Roles extends ModalComponent
             Log::error($e->getMessage());
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
-                'icon' => 'success',
-                'iconColor' => 'green',
+                'icon' => 'error',
+                'iconColor' => 'red',
             ]);
         }
     }

@@ -310,7 +310,7 @@
                 </div>
 
                 <div class=" w-full mb-6 group">
-                    <x-form.input :name="'precio_compra'" :model="'precio_compra'" :label="'Precio Compra'" :type="'number'" :required="'required'" />
+                    <x-form.input :name="'precio_compra'" :model="'precio_compra'" :label="'Precio Compra'" :type="'number'" :required="'required min=1'" />
                     @error('precio_compra') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
