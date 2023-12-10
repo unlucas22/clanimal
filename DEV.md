@@ -1,3 +1,8 @@
+## Pendiente
+
+- pagination link para dos tablas diferentes, modulos: "recepcion" y "productos para Tienda".
+- descontar stock del almacen (producto)
+
 ## ClinicAnimal
 
 - composer create-project laravel/laravel clinicanimal

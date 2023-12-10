@@ -35,6 +35,16 @@
                     </li>
 
                     <li>
+                        <a href="{{ route('dashboard.tienda') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.tienda')
+                            ])>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Productos para tienda</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="{{ route('dashboard.transfers') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.transfers')

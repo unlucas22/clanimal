@@ -45,6 +45,8 @@ Route::middleware([
         Route::view('/atencion-veterinaria', 'dashboard')->name('dashboard.atencion-veterinaria');
         Route::view('/peluqueria-canina', 'dashboard')->name('dashboard.peluqueria-canina');
         Route::view('/recepcion', 'dashboard')->name('dashboard.receptions');
+
+        Route::view('/productos-para-tienda', 'dashboard')->name('dashboard.tienda');
         
         /*** Modulo en Desuso ---> Servicios ***/
         Route::view('/servicios', 'dashboard')->name('dashboard.services');

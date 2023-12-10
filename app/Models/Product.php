@@ -40,7 +40,8 @@ class Product extends Model
         'photo_url',
         'fecha_de_vencimiento_formatted',
         'ganancia',
-        'precio_venta_total'
+        'precio_venta_total',
+        'stock_total',
     ];
 
     /**
@@ -69,6 +70,21 @@ class Product extends Model
         }
 
         return $precio_venta_con_igv;
+    }
+
+    public function getStockTotalAttribute()
+    {
+
+        $products = $this->product_details;
+
+        $stock = 0;
+
+        foreach ($products as $product)
+        {
+            $stock += $product->amount ?? 0;
+        }
+
+        return $stock;
     }
 
     public function getGananciaAttribute()

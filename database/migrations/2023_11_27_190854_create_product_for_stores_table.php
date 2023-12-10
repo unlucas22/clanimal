@@ -16,7 +16,6 @@ class CreateProductForStoresTable extends Migration
         Schema::create('product_for_stores', function (Blueprint $table) {
             $table->id();
             $table->string('stock');
-            $table->timestamp('fecha');
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('product_id');
             $table->foreign('company_id')->references('id')->on('companies');

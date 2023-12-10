@@ -42,11 +42,26 @@ class Transfer extends Model
     protected $appends = [
         'status_formatted',
         'hashid',
+        'stock_total',
     ];
 
     public function getHashidAttribute()
     {
         return Hashids::encode($this->id);
+    }
+
+    public function getStockTotalAttribute()
+    {
+        $transfers = $this->product_for_transfers;
+
+        $stock = 0;
+
+        foreach ($transfers as $product)
+        {
+            $stock += $product->stock;
+        }
+
+        return $stock;
     }
 
     public function scopeHashid($query, $hashid)
