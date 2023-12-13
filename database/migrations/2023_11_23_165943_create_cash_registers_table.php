@@ -16,10 +16,13 @@ class CreateCashRegistersTable extends Migration
     {
         Schema::create('cash_registers', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->unsignedBigInteger('user_id');
-            $table->double('amount')->default(0);
-            $table->enum('status', ['validacion', 'completado', 'rechazado'])->default('validacion');
+            $table->foreign('casher_id')->references('id')->on('cashers');
+            $table->unsignedBigInteger('casher_id');
+            $table->double('en_caja')->default(0);
+            $table->double('total_efectivo')->nullable();
+            $table->double('total_tarjeta')->nullable();
+            $table->double('total_virtual')->nullable();
+            $table->enum('status', ['en proceso','validacion', 'completado', 'rechazado'])->default('validacion');
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });

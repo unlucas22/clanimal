@@ -12,11 +12,55 @@ class Receptions extends Component
 
     public $title = 'Recepción';
 
+    public $searchShift = '';
+
+    public $searchNotification = '';
+
+    public function getItemsFromShift()
+    {
+        $query = Shift::query();
+
+        if($this->searchShift != '')
+        {
+            $query->whereHas('pets', function($q) {
+                $q->where('name', 'like', '%' . $this->searchShift . '%');
+            })->orWhere('status', 'like', '%' . $this->searchShift . '%')->orWhere('id', 'like', '%' . $this->searchShift . '%');
+        }
+
+        $query->whereIn('status', $this->status_lista_de_espera);
+
+        $query->with(['users', 'pets', 'services']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate(10, '*', 'paginationShift');
+    }
+
+    public function getItemsFromNotification()
+    {
+        $query = Shift::query();
+
+        if($this->searchNotification != '')
+        {
+            $query->whereHas('products', function($q){
+                $q->where('name', 'like', '%' . $this->searchNotification . '%');
+            })->orWhere('fecha', 'like', '%' . $this->searchNotification . '%');
+        }
+
+        $query->whereIn('status', $this->status_notificaciones);
+
+        $query->with(['users', 'pets', 'services']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate(10, '*', 'paginationNotification');
+    }
+
     public function render()
     {
-        $shifts = Shift::with(['users', 'pets', 'services'])->whereIn('status', $this->status_lista_de_espera)->orderBy('updated_at', 'desc')->paginate(25);
+        $shifts = $this->getItemsFromShift();
 
-        $notifications = Shift::with(['users', 'pets', 'services'])->whereIn('status', $this->status_notificaciones)->orderBy('updated_at', 'desc')->paginate(25);
+        $notifications = $this->getItemsFromNotification();
 
         return view('livewire.dashboard.receptions', [
             'shifts' => $shifts,

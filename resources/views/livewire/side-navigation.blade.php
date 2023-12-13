@@ -79,6 +79,18 @@
 
                     <x-hr :content="'Operaciones'" />
 
+                    @if(\App\Models\Casher::where('user_id', Auth::user()->id)->active()->count())
+                    <li>
+                        <a href="{{ route('dashboard.caja') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.caja')
+                            ])>
+                            <x-icons.heroicons.wallet />
+                            <span class="ml-3">Caja</span>
+                        </a>
+                    </li>
+                    @endif
+
                     <li>
                         <a href="{{ route('dashboard.receptions') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',

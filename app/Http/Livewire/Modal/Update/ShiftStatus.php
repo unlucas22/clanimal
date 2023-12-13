@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Modal\Update;
 
 use LivewireUI\Modal\ModalComponent;
 use App\Traits\HasStatus;
+use Illuminate\Support\Facades\Log;
 
 class ShiftStatus extends ModalComponent
 {

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier, Casher};
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -174,6 +174,23 @@ class DatabaseSeeder extends Seeder
         if(!Supplier::count())
         {
             $this->createSuppliers();
+        }
+
+        if(!Casher::count())
+        {
+            $this->assignCashers();
+        }
+    }
+
+    protected function assignCashers()
+    {
+        foreach (User::get() as $user)
+        {
+            Casher::create([
+                'name' => random_int(1, 99),
+                'user_id' => $user->id,
+                'company_id' => (Company::first())->id,
+            ]);
         }
     }
 

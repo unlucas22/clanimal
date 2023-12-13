@@ -20,7 +20,19 @@
     {{-- CITAS --}}
     <div>
         <div class="mb-4 p-4">
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Lista de espera</h1>   
+            <div class="flex justify-between">
+                <div>
+                    <div class="sm:pr-3">
+                        <label for="searchfilter1" class="sr-only">Buscar</label>
+                        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+                            <input type="text" name="search" id="searchfilter1" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" wire:model="searchShift" placeholder="Buscar">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Lista de espera</h1>   
+                </div>
+            </div>
         </div>
 
         <div class="flex flex-col">
@@ -96,6 +108,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <div class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
+                            {{ $shifts->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,7 +121,19 @@
     <div class="pt-8">
 
         <div class="mb-4 p-4">
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Notificaciones</h1>   
+            <div class="flex justify-between">
+                <div>
+                    <div class="sm:pr-3">
+                        <label for="searchfilter2" class="sr-only">Buscar</label>
+                        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
+                            <input type="text" name="search" id="searchfilter2" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" wire:model="searchNotification" placeholder="Buscar">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Notificaciones</h1>   
+                </div>
+            </div>
         </div>
 
         <div class="flex flex-col">
@@ -181,6 +208,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <div class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
+                            {{ $notifications->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

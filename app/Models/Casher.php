@@ -44,4 +44,9 @@ class Casher extends Model
              <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Inactivo
         </div>';
     }
+
+    public function scopeActive($qry)
+    {
+        return $qry->where('active', 1);
+    }
 }

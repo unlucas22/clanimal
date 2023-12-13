@@ -34,6 +34,14 @@ Route::middleware([
             Route::view('/cajeros', 'dashboard')->name('dashboard.cajeros');
         });
 
+        /* CAJA */
+        Route::view('/cajas', 'dashboard')->name('dashboard.caja');
+
+        /* y en el mismo se puede cerrar */
+        Route::get('/show/caja/{hashid}', function(){
+            return view('show.caja');
+        })->name('dashboard.show.caja');
+
         Route::view('/proveedores', 'dashboard')->name('dashboard.suppliers');
         Route::view('/compras', 'dashboard')->name('dashboard.compras');
         Route::view('/classifications', 'dashboard')->name('dashboard.classifications');

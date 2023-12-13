@@ -12,19 +12,42 @@ class Tienda extends Component
 {
     use HasTable;
 
-    public $search = '';
+    public $searchStore = '';
+
+    public $searchTransfer = '';
 
     public $listeners = ['refreshParent' => '$refresh', 'marcarComoRecibido'];
 
+    /* Products */
+    public function getItemsFromNotification()
+    {
+        $query = ProductForStore::query();
+
+        if($this->searchStore != '')
+        {
+            $query->whereHas('products', function($q){
+                $q->where('name', 'like', '%' . $this->searchStore . '%');
+            })->orWhere('fecha', 'like', '%' . $this->searchStore . '%')->orWhere('id', 'like', '%' . $this->searchStore . '%');
+        }
+
+        $query->where('company_id', Auth::user()->company_id);
+
+        $query->with(['products', 'users', 'companies']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->paginate(10, '*', 'paginationStore');
+    }
+
+    /* Transferencias */
     public function getItemsFromTransfer()
     {
         $query = Transfer::query();
-
-        /*if($this->search != '')
+        
+        if($this->searchTransfer != '')
         {
-            $query->where('factura', 'like', '%' . $this->search . '%')
-                ->orWhere('fecha', 'like', '%' . $this->search . '%');
-        }*/
+            //$query->where('fecha_recepcion', 'like', '%' . $this->searchTransfer . '%')->orWhere('fecha_envio', 'like', '%' . $this->searchTransfer . '%')->orWhere('id', 'like', '%' . $this->searchTransfer . '%')->where('company_id', Auth::user()->company_id);
+        }
 
         $query->where('company_id', Auth::user()->company_id);
 
@@ -34,31 +57,14 @@ class Tienda extends Component
 
         $query->orderBy('updated_at', 'desc');
 
-        return $query->paginate(10);
+        return $query->paginate(10, '*', 'paginationTransfer');
     }
 
-    public function getItemsFromProductForStore()
-    {
-        $query = ProductForStore::query();
-
-        if($this->search != '')
-        {
-            $query->where('fecha', 'like', '%' . $this->search . '%');
-        }
-
-        $query->where('company_id', Auth::user()->company_id);
-
-        $query->with(['products', 'users', 'companies']);
-
-        $query->orderBy('updated_at', 'desc');
-
-        return $query->paginate(10);
-    }
 
     public function render()
     {
         return view('livewire.dashboard.productos-para-tienda', [
-            'products' => $this->getItemsFromProductForStore(),
+            'products' => $this->getItemsFromNotification(),
             'notifications' => $this->getItemsFromTransfer(),
         ]);
     }
