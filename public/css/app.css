@@ -2304,8 +2304,8 @@ input:checked + .toggle-bg {
 .grid-cols-7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
-.grid-cols-8 {
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+.grid-cols-9 {
+  grid-template-columns: repeat(9, minmax(0, 1fr));
 }
 .flex-row {
   flex-direction: row;
@@ -3936,10 +3936,6 @@ input:checked + .toggle-bg {
     margin-top: 0px;
   }
 
-  .sm\:mt-5 {
-    margin-top: 1.25rem;
-  }
-
   .sm\:block {
     display: block;
   }
@@ -4052,10 +4048,6 @@ input:checked + .toggle-bg {
 
   .sm\:justify-between {
     justify-content: space-between;
-  }
-
-  .sm\:overflow-hidden {
-    overflow: hidden;
   }
 
   .sm\:rounded-lg {

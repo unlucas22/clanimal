@@ -18,7 +18,7 @@ class ProductForStore extends Model
         'company_id',
         'product_id',
         'stock',
-        'fecha',
+        //'fecha',
     ];
 
     public function users()

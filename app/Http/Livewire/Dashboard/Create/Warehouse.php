@@ -23,35 +23,35 @@ class Warehouse extends Component
     public $product_presentation_id;
 
     /* foreach por cada id */
-    public $product_details = 2;
+    public $product_details = 1;
 
     /* EN UN FUTURO DESAPARECE codigo: (27-46) por una tabla como ocurre en Ventas */
     public $amount_details = [
-        1, 2
+        1
     ];
 
     /* Descuento */
     public $discount_details = [
-        0, 0
+        0
     ];
 
     /* Precio venta */
     public $precio_venta_details = [
-        0, 0
+        0
     ];
 
     /* Precio de cada venta con impuestos */
     public $precio_venta_total = [
-        0, 0
+        0
     ];
 
     /* Precio de cada producto */
     public $precio_compra = [
-        1, 1
+        1
     ];
 
     public $product_presentation_details_id = [
-        1, 2
+        1
     ];
 
     public $product_name = [

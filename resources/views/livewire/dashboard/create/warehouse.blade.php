@@ -70,7 +70,7 @@
             {{-- UNIDADES Y PRECIOS SECCION DINAMICA --}}
             <div class="flex justify-between mb-4">
                 <div>
-                    <h2 class="mb-4 text-lg tracking-tight font-extrabold text-gray-900 dark:text-white mt-2">Unidades Y Precios</h2>
+                    <h2 class="mb-4 text-lg tracking-tight font-extrabold text-gray-900 dark:text-white mt-2">Productos. <span class="font-medium">Total: {{ $product_details ?? 0 }}</h2>
                 </div>
                 <div>
                     <div>
@@ -90,8 +90,6 @@
 
                     let descuento = document.getElementById('discount_details'+item_id).value;
 
-                    descuento = (descuento / 100) * total; 
-
                     total -= descuento;
 
                     document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
@@ -102,7 +100,11 @@
             <div class="flex justify-center">
 
 
-                <div class="grid grid-cols-8 gap-4">
+                <div class="grid grid-cols-9 gap-4">
+
+                    <div class="pt-8 text-center">
+                        Id. {{ $i+1 }}
+                    </div>
 
                     <div>
                         <x-form.input :name="'product_name['.$i.']'" :model="'product_name.'.$i" :label="'Producto'" :required="'required'" />
@@ -131,21 +133,21 @@
 
                     <div class="relative z-0 w-full mb-6 group">
                         <div>
-                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Venta sin IGV</label>
+                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio sin IGV</label>
                             <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" required min=0>
                         </div>
                     </div>
 
                     <div class="relative z-0 w-full mb-6 group">
                         <div>
-                            <label for="discount_details{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento %</label>
+                            <label for="discount_details{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento</label>
                             <input type="number" name="discount_details[{{ $i }}]" id="discount_details{{ $i }}" wire:model.defer="discount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" value="0" min="0">
                         </div>
                     </div>
 
                     <div class="relative z-0 w-full mb-6 group">
                         <div>
-                            <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Venta Total</label>
+                            <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total</label>
                             <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" wire:model.defer="precio_venta_total.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" disabled>
                         </div>
                     </div>

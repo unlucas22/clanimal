@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Hashids;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Hashids;
 
 class Product extends Model
 {
@@ -20,7 +20,7 @@ class Product extends Model
         'active',
         'precio_compra',
         'precio_venta',
-        // 'stock',
+        'stock',
         'barcode',
         'palabras_clave',
         'fecha_de_vencimiento',
@@ -42,7 +42,9 @@ class Product extends Model
         'ganancia',
         'precio_venta_total',
         'stock_total',
+        'formatted_active',
     ];
+
 
     /**
      * The attributes that should be cast.
@@ -52,6 +54,21 @@ class Product extends Model
     protected $casts = [
         'fecha_de_vencimiento' => 'datetime',
     ];
+
+    public function getFormattedActiveAttribute()
+    {
+        return $this->active ? '
+        <div class="flex items-center">
+             <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  Activo
+        </div>' : '<div class="flex items-center">
+             <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Inactivo
+        </div>';
+    }
+
+    public function scopeHashid($query, $hashid)
+    {
+        return $query->where('id', Hashids::decode($hashid));
+    }
 
     public function scopeWithStock($query)
     {

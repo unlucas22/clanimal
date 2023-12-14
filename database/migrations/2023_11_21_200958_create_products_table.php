@@ -31,7 +31,7 @@ class CreateProductsTable extends Migration
             $table->string('name', 200);
             $table->double('precio_compra');
             $table->double('precio_venta');
-            //$table->integer('stock')->default(1);
+            $table->integer('stock')->default(0);
 
             $table->integer('amount_presentation')->default(1);
 
@@ -40,7 +40,7 @@ class CreateProductsTable extends Migration
             $table->string('barcode')->nullable();
             $table->text('palabras_clave')->nullable();
             $table->timestamp('fecha_de_vencimiento')->nullable();
-            $table->integer('alerta_stock')->nullable();
+            $table->integer('alerta_stock')->default(1)->nullable();
             $table->string('photo_path', 2048)->nullable();
             
             $table->timestamps();

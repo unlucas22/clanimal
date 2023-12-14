@@ -89,7 +89,7 @@ class Tienda extends Component
                     'company_id' => Auth::user()->company_id,
                     'product_id' => $transfer->product_id,
                     'stock' => $transfer->stock,
-                    'fecha' => now(),
+                    //'fecha' => now(),
                 ]);
             }
 

@@ -70,6 +70,12 @@ Route::middleware([
 
         Route::post('/store/product', [ProductController::class, 'store'])->name('dashboard.store.product');
 
+        Route::get('/show/product/{hashid}', function(){
+            return view('show.product');
+        })->name('dashboard.show.product');
+
+        Route::post('/update/product', [ProductController::class, 'update'])->name('dashboard.update.product');
+
         /*** Almacen de Productos ***/
         Route::get('/create/warehouse', function(){
             return view('create.warehouse');

@@ -4,6 +4,7 @@
         <aside id="default-sidebar" class="fixed top-0 left-0 {{-- z-40 --}} w-48 h-screen transition-transform -translate-x-full sm:translate-x-0" style="min-width:250px;" aria-label="Sidenav">
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <ul class="space-y-2">
+
                     <li style="padding-top: 80px;">
                         <a href="{{ route('dashboard.index') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -14,13 +15,15 @@
                         </a>
                     </li>
 
+                    <x-hr :content="'Logística'" />
+
                     <li>
-                        <a href="{{ route('dashboard.sales') }}"  @class([
+                        <a href="{{ route('dashboard.products') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.sales')
+                            'bg-gray-100' => request()->routeIs('dashboard.products')
                             ])>
-                            <x-icons.heroicons.money :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
-                            <span class="ml-3">Ventas</span>
+                            <x-icons.heroicons.gift :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Productos</span>
                         </a>
                     </li>
 
@@ -30,9 +33,32 @@
                             'bg-gray-100' => request()->routeIs('dashboard.compras')
                             ])>
                             <x-icons.heroicons.money :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
-                            <span class="ml-3">Compras</span>
+                            <span class="ml-3">Ingresos</span>
                         </a>
                     </li>
+
+
+                    <li>
+                        <a href="{{ route('dashboard.transfers') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.transfers')
+                            ])>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Salida</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.suppliers') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.suppliers')
+                            ])>
+                            <x-icons.heroicons.db />
+                            <span class="ml-3">Proveedores</span>
+                        </a>
+                    </li>
+
+                    <x-hr :content="'Logística de Tienda'" />
 
                     <li>
                         <a href="{{ route('dashboard.tienda') }}"  @class([
@@ -45,17 +71,22 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('dashboard.transfers') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.transfers')
-                            ])>
-                            <x-icons.heroicons.house />
-                            <span class="ml-3">Salida de Productos</span>
+                        <a href="#"  class="
+                            flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group">
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Gerente de Tienda</span>
                         </a>
                     </li>
 
-                    @if(Auth::user()->role_id == 1)
-                    <x-hr :content="'Sistema'" />
+                    <x-hr :content="'RRHH'" />
+
+                    <li>
+                        <a href="#"  class="
+                            flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group">
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Recursos humanos</span>
+                        </a>
+                    </li>
 
                     <li>
                         <a href="{{ route('dashboard.controls') }}"  @class([
@@ -66,20 +97,20 @@
                             <span class="ml-3">Control de Colaboradores</span>
                         </a>
                     </li>
+
+                    <x-hr :content="'Ventas'" />
+
                     <li>
-                        <a href="{{ route('dashboard.users') }}"  @class([
+                        <a href="{{ route('dashboard.sales') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.users')
+                            'bg-gray-100' => request()->routeIs('dashboard.sales')
                             ])>
-                            <x-icons.heroicons.user />
-                            <span class="ml-3">Colaboradores</span>
+                            <x-icons.heroicons.money :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Ventas</span>
                         </a>
                     </li>
-                    @endif
 
-                    <x-hr :content="'Operaciones'" />
-
-                    @if(\App\Models\Casher::where('user_id', Auth::user()->id)->active()->count())
+                     @if(\App\Models\Casher::where('user_id', Auth::user()->id)->active()->count())
                     <li>
                         <a href="{{ route('dashboard.caja') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -90,6 +121,8 @@
                         </a>
                     </li>
                     @endif
+
+                    <x-hr :content="'Recepción'" />
 
                     <li>
                         <a href="{{ route('dashboard.receptions') }}"  @class([
@@ -131,6 +164,8 @@
                         </a>
                     </li>
 
+                    <x-hr :content="'Operaciones'" />
+
                     <li>
                         <a href="{{ route('dashboard.peluqueria-canina') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -151,17 +186,30 @@
                         </a>
                     </li>
 
+                    @if(Auth::user()->role_id == 1)
+                    <x-hr :content="'Sistema'" />
+
+                    
                     <li>
-                        <a href="{{ route('dashboard.products') }}"  @class([
+                        <a href="{{ route('dashboard.users') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.products')
+                            'bg-gray-100' => request()->routeIs('dashboard.users')
                             ])>
-                            <x-icons.heroicons.gift :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
-                            <span class="ml-3">Productos</span>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Colaboradores</span>
                         </a>
                     </li>
+                    @endif
 
-                    <x-hr :content="'Configuración'" />
+                    <li>
+                        <a href="{{ route('dashboard.cajeros') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.cajeros')
+                            ])>
+                            <x-icons.heroicons.users :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
+                            <span class="ml-3">Cajas</span>
+                        </a>
+                    </li>
 
                     {{-- Productos --}}
 
@@ -199,15 +247,7 @@
 
                     @if(Auth::user()->role_id == 1)
 
-                    <li>
-                        <a href="{{ route('dashboard.cajeros') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.cajeros')
-                            ])>
-                            <x-icons.heroicons.users :class="'w-6 h-6 text-gray-900 transition duration-75 group-hover:text-gray-900'" />
-                            <span class="ml-3">Cajas</span>
-                        </a>
-                    </li>
+                    
 
                     {{-- 
                     <li>
@@ -220,16 +260,6 @@
                         </a>
                     </li>
                      --}}
-
-                    <li>
-                        <a href="{{ route('dashboard.suppliers') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.suppliers')
-                            ])>
-                            <x-icons.heroicons.db />
-                            <span class="ml-3">Proveedores</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a href="{{ route('dashboard.sedes') }}"  @class([

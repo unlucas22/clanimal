@@ -22,26 +22,26 @@ class Product extends Component
     public $alerta_stock = 1;
 
     /* foreach por cada id */
-    public $product_details = 2;
+    public $product_details = 1;
 
     public $amount_details = [
-        1, 2
+        1
     ];
 
     public $discount_details = [
-        0, 0
+        0
     ];
 
     public $precio_venta_details = [
-        0, 0
+        0
     ];
 
     public $precio_venta_con_igv_details = [
-        0, 0
+        0
     ];
 
     public $product_presentation_details_id = [
-        1, 2
+        1
     ];
 
     public $listeners = ['getBarcode'];

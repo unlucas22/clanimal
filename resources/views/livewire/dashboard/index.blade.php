@@ -1,6 +1,6 @@
 @php($rol = Auth::user()->roles->key)
 
-<div class="py-12 flex justify-center px-8">
+<div class="flex justify-center px-8">
     <div>
     @switch($rol)
 

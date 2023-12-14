@@ -46,6 +46,7 @@ class ProductController extends Controller
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 $product = Product::create([
+                    'stock' => $req->amount_details[$i],
                     'name' => $req->product_name[$i],
                     'user_id' => Auth::user()->id,
                     'precio_compra' => $req->precio_compra[$i],
@@ -109,6 +110,75 @@ class ProductController extends Controller
         }
 
         return [$products, $products_in_warehouse];
+    }
+
+    public function update(Request $req)
+    {
+        DB::beginTransaction();
+
+        try {
+            $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
+
+            $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();
+
+            $photo_path = null;
+
+            $input = "photo";
+
+            if($req->file($input) != null)
+            {
+                $photo_path = $this->storeImage($req, $input);
+
+                Product::where('id', $req->product_id)->update([
+                    'photo_path' => $photo_path,
+                ]);
+            }
+
+            $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
+
+            $product = Product::where('id', $req->product_id)->update([
+                'name' => $req->name,
+                'product_brand_id' => $product_brand->id,
+                'product_category_id' => $product_category->id,
+                'product_presentation_id' => intval($req->product_presentation_id),
+                'active' => $req->active == 'on' ? true : false,
+                'user_id' => Auth::user()->id,
+                'precio_compra' => $req->precio_compra,
+                'precio_venta' => $req->precio_venta ?? $req->precio_compra,
+                'stock' => $req->amount,
+                'barcode' => $req->barcode ?? null,
+                'palabras_clave' => $req->palabras_clave ?? null,
+                'fecha_de_vencimiento' => $fecha,
+                'alerta_stock' => $req->alerta_stock,
+                'amount_presentation' => $req->amount_presentation,
+            ]);
+
+            for ($i=0; $i < intval($req->product_details); $i++)
+            {
+                ProductDetail::updateOrCreate([
+                    'product_id' => $req->product_id,
+                    'product_presentation_id' => $req->product_presentation_details_id[$i],
+                ], [
+                    'amount' => $req->amount_details[$i],
+                    'discount' => $req->discount_details[$i],
+                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                    //'precio_venta_con_igv' => $req->precio_venta_con_igv_details[$i],
+                    'precio_venta_con_igv' => $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18)
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()->route('dashboard.products');
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            \Log::error($e->getMessage());
+
+            return back();
+        }
     }
 
     public function store(Request $req)

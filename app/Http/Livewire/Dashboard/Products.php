@@ -16,7 +16,7 @@ class Products extends Component
         'id' => 'ID',
     ];
 
-    public $listeners = ['refreshParent' => '$refresh'];
+    public $listeners = ['deleteItem' => 'eliminar', 'refreshParent' => '$refresh'];
 
     public $search = '';
 
@@ -56,12 +56,11 @@ class Products extends Component
             'Stock',
             'Precio Compra',
             'Precio Venta (IGV)',
-            'Ganancia',
+            // 'Ganancia',
+            'Estado',
         ];
 
         $this->created_at = false;
-
-        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),
