@@ -111,6 +111,11 @@ class User extends Authenticatable
         return $this->hasMany(Control::class);
     }
 
+    public function finances()
+    {
+        return $this->hasMany(Finance::class);
+    }
+
     public function cashers()
     {
         return $this->hasMany(Casher::class);

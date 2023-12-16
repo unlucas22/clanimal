@@ -24,6 +24,7 @@ class CreateCashRegistersTable extends Migration
             $table->double('total_virtual')->nullable();
             $table->enum('status', ['en proceso','validacion', 'completado', 'rechazado'])->default('validacion');
             $table->timestamp('closed_at')->nullable();
+            $table->timestamp('validated_at')->nullable();
             $table->timestamps();
         });
     }

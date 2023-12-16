@@ -59,6 +59,8 @@ Route::middleware([
         /*** Modulo en Desuso ---> Servicios ***/
         Route::view('/servicios', 'dashboard')->name('dashboard.services');
 
+        Route::view('/gerente-de-tienda', 'dashboard')->name('dashboard.manager');
+
 
         /*** Producto ***/
         

@@ -1,9 +1,10 @@
 <x-guest-layout>
 
 <x-slot name="head">
-    @php($public_key = '6Lf391shAAAAAEij46zNjIHm2O8e6oYXPP56Llzk')
+    @php($public_key = \Illuminate\Support\Facades\Config::get('app.captcha_public_key'))
+
     <!-- recaptcha -->
-    <script type="text/javascript">
+    <script>
         var onloadGReCaptcha = function() {
             grecaptcha.render('recaptcha', {
                 'sitekey' : '{{ $public_key }}',
@@ -67,7 +68,7 @@
                     <a href="{{ route('password.request') }}" class="ml-auto text-sm text-primary-700 hover:underline dark:text-primary-500">¿Perdiste tu contraseña?</a>
                     @endif
                 </div>
-                <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Iniciar sesión</button>
+                <button type="submit" id="submitBtn" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 sm:w-auto dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Iniciar sesión</button>
             </form>
         </div>
 

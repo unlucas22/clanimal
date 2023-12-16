@@ -19,6 +19,10 @@ return [
     
     'nubefact' => env('NUBEFACT_TOKEN', null),
 
+    'captcha_public_key' => env('CAPTCHA_PUBLIC_KEY', null),
+
+    'captcha_secret_key' => env('CAPTCHA_SECRET_KEY', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -71,8 +71,10 @@
                     </li>
 
                     <li>
-                        <a href="#"  class="
-                            flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group">
+                        <a href="{{ route('dashboard.manager') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.manager')
+                            ])>
                             <x-icons.heroicons.user />
                             <span class="ml-3">Gerente de Tienda</span>
                         </a>

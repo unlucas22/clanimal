@@ -2,11 +2,12 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Config;
+
 trait Captcha {
 
     /* Reemplazar en .env */
-    public $public_key = '6Lf391shAAAAAEij46zNjIHm2O8e6oYXPP56Llzk';
-    protected $secret_key = '6Lf391shAAAAABeT08kWBOSMKFtTRoon_2dh1gz5';
+    protected $secret_key;
 
     /**
      * Validacion del Captcha
@@ -21,7 +22,7 @@ trait Captcha {
 
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify?secret=".$this->secret_key."&response=".$g_response);
+        curl_setopt($ch, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify?secret=".Config::get('app.captcha_secret_key')."&response=".$g_response);
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 

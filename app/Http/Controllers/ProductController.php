@@ -51,6 +51,7 @@ class ProductController extends Controller
                     'user_id' => Auth::user()->id,
                     'precio_compra' => $req->precio_compra[$i],
                     'precio_venta' => $req->precio_venta_details[$i],
+                    'active' => false,
                 ]);
 
                 $product_details[] = ProductDetail::create([
