@@ -19,6 +19,10 @@ class CreateSuppliersTable extends Migration
             $table->string('ruc');
             $table->string('phone');
             $table->string('address')->nullable();
+            $table->string('cuenta_bancaria')->nullable();
+            $table->string('banco')->nullable();
+            $table->string('beneficiario')->nullable();
+            $table->string('moneda')->default('Soles');
             $table->timestamps();
         });
     }

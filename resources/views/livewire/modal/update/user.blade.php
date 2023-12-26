@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="save" class="space-y-10 p-4" id="form">
+            <form wire:submit.prevent="save" class="space-y-4 p-4" id="form">
 
                 <!-- name -->
                 <div class="col-span-6 sm:col-span-4">
@@ -33,39 +33,36 @@
                 </div>
 
                 <!-- ROL -->
-                <div class="form-group">
-                    <label for="ss1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Rol</label>
-                    <select id="ss1" class="w-full form-control" wire:model.defer="role_id">
+                <div>
+                    <x-form.select :name="'role_id'" :model="'role_id'" :label="'Rol'">
                         @forelse($roles as $role)
                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @empty
                         <option value="0">Error.</option>
                         @endforelse
-                    </select>
+                    </x-form.select>
                     @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <!-- SEDE -->
-                <div class="form-group">
-                    <label for="ss2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Sede</label>
-                    <select id="ss2" class="w-full form-control" wire:model.defer="company_id">
+                <div>
+                    <x-form.select :name="'company_id'" :model="'company_id'" :label="'Sede'">
                         @forelse($companies as $company)
                         <option value="{{ $company->id }}">{{ $company->name }}</option>
                         @empty
                         <option value="0">Error.</option>
                         @endforelse
-                    </select>
+                    </x-form.select>
                     @error('company_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
-                <!-- ROL -->
-                <div class="form-group">
-                    <label for="ss4" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Estado Cuenta</label>
-                    <select id="ss4" class="w-full form-control" wire:model.defer="active">
+                <!-- ESTADO -->
+
+                <div>
+                    <x-form.select :name="'active'" :model="'active'" :label="'Estado'">
                         <option value="1">Activo</option>
                         <option value="0">Inactivo</option>
-                    </select>
-                    @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    </x-form.select>
                 </div>
 
                 <!-- password -->

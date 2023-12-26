@@ -71,8 +71,12 @@
                                             <p class="text-sm text-gray-900 dark:text-white" role="none">
                                               {{ Auth::user()->name }}
                                             </p>
-                                            <p class="text-sm font-semibold text-gray-900 truncate dark:text-gray-300" role="none">
+                                            <p class="text-sm pt-4 font-semibold text-gray-900 truncate dark:text-gray-300" role="none">
                                               {{ Auth::user()->email }}
+                                            </p>
+
+                                            <p class="pt-4 text-sm text-gray-900 truncate dark:text-gray-300" role="none">
+                                              Rol: <span class="font-semibold">{{ Auth::user()->roles->name }}</span>
                                             </p>
                                           </div>
                                           <ul class="py-1" role="none">

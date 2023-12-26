@@ -28,7 +28,6 @@ class ProductBrands extends Component
         $this->emit('refreshComponent');
     }
 
-
     public function getItems()
     {
         $query = \App\Models\ProductBrand::query();

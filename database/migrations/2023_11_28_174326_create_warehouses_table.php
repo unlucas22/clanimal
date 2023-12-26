@@ -22,6 +22,7 @@ class CreateWarehousesTable extends Migration
             $table->enum('status', ['crédito', 'pendiente' ,'cancelado'])->default('pendiente');
             $table->string('factura');
             $table->text('motivo')->nullable();
+            $table->text('observation')->nullable();
             $table->timestamp('fecha');
             $table->timestamps();
         });

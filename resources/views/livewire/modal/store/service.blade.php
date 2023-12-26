@@ -14,27 +14,22 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="submit" class="space-y-10 p-4">
+            <form wire:submit.prevent="submit" class="space-y-4 p-4">
 
-                <div class="grid gap-4 mb-4 grid-cols-2">
-                    
+                <!-- name -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="name" value="{{ __('Nombre') }}" />
+                    <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model="name" autocomplete="name" />
+                    <x-jet-input-error for="name" class="mt-2" />
+                    @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-        <!-- name -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="name" value="{{ __('Nombre') }}" />
-            <x-jet-input id="name" type="text" class="mt-1 block w-full" wire:model="name" autocomplete="name" />
-            <x-jet-input-error for="name" class="mt-2" />
-            @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
-
-        <!-- description -->
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="description" value="{{ __('Descripción') }}" />
-            <x-jet-input id="description" type="text" class="mt-1 block w-full" wire:model="description" autocomplete="description" />
-            <x-jet-input-error for="description" class="mt-2" />
-            @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-        </div>
-
+                <!-- description -->
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="description" value="{{ __('Descripción') }}" />
+                    <x-jet-input id="description" type="text" class="mt-1 block w-full" wire:model="description" autocomplete="description" />
+                    <x-jet-input-error for="description" class="mt-2" />
+                    @error('description') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-700">

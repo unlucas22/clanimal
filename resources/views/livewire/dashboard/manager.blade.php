@@ -12,25 +12,10 @@
                     <div class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">En tienda</div>
                     <div class="text-3xl mb-4">S/ {{ $en_caja_del_dia }}</div>
                     <div class="text-xl font-semibold text-gray-900 dark:text-white"></div>
-                    <div class="pt-4"><a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Ver todas las cajas (?)
-                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                        </svg>
-                    </a>
-                    </div>
                 </div>
                 <div class="w-full  bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 p-6">
                     <div class="text-xl  mb-4 font-semibold text-gray-900 dark:text-white">Ingresos</div>
                     <div class="text-3xl mb-4">S/ {{ $ingresos_del_dia }}</div>
-
-                    <div class="pt-4"><a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Ver más (sin terminar)
-                        <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                        </svg>
-                    </a>
-                    </div>
                 </div>
 
                 <div class="bg-white w-full border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 p-6">
@@ -258,7 +243,9 @@
 
                                         <div class="flex justify-center gap-2" style="max-width: 250px;">
                                             <div>
-                                                <button wire:click='$emit("openModal", "modal.update.finance", @json(["item_id" => $salida->id]))' type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Cambiar estado</button>
+                                                <a wire:click='$emit("openModal", "modal.update.finance", @json(["item_id" => $salida->id]))'>
+                                                    <x-btn/>
+                                                </a>
                                             </div>
                                         </div>
                                     </td>

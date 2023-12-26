@@ -80,16 +80,6 @@
                         </a>
                     </li>
 
-                    <x-hr :content="'RRHH'" />
-
-                    <li>
-                        <a href="#"  class="
-                            flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group">
-                            <x-icons.heroicons.user />
-                            <span class="ml-3">Recursos humanos</span>
-                        </a>
-                    </li>
-
                     <li>
                         <a href="{{ route('dashboard.controls') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -97,6 +87,80 @@
                             ])>
                             <x-icons.heroicons.qr />
                             <span class="ml-3">Control de Colaboradores</span>
+                        </a>
+                    </li>
+
+                    <x-hr :content="'Finanzas'" />
+
+                    <li>
+                        <a href="{{ route('dashboard.finanzas') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Finanzas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.finanzas-ingresos') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-ingresos')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Ingresos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.finanzas-planillas') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-planillas')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Planillas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.finanzas-facturas') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-facturas')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Facturas</span>
+                        </a>
+                    </li>
+
+                    <x-hr :content="'RRHH'" />
+
+                    <li>
+                        <a href="{{ route('dashboard.recursos-humanos') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.recursos-humanos')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Recursos humanos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.rrhh-planillas') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.rrhh-planillas')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Planillas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.puestos') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.puestos')
+                            ])>
+                            <x-icons.heroicons.user />
+                            <span class="ml-3">Puestos y Sueldos</span>
                         </a>
                     </li>
 
@@ -123,6 +187,39 @@
                         </a>
                     </li>
                     @endif
+
+                    <x-hr :content="'Marketing'" />
+
+                    <li>
+                        <a href="{{ route('dashboard.marketing-campaigns') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.marketing-campaigns')
+                            ])>
+                            <x-icons.heroicons.db />
+                            <span class="ml-3">Campañas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.marketing-templates') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.marketing-templates')
+                            ])>
+                            <x-icons.heroicons.db />
+                            <span class="ml-3">Plantillas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.marketing-trackings') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.marketing-trackings')
+                            ])>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Tracking</span>
+                        </a>
+                    </li>
+
 
                     <x-hr :content="'Recepción'" />
 
@@ -167,16 +264,6 @@
                     </li>
 
                     <x-hr :content="'Operaciones'" />
-
-                    <li>
-                        <a href="{{ route('dashboard.peluqueria-canina') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.peluqueria-canina')
-                            ])>
-                            <x-icons.heroicons.house />
-                            <span class="ml-3">Peluquería Canina</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a href="{{ route('dashboard.atencion-veterinaria') }}"  @class([
@@ -225,6 +312,7 @@
                         </a>
                     </li>
 
+
                     <li>
                         <a href="{{ route('product.categories') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -242,6 +330,16 @@
                             ])>
                             <x-icons.heroicons.wrench-one />
                             <span class="ml-3">Tipo de presentación</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.entidades-bancarias') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.entidades-bancarias')
+                            ])>
+                            <x-icons.heroicons.wrench-one />
+                            <span class="ml-3">Entidades Bancarias</span>
                         </a>
                     </li>
 

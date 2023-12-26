@@ -45,7 +45,6 @@ class Product extends Model
         'formatted_active',
     ];
 
-
     /**
      * The attributes that should be cast.
      *

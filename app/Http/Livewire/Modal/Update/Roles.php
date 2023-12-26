@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Modal\Update;
 
 use LivewireUI\Modal\ModalComponent;
-use App\Models\Company;
 use Illuminate\Support\Facades\Log;
 use App\Models\{Role, Permission, PermissionForRole};
 use Livewire\Component;

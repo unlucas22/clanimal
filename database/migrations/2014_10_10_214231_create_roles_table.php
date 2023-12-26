@@ -18,6 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name');
             $table->string('key', 50)->nullable();
             $table->text('description')->nullable();
+            $table->double('sueldo')->nullable();
             $table->timestamps();
         });
     }

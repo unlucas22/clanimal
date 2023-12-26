@@ -16,7 +16,9 @@ class Finance extends Model
         'total_efectivo',
         'status',
         'reported_at',
-        'numero_operacion'
+        'validated_at',
+        'numero_operacion',
+        'observation',
     ]; // ['validacion', 'completado', 'observado']
 
     /**
@@ -37,6 +39,7 @@ class Finance extends Model
      */
     protected $casts = [
         'reported_at' => 'datetime',
+        'validated_at' => 'datetime',
     ];
 
     public function getTotalAttribute()
@@ -59,7 +62,7 @@ class Finance extends Model
         switch($this->status)
         {
             case 'validacion':
-                return '<span class="block bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full text-center dark:bg-green-900 dark:text-green-300">Espera de validación</span>';
+                return '<span class="block bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full text-center dark:bg-yellow-900 dark:text-yellow-300">Espera de validación</span>';
                 break;
 
             case 'completado':

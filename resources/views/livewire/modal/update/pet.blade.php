@@ -14,7 +14,7 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="save" class="space-y-10 p-4">
+            <form wire:submit.prevent="save" class="space-y-4 p-4">
 
                 @csrf
 

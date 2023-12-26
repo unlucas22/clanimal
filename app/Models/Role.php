@@ -13,6 +13,7 @@ class Role extends Model
         'key',
         'name',
         'description',
+        'sueldo',
     ];
 
     public function permission_for_roles()

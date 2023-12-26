@@ -49,7 +49,7 @@
                     <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                         <thead class="bg-gray-100 dark:bg-gray-700">
                             <tr>
-                                @php($colStyle = 'p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400')
+                                @php($colStyle = 'p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400')
                                 @foreach($columns as $index => $key)
                                 <th scope="col" class="{{ $colStyle }}">
                                     {{ $key }}
@@ -77,7 +77,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
 
-                        @php($td = 'p-4 text-base font-medium text-gray-900 dark:text-white')
+                        @php($td = 'p-4 text-center text-base font-medium text-gray-900 dark:text-white')
 
                         @forelse($items as $item)
                         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -157,11 +157,11 @@
                 </div>
             </div>
         </div>
-        @if(count($items) > 8)
+        {{-- @if(count($items) > 8)  --}}
         <div class="sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700">
             {{ $items->links() }}
         </div>
-        @endif
+        {{-- @endif  --}}
         {{-- 
             <div class="flex items-center">
                  <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  Activo

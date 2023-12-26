@@ -45,6 +45,35 @@
                     @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="cuenta_bancaria" value="{{ __('Cuenta N°') }}" />
+                    <x-jet-input id="cuenta_bancaria" type="text" class="mt-1 block w-full" wire:model="cuenta_bancaria" autocomplete="cuenta_bancaria" />
+                    <x-jet-input-error for="cuenta_bancaria" class="mt-2" />
+                    @error('cuenta_bancaria') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="beneficiario" value="{{ __('Beneficiario') }}" />
+                    <x-jet-input id="beneficiario" type="text" class="mt-1 block w-full" wire:model="beneficiario" autocomplete="beneficiario" />
+                    <x-jet-input-error for="beneficiario" class="mt-2" />
+                    @error('beneficiario') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="banco" value="{{ __('Banco') }}" />
+                    <x-jet-input id="banco" type="text" class="mt-1 block w-full" wire:model="banco" autocomplete="banco" />
+                    <x-jet-input-error for="banco" class="mt-2" />
+                    @error('banco') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="col-span-6 sm:col-span-4">
+                    <x-jet-label for="moneda" value="{{ __('Moneda') }}" />
+                    <x-jet-input id="moneda" type="text" class="mt-1 block w-full" wire:model="moneda" autocomplete="moneda" />
+                    <x-jet-input-error for="moneda" class="mt-2" />
+                    @error('moneda') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+
+
                 <div class="items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-700">
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Registrar Proveedor

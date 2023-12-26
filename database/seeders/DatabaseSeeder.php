@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier, Casher};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier, Casher, Manpower, PaymentMethod, MarketingTemplate, MarketingCampaign, MarketingTracking};
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -180,6 +180,62 @@ class DatabaseSeeder extends Seeder
         {
             $this->assignCashers();
         }
+
+        if(!PaymentMethod::count())
+        {
+            $this->createPaymentMethod();
+        }
+
+        if(!Manpower::count())
+        {
+            $this->createManpower();
+        }
+
+        if(!MarketingTemplate::count())
+        {
+            $this->createTemplate();
+        }
+    }
+
+    protected function createTemplate()
+    {
+        for ($i=0; $i < 3; $i++)
+        { 
+            MarketingTemplate::create([
+                'name' => 'Plantilla de Prueba n°'.$i,
+                'content' => 'lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet',
+                'button_url' => url('/'),
+                'button_text' => 'Visitar',
+            ]);
+        }
+    }
+
+    protected function createPaymentMethod()
+    {
+        foreach (['Banco Santander', 'Banco de Crédito del Perú'] as $name)
+        {
+            PaymentMethod::create([
+                'name' => $name
+            ]);
+        }
+    }
+
+    protected function createManpower()
+    {
+        $users = User::get();
+
+        foreach($users as $user)
+        { 
+            Manpower::create([
+                'user_id' => $user->id,
+                'contact_name_emergency' => 'Pariente de '.$user->name,
+                'contact_phone_emergency' => random_int(10000000, 99999999),
+                'contact_type_emergency' => 'Hermano',
+                'cuenta_bancaria' => random_int(10000000000, 99999999999),
+                'payment_method_id' => (PaymentMethod::first())->id,
+                'fecha_de_contratacion' => now()->subYear(1),
+            ]);
+        }
     }
 
     protected function assignCashers()
@@ -202,6 +258,9 @@ class DatabaseSeeder extends Seeder
                 'name' => $supplier,
                 'ruc' => random_int(10000000000, 99999999999),
                 'phone' => '11'.random_int(10000000, 99999999),
+                'cuenta_bancaria' => random_int(10000000000, 99999999999),
+                'banco' => 'Banco de Crédito del Perú',
+                'beneficiario' => $supplier,
             ]);
         }
     }
@@ -360,6 +419,7 @@ class DatabaseSeeder extends Seeder
                 'key' => $key  
             ], [
                 'name' => $name,
+                'sueldo' => random_int(1000, 9999),
             ]);
         }
     }

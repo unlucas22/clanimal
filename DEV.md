@@ -1,5 +1,6 @@
 ## Pendiente
 
+- configurar entidades bancarias
 - bug en orWhere para division de sedes
 - descontar stock del almacen (producto)
 

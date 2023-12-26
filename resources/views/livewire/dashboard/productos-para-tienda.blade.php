@@ -2,12 +2,14 @@
 
 <div class="py-4">
 
+    @if(\App\Models\Product::count())
     <div class="flex justify-end px-6">
         <div class="flex justify-start">
             <div><a wire:click='$emit("openModal", "modal.store.tienda")'>
                 <x-btn-nuevo/></a></div>
         </div>
     </div>
+    @endif
 
     {{-- CITAS --}}
     <div>

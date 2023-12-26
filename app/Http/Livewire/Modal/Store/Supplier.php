@@ -13,6 +13,11 @@ class Supplier extends ModalComponent
     public $phone;
     public $address;
 
+    public $cuenta_bancaria;
+    public $banco;
+    public $beneficiario;
+    public $moneda;
+
     public $rules = [
         'name' => 'required|string|max:50',
         'ruc' => 'max:12',
@@ -36,6 +41,10 @@ class Supplier extends ModalComponent
                 'ruc' => $this->ruc,
                 'address' => $this->address,
                 'phone' => $this->phone,
+                'cuenta_bancaria' => $this->cuenta_bancaria,
+                'banco'  => $this->banco,
+                'beneficiario'  => $this->beneficiario,
+                'moneda'  => $this->moneda,
             ]);
 
             $this->dispatchBrowserEvent('swal', [

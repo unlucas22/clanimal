@@ -22,6 +22,7 @@ class Warehouse extends Model
         'status',
         'supplier_id',
         'motivo', // motivo del estado cancelado
+        'observation',
     ];
 
     /**

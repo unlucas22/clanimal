@@ -66,17 +66,14 @@ class Pet extends Component
     /**
      * Buscar el cliente por dni
      *  */
-    public function searchClient() {
-
+    public function searchClient()
+    {
         $client = Client::where('dni', $this->dni)->first();
 
-        if($client == null) {
-            // api
-            // return $json;
-        } else {
+        if($client != null)
+        {
             $this->client = $client->name;
         }
-
     }
 
     public function submit()

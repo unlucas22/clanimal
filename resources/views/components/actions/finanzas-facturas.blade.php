@@ -1,0 +1,1 @@
+<div><a href="{{ route('dashboard.show.finanzas-facturas', ['hashid' => $item->hashid]) }}"><x-btn/></a></div>

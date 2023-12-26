@@ -14,6 +14,10 @@ class Supplier extends Model
         'ruc',
         'phone',
         'address',
+        'cuenta_bancaria',
+        'banco',
+        'beneficiario',
+        'moneda',
     ];
 
     public function product_for_stores()

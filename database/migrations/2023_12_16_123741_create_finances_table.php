@@ -23,6 +23,9 @@ class CreateFinancesTable extends Migration
             $table->enum('status', ['validacion', 'completado', 'observado'])->default('validacion');
 
             $table->timestamp('reported_at');
+            $table->timestamp('validated_at')->nullable();
+
+            $table->text('observation')->nullable();
 
             $table->string('numero_operacion')->nullable();
             $table->timestamps();

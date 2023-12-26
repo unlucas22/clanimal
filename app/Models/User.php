@@ -96,6 +96,11 @@ class User extends Authenticatable
         return $this->role_id == (\App\Models\Role::select('id')->where('key', 'administrador')->first())->id;
     }
 
+    public function manpowers()
+    {
+        return $this->hasMany(Manpower::class);
+    }
+
     public function clients()
     {
         return $this->hasMany(Client::class);

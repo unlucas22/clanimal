@@ -1,5 +1,5 @@
 <div class="flex justify-center p-4">
-    <form method="POST" action="{{ route('dashboard.store.product') }}" class="space-y-10" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('dashboard.store.product') }}" class="space-y-4" enctype="multipart/form-data">
     <h2 class="mb-4 text-2xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-2">Registrar producto</h2>
 
         @csrf
@@ -393,23 +393,6 @@
                     </div>
                 </div>
 
-                <script>
-                    function sumarImpuesto(item_id) {
-
-                        let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
-
-                        let total = val + (val * (18/100));
-
-                        document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
-
-                        let descuento = document.getElementById('discount_details'+item_id).value;; 
-
-                        total -= descuento;
-
-                        document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
-                    }
-                </script>
-
                 <div class="w-full mb-6 group">
                     <x-form.input :id="'precio_venta_con_igv_details.'.$i" :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'disabled'" />
                 </div>
@@ -437,7 +420,24 @@
 
         </div>
         @endfor
-            
+
+        <script>
+            function sumarImpuesto(item_id) {
+
+                let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
+
+                let total = val + (val * (18/100));
+
+                document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
+
+                let descuento = document.getElementById('discount_details'+item_id).value;; 
+
+                total -= descuento;
+
+                document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
+            }
+        </script>
+
         <div class="p-4 flex justify-center gap-8">
             <div>
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Guardar</button>
