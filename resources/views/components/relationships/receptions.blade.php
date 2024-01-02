@@ -11,5 +11,9 @@
     {{ $item->services->name }}
 </td>
 <td class="{{ $td }}">
-    {{ $item->shifts->appointment ?? 'Sin turno' }}
+    @if($item->shifts->appointment != null)
+    {{ $item->shifts->appointment->format('d/m/Y h:i A') }}
+    @else
+    Sin turno
+    @endif
 </td>

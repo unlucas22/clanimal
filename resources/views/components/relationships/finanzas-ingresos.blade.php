@@ -1,10 +1,10 @@
 <td class="{{ $td }}">
-    {{ $item->reported_at->format('H:i m/d') }}
+    {{ $item->reported_at->format('d/m/Y h:i A') }}
 </td>
 
 <td class="{{ $td }}">
     @if($item->validated_at !== null)
-    {{ $item->validated_at->format('H:i m/d') }}
+    {{ $item->validated_at->format('d/m/Y h:i A') }}
     @endif
 </td>
 

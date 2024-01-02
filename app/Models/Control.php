@@ -18,6 +18,16 @@ class Control extends Model
         'device',
         'reason_id',
         'company_id',
+        'date',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date' => 'datetime',
     ];
 
     /**
@@ -27,7 +37,13 @@ class Control extends Model
      */
     protected $appends = [
         'hashid',
+        'date_formatted',
     ];
+
+    public function getDateFormattedAttribute()
+    {
+        return $this->date->format('d/m/Y h:i A');
+    } 
 
     public function getHashidAttribute()
     {

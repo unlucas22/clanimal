@@ -41,9 +41,21 @@ class Transfer extends Model
      */
     protected $appends = [
         'status_formatted',
+        'fecha_envio_formatted',
+        'fecha_recepcion_formatted',
         'hashid',
         'stock_total',
     ];
+
+    public function getFechaEnvioFormattedAttribute()
+    {
+        return $this->fecha_envio->format('d/m/Y h:i A');
+    }
+
+    public function getFechaRecepcionFormattedAttribute()
+    {
+        return ($this->fecha_recepcion != null) ? $this->fecha_recepcion->format('d/m/Y h:i A') : null;
+    }
 
     public function getHashidAttribute()
     {

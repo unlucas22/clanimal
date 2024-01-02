@@ -10,13 +10,13 @@ class Compras extends Component
 {
     use HasTable;
 
-    public $title = 'Compras';
+    public $title = 'Ingresos';
 
     public $search = '';
 
     public $columns = [
         'id' => 'ID',
-        'fecha' => 'Fecha de recepción',
+        'fecha_formatted' => 'Fecha de recepción',
         'factura' => 'Factura',
         'monto_formatted' => 'Monto Total',
         'status_formatted' => 'Estado'
@@ -53,6 +53,8 @@ class Compras extends Component
         ];
 
         $this->updated_at = false;
+
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),

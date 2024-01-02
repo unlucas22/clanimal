@@ -44,6 +44,7 @@ class Warehouse extends Model
         'monto_formatted',
         'status_formatted',
         'hashid',
+        'fecha_formatted',
     ];
 
     public function getHashidAttribute()
@@ -54,6 +55,11 @@ class Warehouse extends Model
     public function scopeHashid($query, $hashid)
     {
         return $query->where('id', Hashids::decode($hashid));
+    }
+
+    public function getFechaFormattedAttribute()
+    {
+        return $this->fecha->format('d/m/Y h:i A');
     }
 
     public function getStatusFormattedAttribute()

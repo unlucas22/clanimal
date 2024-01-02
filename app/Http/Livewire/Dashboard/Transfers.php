@@ -14,8 +14,8 @@ class Transfers extends Component
 
     public $columns = [
         'id' => 'ID',
-        'fecha_envio' => 'Fecha de Envío',
-        'fecha_recepcion' => 'Fecha de Recepción',
+        'fecha_envio_formatted' => 'Fecha de Envío',
+        'fecha_recepcion_formatted' => 'Fecha de Recepción',
         'status_formatted' => 'Estado',
     ];
     

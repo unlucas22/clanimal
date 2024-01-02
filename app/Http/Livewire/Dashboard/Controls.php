@@ -15,7 +15,7 @@ class Controls extends Component
     public $columns = [
         'id' => 'ID',
         'ip' => 'Dirección IP',
-        'date' => 'Fecha y Hora',
+        'date_formatted' => 'Fecha y Hora',
         'device' => 'Dispositivo (User Agent)',
     ];
 

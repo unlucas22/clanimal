@@ -17,7 +17,7 @@
     {{ $item->users->roles->name }}
 </td>
 <td class="{{ $td }}">
-    {{ $item->fecha_de_contratacion->format('Y-m-d') }}
+    {{ $item->fecha_de_contratacion->format('d/m/Y h:i A') }}
 </td>
 <td class="{{ $td }}">
     {{ $item->users->roles->sueldo }}

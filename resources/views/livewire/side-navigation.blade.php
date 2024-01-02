@@ -15,7 +15,7 @@
                         </a>
                     </li>
 
-                    <x-hr :content="'Logística'" />
+                    <x-hr :content="'Logística General'" />
 
                     <li>
                         <a href="{{ route('dashboard.products') }}"  @class([
@@ -61,14 +61,26 @@
                     <x-hr :content="'Logística de Tienda'" />
 
                     <li>
-                        <a href="{{ route('dashboard.tienda') }}"  @class([
+                        <a href="{{ route('dashboard.stock-de-tienda') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.tienda')
+                            'bg-gray-100' => request()->routeIs('dashboard.stock-de-tienda')
                             ])>
                             <x-icons.heroicons.house />
-                            <span class="ml-3">Productos para tienda</span>
+                            <span class="ml-3">Stock de tienda</span>
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.ingreso-de-productos') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.ingreso-de-productos')
+                            ])>
+                            <x-icons.heroicons.house />
+                            <span class="ml-3">Ingresos de Productos</span>
+                        </a>
+                    </li>
+
+                    <x-hr :content="'Gerencia'" />
 
                     <li>
                         <a href="{{ route('dashboard.manager') }}" @class([
@@ -76,7 +88,7 @@
                             'bg-gray-100' => request()->routeIs('dashboard.manager')
                             ])>
                             <x-icons.heroicons.user />
-                            <span class="ml-3">Gerente de Tienda</span>
+                            <span class="ml-3">Resumen</span>
                         </a>
                     </li>
 
@@ -98,7 +110,7 @@
                             'bg-gray-100' => request()->routeIs('dashboard.finanzas')
                             ])>
                             <x-icons.heroicons.user />
-                            <span class="ml-3">Finanzas</span>
+                            <span class="ml-3">Resumen</span>
                         </a>
                     </li>
 

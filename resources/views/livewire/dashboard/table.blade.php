@@ -3,8 +3,10 @@
         <div class="w-full mb-1">
             <div class="mb-4">
 
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">{{ $title ?? 'Panel' }}</h1>
+
                 @isset($description)
-                <nav class="flex mb-5" aria-label="Breadcrumb">
+                <nav class="flex mt-5" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
                       <li class="inline-flex items-center">
                         <div class="inline-flex items-center text-gray-700  dark:text-gray-300 dark:hover:text-white">
@@ -17,8 +19,6 @@
                     </ol>
                 </nav>
                 @endisset
-
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">{{ $title ?? 'Panel' }}</h1>
             </div>
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">

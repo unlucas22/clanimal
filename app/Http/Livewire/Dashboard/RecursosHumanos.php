@@ -29,14 +29,24 @@ class RecursosHumanos extends Component
     public function getItems()
     {
         $query = Manpower::query();
+        
+        $query->with(['users', 'payment_methods']);
 
+        $query->whereHas('users', function($qry){
+            $qry->when($this->search !== '', function($filter) {
+                $filter->where('users.name', 'like', '%'.$this->search.'%')
+                ->orWhere('users.cedula', 'like', '%'.$this->search.'%')
+                ->orWhere('users.email', 'like', '%'.$this->search.'%');
+            });
+        });
+
+        /*
         if($this->search != '')
         {
             $query->where('id', 'like', '%' . $this->search . '%');
         }
-
-        $query->with(['users', 'payment_methods']);
-
+        */
+        
         $query->orderBy('updated_at', 'desc');
 
         return $query->paginate($this->rows);

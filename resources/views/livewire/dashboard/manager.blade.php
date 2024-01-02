@@ -79,12 +79,12 @@
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $ingreso->closed_at->format('H:i m/d') }}
+                                        {{ $ingreso->closed_at->format('d/m/Y h:i A') }}
                                     </td>
 
                                     <td class="{{ $td }}">
                                         @if($ingreso->validated_at !== null)
-                                        {{ $ingreso->validated_at->format('H:i m/d') }}
+                                        {{ $ingreso->validated_at->format('d/m/Y h:i A') }}
                                         @endif
                                     </td>
 
@@ -216,7 +216,7 @@
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $salida->reported_at->format('H:i m/d') }}
+                                        {{ $salida->reported_at->format('d/m/Y h:i A') }}
                                     </td>
 
                                     <td class="{{ $td }}">

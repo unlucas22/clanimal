@@ -22,8 +22,7 @@ class Spreadsheet extends ModalComponent
         DB::beginTransaction();
 
         try {
-
-            $fecha = Carbon::parse($this->fecha.Carbon::now()->format('-d H:i:s'));
+            $fecha = Carbon::parse($this->fecha.Carbon::now()->format('H:i:s'));
 
             $spreadsheet = \App\Models\Spreadsheet::create([
                 'fecha' => $fecha,

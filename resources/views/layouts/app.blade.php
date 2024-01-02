@@ -104,6 +104,8 @@
 
         @stack('modals')
 
+        @stack('scripts')
+
         @livewireScripts
 
         <script>

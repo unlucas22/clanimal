@@ -16,6 +16,6 @@
 
 <td class="{{ $td }}">
     @if($item->validated_at !== null)
-    {{ $item->validated_at->format('H:i m/d') }}
+    {{ $item->validated_at->format('d/m/Y h:i A') }}
     @endif
 </td>

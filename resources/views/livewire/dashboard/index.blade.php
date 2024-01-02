@@ -5,6 +5,8 @@
     @switch($rol)
 
         @case('administrador')
+
+            {{-- 
                 
                 @livewire('dashboard.greeting')
 
@@ -15,6 +17,8 @@
                 <div class="mt-14">
                     @livewire('dashboard.charts')
                 </div>
+
+                 --}}
             @break
 
         @default

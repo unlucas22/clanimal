@@ -27,7 +27,8 @@ class ProductController extends Controller
                 $total += $req->precio_venta_details[$i] + ($req->precio_venta_details[$i] * (18/100));
             }
 
-            $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
+            $fecha = Carbon::parse($req->fecha);
+
 
             $warehouse = Warehouse::create([
                 'user_id' => Auth::user()->id,
@@ -45,17 +46,18 @@ class ProductController extends Controller
 
             for ($i=0; $i < intval($req->product_details); $i++)
             {
-                $product = Product::create([
-                    'stock' => $req->amount_details[$i],
-                    'name' => $req->product_name[$i],
-                    'user_id' => Auth::user()->id,
+                $product_base = Product::where('name', $req->product_name[$i])->first();
+
+                Product::where('name', $req->product_name[$i])->update([
+                    'stock' => $product_base->stock + $req->amount_details[$i],
+                    // 'name' => $req->product_name[$i],
+                    // 'user_id' => Auth::user()->id,
                     'precio_compra' => $req->precio_compra[$i],
                     'precio_venta' => $req->precio_venta_details[$i],
-                    'active' => false,
                 ]);
 
                 $product_details[] = ProductDetail::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product_base->id,
                     'amount' => $req->amount_details[$i],
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
                     'discount' => $req->discount_details[$i],
@@ -64,11 +66,9 @@ class ProductController extends Controller
                 ]);
 
                 $products_in_warehouse[] = ProductInWarehouse::create([
-                    'product_id' => $product->id,
+                    'product_id' => $product_base->id,
                     'warehouse_id' => $warehouse->id,
                 ]);
-
-                $products[] = $product;
             }
 
             DB::commit();
@@ -76,6 +76,8 @@ class ProductController extends Controller
             return redirect()->route('dashboard.compras');
 
         } catch (\Exception $e) {
+
+            ddd($e->getMessage());
 
             Log::info($e->getMessage());
 

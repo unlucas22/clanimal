@@ -106,6 +106,9 @@ Route::middleware([
 
         /* PRODUCTO */
         Route::view('/productos-para-tienda', 'dashboard')->name('dashboard.tienda');
+        
+        Route::view('/ingreso-de-productos', 'dashboard')->name('dashboard.ingreso-de-productos');
+        Route::view('/stock-de-tienda', 'dashboard')->name('dashboard.stock-de-tienda');
         Route::view('/productos', 'dashboard')->name('dashboard.products');
         
         Route::get('/create/product', function(){

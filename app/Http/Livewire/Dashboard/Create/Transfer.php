@@ -23,13 +23,18 @@ class Transfer extends Component
     public $products = [];
     public $productos_guardados = [];
 
-    public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
+    public $listeners = ['agregarProducto', 'retirarProductoParaCompra', 'dateSelected' => 'updateDate'];
+
+    public function updateDate($date)
+    {
+        $this->fecha_envio = $date;
+    }
 
     public function mount()
     {
         $this->products = $this->getProducts();
 
-        $this->fecha_envio = now()->format('d-m-Y');
+        // $this->fecha_envio = now()->format('d-m-Y');
 
         $this->company_id = (Company::first())->id;
     }
@@ -61,9 +66,7 @@ class Transfer extends Component
 
         try
         {
-            // ddd([$this->company_id, $this->fecha_envio]);
-
-            $fecha = Carbon::parse($this->fecha_envio.' '.Carbon::now()->format('H:i:s'));
+            $fecha = Carbon::parse($this->fecha_envio);
 
             $transfer = \App\Models\Transfer::create([
                 'company_id' => $this->company_id,
@@ -79,7 +82,14 @@ class Transfer extends Component
                     'product_id' => $product['id'],
                     'stock' => $product['cantidad'],
                 ]);
+
+                $pd = Product::where('id', $product['id'])->first();
+
+                Product::where('id', $product['id'])->update([
+                    'stock' => $pd->stock - $product['cantidad'],
+                ]);
             }
+
 
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Salida de productos registrado con éxito',
@@ -141,6 +151,9 @@ class Transfer extends Component
             $this->productos_guardados[] = $product_for_transfer;
             
             //$this->emit('refreshComponent');
+
+            // refrescar stock para la busqueda
+            // $this->buscarProductos();
 
         } catch (\Exception $e) {
             Log::info($e->getMessage());

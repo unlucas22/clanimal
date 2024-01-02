@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Create;
 
 use Livewire\Component;
-use App\Models\{Supplier, ProductPresentation};
+use App\Models\{Supplier, ProductPresentation, Product};
 
 class Warehouse extends Component
 {
@@ -17,48 +17,50 @@ class Warehouse extends Component
     public $palabras_clave;
     public $barcode = null;
 
-    public $amount = 1;
-    public $amount_presentation = 1;
+    public $amount = 0;
+    public $amount_presentation = 0;
     
     public $product_presentation_id;
 
     /* foreach por cada id */
-    public $product_details = 1;
+    public $product_details = 0;
 
     /* EN UN FUTURO DESAPARECE codigo: (27-46) por una tabla como ocurre en Ventas */
     public $amount_details = [
-        1
+        //1
     ];
 
     /* Descuento */
     public $discount_details = [
-        0
+        //0
     ];
 
     /* Precio venta */
     public $precio_venta_details = [
-        0
+        //0
     ];
 
     /* Precio de cada venta con impuestos */
     public $precio_venta_total = [
-        0
+        //0
     ];
 
     /* Precio de cada producto */
     public $precio_compra = [
-        1
+        //1
     ];
 
     public $product_presentation_details_id = [
-        1
+        //1
     ];
 
     public $product_name = [
-        '', ''
+        //''
     ];
 
-    public $listeners = ['getBarcode'];
+    public $product_search = '';
+
+    public $listeners = ['getBarcode', 'productSelected'];
 
     public $rules = [
         'product_presentation_id' => 'required',
@@ -70,9 +72,16 @@ class Warehouse extends Component
         'precio_compra' => 'required',
     ];
 
+    public function productSelected($value)
+    {
+        $this->product_search = $value;
+    }
+
     public function agregarPrecio()
     {
         ++$this->product_details;
+
+        $this->product_name[] = $this->product_search;
     }
 
     public function eliminarPrecio()
@@ -93,6 +102,7 @@ class Warehouse extends Component
         return view('livewire.dashboard.create.warehouse', [
             'suppliers' => Supplier::get(),
             'product_presentations' => ProductPresentation::get(),
+            'products' => Product::get(),
         ]);
     }
 }

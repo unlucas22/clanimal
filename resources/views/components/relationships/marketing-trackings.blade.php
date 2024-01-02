@@ -11,5 +11,5 @@
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->marketing_campaigns->fecha->format('Y-m-d') }}
+    {{ $item->marketing_campaigns->fecha->format('d/m/Y h:i A') }}
 </td>
