@@ -37,7 +37,8 @@ trait NubeFact {
         $data = $bill->ruc != null ? $this->datosDeFactura($bill, $products) : $this->datosDeBoleta($bill, $products); 
         $data_json = json_encode($data);
 
-        $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";
+        // $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";
+        $ruta = "https://api.nubefact.com/api/v1/7cea489a-71cf-4190-93f9-933cf9430d37";
 
         $token = Config::get('app.nubefact');
 

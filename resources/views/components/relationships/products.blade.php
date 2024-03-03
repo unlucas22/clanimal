@@ -19,7 +19,7 @@
 </td>
 
 <td class="{{ $td }}">
-    {{ (($item->precio_venta_total - $item->precio_compra) / $item->precio_compra) * 100 }}%
+    {{ number_format((($item->precio_venta_total - $item->precio_compra) / $item->precio_compra) * 100, 2) }}%
 </td>
 
 <td class="{{ $td }}">

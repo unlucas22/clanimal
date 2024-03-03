@@ -8,7 +8,7 @@
             const datepickerEl = document.getElementById('datepicker');
             
             new Datepicker(datepickerEl, {
-                // options
+                minDate: new Date()
             });
 
             datepickerEl.addEventListener('changeDate', (event) => {

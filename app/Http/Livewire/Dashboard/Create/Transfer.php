@@ -171,7 +171,10 @@ class Transfer extends Component
     {
         if($this->search != null)
         {
-            $this->products = Product::with(['product_presentations', 'product_details'])->withStock()->where('name', 'like', '%'.$this->search.'%')->orWhere('palabras_clave', 'like', '%'.$this->search.'%')->get();
+            $this->products = Product::with(['product_presentations', 'product_details'])->withStock()->where(function($query) {
+                $query->where('name', 'like', '%'.$this->search.'%')
+                      ->orWhere('palabras_clave', 'like', '%'.$this->search.'%');
+            })->get();
         }
         else
         {
