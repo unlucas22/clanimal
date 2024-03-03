@@ -6,11 +6,10 @@
     {{ $item->users->roles->name }}
 </td>
 
-{{-- 
 <td class="{{ $td }}">
-    {{ $item->users->roles->sueldo }}
+    S/ {{ $item->users->roles->sueldo }} Soles
 </td>
- --}}
+
 <td class="{{ $td }}">
     {{ $item->dias_no_laborados }}
 </td>
@@ -20,15 +19,19 @@
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->descuento }}
+    @if($item->descuento != null)
+    S/ {{ $item->descuento }} Soles
+    @endif
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->bonificacion }}
+    @if($item->bonificacion != null)
+    S/ {{ $item->bonificacion }} Soles
+    @endif
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->total }}
+    S/ {{ $item->total }} Soles
 </td>
 
 <td class="{{ $td }}">

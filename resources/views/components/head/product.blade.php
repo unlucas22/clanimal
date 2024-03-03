@@ -28,6 +28,44 @@
 </div>
 
 <script>
+    function callDeleteButton(item_id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Una vez que cancelas el producto pasará a estado inactivo",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, cancelar'
+        }).then(function (res) {
+            if (res.isConfirmed) {
+                Livewire.emit('deleteItem', item_id);
+
+                Livewire.emit('refreshComponent');
+            }
+        });
+    }
+
+    function callActiveButton(item_id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Una vez que cambias el estado entrará en activo",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, activar'
+        }).then(function (res) {
+            if (res.isConfirmed) {
+                Livewire.emit('activeItem', item_id);
+
+                Livewire.emit('refreshComponent');
+            }
+        });
+    }
+</script>
+
+<script>
     // Get the modal by id
     var modal = document.getElementById("modal");
 

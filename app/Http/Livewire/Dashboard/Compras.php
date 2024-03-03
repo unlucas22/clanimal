@@ -17,8 +17,9 @@ class Compras extends Component
     public $columns = [
         'id' => 'ID',
         'fecha_formatted' => 'Fecha de recepción',
-        'factura' => 'Factura',
-        'monto_formatted' => 'Monto Total',
+        'key_type' => 'Tipo',
+        'value_type' => '',
+        'total_formatted' => 'Monto Total',
         'status_formatted' => 'Estado'
     ];
 

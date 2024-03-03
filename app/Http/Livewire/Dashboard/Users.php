@@ -13,6 +13,7 @@ class Users extends Component
     public $title = 'Usuarios';
 
     public $columns = [
+        'id' => 'ID',
         'name' => 'Nombre',
         'email' => 'Email',
     ];

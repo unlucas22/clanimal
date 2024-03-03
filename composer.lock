@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5eb0b4ff14b0cd04e27ab78bf92c7fb",
+    "content-hash": "9c24f6c40772e92a3d7f0da33d9253ed",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1181,6 +1181,74 @@
             ],
             "abandoned": true,
             "time": "2022-02-23T14:25:13+00:00"
+        },
+        {
+            "name": "goszowski/laravel-database-log-channel",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goszowski/laravel-database-log-channel.git",
+                "reference": "acc20060f17c5e47f319d2872e05597f3232772f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goszowski/laravel-database-log-channel/zipball/acc20060f17c5e47f319d2872e05597f3232772f",
+                "reference": "acc20060f17c5e47f319d2872e05597f3232772f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^7.0|^7.4|^8.37",
+                "php": "^7.0|^7.4|^8.0",
+                "spatie/laravel-package-tools": "^1.9.2"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.10",
+                "nunomaduro/larastan": "^1.0",
+                "orchestra/testbench": "^6.22",
+                "pestphp/pest": "^1.10",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.4",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Goszowski\\DatabaseLogChannel\\DatabaseLogChannelServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Goszowski\\DatabaseLogChannel\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": ":goszowski",
+                    "email": "goszowski@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel database log channel",
+            "homepage": "https://github.com/goszowski/laravel-database-log-channel",
+            "keywords": [
+                "goszowski",
+                "laravel",
+                "laravel-database-log-channel"
+            ],
+            "support": {
+                "issues": "https://github.com/goszowski/laravel-database-log-channel/issues",
+                "source": "https://github.com/goszowski/laravel-database-log-channel/tree/v2.0.0"
+            },
+            "time": "2021-12-21T15:13:35+00:00"
         },
         {
             "name": "graham-campbell/manager",

@@ -55,6 +55,7 @@ class ProductPresentations extends Component
         $this->relationship_name = 'product-details';
 
         $this->created_at = false;
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),

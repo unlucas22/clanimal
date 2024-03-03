@@ -57,8 +57,9 @@ class Manpower extends Component
         try {
             $fecha = Carbon::parse($this->fecha_de_contratacion.' '.Carbon::now()->format('H:i:s'));
 
-            $mp = \App\Models\Manpower::create([
+            $mp = \App\Models\Manpower::updateOrCreate([
                 'user_id' => $this->user_id,
+            ], [
                 'contact_name_emergency' => $this->contact_name_emergency,
                 'contact_phone_emergency' => $this->contact_phone_emergency,
                 'contact_type_emergency' => $this->contact_type_emergency,
@@ -104,6 +105,18 @@ class Manpower extends Component
 
             $this->role_id = $user->role_id;
             $this->active = $user->active;
+
+            //mp
+            $this->contact_name_emergency = $user->manpowers->contact_name_emergency;
+            $this->contact_type_emergency = $user->manpowers->contact_type_emergency;
+            $this->contact_phone_emergency = $user->manpowers->contact_phone_emergency;
+
+            $this->fecha_de_contratacion = $user->manpowers->fecha_de_contratacion->format('d/m/Y');
+
+            $this->cuenta_bancaria = $user->manpowers->cuenta_bancaria;
+
+            $this->payment_method_id = $user->manpowers->payment_method_id;
+
         }
         else
         {

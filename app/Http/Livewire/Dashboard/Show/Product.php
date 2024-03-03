@@ -99,18 +99,32 @@ class Product extends Component
 
     }
 
+    public $product_brands;
+    public $product_categories;
+
     public function render()
     {
+        $this->product_brands = ProductBrand::where('active', true)->get();
+        $this->product_categories = ProductCategory::where('active', true)->get();
+
         return view('livewire.dashboard.show.product', [
-            'product_brands' => ProductBrand::where('active', true)->get(),
-            'product_categories' => ProductCategory::get(),
+            'product_brands' => $this->product_brands,
+            'product_categories' => $this->product_categories,
             'product_presentations' => ProductPresentation::get(),
         ]);
     }
 
     public function getBarcode()
     {
-        $this->barcode = random_int(100000000000, 999999999999);
+        $barcode = random_int(100000000000, 999999999999);
+
+        /* verificar que el barcode no existe */
+        while (\App\Models\Product::where('barcode', $barcode)->count())
+        {
+            $barcode = random_int(100000000000, 999999999999);
+        }
+
+        $this->barcode = $barcode;
     }
 
     public function submit()

@@ -13,6 +13,7 @@ class Puestos extends Component
     public $title = 'Puestos y Sueldos';
 
     public $columns = [
+        'id' => 'ID',
         'name' => 'Puesto',
         'description' => 'Descripción',
         'sueldo' => 'Sueldo',
@@ -59,7 +60,7 @@ class Puestos extends Component
         $this->table = 'roles';
 
         $this->relationships = [
-            'Usuarios con el Puesto',
+            'Usuarios',
         ];
 
         $this->created_at = false;

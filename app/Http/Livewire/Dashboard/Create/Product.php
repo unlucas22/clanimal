@@ -44,7 +44,7 @@ class Product extends Component
         1
     ];
 
-    public $listeners = ['getBarcode'];
+    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh'];
 
     public $rules = [
         'product_presentation_id' => 'required',
@@ -59,6 +59,16 @@ class Product extends Component
         'alerta_stock' => 'nullable',
     ];
 
+    public function refreshParent()
+    {
+        $this->product_brands = ProductBrand::where('active', true)->get();
+
+        $this->product_categories = ProductCategory::where('active', true)->get();
+
+        $this->dispatchBrowserEvent('updateBrand', ['value' => (ProductBrand::orderBy('created_at', 'desc')->first())->name ]);
+        $this->dispatchBrowserEvent('updateCategory', ['value' => (ProductCategory::orderBy('created_at', 'desc')->first())->name]);
+    }
+
     public function agregarPrecio()
     {
         ++$this->product_details;
@@ -72,16 +82,22 @@ class Product extends Component
     /* Select options */
     public function mount()
     {
+        $this->product_brands = ProductBrand::where('active', true)->get();
+        $this->product_categories = ProductCategory::where('active', true)->get();
+
         $this->product_brand_id = (ProductBrand::first())->id ?? null;
         $this->product_category_id = (ProductCategory::first())->id ?? null;
         $this->product_presentation_id = (ProductPresentation::first())->id ?? null;
     }
 
+    public $product_brands;
+    public $product_categories;
+
     public function render()
     {
         return view('livewire.dashboard.create.product', [
-            'product_brands' => ProductBrand::where('active', true)->get(),
-            'product_categories' => ProductCategory::get(),
+            'product_brands' => $this->product_brands,
+            'product_categories' => $this->product_categories,
             'product_presentations' => ProductPresentation::get(),
         ]);
     }

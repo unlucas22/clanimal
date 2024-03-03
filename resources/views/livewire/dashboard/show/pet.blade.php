@@ -1,7 +1,11 @@
-<div class="p-6 pt-8">
+<div class="p-6">
+    
+    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Detalle de Mascota
+        </h3>
 
-    <div>
-        <h1 class="text-2xl">Detalle de mascota</h1>
+        <x-btn-retorno-default />
     </div>
 
     <div class="mt-4 "><strong>Dueño:</strong></div>

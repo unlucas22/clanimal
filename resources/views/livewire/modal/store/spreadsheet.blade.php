@@ -16,16 +16,27 @@
 
             <form wire:submit.prevent="submit" class="space-y-4 p-4">
 
-                {{-- FIREFOX NO LO SOPORTA
-                <div class="form-group" wire:ignore>
-                    <label for="datepicker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Seleccionar mes y año</label>
-                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="seleccionar" name="month" type="month" wire:model="fecha" required value="{{ now()->format('m-Y') }}">
-                </div>
-                 --}}
+                <div>Seleccionar Mes y Año de plantilla a generar</div>
 
-                <div class="form-group" wire:ignore>
-                    <label for="datepicker" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Seleccionar mes y año</label>
-                    <input id="datepicker" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="seleccionar" name="month" type="date" wire:model="fecha" required value="{{ now()->format('d-m-Y') }}">
+                <div class="flex justify-between gap-4">
+                    <div class="w-full">
+                        <label for="ss45" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mes</label>
+                        <select id="ss45" name="month_selected" wire:model.defer="month_selected" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @foreach($months as $month => $name)
+                            <option value="{{ $month }}" @if($loop->first) selected @endif>{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="w-full">
+                        <label for="ss44" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Año</label>
+                        <select id="ss44" name="year_selected" wire:model.defer="year_selected" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            @foreach($years as $year)
+                            <option value="{{ $year }}" @if($loop->first) selected @endif>{{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                 </div>
 
                 <div class="items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-700">

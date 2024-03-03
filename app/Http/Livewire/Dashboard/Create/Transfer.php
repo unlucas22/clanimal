@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\{Log, Auth};
 use Carbon\Carbon;
 use DB;
 
+/* Salida de productos */
 class Transfer extends Component
 {
     /* Busqueda */
@@ -139,6 +140,11 @@ class Transfer extends Component
         }
     }
 
+    public function updatedSearch($value)
+    {
+        $this->buscarProductos();
+    }
+
     public function agregarProducto($item_id, $cantidad = 1)
     {
         try {
@@ -165,7 +171,7 @@ class Transfer extends Component
     {
         if($this->search != null)
         {
-            $this->products = Product::with(['product_presentations', 'product_details'])/*->withStock()*/->where('name', 'like', '%'.$this->search.'%')->orWhere('palabras_clave', 'like', '%'.$this->search.'%')->get();
+            $this->products = Product::with(['product_presentations', 'product_details'])->withStock()->where('name', 'like', '%'.$this->search.'%')->orWhere('palabras_clave', 'like', '%'.$this->search.'%')->get();
         }
         else
         {
@@ -196,6 +202,6 @@ class Transfer extends Component
 
     public function getProducts()
     {
-        return Product::with(['product_presentations', 'product_details'])/*->withStock()*/->get();
+        return Product::with(['product_presentations', 'product_details'])->withStock()->get();
     }
 }

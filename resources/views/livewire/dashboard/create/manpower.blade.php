@@ -1,10 +1,14 @@
 <div class="pt-8">
     
     
-    <div class="p-4">
+    <div class="px-4">
 
-        <div>
-            <h1 class="mt-8 text-2xl font-semibold">Datos de colaborador</h1>
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Datos de Colaborador
+            </h3>
+
+            <x-btn-retorno-default />
         </div>
 
         <div class="mt-6">
@@ -18,7 +22,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Agregar Texto" wire:model.defer="dni" name="dni" min="8" max="8" required>
+                        <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:model.defer="dni" name="dni" min="8" max="8" required>
                         <a class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" wire:click="search()" wire:loading.attr="disabled">
                         <span wire:loading.remove wire.target="search()">Buscar</span>
                         <span wire:loading>
@@ -40,6 +44,21 @@
                     @error('user_name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
 
+
+                <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Datos de Contratación
+                    </h3>
+                </div>
+
+                <div>
+                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                        <input type="checkbox" wire:model="active" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
+                    </label>
+                </div>
+
                 <div class="flex justify-between gap-8">
                     <div class="w-full">
                         <label for="ssc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Puesto</label>
@@ -51,7 +70,6 @@
                             @endforelse
                         </select>
                     </div>
-
 
                     <div>
                         <label for="fecha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de contratación</label>
@@ -76,16 +94,10 @@
                     }
                 </script>
 
-                <div>
-                    <label class="relative inline-flex items-center mb-5 cursor-pointer">
-                        <input type="checkbox" wire:model="active" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
-                    </label>
-                </div>
-
-                <div>
-                    <h1 class="mt-8 text-2xl font-semibold">Datos de contacto</h1>
+                <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Datos de Contacto
+                    </h3>
                 </div>
 
                 <div class="flex justify-between gap-8">
@@ -101,9 +113,12 @@
                     </div>
                 </div>
 
-                <div>
-                    <h1 class="mt-8 text-2xl font-semibold">Contactos de emergencia</h1>
+                <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Contactos de Emergencia
+                    </h3>
                 </div>
+
 
                 <div class="flex justify-between gap-8">
                     <div class="w-full">
@@ -147,9 +162,12 @@
                     }
                 </script>
 
-                <div>
-                    <h1 class="mt-8 text-2xl font-semibold">Métodos de Pago</h1>
+                <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Métodos de Pago
+                    </h3>
                 </div>
+
 
                 <div class="flex justify-between gap-8">
                     

@@ -52,6 +52,7 @@ class Suppliers extends Component
         $this->relationship_name = 'suppliers';
 
         $this->created_at = false;
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),

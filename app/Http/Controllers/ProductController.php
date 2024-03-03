@@ -29,12 +29,12 @@ class ProductController extends Controller
 
             $fecha = Carbon::parse($req->fecha);
 
-
             $warehouse = Warehouse::create([
                 'user_id' => Auth::user()->id,
                 'supplier_id' => $req->supplier_id,
                 'fecha' => $fecha,
-                'factura' => $req->factura,
+                'key_type' => $req->key_type,
+                'value_type' => $req->value_type,
                 'status' => $req->status ?? 'pendiente',
             ]);
 
@@ -44,15 +44,21 @@ class ProductController extends Controller
 
             $products_in_warehouse = [];
 
+            $product_name = explode(', ', $req->product_name);
+
+            if(count($product_name) != intval($req->product_details))
+            {
+                ddd('error: discrepancia. l.49');
+            }
+
             for ($i=0; $i < intval($req->product_details); $i++)
             {
-                $product_base = Product::where('name', $req->product_name[$i])->first();
+                $product_base = Product::where('name', $product_name[$i])->first();
 
-                Product::where('name', $req->product_name[$i])->update([
+                $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
+
+                Product::where('name', $product_name[$i])->update([
                     'stock' => $product_base->stock + $req->amount_details[$i],
-                    // 'name' => $req->product_name[$i],
-                    // 'user_id' => Auth::user()->id,
-                    'precio_compra' => $req->precio_compra[$i],
                     'precio_venta' => $req->precio_venta_details[$i],
                 ]);
 
@@ -62,7 +68,8 @@ class ProductController extends Controller
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    'precio_venta_con_igv' => $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18)
+                    'precio_venta_con_igv' => $precio_venta_con_igv,
+                    'fecha_de_vencimiento' => $req->fecha_de_vencimiento[$i],
                 ]);
 
                 $products_in_warehouse[] = ProductInWarehouse::create([
@@ -71,17 +78,21 @@ class ProductController extends Controller
                 ]);
             }
 
+            Warehouse::where('id', $warehouse->id)->update([
+                'total' => $total,
+            ]);
+
             DB::commit();
 
             return redirect()->route('dashboard.compras');
 
         } catch (\Exception $e) {
 
-            ddd($e->getMessage());
-
-            Log::info($e->getMessage());
+            Log::info($e);
 
             DB::rollback();
+
+            ddd($e->getMessage());
         }
     }
 

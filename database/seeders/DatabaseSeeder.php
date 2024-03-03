@@ -306,7 +306,7 @@ class DatabaseSeeder extends Seeder
     protected function createClients()
     {
         for ($i=0; $i < 3; $i++)
-        { 
+        {
             Client::create([
                 'name' => 'Cliente Apellido '.Str::random(),
                 'email' => "cliente{$i}@gmail.com",

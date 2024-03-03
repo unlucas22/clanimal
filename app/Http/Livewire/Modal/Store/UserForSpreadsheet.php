@@ -50,7 +50,7 @@ class UserForSpreadsheet extends ModalComponent
 
         $monto_tardanza = 0;
 
-        if($this->minutos_de_tardanzas < 30)
+        if($this->minutos_de_tardanzas > 0 &&  $this->minutos_de_tardanzas < 30)
         {
             $monto_tardanza = 40;
         }
@@ -73,7 +73,6 @@ class UserForSpreadsheet extends ModalComponent
             $descuento = $this->aplicarDescuentos();
             
             \App\Models\UserForSpreadsheet::where('id', $this->item_id)->update([
-                'status' => 'validacion',
                 'observation' => $this->observation,
                 'descuento' => $descuento,
                 'bonificacion' => $this->monto_bonificacion,
@@ -82,7 +81,7 @@ class UserForSpreadsheet extends ModalComponent
             ]);
 
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'Detalles y estado actualizado con éxito',
+                'title' => 'Detalles actualizado con éxito',
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);

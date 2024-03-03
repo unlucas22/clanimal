@@ -1,9 +1,3 @@
-## Pendiente
-
-ERRORES:
-
-* En productos para tienda eliminar boton de NUEVO* ?????????????
-
 ## ClinicAnimal
 
 - composer create-project laravel/laravel clinicanimal

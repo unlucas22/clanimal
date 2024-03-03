@@ -1,49 +1,83 @@
 <div class="flex justify-center p-4">
     <form method="POST" action="{{ route('dashboard.update.product') }}" class="space-y-10" enctype="multipart/form-data">
-    <h2 class="mb-4 text-2xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-2">Producto</h2>
+    
+    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Producto
+        </h3>
+
+        <x-btn-retorno-default />
+    </div>
 
     <input type="hidden" name="product_id" value="{{ $product->id }}">
 
         @csrf
 
+        <div>
+            <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                <input type="checkbox" name="active" @if($product->active) checked @endif class="sr-only peer">
+                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
+            </label>
+        </div>
+
 
         <div class="flex justify-between gap-8" wire:ignore>
-            <div class="w-full">
+            
+            <div class="flex justify-center gap-1 w-full">
+                <div class="w-full">
 
-                <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marca</div>
-                <div class='relative searchable-list-brand'>
-                    <input type='text' class='data-list-brand peer block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' id="product-brand" spellcheck="false"  placeholder="Buscar una marca" name="product_brand_id" value="{{ $product->product_brand->name ?? null }}"></input>
-                    <svg class="outline-none cursor-pointer fill-gray-400 absolute transition-all duration-200 h-full w-4 -rotate-90 right-2 top-[50%] -translate-y-[50%]"
-                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path d="M0 256l512 512L1024 256z"></path>
-                    </svg>
-                    <ul class='absolute option-list-brand overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
-                        left-0 bg-white rounded-sm scale-0 opacity-0 
-                        transition-all 
-                        duration-200 origin-top-left'>
-                    </ul>
+                    <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marca</div>
+                    <div class='relative searchable-list-brand'>
+                        <input type='text' class='data-list-brand peer block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' id="product-brand" spellcheck="false"  placeholder="Buscar una marca" name="product_brand_id" value="{{ $product->product_brand->name ?? null }}"></input>
+                        <svg class="outline-none cursor-pointer fill-gray-400 absolute transition-all duration-200 h-full w-4 -rotate-90 right-2 top-[50%] -translate-y-[50%]"
+                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M0 256l512 512L1024 256z"></path>
+                        </svg>
+                        <ul class='absolute option-list-brand overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
+                            left-0 bg-white rounded-sm scale-0 opacity-0 
+                            transition-all 
+                            duration-200 origin-top-left'>
+                        </ul>
+                    </div>
+                    @error('product_brand_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
-                @error('product_brand_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                <div class="pt-7">
+                    <a wire:click='$emit("openModal", "modal.store.product-brand")' class="data-list-brand peer block w-full py-4 px-2 text-sm text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer">AGREGAR
+                    </a>
+                </div>
+                
             </div>
 
-            <div class="w-full">
+            <div class="flex justify-center gap-1 w-full">
+                
 
-                <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría</div>
-                <div class='relative searchable-list-category'>
-                    <input type='text' class='data-list-category peer block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' id="product-category" spellcheck="false"  placeholder="Buscar una marca" name="product_category_id" value="{{ $product->product_category->name ?? null }}"></input>
-                    <svg class="outline-none cursor-pointer fill-gray-400 absolute transition-all duration-200 h-full w-4 -rotate-90 right-2 top-[50%] -translate-y-[50%]"
-                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <path d="M0 256l512 512L1024 256z"></path>
-                    </svg>
-                    <ul class='absolute option-list-category overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
-                        left-0 bg-white rounded-sm scale-0 opacity-0 
-                        transition-all 
-                        duration-200 origin-top-left'>
-                    </ul>
+                <div class="w-full">
+
+                    <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría</div>
+                    <div class='relative searchable-list-category'>
+                        <input type='text' class='data-list-category peer block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ' id="product-category" spellcheck="false"  placeholder="Buscar una marca" name="product_category_id" value="{{ $product->product_category->name ?? null }}"></input>
+                        <svg class="outline-none cursor-pointer fill-gray-400 absolute transition-all duration-200 h-full w-4 -rotate-90 right-2 top-[50%] -translate-y-[50%]"
+                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M0 256l512 512L1024 256z"></path>
+                        </svg>
+                        <ul class='absolute option-list-category overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
+                            left-0 bg-white rounded-sm scale-0 opacity-0 
+                            transition-all 
+                            duration-200 origin-top-left'>
+                        </ul>
+                    </div>
+                    @error('product_category_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
-                @error('product_category_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+
+                <div class="pt-7">
+                    <a wire:click='$emit("openModal", "modal.store.product-category")' class="data-list-brand peer block w-full py-4 px-2 text-sm text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 cursor-pointer">AGREGAR
+                    </a>
+                </div>
+               
+
             </div>
         </div>
 
@@ -261,7 +295,7 @@
 
         <div class="flex justify-between gap-8">
             <div class="w-full">
-                <x-form.input :label="'Producto o Servicio'" :name="'name'" :model="'name'" :required="'required'" :value="'{{ $product->name }}'" />
+                <x-form.input :label="'Producto o Servicio'" :name="'name'" :model="'name'" :required="'required maxlength=50'" :value="'{{ $product->name }}'" />
             </div>
             <div class="w-full">
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Subir</label>
@@ -271,7 +305,7 @@
 
         <div class="flex justify-between gap-8">
             <div class="w-full">
-                <x-form.input :label="'Palabras clave'" :name="'palabras_clave'" :model="'palabras_clave'" :placeholder="'palabra, clave, entre, comas'" :value="'{{ $product->palabras_clave }}'" />
+                <x-form.input :label="'Palabras clave'" :name="'palabras_clave'" :model="'palabras_clave'" :placeholder="'palabra, clave, entre, comas'" :value="'{{ $product->palabras_clave }}'" :required="'maxlength=80'" />
             </div>
             <div class="w-full">
                 <label for="barcode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código de barras</label>
@@ -281,7 +315,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
-                    <input type="search" id="barcode" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Agregar Texto" wire:model.defer="barcode" name="barcode" min="100000000000" max="9999999999999" value="{{ $product->barcode }}" required>
+                    <input type="search" id="barcode" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Agregar Texto" wire:model.defer="barcode" name="barcode" min="100000000000" max="9999999999999" value="{{ $product->barcode }}" maxlength="12" required>
                     <a wire:click="getBarcode" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">Generar Nuevo</a>
                 </div>
                 @error('barcode') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -340,23 +374,15 @@
 
             </div>
         </div>
-        <div>
-            <label class="relative inline-flex items-center mb-5 cursor-pointer">
-                <input type="checkbox" name="active" @if($product->active) checked @endif class="sr-only peer">
-                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
-            </label>
-        </div>
 
         {{-- UNIDADES Y PRECIOS SECCION DINAMICA --}}
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Unidades Y Precios. <span class="font-medium">Total: {{ $product_details ?? 0 }}</span>
+            </h3>
+
             <div>
-                <h2 class="mb-4 text-lg tracking-tight font-extrabold text-gray-900 dark:text-white mt-2">Unidades Y Precios. <span class="font-medium">Total: {{ $product_details ?? 0 }}</span></h2>
-            </div>
-            <div>
-                <div>
-                    <a wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</a>
-                </div>    
+                <a wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">AGREGAR PRECIO</a>
             </div>
         </div>
 
@@ -389,35 +415,6 @@
                     </div>
                 </div>
 
-                <script>
-                    function sumarImpuesto(item_id) {
-
-                        let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
-
-                        let total = val + (val * (18/100));
-
-                        document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
-
-                        let descuento = document.getElementById('discount_details'+item_id).value;; 
-
-                        total -= descuento;
-
-                        document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
-                    }
-
-                    window.onload = function() {
-                        for (var i = 0; i < {{ $product_details }}; i++) {
-                            sumarImpuesto(i);
-                        }
-
-                        const datepickerEl = document.getElementById('datepicker');
-                    
-                        new Datepicker(datepickerEl, {
-                            // options
-                        });
-                    }
-                </script>
-
                 <div class="w-full mb-6 group">
                     <x-form.input :id="'precio_venta_con_igv_details.'.$i" :name="'precio_venta_con_igv_details['.$i.']'" :model="'precio_venta_con_igv_details.'.$i" :label="'Precio Venta con IGV'" :type="'number'" :required="'disabled'" />
                 </div>
@@ -445,6 +442,35 @@
 
         </div>
         @endfor
+
+        <script>
+            function sumarImpuesto(item_id) {
+
+                let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
+
+                let total = val + (val * (18/100));
+
+                document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
+
+                let descuento = document.getElementById('discount_details'+item_id).value;; 
+
+                total -= descuento;
+
+                document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
+            }
+
+            window.onload = function() {
+                for (var i = 0; i < {{ $product_details }}; i++) {
+                    sumarImpuesto(i);
+                }
+
+                const datepickerEl = document.getElementById('datepicker');
+            
+                new Datepicker(datepickerEl, {
+                    // options
+                });
+            }
+        </script>
             
         <div class="p-4 flex justify-center gap-8">
             <div>

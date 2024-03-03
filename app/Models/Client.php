@@ -19,6 +19,7 @@ class Client extends Model
         'report_id',
         'dni',
         'ruc',
+        'linea_credito',
     ];
 
     /**

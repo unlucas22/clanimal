@@ -1,6 +1,23 @@
 <div class="p-4">
     <div class="mb-4">
-        <h2 class="font-semibold text-xl">Compras realizadas a proveedores</h2>
+        <h2 class="font-semibold text-xl"></h2>
+    </div>
+
+    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+            Compras realizadas a proveedores
+        </h3>
+
+        <div>
+            <a href="{{ route('dashboard.compras') }}"><button type="button" class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 font-semibold">
+
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 me-2">
+                  <path fill-rule="evenodd" d="M9.53 2.47a.75.75 0 0 1 0 1.06L4.81 8.25H15a6.75 6.75 0 0 1 0 13.5h-3a.75.75 0 0 1 0-1.5h3a5.25 5.25 0 1 0 0-10.5H4.81l4.72 4.72a.75.75 0 1 1-1.06 1.06l-6-6a.75.75 0 0 1 0-1.06l6-6a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                </svg>
+
+                RETORNO
+            </button></a>
+        </div>
     </div>
 
     @if($errors->any())
@@ -13,7 +30,7 @@
 
         @csrf
 
-        <div class="grid grid-cols-4 gap-8 pt-4">
+        <div class="grid grid-cols-6 gap-8">
 
             <div class="w-full">
                 <label for="proveedores" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Proveedores</label>
@@ -26,9 +43,24 @@
                 </select>
             </div>
 
-            <div>
-                <x-form.input :label="'Factura N°'" :name="'factura'" :model="'factura'" :required="'required'" />
+            <div class="w-full">
+                <label for="key_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccionar</label>
+                <select id="key_type" name="key_type" wire:model.defer="key_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="factura">Factura</option>
+                    <option value="boleta de compra">Boleta de Compra</option>
+                    <option value="nota de venta">Nota de Venta</option>
+                </select>
             </div>
+
+            <div>
+                <x-form.input :label="'Valor'" :name="'value_type'" :model="'value_type'" :required="'required maxlength=30'" />
+            </div>
+
+            {{-- 
+            <div>
+                <x-form.input :label="'Factura N°'" :name="'factura'" :model="'factura'" :required="'required maxlength=20'" />
+            </div>
+             --}}
 
             <div>
                 <label for="fecha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha</label>
@@ -54,17 +86,21 @@
             </script>
 
             <div>
+                <x-form.input :type="'number'" :id="'total'" :label="'Total'" :name="'total'" :model="'total'" :required="'required step=0.01'" />
+            </div>
+
+            <div>
                 <label for="proveedores" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado</label>
                 <select id="proveedores" name="status" wire:model.defer="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="crédito">Crédito</option>
-                    <option value="pendiente">Pendiente</option>
+                    <option value="contado">Contado</option>
                     {{-- <option value="cancelado">Cancelado</option> --}}
                 </select>
             </div>
         </div>
 
         {{-- DETALLES --}}
-        <div class="pt-16">
+        <div>
 
             {{-- UNIDADES Y PRECIOS SECCION DINAMICA --}}
             <div class="flex justify-between mb-4">
@@ -94,7 +130,7 @@
                             el:document.querySelector('.data-list-product'),
                             listEl:document.querySelector('.option-list-product'),
                             arrow:document.querySelector(".searchable-list-product>svg"),
-                            currentValue:null,
+                            currentValue:"...",
                             listOpened :false,
                             optionTemplate:
                             `
@@ -192,7 +228,6 @@
                         dataListProduct.init(); 
                         // add items
                         const data = [
-                            "",
                             @foreach($products as $product) "{{ $product->name }}", @endforeach
                         ];
                         data.forEach(v=>(dataListProduct.append(v))); 
@@ -200,7 +235,7 @@
 
                     </div>
                     <div class="pt-11">
-                        <a wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">Agregar</a>
+                        <a wire:click="agregarPrecio" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">AGREGAR</a>
                     </div>    
                 </div>
                 <div class="pt-11">
@@ -208,7 +243,9 @@
                 </div>
             </div>
 
-            <input type="hidden" name="product_details" wire:model="product_details" value="{{ $product_details }}">
+            <input type="hidden" name="product_details" id="product_details" wire:model="product_details" value="{{ $product_details }}">
+
+            <input type="hidden" name="product_name" wire:model="product_name">
 
             <script>
                 function sumarImpuesto(item_id) {
@@ -221,64 +258,102 @@
 
                     total -= descuento;
 
-                    document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
+                    return parseFloat(total, 2).toFixed(2);
+                }
+
+                function sumarTotales() {
+
+                    let sum = 0;
+
+                    let count = document.getElementById('product_details').value;
+
+                    for (var i = 0; i < count; i++)
+                    {
+                        document.getElementById('precio_venta_total'+i).value = sumarImpuesto(i);
+                        
+                        sum += parseFloat(sumarImpuesto(i));
+                    }
+                    
+                    document.getElementById('total').value = sum.toFixed(2);
                 }
             </script>
+
+
+            @if($product_details)
+            <div class="grid grid-cols-10 gap-4">
+                <div class="text-center">Item ID</div>
+                <div class="col-span-9"></div>
+            </div>
+            @endif
 
             @for($i=0; $i < $product_details; $i++)
             <div class="flex justify-center">
 
 
-                <div class="grid grid-cols-9 gap-4">
+                <div class="grid grid-cols-10 gap-2">
 
                     <div class="pt-8 text-center">
-                        Id. {{ $i+1 }}
+                        {{ $i+1 }}
                     </div>
 
-                    <div>
-                        <x-form.input :name="'product_name['.$i.']'" :model="'product_name.'.$i" :label="'Producto'" {{-- :required="'disabled'" --}} />
-                    </div>
-
-                    <div class="relative z-0 w-full mb-6 group">
+                    <div class=" w-full mb-6 group">
                         <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01 min=1'" />
                     </div>
-                    
-                    <div class="relative z-0 w-full mb-6 group">
+
+                    <div class=" w-full mb-6 group">
+                        <x-form.select :name="'product_brand_details_id['.$i.']'" :model="'product_brand_details_id.'.$i" :label="'Marca'" :required="'required'">
+                            @foreach($product_brands as $product_brand)
+                            <option value="{{ $product_brand->id }}">{{ $product_brand->name }}</option>
+                            @endforeach
+                        </x-form.select>
+                    </div>
+
+                    <div class=" w-full mb-6 group">
 
                         <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
                             @foreach($product_presentations as $product_presentation)
                             <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
                             @endforeach
                         </x-form.select>
-                        </select>
                     </div>
 
-                    <div class="relative z-0 w-full mb-6 group">
+                    <div>
+                        <x-form.input :name="'product_name['.$i.']'" :model="'product_name.'.$i" :label="'Producto'"  :required="'disabled'" />
+                    </div>
+                    
+
+                    {{-- 
+                    <div class=" w-full mb-6 group">
                         <div>
                             <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio compra</label>
                             <input type="number" step="0.1" name="precio_compra[{{ $i }}]" id="precio_compra{{ $i }}" wire:model.defer="precio_compra.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" placeholder="" required min=0>
                         </div>
                     </div>
+                     --}}
 
-                    <div class="relative z-0 w-full mb-6 group">
+                    <div class=" w-full mb-6 group">
                         <div>
-                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio sin IGV</label>
-                            <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" required min=0>
+                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Valor sin IGV</label>
+                            <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarTotales()" required min=0>
                         </div>
                     </div>
 
-                    <div class="relative z-0 w-full mb-6 group">
+                    <div class=" w-full mb-6 group">
                         <div>
                             <label for="discount_details{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento</label>
-                            <input type="number" name="discount_details[{{ $i }}]" id="discount_details{{ $i }}" wire:model.defer="discount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" value="0" min="0">
+                            <input type="number" name="discount_details[{{ $i }}]" id="discount_details{{ $i }}" wire:model.defer="discount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" oninput="sumarTotales()" placeholder="" value="0" min="0" step="0.01">
                         </div>
                     </div>
 
-                    <div class="relative z-0 w-full mb-6 group">
+                    <div class=" w-full mb-6 group">
                         <div>
-                            <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total</label>
+                            <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total</label>
                             <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" wire:model.defer="precio_venta_total.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" disabled>
                         </div>
+                    </div>
+
+                    <div class=" w-full mb-6 group">
+                        <x-form.input :name="'fecha_de_vencimiento['.$i.']'" :type="'date'" :model="'fecha_de_vencimiento.'.$i" :label="'F. de Vencimiento'" />
                     </div>
 
                     <div class="pt-8">

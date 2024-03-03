@@ -3,10 +3,8 @@
         <div class="w-full mb-1">
             <div class="mb-4">
 
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">{{ $title ?? 'Panel' }}</h1>
-
                 @isset($description)
-                <nav class="flex mt-5" aria-label="Breadcrumb">
+                <nav class="flex" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
                       <li class="inline-flex items-center">
                         <div class="inline-flex items-center text-gray-700  dark:text-gray-300 dark:hover:text-white">
@@ -19,6 +17,9 @@
                     </ol>
                 </nav>
                 @endisset
+
+                <h1 class="text-xl mt-3 font-semibold text-gray-900 sm:text-2xl dark:text-white">{{ $title ?? 'Panel' }}</h1>
+                
             </div>
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex items-center mb-4 sm:mb-0">
@@ -100,12 +101,12 @@
 
                             @if($created_at)
                             <td class="{{ $td }}">
-                                {{ $item->created_at->format('d/m/Y'); }}
+                                {{ $item->created_at->format('d/m/Y h:i A') }}
                             </td>
                             @endif
                             @if($updated_at)
                             <td class="{{ $td }}">
-                                {{ $item->updated_at->format('d/m/Y'); }}
+                                {{ $item->updated_at->format('d/m/Y h:i A') }}
                             </td>
                             @endif
                             <td class="p-4 space-x-2 flex justify-center">

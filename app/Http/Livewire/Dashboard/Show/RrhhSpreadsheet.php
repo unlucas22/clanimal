@@ -21,10 +21,10 @@ class RrhhSpreadsheet extends Component
     public $description = 'Planillas de pago a colaboradores';
 
     public $columns = [
-        'id' => 'ID',
+        //'id' => 'ID',
     ];
 
-    public $listeners = ['refreshParent' => '$refresh'];
+    public $listeners = ['refreshParent' => '$refresh', 'enviarPlanilla'];
 
     public $search = '';
 
@@ -64,7 +64,7 @@ class RrhhSpreadsheet extends Component
         $this->relationships = [
             'Nombres y Apellidos',
             'Cargo',
-            //'Sueldo',
+            'Sueldo',
             'Días no laborados',
             'Minutos de tardanzas',
             'Descuentos',
@@ -81,7 +81,7 @@ class RrhhSpreadsheet extends Component
 
         $user_for_spreadsheets = $this->getItems();
 
-        $this->description = 'Planilla '.$user_for_spreadsheets[0]->spreadsheets->fecha->format('M Y');
+        $this->description = 'Planilla '.$user_for_spreadsheets[0]->spreadsheets->fecha->format('m/Y');
 
         $this->title = 'Relación de colaboradores';
 
@@ -91,7 +91,22 @@ class RrhhSpreadsheet extends Component
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'rrhh-planillas-colaboradores',
-            //'head_name' => 'finanzas-planillas',
+            'head_name' => 'relacion-de-colaboradores',
         ]);
+    }
+
+    public function enviarPlanilla($item_id)
+    {
+        \App\Models\UserForSpreadsheet::where('id', $item_id)->update([
+            'status' => 'validacion',
+        ]);
+
+        $this->dispatchBrowserEvent('swal', [
+            'title' => 'Estado actualizado con éxito',
+            'icon' => 'success',
+            'iconColor' => 'green',
+        ]);
+
+        $this->emit('refreshComponent');
     }
 }

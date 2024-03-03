@@ -1,9 +1,14 @@
 <x-slot name="title">Recepción de Clientes y Mascotas</x-slot>
 
 <div class="py-4">
-    <div class="flex justify-end">
-        <div class="flex justify-between gap-8 px-4">
-            <div class="flex justify-start">
+    
+    <div class="py-4">
+
+        <div class="flex justify-between px-4">
+            <div class="">
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Procesar pago de servicios veterinarios</h1>   
+            </div>
+            <div>
                 <div><a href="{{ route('dashboard.venta.productos') }}">
                     <x-btn-nuevo/></a></div>
             </div>
@@ -13,10 +18,6 @@
 
     {{-- CITAS --}}
     <div>
-        <div class="mb-4 p-4">
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Procesar pago de servicios veterinarios</h1>   
-        </div>
-
         <div class="flex flex-col">
             <div class="overflow-x-auto">
                 <div class="inline-block min-w-full align-middle">

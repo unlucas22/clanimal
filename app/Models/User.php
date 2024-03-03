@@ -98,7 +98,7 @@ class User extends Authenticatable
 
     public function manpowers()
     {
-        return $this->hasMany(Manpower::class);
+        return $this->hasOne(Manpower::class);
     }
 
     public function clients()

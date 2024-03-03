@@ -1,14 +1,25 @@
 <div>
+
+    <div class="p-4">
+        
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Ingreso
+            </h3>
+
+            <x-btn-retorno-default />
+        </div>
+    </div>
     
     {{-- Informacion de la compra --}}
-    <div class="flex justify-between p-4 pt-8 text-xl">
+    <div class="flex justify-between p-4 text-xl">
 
         {{-- PRIMERA FILA --}}
         <div class="space-y-10">
             <div class="flex justify-between gap-8">
-                <div class="font-bold">Factura N°</div>
+                <div class="font-bold">{{ ucwords($warehouse->key_type) }}:</div>
                 <div>
-                    {{ $warehouse->factura }}
+                    {{ $warehouse->value_type }}
                 </div>
             </div>
 
@@ -32,7 +43,7 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Fecha:</div>
                 <div>
-                    {{ $warehouse->fecha->format('Y-m-d') }}
+                    {{ $warehouse->fecha->format('d/m/Y') }}
                 </div>
             </div>
 
@@ -64,7 +75,13 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Registrado Por</div>
                 <div>
-                    {{ $warehouse->users->name }} en {{ $warehouse->created_at->format('Y-m-d') }}
+                    {{ $warehouse->users->name }}
+                </div>
+            </div>
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">Hora de Registro</div>
+                <div>
+                    {{ $warehouse->created_at->format('d/m/Y h:i A') }}
                 </div>
             </div>
 

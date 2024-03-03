@@ -1,0 +1,1 @@
+<div><a href="{{ route('dashboard.show.rrhh-spreadsheet', ['hashid' => $item->hashid]) }}"><x-btn/></a></div>

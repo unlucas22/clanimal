@@ -1,7 +1,18 @@
 <div>
+
+    <div class="p-4">
+        
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Factura
+            </h3>
+
+            <x-btn-retorno-default />
+        </div>
+    </div>
     
     {{-- Informacion de la compra --}}
-    <div class="flex justify-between p-4 pt-8 text-xl">
+    <div class="flex justify-between p-4 text-xl">
 
         {{-- PRIMERA FILA --}}
         <div class="space-y-10">

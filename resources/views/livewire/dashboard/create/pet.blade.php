@@ -1,6 +1,12 @@
 <div class="flex justify-center pt-8">
     <form wire:submit.prevent="submit" class="space-y-10">
-    <h2 class="mb-4 text-2xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-2">Registrar nueva mascota</h2>
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Registrar Mascota
+            </h3>
+
+            <x-btn-retorno-default />
+        </div>
 
         @csrf
 

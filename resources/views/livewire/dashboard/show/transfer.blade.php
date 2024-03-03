@@ -1,7 +1,18 @@
 <div>
+
+    <div class="p-4">
+        
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Salida de Producto
+            </h3>
+
+            <x-btn-retorno-default />
+        </div>
+    </div>
     
     {{-- Informacion de la compra --}}
-    <div class="flex justify-between p-4 pt-8 text-xl">
+    <div class="flex justify-between p-4 text-xl">
 
         {{-- PRIMERA FILA --}}
         <div class="space-y-10">
@@ -72,11 +83,6 @@
 
     {{-- Tabla de productos --}}
     <div class="pt-8">
-
-        <div class="mb-4 p-4">
-            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Productos Enviados</h1>
-        </div>
-
         <div class="flex flex-col">
             <div class="overflow-x-auto">
                 <div class="inline-block min-w-full align-middle">

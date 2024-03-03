@@ -59,6 +59,8 @@ class Controls extends Component
             'Motivo',
         ];
 
+        $this->can_delete = false;
+
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),
             'rows_count' => $this->rows_count,

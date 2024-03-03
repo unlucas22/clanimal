@@ -1,14 +1,14 @@
-<div class="pt-8">
+<div>
     
     
     <div class="p-4">
         
-        <div class="flex justify-end">
-            <button onclick="javascript:history.go(-1)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Regresar</button>
-        </div>
-        
-        <div>
-            <h1 class="mt-8 text-2xl">Datos del cliente</h1>
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Datos del Cliente
+            </h3>
+
+            <x-btn-retorno-default />
         </div>
 
         <div class="mt-6">
@@ -67,6 +67,11 @@
                         <div class="relative z-0 w-full mb-6 group">
                             <x-form.input :name="'phone'" :model="'phone'" :label="'Número de telefono'" />
                             @error('phone') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="relative z-0 w-full mb-6 group">
+                            <x-form.input :type="'number'" :name="'linea_credito'" :model="'linea_credito'" :label="'Linea de Crédito'" :required="'min=0'" />
+                            @error('linea_credito') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

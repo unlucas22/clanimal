@@ -29,6 +29,8 @@ class Client extends Component
     public $phone;
     public $address;
 
+    public $linea_credito;
+
     /* datos de la mascota */
     public $pet_name;
     public $type_of_pet_id;
@@ -105,6 +107,7 @@ class Client extends Component
                 'address' => $this->address,
                 'report_id' => $report->id,
                 'user_id' => Auth::user()->id,
+                'linea_credito' => $this->linea_credito,
             ]);
 
             if($this->asign_pet)

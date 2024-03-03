@@ -45,7 +45,7 @@ class UserForSpreadsheet extends Model
     /* Salario Final */
     public function getTotalAttribute()
     {
-        return ($this->users->roles->sueldo - $this->descuento) /*+ $this->bonificacion*/;
+        return ($this->users->roles->sueldo - $this->descuento) + $this->bonificacion;
     }
 
     public function getHashidAttribute()

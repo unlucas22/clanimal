@@ -72,7 +72,7 @@ class RrhhPlanillas extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            'action_name' => 'finanzas-planillas',
+            'action_name' => 'rrhh-planillas',
             'head_name' => 'finanzas-planillas',
         ]);
     }

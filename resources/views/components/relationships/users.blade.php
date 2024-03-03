@@ -5,9 +5,13 @@
     {{ $item->companies->name ?? '' }}
 </td>
 <td class="{{ $td }}">
-    @if($item->active)
-    <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Activo</span>
-    @else
-    <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">Inactivo</span>
-    @endif
+@if($item->active)
+<div class="flex items-center">
+     <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>  Activo
+</div>
+@else
+<div class="flex items-center">
+     <div class="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div> Inactivo
+</div>
+@endif
 </td>

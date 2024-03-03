@@ -27,7 +27,8 @@ class ProductStoreRequest extends FormRequest
             'supplier_id' => 'required',
             'product_details' => 'required',
             'fecha' => 'required',
-            'factura' => 'required',
+            'key_type' => 'required',
+            'value_type' => 'required',
         ];
     }
 
@@ -42,7 +43,8 @@ class ProductStoreRequest extends FormRequest
             'supplier_id.required' => __('Es necesario elegir el proveedor'),
             'product_details.required' => __('Es necesario guardar como minimo un producto en la compra'),
             'fecha.required' => __('Se tiene que especificar la fecha de recepción'),
-            'factura.required' => __('Se tiene que especificar la factura de la compra'),
+            //'key_type.required' => __('Se tiene que especificar la factura de la compra'),
+            'value_type.required' => __('Se tiene que especificar el valor de la factura, boleta o nota de la compra realizada'),
             'total.required' => __('Se tiene que especificar el total de la compra'),
         ];
     }

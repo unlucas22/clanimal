@@ -13,6 +13,7 @@ class Classifications extends Component
     public $title = 'Clasificación de clientes';
 
     public $columns = [
+        'id' => 'ID',
         'key' => 'Nombre',
         'name' => 'Titulo especial',
     ];
@@ -51,6 +52,7 @@ class Classifications extends Component
         ];
 
         $this->created_at = false;
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),

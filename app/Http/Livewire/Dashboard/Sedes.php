@@ -13,6 +13,7 @@ class Sedes extends Component
     public $title = 'Sedes';
 
     public $columns = [
+        'id' => 'ID',
         'name' => 'Titulo',
         'address' => 'Dirección',
         'email' => 'Correo electronico',
@@ -59,6 +60,7 @@ class Sedes extends Component
         ];
 
         $this->created_at = false;
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),

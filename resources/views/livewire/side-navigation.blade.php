@@ -3,9 +3,10 @@
     <div>
         <aside id="default-sidebar" class="fixed top-0 left-0 {{-- z-40 --}} w-48 h-screen transition-transform -translate-x-full sm:translate-x-0" style="min-width:250px;" aria-label="Sidenav">
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-                <ul class="space-y-2">
+                <ul class="space-y-2" style="padding-top: 80px;">
 
-                    <li style="padding-top: 80px;">
+                    {{-- 
+                    <li >
                         <a href="{{ route('dashboard.index') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.index')
@@ -14,6 +15,7 @@
                             <span class="ml-3">General</span>
                         </a>
                     </li>
+                     --}}
 
                     <x-hr :content="'Logística General'" />
 
@@ -144,6 +146,36 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="#" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-facturas')
+                            ])>
+                            <x-icons.heroicons.money />
+                            <span class="ml-3">Cuentas Por Pagar</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-facturas')
+                            ])>
+                            <x-icons.heroicons.money />
+                            <span class="ml-3">Cuentas Por Cobrar</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#" disabled @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-facturas')
+                            ])>
+                            <x-icons.heroicons.money />
+                            <span class="ml-3">Reporte</span>
+                        </a>
+                    </li>
+
                     <x-hr :content="'RRHH'" />
 
                     <li>
@@ -152,7 +184,7 @@
                             'bg-gray-100' => request()->routeIs('dashboard.recursos-humanos')
                             ])>
                             <x-icons.heroicons.user />
-                            <span class="ml-3">Recursos humanos</span>
+                            <span class="ml-3">Colaboradores</span>
                         </a>
                     </li>
 

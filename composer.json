@@ -9,6 +9,7 @@
         "barryvdh/laravel-debugbar": "^3.7",
         "doctrine/dbal": "^3.7",
         "fruitcake/laravel-cors": "^2.0",
+        "goszowski/laravel-database-log-channel": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "hisorange/browser-detect": "^4.5",
         "ipinfo/ipinfolaravel": "^2.5",

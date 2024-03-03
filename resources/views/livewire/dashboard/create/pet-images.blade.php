@@ -1,15 +1,14 @@
 <x-app-layout>
-<x-slot name="header">
-    <div class="flex justify-end">
-        <button onclick="window.history.back();" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 rounded-full">Regresar</button>
-    </div>
-</x-slot>
-
-
 <x-basic-card>
-    <div class="mt-16 p-4">
-        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white mt-8">Cargar las imagenes de la mascota</h2>
-        <p class="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl"> Las imagenes deben tener las siguientes extensiones .png, .jpeg, .jpg</p>
+    <div class=" p-4">
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Cargar las imagenes de la mascota
+            </h3>
+
+            <x-btn-retorno-default />
+        </div>
+        <p class="text-gray-500 sm:text-xl"> Las imagenes deben tener las siguientes extensiones .png, .jpeg, .jpg</p>
 
         <form method="POST" action="{{ route('dashboard.update.pet-images') }}" enctype="multipart/form-data" class="space-y-10">
 

@@ -21,7 +21,9 @@ Route::middleware([
 ])->group(function () {
 
     /*** Index: Charts e informacion general ***/
-    Route::view('/dashboard', 'dashboard')->name('dashboard.index');
+    Route::get('/dashboard', function() {
+        return redirect()->route('dashboard.products');
+    })->name('dashboard.index');
     
     Route::prefix('dashboard')->group(function () {
 

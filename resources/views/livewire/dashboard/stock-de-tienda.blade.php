@@ -38,7 +38,7 @@
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
 
-                                @php($shifts_column = ['ID', 'Producto', 'Cantidad', 'Registrado Por', 'Fecha de recepción'])
+                                @php($shifts_column = ['ID', 'Producto', 'ID De Producto', 'Cantidad', 'Registrado Por', 'Fecha de recepción'])
 
                                 @php($colStyle = 'p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400')
                                     @foreach($shifts_column as $key)
@@ -58,6 +58,9 @@
                                     </td>
                                     <td class="{{ $td }}">
                                         {{ $product->products->name }}
+                                    </td>
+                                    <td class="{{ $td }}">
+                                        {{ $product->products->id }}
                                     </td>
                                     <td class="{{ $td }}">
                                         {{ $product->stock }}

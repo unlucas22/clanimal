@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Dashboard;
 
 use Livewire\Component;
 use App\Traits\HasTable;
-use App\Models\{Product, ProductDetail};
+use App\Models\{Product, ProductDetail, ProductInWarehouse};
 
 class Products extends Component
 {
@@ -16,14 +16,22 @@ class Products extends Component
         'id' => 'ID',
     ];
 
-    public $listeners = ['deleteItem' => 'eliminar', 'refreshParent' => '$refresh'];
+    public $listeners = ['deleteItem' => 'eliminar', 'refreshParent' => '$refresh', 'activeItem' => 'activar'];
 
     public $search = '';
 
     public function eliminar($item_id)
     {
-        ProductDetail::where('product_id', $item_id)->delete();
-        Product::where('id', $item_id)->delete();
+        Product::where('id', $item_id)->update([
+            'active' => false
+        ]);
+    }
+
+    public function activar($item_id)
+    {
+        Product::where('id', $item_id)->update([
+            'active' => true
+        ]);
     }
 
     public function getItems()
@@ -61,6 +69,8 @@ class Products extends Component
         ];
 
         $this->created_at = false;
+
+        $this->can_delete = false;
 
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),

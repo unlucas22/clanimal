@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Create;
 
 use Livewire\Component;
-use App\Models\{Supplier, ProductPresentation, Product};
+use App\Models\{Supplier, ProductPresentation, ProductBrand, Product};
 
 class Warehouse extends Component
 {
@@ -11,11 +11,16 @@ class Warehouse extends Component
     public $factura;
     public $supplier_id;
 
-    public $status = 'crédito';
+    public $status = 'pendiente';
 
     public $name;
     public $palabras_clave;
     public $barcode = null;
+
+    public $key_type;
+    public $value_type;
+
+    public $total = 0;
 
     public $amount = 0;
     public $amount_presentation = 0;
@@ -89,6 +94,18 @@ class Warehouse extends Component
         --$this->product_details;
     }
 
+    public function setTotal($item_id, $value)
+    {
+        for ($i=0; $i < intval($this->product_details); $i++)
+        {
+            $sum = $this->precio_venta_details[$i] + ($this->precio_venta_details[$i] * (18/100));
+
+            $this->total += ($sum - $this->discount_details[$i]);
+        }
+
+        $this->precio_venta_total[$item_id] = $value;
+    }
+
     /* Select options */
     public function mount()
     {
@@ -102,6 +119,7 @@ class Warehouse extends Component
         return view('livewire.dashboard.create.warehouse', [
             'suppliers' => Supplier::get(),
             'product_presentations' => ProductPresentation::get(),
+            'product_brands' => ProductBrand::get(),
             'products' => Product::get(),
         ]);
     }

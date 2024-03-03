@@ -70,12 +70,14 @@ class RecursosHumanos extends Component
         $this->created_at = false;
         $this->updated_at = false;
 
+        $this->can_delete = false;
+
         return view('livewire.dashboard.table', [
             'items' => $this->getItems(),
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            //'action_name' => 'product',
+            //'action_name' => 'manpower',
             'head_name' => 'manpower',
         ]);
     }
