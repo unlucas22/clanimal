@@ -293,6 +293,18 @@
         dataCategory.forEach(v=>(dataListCategory.append(v))); 
     </script>
 
+    <script>
+        document.addEventListener('updateBrand', event => {
+            dataListBrand.append(event.detail.value);
+            console.log(event.detail.value);
+        });
+
+         document.addEventListener('updateCategory', event => {
+            dataListCategory.append(event.detail.value);
+            console.log(event.detail.value);
+        });
+    </script>
+
         <div class="flex justify-between gap-8">
             <div class="w-full">
                 <x-form.input :label="'Producto o Servicio'" :name="'name'" :model="'name'" :required="'required maxlength=50'" :value="'{{ $product->name }}'" />

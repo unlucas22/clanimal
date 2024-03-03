@@ -34,7 +34,7 @@ class Product extends Component
 
     public $product_presentation_details_id = [];
 
-    public $listeners = ['getBarcode'];
+    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh'];
 
     public $product = [];
 
@@ -61,10 +61,24 @@ class Product extends Component
         --$this->product_details;
     }
 
+    public function refreshParent()
+    {
+        $this->product_brands = ProductBrand::where('active', true)->get();
+
+        $this->product_categories = ProductCategory::where('active', true)->get();
+
+        $this->dispatchBrowserEvent('updateBrand', ['value' => (ProductBrand::orderBy('created_at', 'desc')->first())->name ]);
+        $this->dispatchBrowserEvent('updateCategory', ['value' => (ProductCategory::orderBy('created_at', 'desc')->first())->name]);
+    }
+
     /* Select options */
     public function mount(Request $req)
     {
         $product = \App\Models\Product::with(['product_presentations', 'product_categories', 'product_details', 'product_brands'])->hashid($req->hashid)->firstOrFail();
+
+
+        $this->product_brands = ProductBrand::where('active', true)->get();
+        $this->product_categories = ProductCategory::where('active', true)->get();
 
         // $this->product_brand_id = $product->product_brand_id;
         // $this->product_category_id = $product->product_category_id;
@@ -104,9 +118,6 @@ class Product extends Component
 
     public function render()
     {
-        $this->product_brands = ProductBrand::where('active', true)->get();
-        $this->product_categories = ProductCategory::where('active', true)->get();
-
         return view('livewire.dashboard.show.product', [
             'product_brands' => $this->product_brands,
             'product_categories' => $this->product_categories,

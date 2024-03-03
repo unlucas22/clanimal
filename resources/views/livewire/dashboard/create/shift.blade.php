@@ -1,7 +1,7 @@
 <div class="flex justify-center pt-8">
     <form method="POST" action="{{ route('dashboard.store.shift') }}" class="space-y-10">
     
-        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+        <div class="flex justify-between gap-4 items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                 Programación de citas para mascotas
             </h3>
