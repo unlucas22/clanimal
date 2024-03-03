@@ -92,6 +92,8 @@ class Warehouse extends Component
     public function eliminarPrecio()
     {
         --$this->product_details;
+
+        $this->product_name = array_slice($this->product_name, 0, -1);
     }
 
     public function setTotal($item_id, $value)

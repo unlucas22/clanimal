@@ -19,15 +19,19 @@
 </td>
 
 <td class="{{ $td }}">
+    {{ (($item->precio_venta_total - $item->precio_compra) / $item->precio_compra) * 100 }}%
+</td>
+
+<td class="{{ $td }}">
     {{ $item->stock }}
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->precio_compra }}
+    S/ {{ $item->precio_compra }} Soles
 </td>
 
 <td class="{{ $td }}">
-    ${{ $item->precio_venta_total }}
+    S/ {{ $item->precio_venta_total }} Soles
 </td>
 
 <td class="{{ $td }}">

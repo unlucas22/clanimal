@@ -44,7 +44,7 @@ class ProductController extends Controller
 
             $products_in_warehouse = [];
 
-            $product_name = explode(', ', $req->product_name);
+            $product_name = explode(',', $req->product_name);
 
             if(count($product_name) != intval($req->product_details))
             {
@@ -92,7 +92,9 @@ class ProductController extends Controller
 
             DB::rollback();
 
-            ddd($e->getMessage());
+            return back();
+
+            //ddd($e->getMessage());
         }
     }
 

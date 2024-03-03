@@ -61,10 +61,10 @@ class Products extends Component
             'Categoría',
             'Marca',
             'Producto',
+            'Ganancia',
             'Stock',
             'Precio Compra',
             'Precio Venta (IGV)',
-            // 'Ganancia',
             'Estado',
         ];
 
