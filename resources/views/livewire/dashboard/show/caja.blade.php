@@ -1,9 +1,15 @@
 <div>
     
     {{-- Informacion de la compra --}}
-    <div class="p-4 text-xl">
+    <div class="p-4">
 
-        <div class="font-bold">Operaciones del {{ $caja->created_at }}</div>
+        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                Operaciones del {{ $caja->created_at }}
+            </h3>
+
+            <x-btn-retorno-default />
+        </div>
 
 
         <div class="flex justify-between gap-8 pt-8">
@@ -45,6 +51,14 @@
                     </div>
 
                     <div class="flex justify-between gap-8">
+                        <div>
+                            <span class="font-bold">Crédito</span>
+                            <div class="text-base">Compras a crédito</div>
+                        </div>
+                        <div>S/ {{ $caja->total_credito ?? 0 }} Soles</div>
+                    </div>
+
+                    <div class="flex justify-between gap-8">
                         <div class="font-bold">EN CAJA</div>
                         <div>S/ {{ $caja->en_caja ?? 0 }} Soles</div>
                     </div>
@@ -74,23 +88,30 @@
 
                         <div class="col-span-6 sm:col-span-4">
                             <x-jet-label for="total_efectivo" value="{{ __('Efectivo a depositar') }}" />
-                            <x-jet-input id="total_efectivo" type="number" class="mt-1 block w-full" wire:model.defer="total_efectivo" autocomplete="total_efectivo" min="0" />
+                            <x-jet-input id="total_efectivo" type="number" class="mt-1 block w-full" wire:model.defer="total_efectivo" autocomplete="total_efectivo" min="0" step="0.1" />
                             <x-jet-input-error for="total_efectivo" class="mt-2" />
                             @error('total_efectivo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="col-span-6 sm:col-span-4">
                             <x-jet-label for="total_tarjeta" value="{{ __('Tarjetas') }}" />
-                            <x-jet-input id="total_tarjeta" type="number" class="mt-1 block w-full" wire:model.defer="total_tarjeta" autocomplete="total_tarjeta" min="0" />
+                            <x-jet-input id="total_tarjeta" type="number" class="mt-1 block w-full" wire:model.defer="total_tarjeta" autocomplete="total_tarjeta" min="0" step="0.1" />
                             <x-jet-input-error for="total_tarjeta" class="mt-2" />
                             @error('total_tarjeta') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="col-span-6 sm:col-span-4">
                             <x-jet-label for="total_virtual" value="{{ __('Billeteras electrónicas') }}" />
-                            <x-jet-input id="total_virtual" type="number" class="mt-1 block w-full" wire:model.defer="total_virtual" autocomplete="total_virtual" min="0" />
+                            <x-jet-input id="total_virtual" type="number" class="mt-1 block w-full" wire:model.defer="total_virtual" autocomplete="total_virtual" min="0" step="0.1" />
                             <x-jet-input-error for="total_virtual" class="mt-2" />
                             @error('total_virtual') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-4">
+                            <x-jet-label for="total_credito" value="{{ __('Crédito') }}" />
+                            <x-jet-input id="total_credito" type="number" class="mt-1 block w-full" wire:model.defer="total_credito" autocomplete="total_credito" min="0" step="0.1" />
+                            <x-jet-input-error for="total_credito" class="mt-2" />
+                            @error('total_credito') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
 
                         <div class="col-span-6 sm:col-span-4">

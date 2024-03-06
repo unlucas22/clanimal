@@ -17,6 +17,7 @@ class Caja extends Component
     public $total_efectivo = 0;
     public $total_tarjeta = 0;
     public $total_virtual = 0;
+    public $total_credito = 0;
 
     public function mount(Request $req)
     {    
@@ -50,6 +51,7 @@ class Caja extends Component
                 'total_efectivo' => $this->total_efectivo,
                 'total_tarjeta' => $this->total_tarjeta,
                 'total_virtual' => $this->total_virtual,
+                'total_credito' => $this->total_credito,
                 'status' => 'validacion',
             ]);
 

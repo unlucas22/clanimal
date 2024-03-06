@@ -18,6 +18,7 @@ class CashRegister extends Model
         'total_efectivo',
         'total_tarjeta',
         'total_virtual',
+        'total_credito',
         'status',
     ]; // ['en proceso', 'validacion', 'completado', 'rechazado']
 
@@ -30,6 +31,11 @@ class CashRegister extends Model
         'hashid',
         'total',
         'formatted_status',
+        'formatted_en_caja',
+        'formatted_total_efectivo',
+        'formatted_total_tarjeta',
+        'formatted_total_virtual',
+        'formatted_total_credito',
     ];
 
     /**
@@ -44,7 +50,32 @@ class CashRegister extends Model
 
     public function getTotalAttribute()
     {
-        return $this->en_caja - $this->total_tarjeta + $this->total_virtual + $this->total_efectivo;
+        return $this->en_caja - $this->total_tarjeta + $this->total_virtual + $this->total_efectivo + $this->total_credito;
+    }
+
+    public function getFormattedEnCajaAttribute()
+    {
+        return 'S/ '.$this->en_caja.' Soles';
+    }
+
+    public function getFormattedTotalEfectivoAttribute()
+    {
+        return 'S/ '.$this->total_efectivo.' Soles';
+    }
+
+    public function getFormattedTotalTarjetaAttribute()
+    {
+        return 'S/ '.$this->total_tarjeta.' Soles';
+    }
+
+    public function getFormattedTotalVirtualAttribute()
+    {
+        return 'S/ '.$this->total_virtual.' Soles';
+    }
+
+    public function getFormattedTotalCreditoAttribute()
+    {
+        return 'S/ '.$this->total_credito.' Soles';
     }
 
     public function getHashidAttribute()

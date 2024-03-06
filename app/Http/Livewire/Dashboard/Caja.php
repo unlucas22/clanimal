@@ -15,10 +15,11 @@ class Caja extends Component
 
     public $columns = [
         'id' => 'ID',
-        'en_caja' => 'En caja',
-        'total_efectivo' => 'Efectivo',
-        'total_tarjeta' => 'Tarjeta',
-        'total_virtual' => 'Tarjeta Virtual',
+        'formatted_en_caja' => 'En caja',
+        'formatted_total_efectivo' => 'Efectivo',
+        'formatted_total_tarjeta' => 'Tarjeta',
+        'formatted_total_virtual' => 'Tarjeta Virtual',
+        'formatted_total_credito' => 'Créditos',
         'formatted_status' => 'Estado',
         'closed_at' => 'Cerrado',
         'created_at' => 'Abierto',
@@ -38,7 +39,8 @@ class Caja extends Component
             return redirect('/');
         }
 
-        $this->title = 'Caja N°'.$caja->id.' - '.Auth::user()->name;
+        $this->title = 'Caja N°'.$caja->id;
+        $this->description = Auth::user()->name;
     }
 
     public function getItems()
