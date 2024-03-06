@@ -316,8 +316,14 @@
         </div>
 
         <div class="flex justify-between gap-8">
-            <div class="w-full">
-                <x-form.input :label="'Palabras clave'" :name="'palabras_clave'" :model="'palabras_clave'" :placeholder="'palabra, clave, entre, comas'" :value="'{{ $product->palabras_clave }}'" :required="'maxlength=80'" />
+            <div class="flex justify-between gap-4 w-full">
+                <div class="w-full">
+                    <x-form.input :label="'Palabras clave'" :name="'palabras_clave'" :model="'palabras_clave'" :placeholder="'palabra, clave, entre, comas'" :value="'{{ $product->palabras_clave }}'" :required="'maxlength=80'" />
+                </div>
+                <div class="w-full">
+                    <x-form.input :name="'alerta_stock'" :model="'alerta_stock'" :label="'Alerta de Bajo Stock'" :type="'number'" :value="'{{ $product->alerta_stock }}'" :required="'required'" />
+                    @error('alerta_stock') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
             </div>
             <div class="w-full">
                 <label for="barcode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Código de barras</label>
@@ -336,6 +342,7 @@
 
         <div class="flex justify-center">
 
+            {{-- 
             <div class="grid grid-cols-6 gap-4">
 
                 <div class=" w-full mb-6 group">
@@ -385,6 +392,7 @@
                 </div>
 
             </div>
+             --}}
         </div>
 
         {{-- UNIDADES Y PRECIOS SECCION DINAMICA --}}
@@ -476,11 +484,14 @@
                     sumarImpuesto(i);
                 }
 
+                {{-- 
+
                 const datepickerEl = document.getElementById('datepicker');
             
                 new Datepicker(datepickerEl, {
                     // options
                 });
+                 --}}
             }
         </script>
             

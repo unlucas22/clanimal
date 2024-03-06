@@ -60,6 +60,7 @@ class ProductController extends Controller
                 Product::where('name', $product_name[$i])->update([
                     'stock' => $product_base->stock + $req->amount_details[$i],
                     'precio_venta' => $req->precio_venta_details[$i],
+                    'product_brand_id' => $req->product_brand_details_id[$i],
                 ]);
 
                 $product_details[] = ProductDetail::create([
@@ -150,23 +151,23 @@ class ProductController extends Controller
                 ]);
             }
 
-            $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
+            // $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
 
             $product = Product::where('id', $req->product_id)->update([
                 'name' => $req->name,
                 'product_brand_id' => $product_brand->id,
                 'product_category_id' => $product_category->id,
-                'product_presentation_id' => intval($req->product_presentation_id),
+                'product_presentation_id' => (ProductPresentation::where('name', 'Sin especificar')->first())->id, //intval($req->product_presentation_id),
                 'active' => $req->active == 'on' ? true : false,
                 'user_id' => Auth::user()->id,
-                'precio_compra' => $req->precio_compra,
-                'precio_venta' => $req->precio_venta ?? $req->precio_compra,
-                'stock' => $req->amount,
+                // 'precio_compra' => $req->precio_compra,
+                'precio_venta' => $req->precio_venta ?? 0,
+                //'stock' => $req->amount,
                 'barcode' => $req->barcode ?? null,
                 'palabras_clave' => $req->palabras_clave ?? null,
-                'fecha_de_vencimiento' => $fecha,
+                // 'fecha_de_vencimiento' => $fecha,
                 'alerta_stock' => $req->alerta_stock,
-                'amount_presentation' => $req->amount_presentation,
+                //'amount_presentation' => $req->amount_presentation,
             ]);
 
             for ($i=0; $i < intval($req->product_details); $i++)
@@ -197,6 +198,7 @@ class ProductController extends Controller
         }
     }
 
+    //
     public function store(Request $req)
     {
         DB::beginTransaction();
@@ -215,25 +217,26 @@ class ProductController extends Controller
                 $photo_path = $this->storeImage($req, $input);
             }
 
-            $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
+            // $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
 
             $product = Product::create([
                 'name' => $req->name,
                 'product_brand_id' => $product_brand->id,
                 'product_category_id' => $product_category->id,
-                'product_presentation_id' => intval($req->product_presentation_id),
+                // 'product_presentation_id' => intval($req->product_presentation_id),
+                'product_presentation_id' => (ProductPresentation::where('name', 'Sin especificar')->first())->id,
                 // 'product_detail_id' => null,
                 'active' => $req->active == 'on' ? true : false,
                 'user_id' => Auth::user()->id,
-                'precio_compra' => $req->precio_compra,
-                'precio_venta' => $req->precio_venta ?? $req->precio_compra,
-                'stock' => $req->amount,
+                //'precio_compra' => $req->precio_compra ?? 0,
+                'precio_venta' => $req->precio_venta ?? 0,
+                // 'stock' => $req->amount ?? 0,
                 'barcode' => $req->barcode ?? null,
                 'palabras_clave' => $req->palabras_clave ?? null,
-                'fecha_de_vencimiento' => $fecha,
+                // 'fecha_de_vencimiento' => $fecha,
                 'alerta_stock' => $req->alerta_stock,
                 'photo_path' => $photo_path,
-                'amount_presentation' => $req->amount_presentation,
+                //'amount_presentation' => $req->amount_presentation,
             ]);
 
             for ($i=0; $i < intval($req->product_details); $i++)

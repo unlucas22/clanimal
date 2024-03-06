@@ -84,6 +84,7 @@ class DatabaseSeeder extends Seeder
         'Kilo',
         'Blíster',
         'Paquete',
+        'Sin especificar',
     ];
 
     public $suppliers = [
