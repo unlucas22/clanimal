@@ -19,23 +19,7 @@
 </td>
 
 <td class="{{ $td }}">
-    @if($item->precio_compra != 0 && $item->precio_compra != null)
-    {{ number_format((($item->precio_venta_total - $item->precio_compra) / $item->precio_compra) * 100, 2) }}%
-    @endif
-</td>
-
-<td class="{{ $td }}">
     {{ $item->stock }}
-</td>
-
-<td class="{{ $td }}">
-    @if($item->precio_compra != 0 && $item->precio_compra != null)
-    S/ {{ $item->precio_compra }} Soles
-    @endif
-</td>
-
-<td class="{{ $td }}">
-    S/ {{ $item->precio_venta_total }} Soles
 </td>
 
 <td class="{{ $td }}">

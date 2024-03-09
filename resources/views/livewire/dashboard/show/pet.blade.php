@@ -54,7 +54,7 @@
     <div class="w-full pt-8">
 
         <div class="flex justify-between gap-8 pt-4">
-            <div>
+            <div class="w-full">
                 <div class="flex justify-between">
                     <div class="flex justify-start">
                         <h3 class="font-medium text-gray-900 text-left text-2xl"><span class="text-lg font-semibold">Información de Pelusa</span></h3>
@@ -102,10 +102,9 @@
                 </div>
             </div>
 
-            <div>
+            <div class="w-full">
                 <div>
-                    <h2 class="mb-2 text-xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Imagenes de {{ $pet->name }}</h2>
-                    <p class="mb-4 font-light text-center text-gray-500 text-sm"> Las imagenes deben tener las siguientes extensiones .png, .jpeg, .jpg</p>
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white text-center">Imagenes de {{ $pet->name }}</h2>
 
                     <div class="flex justify-center">
                         
@@ -116,6 +115,10 @@
                             </div>
                             @endfor
                         </div>
+
+                        @if(count($pet_photos) == 0)
+                        <div class="pt-2">No hay Imagenes</div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -154,6 +157,7 @@
         }
     </script>
 
+{{-- 
     <div class="w-full pt-8">
         <h3 class="font-medium text-gray-900 text-left"><span class="text-lg font-semibold">Servicios y productos contratados para {{ $pet->name }}</span></h3>
 
@@ -198,5 +202,6 @@
 
         </div>
     </div>
+     --}}
 
 </div>

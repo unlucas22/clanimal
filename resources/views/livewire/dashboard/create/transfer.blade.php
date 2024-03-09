@@ -129,14 +129,14 @@
                                 @forelse($productos_para_compra as $producto)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:100px;">
-                                            {{ $producto->product_details[0]->products->name }}
+                                            {{ $producto->products->name }}
                                         </th>
 
                                         <td class="px-1 text-center py-4">
                                             {{ $producto->product_presentations->name }}
                                         </td>
                                         <td class="py-4 text-center">
-                                            {{ $producto->stock }}
+                                            {{ $producto->amount }}
                                         </td>
 
                                         <td class="py-4">

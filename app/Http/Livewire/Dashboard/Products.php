@@ -16,7 +16,11 @@ class Products extends Component
         'id' => 'ID',
     ];
 
-    public $listeners = ['deleteItem' => 'eliminar', 'refreshParent' => '$refresh', 'activeItem' => 'activar'];
+    public $listeners = [
+        'deleteItem' => 'eliminar', 
+        'refreshParent' => '$refresh', 
+        'activeItem' => 'activar'
+    ];
 
     public $search = '';
 
@@ -61,10 +65,7 @@ class Products extends Component
             'Categoría',
             'Marca',
             'Producto',
-            'Ganancia',
             'Stock',
-            'Precio Compra',
-            'Precio Venta (IGV)',
             'Estado',
         ];
 

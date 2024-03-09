@@ -43,10 +43,9 @@ class Transfer extends Component
         /* productos guardados para la venta */
         $productos_para_compra = [];
 
-
         foreach ($this->productos_guardados as $producto)
         {
-            $product_model = ProductDetail::with(['product_details'])->where('id', $producto['id'])->first();
+            $product_model = ProductDetail::with(['products', 'product_presentations'])->where('id', $producto['id'])->first();
 
             $product_model->amount = intval($producto['cantidad']);
 

@@ -64,10 +64,9 @@ class ProductController extends Controller
                 // Actualiza el stock
                 Product::where('name', $product_name[$i])->update([
                     'stock' => $product_base->stock + $req->amount_details[$i],
-                    //'precio_venta' => $req->precio_venta_details[$i],
                 ]);
 
-                // Se generan los SubProductos, aunque en realidad deberían actualizarse
+                // Se generan las unidades, aunque en realidad deberían actualizarse
                 ProductDetail::create([
                     'product_id' => $product_base->id,
                     'amount' => $req->amount_details[$i],
@@ -75,7 +74,6 @@ class ProductController extends Controller
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                     'precio_venta_con_igv' => $precio_venta_con_igv,
-                    'fecha_de_vencimiento' => $req->fecha_de_vencimiento[$i],
                 ]);
 
                 // se asignan al almacen
@@ -174,15 +172,16 @@ class ProductController extends Controller
                 'alerta_stock' => $req->alerta_stock,
             ]);
 
+            ProductDetail::where('product_id', $req->product_id)->delete();
+
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 /* se calculan los impuestos */
                 $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
 
-                ProductDetail::updateOrCreate([
+                ProductDetail::create([
                     'product_id' => $req->product_id,
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
-                ], [
                     'amount' => $req->amount_details[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],

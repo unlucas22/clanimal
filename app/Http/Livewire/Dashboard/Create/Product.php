@@ -48,6 +48,8 @@ class Product extends Component
         1
     ];
 
+    public $unidades_guardados = [];
+
     /* Datalist */
     public $product_brands;
     public $product_categories;

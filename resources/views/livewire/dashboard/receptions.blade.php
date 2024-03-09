@@ -1,20 +1,28 @@
-<x-slot name="title">Recepción de Clientes y Mascotas</x-slot>
+<div>
 
-<div class="py-4">
-
-    <div class="flex justify-end">
-        <div class="flex justify-between gap-8 px-4">
-            <div class="flex justify-start">
-                <div><a href="{{ route('dashboard.create.client') }}">
-                    <x-btn-nuevo :content="'Nuevo cliente'"/></a></div>
+    <div class="p-4 bg-white block sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex justify-between w-full mb-1">
+            
+            <div class="mb-4">
+                <h1 class="text-xl mt-3 font-semibold text-gray-900 sm:text-2xl dark:text-white">Recepción de Clientes y Mascotas</h1>
             </div>
 
-            <div class="flex justify-start">
-                <div><a href="{{ route('dashboard.create.shift') }}">
-                    <x-btn-nuevo :content="'Nueva cita'"/></a></div>
+            <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
+                <div class="flex justify-end">
+                    <div class="flex justify-between gap-8 px-4">
+                        <div class="flex justify-start">
+                            <div><a href="{{ route('dashboard.create.client') }}">
+                                <x-btn-nuevo :content="'Nuevo cliente'"/></a></div>
+                        </div>
+
+                        <div class="flex justify-start">
+                            <div><a href="{{ route('dashboard.create.shift') }}">
+                                <x-btn-nuevo :content="'Nueva cita'"/></a></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
     </div>
 
     {{-- CITAS --}}
