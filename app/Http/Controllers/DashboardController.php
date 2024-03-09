@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{User, Control};
 use Illuminate\Support\Facades\{Auth, Cookie, Log};
+use Carbon\Carbon;
 use BrowserDetect;
 use Hashids;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {

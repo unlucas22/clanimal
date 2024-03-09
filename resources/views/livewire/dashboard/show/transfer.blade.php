@@ -91,7 +91,7 @@
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     @php($colStyle = 'p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400')
-                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Compra', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
+                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
                                     <th scope="col" class="{{ $colStyle }}">
                                         {{ $key }}
                                     </th>
@@ -118,19 +118,15 @@
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->precio_compra }}
+                                    S/ {{ $product->product_details[0]->precio_venta_sin_igv }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->precio_venta_sin_igv }}
+                                    S/ {{ $product->product_details[0]->discount }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->discount }}
-                                </td>
-
-                                <td class="{{ $td }}">
-                                    {{ $product->precio_venta_total }}
+                                    S/ {{ $product->precio_venta_total }} Soles
                                 </td>
 
                             </tr class="bg-white border-b">

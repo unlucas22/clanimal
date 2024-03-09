@@ -18,52 +18,57 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
 
-        try {
-
+        try
+        {
             $total = 0;
 
+            /* Calcula el total de Venta */
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 $total += $req->precio_venta_details[$i] + ($req->precio_venta_details[$i] * (18/100));
             }
 
+            /* Parsear fecha con Hora y minutos */
             $fecha = Carbon::parse($req->fecha);
 
+            /* Ruc es opcional, de ser asi toma el ruc del proveedor */
             $warehouse = Warehouse::create([
                 'user_id' => Auth::user()->id,
                 'supplier_id' => $req->supplier_id,
+                'ruc' => $req->cedula,
                 'fecha' => $fecha,
                 'key_type' => $req->key_type,
                 'value_type' => $req->value_type,
                 'status' => $req->status ?? 'pendiente',
             ]);
 
-            /* Asignar productos comprados al almacen */
-            $products = [];
-            $product_details = [];
-
-            $products_in_warehouse = [];
-
+            /* Toma del input string separados con coma para separarlos en un array */
             $product_name = explode(',', $req->product_name);
 
+            /*
+             No concuerda los nombres de los productos con el total que hay en un input hidden que se llama product_details 
+            */
             if(count($product_name) != intval($req->product_details))
             {
-                ddd('error: discrepancia. l.49');
+                // Es un error que ocurriría si se modifica manualmente el input hidden, por eso el debug
+                ddd('error: discrepancia');
             }
 
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 $product_base = Product::where('name', $product_name[$i])->first();
 
+                // Se hace el calculo de impuestos
                 $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
 
+                // Actualiza el stock
                 Product::where('name', $product_name[$i])->update([
                     'stock' => $product_base->stock + $req->amount_details[$i],
-                    'precio_venta' => $req->precio_venta_details[$i],
-                    'product_brand_id' => $req->product_brand_details_id[$i],
+                    //'precio_venta' => $req->precio_venta_details[$i],
                 ]);
 
-                $product_details[] = ProductDetail::create([
+                // Se generan los SubProductos, aunque en realidad deberían actualizarse
+                ProductDetail::create([
                     'product_id' => $product_base->id,
                     'amount' => $req->amount_details[$i],
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
@@ -73,12 +78,14 @@ class ProductController extends Controller
                     'fecha_de_vencimiento' => $req->fecha_de_vencimiento[$i],
                 ]);
 
-                $products_in_warehouse[] = ProductInWarehouse::create([
+                // se asignan al almacen
+                ProductInWarehouse::create([
                     'product_id' => $product_base->id,
                     'warehouse_id' => $warehouse->id,
                 ]);
             }
 
+            // Este model actua como Historial de los productos ingresados
             Warehouse::where('id', $warehouse->id)->update([
                 'total' => $total,
             ]);
@@ -86,21 +93,19 @@ class ProductController extends Controller
             DB::commit();
 
             return redirect()->route('dashboard.compras');
-
-        } catch (\Exception $e) {
-
+        } 
+        catch (\Exception $e)
+        {
             Log::info($e);
 
             DB::rollback();
 
             return back();
-
-            //ddd($e->getMessage());
         }
     }
 
     /**
-     * Se crea el producto con los detalles basicos para despues ser completados en productos
+     * Se crea el producto con los subProductos para despues ser completados en productos
      * */
     public function asignProductToWarehouse($ids, $warehouse_id)
     {
@@ -129,11 +134,16 @@ class ProductController extends Controller
         return [$products, $products_in_warehouse];
     }
 
+    /**
+     * Actualizar Producto y SubProductos,
+     * no hay opcion para eliminar SubProductos
+     * */
     public function update(Request $req)
     {
         DB::beginTransaction();
 
-        try {
+        try
+        {
             $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
 
             $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();
@@ -151,27 +161,24 @@ class ProductController extends Controller
                 ]);
             }
 
-            // $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
-
-            $product = Product::where('id', $req->product_id)->update([
+            Product::where('id', $req->product_id)->update([
                 'name' => $req->name,
                 'product_brand_id' => $product_brand->id,
                 'product_category_id' => $product_category->id,
-                'product_presentation_id' => (ProductPresentation::where('name', 'Sin especificar')->first())->id, //intval($req->product_presentation_id),
+                'product_presentation_id' => (ProductPresentation::where('name', 'Sin especificar')->first())->id,
                 'active' => $req->active == 'on' ? true : false,
                 'user_id' => Auth::user()->id,
-                // 'precio_compra' => $req->precio_compra,
                 'precio_venta' => $req->precio_venta ?? 0,
-                //'stock' => $req->amount,
                 'barcode' => $req->barcode ?? null,
                 'palabras_clave' => $req->palabras_clave ?? null,
-                // 'fecha_de_vencimiento' => $fecha,
                 'alerta_stock' => $req->alerta_stock,
-                //'amount_presentation' => $req->amount_presentation,
             ]);
 
             for ($i=0; $i < intval($req->product_details); $i++)
             {
+                /* se calculan los impuestos */
+                $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
+
                 ProductDetail::updateOrCreate([
                     'product_id' => $req->product_id,
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
@@ -179,17 +186,16 @@ class ProductController extends Controller
                     'amount' => $req->amount_details[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    //'precio_venta_con_igv' => $req->precio_venta_con_igv_details[$i],
-                    'precio_venta_con_igv' => $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18)
+                    'precio_venta_con_igv' => $precio_venta_con_igv,
                 ]);
             }
 
             DB::commit();
 
             return redirect()->route('dashboard.products');
-
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollback();
 
             \Log::error($e->getMessage());
@@ -198,16 +204,17 @@ class ProductController extends Controller
         }
     }
 
-    //
+    /**
+     * Registrar Productos con Subproductos, 
+     * no se cuentan los stock de cada unidad pero si el total de las ventas
+     * */
     public function store(Request $req)
     {
         DB::beginTransaction();
 
-        try {
-            $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
-
-            $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();
-
+        try
+        {
+            /* carga de imagen */
             $photo_path = null;
 
             $input = "photo";
@@ -216,39 +223,37 @@ class ProductController extends Controller
             {
                 $photo_path = $this->storeImage($req, $input);
             }
+            
+            $product_brand = ProductBrand::where('name', $req->product_brand_id)->firstOrFail();
 
-            // $fecha = Carbon::parse($req->fecha.' '.Carbon::now()->format('H:i:s'));
+            $product_category = ProductCategory::where('name', $req->product_category_id)->firstOrFail();
 
             $product = Product::create([
                 'name' => $req->name,
                 'product_brand_id' => $product_brand->id,
                 'product_category_id' => $product_category->id,
-                // 'product_presentation_id' => intval($req->product_presentation_id),
                 'product_presentation_id' => (ProductPresentation::where('name', 'Sin especificar')->first())->id,
-                // 'product_detail_id' => null,
                 'active' => $req->active == 'on' ? true : false,
                 'user_id' => Auth::user()->id,
-                //'precio_compra' => $req->precio_compra ?? 0,
                 'precio_venta' => $req->precio_venta ?? 0,
-                // 'stock' => $req->amount ?? 0,
                 'barcode' => $req->barcode ?? null,
                 'palabras_clave' => $req->palabras_clave ?? null,
-                // 'fecha_de_vencimiento' => $fecha,
                 'alerta_stock' => $req->alerta_stock,
                 'photo_path' => $photo_path,
-                //'amount_presentation' => $req->amount_presentation,
             ]);
 
             for ($i=0; $i < intval($req->product_details); $i++)
             {
+                /* se calculan los impuestos */
+                $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
+
                 ProductDetail::create([
                     'product_id' => $product->id,
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
                     'amount' => $req->amount_details[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    //'precio_venta_con_igv' => $req->precio_venta_con_igv_details[$i],
-                    'precio_venta_con_igv' => $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18)
+                    'precio_venta_con_igv' => $precio_venta_con_igv,
                 ]);
             }
 
@@ -256,8 +261,9 @@ class ProductController extends Controller
 
             return redirect()->route('dashboard.products');
 
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollback();
 
             \Log::error($e->getMessage());

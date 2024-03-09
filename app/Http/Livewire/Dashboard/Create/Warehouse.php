@@ -20,6 +20,8 @@ class Warehouse extends Component
     public $key_type;
     public $value_type;
 
+    public $cedula;
+
     public $total = 0;
 
     public $amount = 0;
@@ -59,6 +61,10 @@ class Warehouse extends Component
         //1
     ];
 
+    public $product_brand_details_id = [
+        //1
+    ];
+
     public $product_name = [
         //''
     ];
@@ -87,6 +93,10 @@ class Warehouse extends Component
         ++$this->product_details;
 
         $this->product_name[] = $this->product_search;
+
+        $product = Product::with('product_brands')->where('name', $this->product_search)->first();
+
+        $this->product_brand_details_id[] = $product->product_brands->name;
     }
 
     public function eliminarPrecio()

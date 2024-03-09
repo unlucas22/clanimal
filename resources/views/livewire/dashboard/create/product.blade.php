@@ -27,7 +27,7 @@
                         <ul class='absolute option-list-brand overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
                             left-0 bg-white rounded-sm scale-0 opacity-0 
                             transition-all 
-                            duration-200 origin-top-left'>
+                            duration-200 origin-top-left z-10'>
                         </ul>
                     </div>
                     @error('product_brand_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -54,7 +54,7 @@
                         <ul class='absolute option-list-category overflow-y-scroll w-full min-h-[0px] flex flex-col top-12 
                             left-0 bg-white rounded-sm scale-0 opacity-0 
                             transition-all 
-                            duration-200 origin-top-left'>
+                            duration-200 origin-top-left z-10'>
                         </ul>
                     </div>
                     @error('product_category_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -417,7 +417,7 @@
             <div class="grid grid-cols-7 gap-4">
 
                 <div class="w-full mb-6 group">
-                    <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
+                    <x-form.input :id="'cantidad_details.'.$i" :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
                 </div>
                 
                 <div class="w-full mb-6 group">
@@ -474,11 +474,13 @@
 
                 document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
 
-                let descuento = document.getElementById('discount_details'+item_id).value;; 
+                let descuento = document.getElementById('discount_details'+item_id).value; 
 
-                total -= descuento;
+                let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
+                let precio_venta_total = (val - descuento) * cantidad;
+
+                document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
             }
         </script>
 

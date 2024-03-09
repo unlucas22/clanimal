@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Illuminate\Http\Request;
 use App\Models\{User, Reason, Company};
 use Illuminate\Support\Facades\Validator;
 use Hashids;
@@ -42,16 +41,9 @@ class Control extends Component
     /**
      *  con el link escaneado redirije a DashboardController con el id hasheado 
      * */
-    public function submit(Request $req)
+    public function submit()
     {
         $this->validate();
-
-        /*
-        $req->validate([
-            'g-recaptcha-response' => ['required', 'captcha'],
-        ],[
-            'captcha' => 'Error en el Captcha. Vuelva a intentarlo.',
-        ]);*/
 
         try
         {

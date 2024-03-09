@@ -17,7 +17,7 @@ class Warehouse extends Model
         'user_id',
         'supplier_id',
         'fecha',
-        //'factura',
+        'ruc',
         'key_type',
         'value_type',
         'total',

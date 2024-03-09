@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\{MarketingTemplate, MarketingCampaign, MarketingTracking};
 use Illuminate\Support\Facades\{Auth, Log};
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Support\Facades\Storage;
 
 class MarketingController extends Controller
 {
+    /**
+     * Template de Marketing para enviar por emails
+     * */
     public function storeTemplate(Request $req)
     {
         DB::beginTransaction();
 
-        try {
-
+        try
+        {
+            /* carga de imagen */
             $photo_path = null;
-
             $input = "image";
 
             if($req->file($input) != null)
@@ -37,9 +40,9 @@ class MarketingController extends Controller
             DB::commit();
 
             return redirect()->route('dashboard.marketing-templates');
-
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollback();
 
             \Log::error($e->getMessage());
@@ -52,10 +55,10 @@ class MarketingController extends Controller
     {
         DB::beginTransaction();
 
-        try {
-
+        try
+        {
+            /* carga de imagen */
             $photo_path = null;
-
             $input = "image";
 
             if($req->file($input) != null)
@@ -77,9 +80,9 @@ class MarketingController extends Controller
             DB::commit();
 
             return redirect()->route('dashboard.marketing-templates');
-
-        } catch (\Exception $e) {
-
+        }
+        catch (\Exception $e)
+        {
             DB::rollback();
 
             \Log::error($e->getMessage());
@@ -103,12 +106,14 @@ class MarketingController extends Controller
             $input => 'mimes:jpg,png,jpeg'
         ]);
 
-        try {
+        try
+        {
             $fileName = uniqid() .'-emails.' . $req->file($input)->getClientOriginalExtension();
 
             $req->file($input)->move(public_path().'/img/emails/', $fileName);
-        
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             Log::info($e->getMessage());
         }
 

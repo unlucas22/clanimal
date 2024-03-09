@@ -18,8 +18,8 @@ class SaleController extends Controller
     {
         DB::beginTransaction();
 
-        try {
-
+        try
+        {
             /* Colaborador Referido */
             $user_referente = null;
 
@@ -53,6 +53,7 @@ class SaleController extends Controller
 
             DB::commit();
 
+            // Enlace de la factura en nubefact
             $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
 
             Bill::where('id', $bill->id)->update([
@@ -63,7 +64,10 @@ class SaleController extends Controller
                 'bill_id' => $bill->id
             ]);
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e->getMessage());
             DB::rollback();
         }
     }

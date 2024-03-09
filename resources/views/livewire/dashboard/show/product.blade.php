@@ -415,7 +415,7 @@
             <div class="grid grid-cols-7 gap-4">
 
                 <div class="w-full mb-6 group">
-                    <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
+                    <x-form.input :id="'cantidad_details.'.$i" :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
                 </div>
                 
                 <div class="w-full mb-6 group">
@@ -474,9 +474,11 @@
 
                 let descuento = document.getElementById('discount_details'+item_id).value;; 
 
-                total -= descuento;
+                let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                document.getElementById('precio_venta_total'+item_id).value = parseFloat(total, 2).toFixed(2);
+                let precio_venta_total = (val - descuento) * cantidad;
+
+                document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
             }
 
             window.onload = function() {

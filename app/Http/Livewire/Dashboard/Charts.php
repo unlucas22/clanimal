@@ -5,6 +5,9 @@ namespace App\Http\Livewire\Dashboard;
 use Livewire\Component;
 use App\Models\{User, Client};
 
+/**
+ * Pensado para Chart.js
+ * */
 class Charts extends Component
 {
     public $porcentaje_cambio;

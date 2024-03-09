@@ -65,8 +65,8 @@ class Productos extends Component
     /**
      * Buscar el cliente registrado por dni
      *  */
-    public function searchClient() {
-
+    public function searchClient()
+    {
         $client = Client::with('pets')->where('dni', $this->dni)->first();
 
         if($client != null)
@@ -88,7 +88,8 @@ class Productos extends Component
 
     public function agregarProducto($item_id, $cantidad = 1)
     {
-        try {
+        try
+        {
             $product_for_sale = ProductForSale::create([
                 'product_detail_id' => $item_id,
                 'cantidad' => $cantidad
@@ -98,8 +99,9 @@ class Productos extends Component
             
             $this->emit('refreshComponent');
             $this->setTotal();
-
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             Log::info($e->getMessage());
         }
 
@@ -145,8 +147,8 @@ class Productos extends Component
 
     public function retirarProductoParaCompra($item_id)
     {
-        try {
-
+        try
+        {
             foreach ($this->productos_guardados as $index => $id)
             {
                 if($item_id == $id)
@@ -159,7 +161,9 @@ class Productos extends Component
 
             $this->emit('refreshComponent');
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             Log::info($e->getMessage());   
         }
     }

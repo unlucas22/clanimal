@@ -33,7 +33,7 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">RUC:</div>
                 <div>
-                    {{ $warehouse->suppliers->ruc ?? '' }}
+                    {{ $warehouse->suppliers->ruc ?? $warehouse->suppliers->ruc }}
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     @php($colStyle = 'p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400')
-                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Compra', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
+                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
                                     <th scope="col" class="{{ $colStyle }}">
                                         {{ $key }}
                                     </th>
@@ -137,10 +137,6 @@
 
                                 <td class="{{ $td }}">
                                     {{ $product->product_details[0]->product_presentations->name }}
-                                </td>
-
-                                <td class="{{ $td }}">
-                                    {{ $product->precio_compra }}
                                 </td>
 
                                 <td class="{{ $td }}">

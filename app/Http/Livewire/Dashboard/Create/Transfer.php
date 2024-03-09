@@ -26,6 +26,7 @@ class Transfer extends Component
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra', 'dateSelected' => 'updateDate'];
 
+    /* se podría reemplazar por un emit desde script */
     public function updateDate($date)
     {
         $this->fecha_envio = $date;
@@ -34,9 +35,6 @@ class Transfer extends Component
     public function mount()
     {
         $this->products = $this->getProducts();
-
-        // $this->fecha_envio = now()->format('d-m-Y');
-
         $this->company_id = (Company::first())->id;
     }
 
@@ -45,11 +43,12 @@ class Transfer extends Component
         /* productos guardados para la venta */
         $productos_para_compra = [];
 
+
         foreach ($this->productos_guardados as $producto)
         {
-            $product_model = Product::select('*', 'barcode as stock')->with(['product_details'])->where('id', $producto['id'])->first();
+            $product_model = ProductDetail::with(['product_details'])->where('id', $producto['id'])->first();
 
-            $product_model->stock = $producto['cantidad'];
+            $product_model->amount = intval($producto['cantidad']);
 
             $productos_para_compra[] = $product_model;
         }
@@ -147,24 +146,19 @@ class Transfer extends Component
 
     public function agregarProducto($item_id, $cantidad = 1)
     {
-        try {
-
+        try
+        {
             $product_for_transfer = [
                 'id' => $item_id,
                 'cantidad' => $cantidad
             ];
 
             $this->productos_guardados[] = $product_for_transfer;
-            
-            //$this->emit('refreshComponent');
-
-            // refrescar stock para la busqueda
-            // $this->buscarProductos();
-
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             Log::info($e->getMessage());
         }
-
     }
 
     public function buscarProductos()
@@ -186,8 +180,8 @@ class Transfer extends Component
 
     public function retirarProductoParaCompra($item_id)
     {
-        try {
-
+        try
+        {
             foreach ($this->productos_guardados as $index => $producto)
             {
                 if($item_id == $producto['id'])
@@ -198,7 +192,9 @@ class Transfer extends Component
 
             $this->emit('refreshComponent');
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             Log::info($e->getMessage());   
         }
     }

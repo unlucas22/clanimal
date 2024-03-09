@@ -51,25 +51,31 @@
                         </thead>
                         <tbody>
                             @forelse($products as $product)
-                            {{-- @if(!empty($product->product_details[0])) --}}
+
+                            @forelse($product->product_details as $detail)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
                                     {{ $product->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $product->product_presentations->name }}
+                                    {{ $detail->product_presentations->name }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div style="max-width: 75px;">
-                                        <input type="number" name="amount_{{ $product->id }}" id="amount-{{ $product->id }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product->stock }}" min="1" value="1">
+                                        <input type="number" name="amount_{{ $detail->id }}" id="amount-{{ $detail->id }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $detail->amount }}" min="1" value="1">
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product->id }}, document.getElementById('amount-{{ $product->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                    <button type="button" onclick="Livewire.emit('agregarProducto', {{ $detail->id }}, document.getElementById('amount-{{ $detail->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
                                 </td>
                             </tr>
-                            {{-- @endif --}}
+                            @empty
+                            @endforelse
+
+                            {{-- aca antes estaba el td --}}
+
+                            
                             @empty
                             <tr class="text-center py-3">
                                 <td colspan="7" class="py-3 italic">No hay Productos agregados</td>

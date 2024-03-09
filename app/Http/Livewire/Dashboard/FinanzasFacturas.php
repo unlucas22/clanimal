@@ -19,7 +19,8 @@ class FinanzasFacturas extends Component
     public $columns = [
         'id' => 'ID',
         'fecha' => 'Fecha',
-        'factura' => 'Factura',
+        'key_type' => 'Tipo',
+        'value_type' => '',
         'monto_formatted' => 'Monto Total',
         'status_formatted' => 'Estado'
     ];
@@ -67,7 +68,6 @@ class FinanzasFacturas extends Component
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'finanzas-facturas',
-            // 'head_name' => 'warehouse',
         ]);
     }
 }

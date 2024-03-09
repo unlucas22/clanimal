@@ -30,7 +30,7 @@
 
         @csrf
 
-        <div class="grid grid-cols-6 gap-8">
+        <div class="grid grid-cols-7 gap-4">
 
             <div class="w-full">
                 <label for="proveedores" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Proveedor</label>
@@ -56,11 +56,9 @@
                 <x-form.input :label="'Valor'" :name="'value_type'" :model="'value_type'" :required="'required maxlength=30'" />
             </div>
 
-            {{-- 
             <div>
-                <x-form.input :label="'Factura N°'" :name="'factura'" :model="'factura'" :required="'required maxlength=20'" />
+                <x-form.input :label="'Número de documento'" :name="'cedula'" :model="'cedula'" :required="'minlength=9 maxlength=9'" />
             </div>
-             --}}
 
             <div>
                 <label for="fecha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha</label>
@@ -256,9 +254,11 @@
 
                     let descuento = document.getElementById('discount_details'+item_id).value;
 
-                    total -= descuento;
+                    let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                    return parseFloat(total, 2).toFixed(2);
+                    let precio_venta_total = (val - descuento) * cantidad;
+
+                    return parseFloat(precio_venta_total, 2).toFixed(2);
                 }
 
                 function sumarTotales() {
@@ -297,15 +297,20 @@
                     </div>
 
                     <div class=" w-full mb-6 group">
-                        <x-form.input :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01 min=1'" />
+                        <x-form.input :id="'cantidad_details.'.$i" :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01 min=1'" />
                     </div>
 
                     <div class=" w-full mb-6 group">
+                        {{-- 
                         <x-form.select :name="'product_brand_details_id['.$i.']'" :model="'product_brand_details_id.'.$i" :label="'Marca'" :required="'required'">
                             @foreach($product_brands as $product_brand)
                             <option value="{{ $product_brand->id }}">{{ $product_brand->name }}</option>
-                            @endforeach
+                            @endforeach 
                         </x-form.select>
+                        --}}
+
+                        <x-form.input :name="'product_brand_details_id['.$i.']'" :model="'product_brand_details_id.'.$i" :label="'Marca'"   :required="'disabled'" />
+
                     </div>
 
                     <div class=" w-full mb-6 group">
