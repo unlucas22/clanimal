@@ -51,7 +51,7 @@ class IngresoDeProductos extends Component
 
         $query->where('company_id', Auth::user()->company_id);
 
-        $query->with(['users', 'product_for_transfers']);
+        $query->with(['product_for_transfers', 'companies', 'users']);
 
         $query->withCount('product_for_transfers');
 
@@ -80,14 +80,14 @@ class IngresoDeProductos extends Component
                 'fecha_recepcion' => now(),
             ]);
 
-            $transfers = ProductForTransfer::where('transfer_id', $transfer_id)->get();
+            $transfers = ProductForTransfer::with(['product_details'])->where('transfer_id', $transfer_id)->get();
 
             foreach ($transfers as $transfer)
             {
                 ProductForStore::create([
                     'user_id' => Auth::user()->id,
                     'company_id' => Auth::user()->company_id,
-                    'product_id' => $transfer->product_id,
+                    'product_id' => $transfer->product_details->product_id,
                     'stock' => $transfer->stock,
                     //'fecha' => now(),
                 ]);

@@ -49,7 +49,7 @@
                                     </td>
                                     <td class="{{ $td }}">
                                         @foreach($notification->product_for_transfers as $transfer)
-                                        {{ $transfer->products->name }},
+                                        {{ $transfer->product_details->products->name }},
                                         @endforeach
                                     </td>
                                     <td class="{{ $td }}">
