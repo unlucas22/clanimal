@@ -27,7 +27,7 @@ class Transfer extends Component
 
             foreach ($transfer->product_for_transfers as $product_in_transfers)
             {
-                $products[] = $product_in_transfers->products;
+                $products[] = $product_in_transfers->product_details;
             }
 
             return view('livewire.dashboard.show.transfer', [

@@ -22,6 +22,14 @@ class CreateProductInWarehousesTable extends Migration
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('product_id');
 
+            $table->foreign('product_presentation_id')->references('id')->on('product_presentations');
+            $table->unsignedBigInteger('product_presentation_id');
+
+            $table->integer('discount')->default(0)->nullable();
+            $table->double('precio_venta_sin_igv');
+            $table->double('precio_venta_con_igv');
+            $table->integer('amount')->default(1);
+
             $table->timestamps();
         });
     }

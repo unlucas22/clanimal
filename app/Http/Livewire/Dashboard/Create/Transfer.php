@@ -78,14 +78,21 @@ class Transfer extends Component
             {
                 ProductForTransfer::create([
                     'transfer_id' => $transfer->id,
-                    'product_id' => $product['id'],
+                    'product_detail_id' => $product['id'],
                     'stock' => $product['cantidad'],
                 ]);
 
-                $pd = Product::where('id', $product['id'])->first();
+                /* restar tanto para la unidad como para el stock general, aunque esto deberia ser contabilizado automaticamente */
+                $pd = ProductDetail::where('id', $product['id'])->first();
 
-                Product::where('id', $product['id'])->update([
-                    'stock' => $pd->stock - $product['cantidad'],
+                $pd->update([
+                    'stock' => $pd->amount - $product['cantidad'],
+                ]);
+
+                $pro = Product::where('id', $pd->product_id)->first();
+
+                $pro->update([
+                    'stock' => $pro->stock - $product['cantidad'],
                 ]);
             }
 
@@ -138,11 +145,7 @@ class Transfer extends Component
         }
     }
 
-    public function updatedSearch($value)
-    {
-        $this->buscarProductos();
-    }
-
+    /* Agregar ProductDetail al array */
     public function agregarProducto($item_id, $cantidad = 1)
     {
         try
@@ -160,6 +163,13 @@ class Transfer extends Component
         }
     }
 
+    /* Conector */
+    public function updatedSearch($value)
+    {
+        $this->buscarProductos();
+    }
+
+    /* Buscador */
     public function buscarProductos()
     {
         if($this->search != null)

@@ -66,20 +66,39 @@ class ProductController extends Controller
                     'stock' => $product_base->stock + $req->amount_details[$i],
                 ]);
 
-                // Se generan las unidades, aunque en realidad deberían actualizarse
-                ProductDetail::create([
-                    'product_id' => $product_base->id,
-                    'amount' => $req->amount_details[$i],
-                    'product_presentation_id' => $req->product_presentation_details_id[$i],
-                    'discount' => $req->discount_details[$i],
-                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    'precio_venta_con_igv' => $precio_venta_con_igv,
-                ]);
+                $pd = ProductDetail::where('product_id', $product_base->id)->where('product_presentation_id', $req->product_presentation_details_id[$i])->first();
+
+                // Se generan las unidades o se actualizan
+                if($pd != null)
+                {
+                    $pd->update([
+                        'amount' => $pd->amount + $req->amount_details[$i],
+                        'discount' => $req->discount_details[$i],
+                        'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                        'precio_venta_con_igv' => $precio_venta_con_igv,    
+                    ]);
+                }
+                else
+                {
+                    ProductDetail::create([
+                        'product_id' => $product_base->id,
+                        'product_presentation_id' => $req->product_presentation_details_id[$i],
+                        'amount' => $req->amount_details[$i],
+                        'discount' => $req->discount_details[$i],
+                        'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                        'precio_venta_con_igv' => $precio_venta_con_igv,
+                    ]);
+                }
 
                 // se asignan al almacen
                 ProductInWarehouse::create([
                     'product_id' => $product_base->id,
                     'warehouse_id' => $warehouse->id,
+                    'product_presentation_id' => $req->product_presentation_details_id[$i],
+                    'amount' => $req->amount_details[$i],
+                    'discount' => $req->discount_details[$i],
+                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                    'precio_venta_con_igv' => $precio_venta_con_igv,    
                 ]);
             }
 
@@ -172,22 +191,38 @@ class ProductController extends Controller
                 'alerta_stock' => $req->alerta_stock,
             ]);
 
-            ProductDetail::where('product_id', $req->product_id)->delete();
+            //ProductDetail::where('product_id', $req->product_id)->delete();
 
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 /* se calculan los impuestos */
                 $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
 
-                ProductDetail::create([
+                // $req->amount_details[$i];
+
+                ProductDetail::updateOrCreate([
                     'product_id' => $req->product_id,
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
+                ], [
                     'amount' => $req->amount_details[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                     'precio_venta_con_igv' => $precio_venta_con_igv,
                 ]);
             }
+
+            /* Calculo de Stock */
+            $product_details = ProductDetail::select('amount')->where('product_id', $req->product_id)->get();
+            $stock = 0;
+
+            foreach ($product_details as $detail)
+            {
+                $stock += $detail->amount;
+            }
+
+            Product::where('id', $req->product_id)->update([
+                'stock' => $stock,
+            ]);
 
             DB::commit();
 
@@ -241,20 +276,29 @@ class ProductController extends Controller
                 'photo_path' => $photo_path,
             ]);
 
+            $stock = 0;
+
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 /* se calculan los impuestos */
                 $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
 
-                ProductDetail::create([
-                    'product_id' => $product->id,
+                $stock += $req->amount_details[$i];
+
+                ProductDetail::updateOrCreate([
+                    'product_id' => $req->product_id,
                     'product_presentation_id' => $req->product_presentation_details_id[$i],
+                ], [
                     'amount' => $req->amount_details[$i],
                     'discount' => $req->discount_details[$i],
                     'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                     'precio_venta_con_igv' => $precio_venta_con_igv,
                 ]);
             }
+
+            $product->update([
+                'stock' => $stock,
+            ]);
 
             DB::commit();
 

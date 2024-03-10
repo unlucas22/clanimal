@@ -11,13 +11,13 @@ class ProductForTransfer extends Model
 
     protected $fillable = [
         'transfer_id',
-        'product_id',
+        'product_detail_id',
         'stock'
     ];
 
-    public function products()
+    public function product_details()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(ProductDetail::class, 'product_detail_id', 'id');
     }
 
     public function transfers()

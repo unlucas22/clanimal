@@ -27,7 +27,7 @@ class Transfer extends ModalComponent
 
         try {
 
-            $transfer = \App\Models\Transfer::with('product_for_transfers')->where('id', $this->item_id)->first();
+            $transfer = \App\Models\Transfer::with(['product_for_transfers', 'companies', 'users'])->where('id', $this->item_id)->first();
 
             \App\Models\Transfer::where('id', $this->item_id)->update([
                 'status' => 'cancelado',
@@ -36,13 +36,18 @@ class Transfer extends ModalComponent
 
             foreach ($transfer->product_for_transfers as $product)
             {
-                $pd = Product::where('id', $product->product_id)->first();
+                $product = $product->product_details;
 
-                Product::where('id', $product->product_id)->update([
-                    'stock' => $pd->stock + $product->stock,
+                $pd = Product::where('id', $product->product_id)->first();
+             
+                $product->update([
+                    'amount' => $pd->stock + $product->amount
+                ]);
+
+                $pd->update([
+                    'stock' => $pd->stock + $product->amount,
                 ]);
             }
-
 
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Estado actualizado con éxito',

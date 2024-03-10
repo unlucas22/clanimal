@@ -106,27 +106,27 @@
                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700"
                             >
                                 <td class="{{ $td }}">
-                                    {{ $product->name }}
+                                    {{ $product->products->name }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->amount }}
+                                    {{ $product->amount }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->product_presentations->name }}
+                                    {{ $product->product_presentations->name }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    S/ {{ $product->product_details[0]->precio_venta_sin_igv }} Soles
+                                    S/ {{ $product->precio_venta_sin_igv }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    S/ {{ $product->product_details[0]->discount }} Soles
+                                    S/ {{ $product->discount }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    S/ {{ $product->precio_venta_total }} Soles
+                                    S/ {{ ($product->amount - $product->discount) * $product->precio_venta_con_igv }} Soles
                                 </td>
 
                             </tr class="bg-white border-b">

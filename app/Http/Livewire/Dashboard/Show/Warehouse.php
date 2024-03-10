@@ -27,7 +27,7 @@ class Warehouse extends Component
 
             foreach ($warehouse->product_in_warehouses as $product_in_warehouse)
             {
-                $products[] = $product_in_warehouse->products;
+                $products[] = $product_in_warehouse;
             }
 
             return view('livewire.dashboard.show.warehouse', [

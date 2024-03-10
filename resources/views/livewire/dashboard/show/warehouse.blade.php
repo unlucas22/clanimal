@@ -113,7 +113,7 @@
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     @php($colStyle = 'p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400')
-                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
+                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Venta sin IGV', 'Descuento %', 'Precio Compra'] as $key)
                                     <th scope="col" class="{{ $colStyle }}">
                                         {{ $key }}
                                     </th>
@@ -128,27 +128,27 @@
                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700"
                             >
                                 <td class="{{ $td }}">
-                                    {{ $product->name }}
+                                    {{ $product->products->name }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->amount }}
+                                    {{ $product->amount }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->product_presentations->name }}
+                                    {{ $product->product_presentations->name }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->precio_venta_sin_igv }}
+                                    S/ {{ $product->precio_venta_sin_igv }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->discount }}
+                                    S/ {{ $product->discount }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->precio_venta_total }}
+                                    S/ {{ ($product->amount - $product->discount) * $product->precio_venta_con_igv }} Soles
                                 </td>
 
                             </tr class="bg-white border-b">
