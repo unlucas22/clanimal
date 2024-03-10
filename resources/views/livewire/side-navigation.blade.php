@@ -146,6 +146,7 @@
                         </a>
                     </li>
 
+                    {{-- 
                     <li>
                         <a href="#" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -175,6 +176,8 @@
                             <span class="ml-3">Reporte</span>
                         </a>
                     </li>
+
+                     --}}
 
                     <x-hr :content="'RRHH'" />
 
