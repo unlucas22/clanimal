@@ -20,7 +20,7 @@ class RrhhPlanillas extends Component
         'id' => 'ID',
     ];
 
-    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
+    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh', 'enviarPlanilla'];
     
     public $search = '';
 
@@ -75,5 +75,29 @@ class RrhhPlanillas extends Component
             'action_name' => 'rrhh-planillas',
             'head_name' => 'finanzas-planillas',
         ]);
+    }
+
+    public function enviarPlanilla($item_id)
+    {
+        $spreadsheet = Spreadsheet::with('user_for_spreadsheets')->where('id', $item_id)->first();
+
+        foreach ($spreadsheet->user_for_spreadsheets as $user)
+        {
+            $user->update([
+                'status' => 'validacion',
+            ]);    
+        }
+
+        $spreadsheet->update([
+            'status' => 'validacion',
+        ]);
+
+        $this->dispatchBrowserEvent('swal', [
+            'title' => 'Estado actualizado con éxito',
+            'icon' => 'success',
+            'iconColor' => 'green',
+        ]);
+
+        $this->emit('refreshComponent');
     }
 }

@@ -14,7 +14,7 @@ class Spreadsheet extends Component
 {
     use HasTable;
 
-    public $title = 'Planilla';
+    public $title = 'Relación de colaboradores';
 
     public $hashid;
 
@@ -66,7 +66,7 @@ class Spreadsheet extends Component
         $this->relationships = [
             'Nombres y Apellidos',
             'Cargo',
-            //'Sueldo',
+            'Sueldo',
             'Días no laborados',
             'Minutos de tardanzas',
             'Descuentos',
@@ -83,9 +83,7 @@ class Spreadsheet extends Component
 
         $user_for_spreadsheets = $this->getItems();
 
-        $this->description = 'Planilla '.$user_for_spreadsheets[0]->spreadsheets->fecha->format('M Y');
-
-        $this->title = 'Relación de colaboradores';
+        $this->description = 'Planilla '.$user_for_spreadsheets[0]->spreadsheets->fecha->format('m/Y');
 
         return view('livewire.dashboard.table', [
             'items' => $user_for_spreadsheets,
@@ -93,7 +91,7 @@ class Spreadsheet extends Component
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'finanzas-planillas-colaboradores',
-            //'head_name' => 'finanzas-planillas',
+            'head_name' => 'finanzas-planillas-colaboradores',
         ]);
     }
 }

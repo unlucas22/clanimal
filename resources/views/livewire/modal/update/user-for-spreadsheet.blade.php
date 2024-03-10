@@ -66,10 +66,10 @@
 
                 <div class="flex justify-between gap-8">
                     <div class="font-bold">
-                        {{ $item->users->manpowers[0]->payment_methods->name }}
+                        {{ $item->users->manpowers->payment_methods->name }}
                     </div>
                     <div>
-                        N° {{ $item->users->manpowers[0]->cuenta_bancaria }}
+                        N° {{ $item->users->manpowers->cuenta_bancaria }}
                     </div>
                 </div>
 

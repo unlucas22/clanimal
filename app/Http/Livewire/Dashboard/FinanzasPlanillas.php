@@ -20,7 +20,7 @@ class FinanzasPlanillas extends Component
         'id' => 'ID',
     ];
 
-    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh'];
+    protected $listeners = ['deleteItem' => 'delete', 'refreshParent' => '$refresh', 'marcarComoCompletado'];
     
     public $search = '';
 
@@ -34,6 +34,8 @@ class FinanzasPlanillas extends Component
     public function getItems()
     {
         $query = Spreadsheet::query();
+
+        $query->where('status', '!=', 'pendiente');
 
         if($this->search != '')
         {
@@ -75,5 +77,38 @@ class FinanzasPlanillas extends Component
             'action_name' => 'finanzas-planillas',
             // 'head_name' => 'finanzas-planillas',
         ]);
+    }
+
+    public function marcarComoCompletado($item_id)
+    {
+        $spreadsheet = Spreadsheet::with('user_for_spreadsheets')->where('id', $item_id)->first();
+
+        try
+        {
+            foreach ($spreadsheet->user_for_spreadsheets as $user)
+            {
+                $user->update([
+                    'status' => 'completado',
+                ]);
+            }
+
+            $spreadsheet->update([
+                'status' => 'completado',
+                'validated_at' => now(),
+            ]);
+
+            $this->dispatchBrowserEvent('swal', [
+                'title' => 'Planilla actualizado con éxito',
+                'icon' => 'success',
+                'iconColor' => 'green',
+            ]);
+
+            $this->emit('refreshComponent');
+        }
+        catch (\Exception $e)
+        {
+            ddd($e->getMessage());   
+        }
+
     }
 }

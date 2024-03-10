@@ -15,7 +15,7 @@ class CreateSpreadsheetsTable extends Migration
     {
         Schema::create('spreadsheets', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['validacion', 'completado', 'cancelado'])->default('validacion');
+            $table->enum('status', ['pendiente', 'validacion', 'completado', 'cancelado'])->default('pendiente');
             $table->timestamp('fecha')->default(now());
             $table->timestamp('validated_at')->nullable();
 
