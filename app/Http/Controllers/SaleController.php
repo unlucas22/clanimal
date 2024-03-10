@@ -44,7 +44,9 @@ class SaleController extends Controller
             $products = $this->asignProductToBill($req->productos_guardados, $bill->id);
 
             /* generar factura o boleta */
-            $factura = $this->generarFactura($bill);
+            // $factura = $this->generarFactura($bill);
+
+            $factura = null;
 
             if($factura == null)
             {

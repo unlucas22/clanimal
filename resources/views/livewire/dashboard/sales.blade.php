@@ -80,8 +80,8 @@
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $sale->created_at->format('H:i m/d') }}
-                                    </td>
+                                        {{ $sale->created_at->format('d/m/Y h:i A') }}
+                                    </td> 
 
                                     <td class="py-4 px-1 flex justify-center">
 
@@ -163,7 +163,7 @@
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $notification->created_at->format('H:i m/d') }}
+                                    {{ $notification->created_at->format('d/m/Y h:i A') }}
                                 </td>
 
 
@@ -183,7 +183,7 @@
                                                 Whatsapp
                                             </a>
                                             @else
-                                            <a target="_blank" href="mailto:{{ $notification->clients->email }}" type="button" class="focus:outline-none text-white bg-grey-700 hover:bg-grey-800 focus:ring-4 focus:ring-grey-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-grey-600 dark:hover:bg-grey-700 dark:focus:ring-grey-800 inline-flex items-center me-2 mb-2">
+                                            <a target="_blank" href="mailto:{{ $notification->clients->email }}" type="button" class="focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 inline-flex items-center me-2 mb-2">
                                                 <x-icons.heroicons.mail :class="'w-4 h-4 me-2'" />
                                                 Email
                                             </a>

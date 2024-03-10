@@ -43,6 +43,11 @@ class Productos extends Component
         $this->products = $this->getProducts();
     }
 
+    public function updatedSearch($value)
+    {
+        $this->buscarProductos();
+    }
+
     public function render()
     {
         /* productos guardados para la venta */
