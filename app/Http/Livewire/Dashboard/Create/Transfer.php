@@ -86,7 +86,7 @@ class Transfer extends Component
                 $pd = ProductDetail::where('id', $product['id'])->first();
 
                 $pd->update([
-                    'stock' => $pd->amount - $product['cantidad'],
+                    'amount' => $pd->amount - $product['cantidad'],
                 ]);
 
                 $pro = Product::where('id', $pd->product_id)->first();

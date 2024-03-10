@@ -34,18 +34,18 @@ class Transfer extends ModalComponent
                 'motivo' => $this->motivo,
             ]);
 
-            foreach ($transfer->product_for_transfers as $product)
+            foreach ($transfer->product_for_transfers as $transfer)
             {
-                $product = $product->product_details;
+                $product = $transfer->product_details;
 
                 $pd = Product::where('id', $product->product_id)->first();
              
                 $product->update([
-                    'amount' => $pd->stock + $product->amount
+                    'amount' => $product->amount + $transfer->stock
                 ]);
 
                 $pd->update([
-                    'stock' => $pd->stock + $product->amount,
+                    'stock' => $pd->stock + $transfer->stock,
                 ]);
             }
 
