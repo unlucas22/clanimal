@@ -195,6 +195,9 @@
                                         Producto
                                     </th>
                                     <th scope="col" class="px-1 text-center py-3">
+                                        Presentación
+                                    </th>
+                                    <th scope="col" class="px-1 text-center py-3">
                                         Precio unidad
                                     </th>
                                     <th scope="col" class="text-center py-3">
@@ -211,6 +214,9 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:100px;">
                                             {{ $producto->product_details->products->name }}
                                         </th>
+                                        <td class="py-4 text-center">
+                                            {{ $producto->product_details->product_presentations->name }}
+                                        </td>
                                         <td class="px-1 text-center py-4">
                                             ${{ $producto->product_details->precio_venta_con_igv }}
                                         </td>

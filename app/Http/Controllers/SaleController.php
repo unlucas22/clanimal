@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Bill, ProductForSale};
+use App\Models\{Bill, ProductForSale, Product, ProductDetail};
 use Illuminate\Support\Facades\{Auth, Log};
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\SaleStoreRequest;
@@ -46,14 +46,14 @@ class SaleController extends Controller
             /* generar factura o boleta */
             // $factura = $this->generarFactura($bill);
 
+            DB::commit();
+
             $factura = null;
 
             if($factura == null)
             {
                 return Redirect::back()->withErrors('Hubo un error con NubeFact');
             }
-
-            DB::commit();
 
             // Enlace de la factura en nubefact
             $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
@@ -98,7 +98,18 @@ class SaleController extends Controller
                 'bill_id' => $bill_id
             ]);
 
-            $products[] = ProductForSale::where('id', $id)->first();
+            $product_for_sale = ProductForSale::with('product_details')->where('id', $id)->first();
+
+            Product::where('id', $product_for_sale->product_details->product_id)->update([
+                'stock' => $product_for_sale->product_details->products->stock - $product_for_sale->cantidad,
+            ]);
+
+            ProductDetail::where('id', $product_for_sale->product_detail_id)->update([
+                'amount' => $product_for_sale->product_details->amount - $product_for_sale->cantidad,
+            ]);
+
+            $products[] = $product_for_sale;
+
         }
 
         return $products;
