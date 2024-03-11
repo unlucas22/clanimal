@@ -200,15 +200,26 @@ class ProductController extends Controller
 
                 // $req->amount_details[$i];
 
-                ProductDetail::updateOrCreate([
-                    'product_id' => $req->product_id,
-                    'product_presentation_id' => $req->product_presentation_details_id[$i],
-                ], [
-                    'amount' => $req->amount_details[$i],
-                    'discount' => $req->discount_details[$i],
-                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    'precio_venta_con_igv' => $precio_venta_con_igv,
-                ]);
+                if(ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
+                {
+                    ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->update([
+                        'amount' => $req->amount_details[$i],
+                        'discount' => $req->discount_details[$i],
+                        'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                        'precio_venta_con_igv' => $precio_venta_con_igv,
+                    ]);
+                }
+                else
+                {
+                    ProductDetail::create([
+                        'product_id' => $req->product_id,
+                        'product_presentation_id' => $req->product_presentation_details_id[$i],
+                        'amount' => $req->amount_details[$i],
+                        'discount' => $req->discount_details[$i],
+                        'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                        'precio_venta_con_igv' => $precio_venta_con_igv,
+                    ]);
+                }
             }
 
             /* Calculo de Stock */
@@ -285,15 +296,26 @@ class ProductController extends Controller
 
                 $stock += $req->amount_details[$i];
 
-                ProductDetail::updateOrCreate([
-                    'product_id' => $req->product_id,
-                    'product_presentation_id' => $req->product_presentation_details_id[$i],
-                ], [
-                    'amount' => $req->amount_details[$i],
-                    'discount' => $req->discount_details[$i],
-                    'precio_venta_sin_igv' => $req->precio_venta_details[$i],
-                    'precio_venta_con_igv' => $precio_venta_con_igv,
-                ]);
+                if(ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
+                {
+                    ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->update([
+                        'amount' => $req->amount_details[$i],
+                        'discount' => $req->discount_details[$i],
+                        'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                        'precio_venta_con_igv' => $precio_venta_con_igv,
+                    ]);
+                }
+                else
+                {
+                    ProductDetail::create([
+                        'product_id' => $product->id,
+                        'product_presentation_id' => $req->product_presentation_details_id[$i],
+                        'amount' => $req->amount_details[$i],
+                        'discount' => $req->discount_details[$i],
+                        'precio_venta_sin_igv' => $req->precio_venta_details[$i],
+                        'precio_venta_con_igv' => $precio_venta_con_igv,
+                    ]);
+                }
             }
 
             $product->update([
