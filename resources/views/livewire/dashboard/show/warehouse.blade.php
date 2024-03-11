@@ -33,7 +33,7 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">RUC:</div>
                 <div>
-                    {{ $warehouse->suppliers->ruc ?? $warehouse->suppliers->ruc }}
+                    {{ $warehouse->ruc ?? $warehouse->suppliers->ruc }}
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Monto:</div>
                 <div>
-                    {{ $warehouse->monto_formatted }}
+                    {{ $warehouse->total_formatted }}
                 </div>
             </div>
 
@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            @if($warehouse->status != 'cancelado' && $warehouse->status != 'crédito')
+            @if($warehouse->status != 'cancelado' && $warehouse->status != 'contado')
             <div class="flex justify-between">
                 <div class="font-bold">Cambiar estado</div>
                 <div>

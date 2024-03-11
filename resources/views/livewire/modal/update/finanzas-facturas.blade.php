@@ -33,7 +33,7 @@
 
                 <div class="flex justify-between pt-4 gap-8">
                     <div class="font-semibold">Total a Pagar</div>
-                    <div>{{ $item->monto }}  {{ $item->moneda ?? 'Soles' }}</div>
+                    <div>{{ $item->total_formatted }}</div>
                 </div>
 
                 <div>

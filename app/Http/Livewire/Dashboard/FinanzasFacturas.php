@@ -18,10 +18,10 @@ class FinanzasFacturas extends Component
 
     public $columns = [
         'id' => 'ID',
-        'fecha' => 'Fecha',
+        'fecha_formatted' => 'Fecha de recepción',
         'key_type' => 'Tipo',
         'value_type' => '',
-        'monto_formatted' => 'Monto Total',
+        'total_formatted' => 'Monto Total',
         'status_formatted' => 'Estado'
     ];
 

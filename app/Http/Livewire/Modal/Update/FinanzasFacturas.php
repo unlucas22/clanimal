@@ -14,7 +14,7 @@ class FinanzasFacturas extends ModalComponent
     public function render()
     {
         return view('livewire.modal.update.finanzas-facturas', [
-            'item' => \App\Models\Warehouse::with(['suppliers'])->where('id', $this->item_id)->first(),
+            'item' => \App\Models\Warehouse::with(['product_in_warehouses', 'suppliers', 'users'])->where('id', $this->item_id)->first(),
         ]);
     }
 
@@ -23,7 +23,7 @@ class FinanzasFacturas extends ModalComponent
         try {
 
             \App\Models\Warehouse::where('id', $this->item_id)->update([
-                'status' => 'crédito',
+                'status' => 'contado',
                 'observation' => $this->observation,
             ]);
 

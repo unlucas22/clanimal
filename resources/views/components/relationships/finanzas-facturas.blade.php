@@ -2,5 +2,5 @@
     {{ $item->suppliers->name }}
 </td>
 <td class="{{ $td }}">
-    {{ $item->suppliers->ruc }}
+    {{ $item->ruc ?? $item->suppliers->ruc }}
 </td>

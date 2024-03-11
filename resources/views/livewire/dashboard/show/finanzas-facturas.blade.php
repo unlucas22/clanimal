@@ -14,12 +14,11 @@
     {{-- Informacion de la compra --}}
     <div class="flex justify-between p-4 text-xl">
 
-        {{-- PRIMERA FILA --}}
         <div class="space-y-10">
             <div class="flex justify-between gap-8">
-                <div class="font-bold">Factura N°</div>
+                <div class="font-bold">{{ ucwords($warehouse->key_type) }}:</div>
                 <div>
-                    {{ $warehouse->factura }}
+                    {{ $warehouse->value_type }}
                 </div>
             </div>
 
@@ -33,7 +32,7 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">RUC:</div>
                 <div>
-                    {{ $warehouse->suppliers->ruc ?? '' }}
+                    {{ $warehouse->ruc ?? $warehouse->suppliers->ruc }}
                 </div>
             </div>
         </div>
@@ -43,14 +42,14 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Fecha:</div>
                 <div>
-                    {{ $warehouse->fecha->format('Y-m-d') }}
+                    {{ $warehouse->fecha->format('d/m/Y') }}
                 </div>
             </div>
 
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Monto:</div>
                 <div>
-                    {{ $warehouse->monto_formatted }}
+                    {{ $warehouse->total_formatted }}
                 </div>
             </div>
 
@@ -75,7 +74,13 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Registrado Por</div>
                 <div>
-                    {{ $warehouse->users->name }} en {{ $warehouse->created_at->format('Y-m-d') }}
+                    {{ $warehouse->users->name }}
+                </div>
+            </div>
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">Hora de Registro</div>
+                <div>
+                    {{ $warehouse->created_at->format('d/m/Y h:i A') }}
                 </div>
             </div>
 
@@ -88,7 +93,7 @@
             </div>
             @endif
 
-            @if($warehouse->status != 'cancelado' && $warehouse->status != 'crédito')
+            @if($warehouse->status != 'cancelado' && $warehouse->status != 'contado')
             <div class="flex justify-between">
                 <div class="font-bold">Cambiar estado</div>
                 <div>
@@ -100,8 +105,6 @@
             @endif
         </div>
     </div>
-
-    {{-- Tabla de productos --}}
     <div class="pt-8">
 
         <div class="mb-4 p-4">
@@ -116,7 +119,7 @@
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
                                     @php($colStyle = 'p-4 text-xs font-medium text-left text-gray-500 uppercase dark:text-gray-400')
-                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Compra', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
+                                    @foreach(['Producto', 'Cantidad', 'Presentación', 'Precio Venta sin IGV', 'Descuento %', 'Precio Venta Total'] as $key)
                                     <th scope="col" class="{{ $colStyle }}">
                                         {{ $key }}
                                     </th>
@@ -131,31 +134,27 @@
                             <tr class="hover:bg-gray-100 dark:hover:bg-gray-700"
                             >
                                 <td class="{{ $td }}">
-                                    {{ $product->name }}
+                                    {{ $product->products->name }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->amount }}
+                                    {{ $product->amount }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->product_presentations->name }}
+                                    {{ $product->product_presentations->name }}
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->precio_compra }}
+                                    S/ {{ $product->precio_venta_sin_igv }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->precio_venta_sin_igv }}
+                                    S/ {{ $product->discount }} Soles
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    {{ $product->product_details[0]->discount }}
-                                </td>
-
-                                <td class="{{ $td }}">
-                                    {{ $product->precio_venta_total }}
+                                    S/ {{ ($product->amount - $product->discount) * $product->precio_venta_con_igv }} Soles
                                 </td>
 
                             </tr class="bg-white border-b">
