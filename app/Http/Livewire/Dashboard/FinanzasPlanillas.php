@@ -87,10 +87,14 @@ class FinanzasPlanillas extends Component
         {
             foreach ($spreadsheet->user_for_spreadsheets as $user)
             {
-                $user->update([
-                    'status' => 'completado',
-                ]);
+                if($user->status != 'cancelado')
+                {
+                    $user->update([
+                        'status' => 'completado',
+                    ]);
+                }
             }
+
 
             $spreadsheet->update([
                 'status' => 'completado',
