@@ -478,7 +478,7 @@
 
                 let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                let precio_venta_total = (val - descuento) * cantidad;
+                let precio_venta_total = (val * cantidad) - descuento;
 
                 document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
             }
