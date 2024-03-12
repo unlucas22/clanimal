@@ -35,7 +35,6 @@ class ProductController extends Controller
             $warehouse = Warehouse::create([
                 'user_id' => Auth::user()->id,
                 'supplier_id' => $req->supplier_id,
-                'ruc' => $req->cedula,
                 'fecha' => $fecha,
                 'key_type' => $req->key_type,
                 'value_type' => $req->value_type,

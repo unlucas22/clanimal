@@ -25,7 +25,6 @@ class CreateWarehousesTable extends Migration
             $table->double('total')->default(0);
             $table->text('motivo')->nullable();
             $table->text('observation')->nullable();
-            $table->string('ruc')->nullable();
             $table->timestamp('fecha');
             $table->timestamps();
         });

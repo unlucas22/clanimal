@@ -32,7 +32,7 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">RUC:</div>
                 <div>
-                    {{ $warehouse->ruc ?? $warehouse->suppliers->ruc }}
+                    {{ $warehouse->suppliers->ruc }}
                 </div>
             </div>
         </div>

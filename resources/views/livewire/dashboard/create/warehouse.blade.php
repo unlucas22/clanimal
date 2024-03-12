@@ -53,11 +53,7 @@
             </div>
 
             <div>
-                <x-form.input :label="'Valor'" :name="'value_type'" :model="'value_type'" :required="'required maxlength=30'" />
-            </div>
-
-            <div>
-                <x-form.input :label="'Número de documento'" :name="'cedula'" :model="'cedula'" :required="'minlength=9 maxlength=9'" />
+                <x-form.input :label="'Número de documento'" :name="'value_type'" :model="'value_type'" :required="'required maxlength=30'" />
             </div>
 
             <div>

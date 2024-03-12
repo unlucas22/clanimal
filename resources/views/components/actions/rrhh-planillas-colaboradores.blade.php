@@ -5,7 +5,7 @@
 @endif
 --}}
 
-@if($item->status != 'completado') 
+@if($item->status != 'completado' && $item->status != 'validacion') 
 <div><a onclick='Livewire.emit("openModal", "modal.store.user-for-spreadsheet", @json(["item_id" => $item->id]))'>
     <x-btn-edit/></a></div>
 @endif

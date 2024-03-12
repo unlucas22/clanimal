@@ -12,11 +12,16 @@
 
             let monto_tardanza = 0;
 
-            if (val < 30) {
+            if (val > 0 && val < 30)
+            {
                 monto_tardanza = 40;
-            } else if (val >= 30 && val < 60) {
+            } 
+            else if (val >= 30 && val < 60) 
+            {
                 monto_tardanza = 80;
-            } else if (val >= 60) {
+            } 
+            else if (val >= 60) 
+            {
                 monto_tardanza = 200;
             }
 

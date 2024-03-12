@@ -1,5 +1,3 @@
-<x-slot name="title">Gerente de Tienda</x-slot>
-
 <div class="py-4">
 
     {{-- Ultimos ingresos --}}
@@ -97,19 +95,19 @@
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $ingreso->total_tarjeta }}
+                                        S/ {{ $ingreso->total_tarjeta }} Soles
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $ingreso->total_virtual }}
+                                        S/ {{ $ingreso->total_virtual }} Soles
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $ingreso->total_efectivo }}
+                                        S/ {{ $ingreso->total_efectivo }} Soles
                                     </td>
 
                                     <td class="{{ $td }}">
-                                        {{ $ingreso->en_caja }}
+                                        S/ {{ $ingreso->en_caja }} Soles
                                     </td>
 
                                     <td class="{{ $td }}">
@@ -120,7 +118,8 @@
 
                                         <div class="flex justify-between gap-2">
                                             <div>
-                                                <button wire:click='$emit("openModal", "modal.update.ingreso", @json(["item_id" => $ingreso->id]))' type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Cambiar estado</button>
+                                                <a wire:click='$emit("openModal", "modal.update.ingreso", @json(["item_id" => $ingreso->id]))'>
+                                                    <x-btn-nuevo :content="'Cambiar Estado'"/></a>
                                             </div>
                                         </div>
                                     </td>

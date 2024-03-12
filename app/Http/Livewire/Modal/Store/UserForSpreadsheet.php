@@ -45,12 +45,11 @@ class UserForSpreadsheet extends ModalComponent
 
     protected function aplicarDescuentos()
     {
-
-        $monto_descuento_por_faltas = ($this->sueldo / 30) * $this->dias_no_laborados;
+        $monto_descuento_por_faltas = ($this->sueldo / 30) * intval($this->dias_no_laborados);
 
         $monto_tardanza = 0;
 
-        if($this->minutos_de_tardanzas > 0 &&  $this->minutos_de_tardanzas < 30)
+        if($this->minutos_de_tardanzas > 0 && $this->minutos_de_tardanzas < 30)
         {
             $monto_tardanza = 40;
         }
@@ -68,16 +67,16 @@ class UserForSpreadsheet extends ModalComponent
 
     public function submit()
     {
-        try {
-
+        try
+        {
             $descuento = $this->aplicarDescuentos();
             
             \App\Models\UserForSpreadsheet::where('id', $this->item_id)->update([
                 'observation' => $this->observation,
                 'descuento' => $descuento,
-                'bonificacion' => $this->monto_bonificacion,
-                'dias_no_laborados' => $this->dias_no_laborados,
-                'minutos_de_tardanzas' => $this->minutos_de_tardanzas,
+                'bonificacion' => intval($this->monto_bonificacion),
+                'dias_no_laborados' => intval($this->dias_no_laborados),
+                'minutos_de_tardanzas' => intval($this->minutos_de_tardanzas),
             ]);
 
             $this->dispatchBrowserEvent('swal', [
@@ -89,9 +88,10 @@ class UserForSpreadsheet extends ModalComponent
             $this->emit('refreshParent');
 
             $this->closeModal();
-
-        } catch (\Exception $e) {
-            Log::info($e->getMessage());
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e);
 
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
