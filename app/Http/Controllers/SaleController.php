@@ -109,7 +109,6 @@ class SaleController extends Controller
             ]);
 
             $products[] = $product_for_sale;
-
         }
 
         return $products;

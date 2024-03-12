@@ -190,14 +190,10 @@ class ProductController extends Controller
                 'alerta_stock' => $req->alerta_stock,
             ]);
 
-            //ProductDetail::where('product_id', $req->product_id)->delete();
-
             for ($i=0; $i < intval($req->product_details); $i++)
             {
                 /* se calculan los impuestos */
                 $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
-
-                // $req->amount_details[$i];
 
                 if(ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
                 {

@@ -119,8 +119,6 @@ class Product extends Model
             }
         }
 
-        //$impuestos = $precio_venta_sin_igv * ($tasa_impuesto / 100);
-
         if($this->precio_compra == 0 || $this->precio_compra == null)
         {
             return 0;

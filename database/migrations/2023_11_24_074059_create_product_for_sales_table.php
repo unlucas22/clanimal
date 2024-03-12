@@ -20,7 +20,6 @@ class CreateProductForSalesTable extends Migration
             $table->integer('cantidad');
             $table->foreign('bill_id')->references('id')->on('bills');
             $table->unsignedBigInteger('bill_id')->nullable();
-            //$table->timestamps();
         });
     }
 

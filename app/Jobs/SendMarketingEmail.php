@@ -19,16 +19,6 @@ class SendMarketingEmail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Execute the job.
      *
      * @return void
@@ -40,8 +30,8 @@ class SendMarketingEmail implements ShouldQueue
             ->where('status', '!=', 'completado')
             ->get();
 
-        try {
-            
+        try
+        {
             DB::beginTransaction();
 
             MarketingCampaign::whereIn('id', $campaigns->pluck('id'))->update([
@@ -81,8 +71,9 @@ class SendMarketingEmail implements ShouldQueue
             ]);
 
             DB::commit();
-
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             Log::info($e->getMessage());
             DB::rollback();
         }

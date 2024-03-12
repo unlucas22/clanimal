@@ -126,7 +126,7 @@
                                 </td>
 
                                 <td class="{{ $td }}">
-                                    S/ {{ ($product->stock - $product->product_details->discount) * $product->product_details->precio_venta_con_igv }} Soles
+                                    S/ {{ ($product->stock * $product->product_details->precio_venta_con_igv ) - $product->product_details->discount }} Soles
                                 </td>
 
                             </tr class="bg-white border-b">

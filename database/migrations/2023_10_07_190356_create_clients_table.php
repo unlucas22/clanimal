@@ -24,11 +24,8 @@ class CreateClientsTable extends Migration
             $table->string('linea_credito')->nullable();
             $table->unsignedBigInteger('report_id');
             $table->foreign('report_id')->references('id')->on('reports');
-            //$table->enum('status', ['ocasional', 'regular', 'VIP'])->default('ocasional');
             $table->unsignedBigInteger('user_id');
-
             $table->foreign('user_id')->references('id')->on('users');
-            // $table->integer('amount_spent')->default(0)->nullable();
             $table->timestamps();
         });
     }
