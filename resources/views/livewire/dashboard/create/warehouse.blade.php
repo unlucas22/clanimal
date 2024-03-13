@@ -297,16 +297,7 @@
                     </div>
 
                     <div class=" w-full mb-6 group">
-                        {{-- 
-                        <x-form.select :name="'product_brand_details_id['.$i.']'" :model="'product_brand_details_id.'.$i" :label="'Marca'" :required="'required'">
-                            @foreach($product_brands as $product_brand)
-                            <option value="{{ $product_brand->id }}">{{ $product_brand->name }}</option>
-                            @endforeach 
-                        </x-form.select>
-                        --}}
-
                         <x-form.input :name="'product_brand_details_id['.$i.']'" :model="'product_brand_details_id.'.$i" :label="'Marca'"   :required="'disabled'" />
-
                     </div>
 
                     <div class=" w-full mb-6 group">
@@ -321,16 +312,10 @@
                     <div>
                         <x-form.input :name="'product_name['.$i.']'" :model="'product_name.'.$i" :label="'Producto'"  :required="'disabled'" />
                     </div>
-                    
 
-                    {{-- 
                     <div class=" w-full mb-6 group">
-                        <div>
-                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio compra</label>
-                            <input type="number" step="0.1" name="precio_compra[{{ $i }}]" id="precio_compra{{ $i }}" wire:model.defer="precio_compra.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="1" placeholder="" required min=0>
-                        </div>
+                        <x-form.input :name="'fecha_de_vencimiento['.$i.']'" :type="'date'" :model="'fecha_de_vencimiento.'.$i" :label="'F. de Vencimiento'" />
                     </div>
-                     --}}
 
                     <div class=" w-full mb-6 group">
                         <div>
@@ -351,10 +336,6 @@
                             <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total</label>
                             <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" wire:model.defer="precio_venta_total.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" disabled>
                         </div>
-                    </div>
-
-                    <div class=" w-full mb-6 group">
-                        <x-form.input :name="'fecha_de_vencimiento['.$i.']'" :type="'date'" :model="'fecha_de_vencimiento.'.$i" :label="'F. de Vencimiento'" />
                     </div>
 
                     <div class="pt-8">
