@@ -18,10 +18,11 @@
     {{ $item->name }}
 </td>
 
+{{-- 
 <td class="{{ $td }}">
     {{ $item->stock }}
 </td>
-
+ --}}
 <td class="{{ $td }}">
     {!! $item->formatted_active !!}
 </td>

@@ -356,13 +356,8 @@
         @for($i=0; $i < $product_details; $i++)
         <div class="flex justify-center">
 
-
             <div class="grid grid-cols-7 gap-4">
 
-                <div class="w-full mb-6 group">
-                    <x-form.input :id="'cantidad_details.'.$i" :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
-                </div>
-                
                 <div class="w-full mb-6 group">
 
                     <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
@@ -371,6 +366,13 @@
                         @endforeach
                     </x-form.select>
                     </select>
+                </div>
+
+                <div class="w-full mb-6 group">
+                    <div>
+                        <label for="cantidad_details.{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
+                        <input type="number" name="amount_details[{{ $i }}]" id="cantidad_details.{{ $i }}" wire:model.defer="amount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" required step="0.1">
+                    </div>
                 </div>
 
                 <div class="w-full mb-6 group">
@@ -401,10 +403,7 @@
                 <div class="pt-8">
                     <a wire:click="eliminarPrecio" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Eliminar</a>
                 </div>
-
             </div>
-
-
         </div>
         @endfor
 
@@ -421,7 +420,7 @@
 
                 let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                let precio_venta_total = (val * cantidad) - descuento;
+                let precio_venta_total = (total * cantidad) - descuento;
 
                 document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
             }

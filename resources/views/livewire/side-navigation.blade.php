@@ -5,17 +5,6 @@
             <div class="overflow-y-auto py-5 px-3 h-full bg-white border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <ul class="space-y-2" style="padding-top: 80px;">
 
-                    {{-- 
-                    <li >
-                        <a href="{{ route('dashboard.index') }}" @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.index')
-                            ])>
-                            <x-icons.flowbite.overview />
-                            <span class="ml-3">General</span>
-                        </a>
-                    </li>
-                     --}}
 
                     <x-hr :content="'Logística General'" />
 
@@ -57,6 +46,16 @@
                             ])>
                             <x-icons.heroicons.db />
                             <span class="ml-3">Proveedores</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.compras') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.compras')
+                            ])>
+                            <x-icons.flowbite.overview />
+                            <span class="ml-3">Stock</span>
                         </a>
                     </li>
 
@@ -393,20 +392,6 @@
                     {{-- General --}}
 
                     @if(Auth::user()->role_id == 1)
-
-                    
-
-                    {{-- 
-                    <li>
-                        <a href="{{ route('dashboard.services') }}"  @class([
-                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.services')
-                            ])>
-                            <x-icons.heroicons.wrench />
-                            <span class="ml-3">Servicios</span>
-                        </a>
-                    </li>
-                     --}}
 
                     <li>
                         <a href="{{ route('dashboard.sedes') }}"  @class([

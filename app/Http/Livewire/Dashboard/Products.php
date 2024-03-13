@@ -65,7 +65,7 @@ class Products extends Component
             'Categoría',
             'Marca',
             'Producto',
-            'Stock',
+            //'Stock',
             'Estado',
         ];
 

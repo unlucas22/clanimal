@@ -329,64 +329,7 @@
 
             <div class="grid grid-cols-6 gap-4">
 
-                {{-- 
-
-                <div class=" w-full mb-6 group">
-                    <x-form.input :name="'amount'" :type="'number'" :model="'amount'" :label="'Cantidad'" :required="'required'" />
-                    @error('amount') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                </div>
-                
-                <div class=" w-full mb-6 group">
-
-                    <x-form.select :name="'product_presentation_id'" :model="'product_presentation_id'" :label="'Tipo de Presentación'" :required="'required'">
-                        @foreach($product_presentations as $product_presentation)
-                        <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
-                        @endforeach
-                    </x-form.select>
-                    </select>
-                    @error('product_presentation_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                </div>
-
-                <div>
-                    <x-form.input :name="'amount_presentation'" :model="'amount_presentation'" :label="'Cantidad por Presentación'" :type="'number'" :required="'required'" />
-                    @error('amount_presentation') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                </div>
-
-                <div class=" w-full mb-6 group">
-                    <x-form.input :name="'precio_compra'" :model="'precio_compra'" :label="'Precio Compra'" :type="'number'" :required="'required min=1'" />
-                    @error('precio_compra') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                </div>
-
-                <div>
-                    <label for="fecha" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha de vencimiento</label>
-                    <div class="relative max-w-sm">
-                      <div class="absolute flex items-center pl-3 mt-3 pointer-events-none">
-                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                          </svg>
-                      </div>
-                      <input datepicker datepicker-format="mm/dd/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="datepicker" placeholder="Seleccionar Fecha" name="fecha" id="fecha" required value="{{ now()->format('m/d/Y') }}" onchange="handler(event);">
-                    </div>
-                </div>
-
-                 --}}
-
-                
-
             </div>
-
-
-            {{-- 
-            <script>
-                window.onload = function(){
-                    const datepickerEl = document.getElementById('datepicker');
-                    
-                    new Datepicker(datepickerEl, {
-                        // options
-                    });
-                }
-            </script>
-             --}}
         </div>
         <div>
             <label class="relative inline-flex items-center mb-5 cursor-pointer">
@@ -415,10 +358,6 @@
 
 
             <div class="grid grid-cols-7 gap-4">
-
-                <div class="w-full mb-6 group">
-                    <x-form.input :id="'cantidad_details.'.$i" :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01'" />
-                </div>
                 
                 <div class="w-full mb-6 group">
 
@@ -428,6 +367,13 @@
                         @endforeach
                     </x-form.select>
                     </select>
+                </div>
+
+                <div class="w-full mb-6 group">
+                    <div>
+                        <label for="cantidad_details.{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
+                        <input type="number" name="amount_details[{{ $i }}]" id="cantidad_details.{{ $i }}" wire:model.defer="amount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" oninput="sumarImpuesto({{ $i }})" required step="0.1">
+                    </div>
                 </div>
 
                 <div class="w-full mb-6 group">
@@ -478,7 +424,7 @@
 
                 let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                let precio_venta_total = (val * cantidad) - descuento;
+                let precio_venta_total = (total * cantidad) - descuento;
 
                 document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
             }
