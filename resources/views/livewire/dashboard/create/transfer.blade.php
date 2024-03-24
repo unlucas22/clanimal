@@ -73,7 +73,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div style="max-width: 75px;">
-                                        <input type="number" name="amount_{{ $product->product_stocks[0]->id }}" id="amount-{{ $product->product_stocks[0]->id }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product->product_stocks[0]->stock }}" min="1" value="1">
+                                        <input type="number" name="amount_{{ $product->product_stocks[0]->id }}" id="amount-{{ $product->product_stocks[0]->id }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product->product_stocks[0]->stock }}" min="1" value="1" oninput="handleInputChange(this)">
                                     </div>
                                 </td>
 
@@ -94,6 +94,23 @@
             </div>
             @endif
             @endif
+
+            <script>
+            // Función que se llama cuando cambia el valor del input
+            function handleInputChange(input) {
+                // Obtener el valor actual del input
+                var currentValue = parseFloat(input.value);
+
+                // Obtener el valor máximo permitido para este input
+                var maxLimit = parseFloat(input.getAttribute('max'));
+
+                // Verificar si el valor actual excede el límite máximo
+                if (currentValue > maxLimit)
+                {
+                    input.value = maxLimit;
+                }
+            }
+        </script>
 
         </div>
         <div class="w-full">

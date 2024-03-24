@@ -110,12 +110,13 @@ class Transfer extends Component
     {
         try
         {
-            $product_for_transfer = [
-                'id' => $item_id,
-                'cantidad' => $cantidad
-            ];
+                $product_for_transfer = [
+                    'id' => $item_id,
+                    'cantidad' => $cantidad
+                ];
 
-            $this->productos_guardados[] = $product_for_transfer;
+                $this->productos_guardados[] = $product_for_transfer;
+
         }
         catch (\Exception $e)
         {
@@ -135,13 +136,12 @@ class Transfer extends Component
         $this->fecha_envio = $date;
     }
 
-
     /* Buscador */
     public function buscarProductos()
     {
         if($this->search != null)
         {
-            $product_stocks = ProductStock::whereHas('product_in_warehouses',function($qry) {
+            $product_stocks = ProductStock::where('stock', '>', 0)->whereHas('product_in_warehouses',function($qry) {
                 $qry->whereHas('products', function($query) {
                     $query->where('name', 'like', '%'.$this->search.'%')
                       ->orWhere('palabras_clave', 'like', '%'.$this->search.'%');
@@ -193,7 +193,7 @@ class Transfer extends Component
     {
         try
         {
-            $product_stocks = ProductStock::with('product_in_warehouses')->get();
+            $product_stocks = ProductStock::where('stock', '>', 0)->with('product_in_warehouses')->get();
 
             $products = [];
 
