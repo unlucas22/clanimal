@@ -28,7 +28,9 @@ class CreateProductInWarehousesTable extends Migration
             $table->integer('discount')->default(0)->nullable();
             $table->double('precio_venta_sin_igv');
             $table->double('precio_venta_con_igv');
-            $table->integer('amount')->default(1);
+            $table->bigInteger('amount')->default(1);
+
+            $table->date('fecha_de_vencimiento')->nullable();
 
             $table->timestamps();
         });

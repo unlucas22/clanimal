@@ -8,7 +8,6 @@ use App\Models\{Transfer, ProductForStore, ProductForTransfer};
 use Illuminate\Support\Facades\{Auth, Log};
 use DB;
 
-
 class StockDeTienda extends Component
 {
     use HasTable;

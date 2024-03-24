@@ -80,14 +80,14 @@ class IngresoDeProductos extends Component
                 'fecha_recepcion' => now(),
             ]);
 
-            $transfers = ProductForTransfer::with(['product_details'])->where('transfer_id', $transfer_id)->get();
+            $transfers = ProductForTransfer::with(['product_stocks'])->where('transfer_id', $transfer_id)->get();
 
             foreach ($transfers as $transfer)
             {
                 ProductForStore::create([
                     'user_id' => Auth::user()->id,
                     'company_id' => Auth::user()->company_id,
-                    'product_id' => $transfer->product_details->product_id,
+                    'product_id' => $transfer->product_stocks->product_in_warehouses->product_id,
                     'stock' => $transfer->stock,
                     //'fecha' => now(),
                 ]);

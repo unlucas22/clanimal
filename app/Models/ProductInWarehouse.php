@@ -17,6 +17,7 @@ class ProductInWarehouse extends Model
         'discount',
         'precio_venta_sin_igv',
         'precio_venta_con_igv',
+        'fecha_de_vencimiento',
     ];
 
     public function product_presentations()
@@ -32,5 +33,10 @@ class ProductInWarehouse extends Model
     public function warehouses()
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
+    }
+
+    public function product_stocks()
+    {
+        return $this->hasMany(ProductStock::class);
     }
 }

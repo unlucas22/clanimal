@@ -28,6 +28,8 @@
                 </div>
             </div>
 
+            @if(count($products) != 0)
+            @if(isset($products[0]->products))
             <div class="pt-8">
                 <div>Productos encontrados:</div>
 
@@ -42,6 +44,9 @@
                                     Presentación
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Fecha de Vencimiento
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Cantidad
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -52,30 +57,31 @@
                         <tbody>
                             @forelse($products as $product)
 
-                            @forelse($product->product_details as $detail)
+                            @if(isset($product->products))
+
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
-                                    {{ $product->name }}
+                                    {{ $product->products->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $detail->product_presentations->name }}
+                                    {{ $product->product_presentations->name }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if($product->fecha_de_vencimiento != null)
+                                    {{ $product->fecha_de_vencimiento }}
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4">
                                     <div style="max-width: 75px;">
-                                        <input type="number" name="amount_{{ $detail->id }}" id="amount-{{ $detail->id }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $detail->amount }}" min="1" value="1">
+                                        <input type="number" name="amount_{{ $product->product_stocks[0]->id }}" id="amount-{{ $product->product_stocks[0]->id }}"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product->product_stocks[0]->stock }}" min="1" value="1">
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    <button type="button" onclick="Livewire.emit('agregarProducto', {{ $detail->id }}, document.getElementById('amount-{{ $detail->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                    <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product->product_stocks[0]->id }}, document.getElementById('amount-{{ $product->product_stocks[0]->id }}').value);" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
                                 </td>
                             </tr>
-                            @empty
-                            @endforelse
-
-                            {{-- aca antes estaba el td --}}
-
-                            
+                            @endif
                             @empty
                             <tr class="text-center py-3">
                                 <td colspan="7" class="py-3 italic">No hay Productos agregados</td>
@@ -86,6 +92,8 @@
                 </div>
 
             </div>
+            @endif
+            @endif
 
         </div>
         <div class="w-full">
@@ -117,6 +125,9 @@
                                     <th scope="col" class="px-1 text-center py-3">
                                         Presentación
                                     </th>
+                                    <th scope="col" class="px-1 text-center py-3">
+                                        Fecha de Vencimiento
+                                    </th>
                                     <th scope="col" class="text-center py-3">
                                         Cantidad
                                     </th>
@@ -127,16 +138,22 @@
                             </thead>
                             <tbody>
                                 @forelse($productos_para_compra as $producto)
+
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:100px;">
-                                            {{ $producto->products->name }}
+                                            {{ $producto->product_in_warehouses->products->name }}
                                         </th>
 
                                         <td class="px-1 text-center py-4">
-                                            {{ $producto->product_presentations->name }}
+                                            {{ $producto->product_in_warehouses->product_presentations->name }}
                                         </td>
+
                                         <td class="py-4 text-center">
-                                            {{ $producto->amount }}
+                                            {{ $producto->product_in_warehouses->fecha_de_vencimiento }}
+                                        </td>
+
+                                        <td class="py-4 text-center">
+                                            {{ $producto->stock }}
                                         </td>
 
                                         <td class="py-4">
@@ -151,7 +168,6 @@
                             </tbody>
                         </table>
                     </div>
-
 
                 </div>
 

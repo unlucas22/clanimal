@@ -17,9 +17,9 @@ class CreateProductForTransfersTable extends Migration
             $table->id();
             $table->foreign('transfer_id')->references('id')->on('transfers');
             $table->unsignedBigInteger('transfer_id');
-            $table->foreign('product_detail_id')->references('id')->on('product_details');
-            $table->unsignedBigInteger('product_detail_id');
-            $table->integer('stock');
+            $table->foreign('product_stock_id')->references('id')->on('product_stocks');
+            $table->unsignedBigInteger('product_stock_id');
+            $table->bigInteger('stock');
             $table->timestamps();
         });
     }

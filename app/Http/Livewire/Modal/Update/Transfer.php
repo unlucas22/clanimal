@@ -3,9 +3,12 @@
 namespace App\Http\Livewire\Modal\Update;
 
 use LivewireUI\Modal\ModalComponent;
-use App\Models\{ProductForTransfer, Product};
+use App\Models\{ProductForTransfer, Product, ProductStock};
 use Illuminate\Support\Facades\Log;
 
+/**
+ * Cancelar estado
+ * */
 class Transfer extends ModalComponent
 {
     public $item_id;
@@ -29,25 +32,21 @@ class Transfer extends ModalComponent
 
             $transfer = \App\Models\Transfer::with(['product_for_transfers', 'companies', 'users'])->where('id', $this->item_id)->first();
 
+
+            foreach ($transfer->product_for_transfers as $transfer)
+            {
+                $pd = ProductStock::where('id', $transfer->product_stock_id)->first();
+             
+                $pd->update([
+                    'stock' => $pd->stock + $transfer->stock
+                ]);
+            }
+
+
             \App\Models\Transfer::where('id', $this->item_id)->update([
                 'status' => 'cancelado',
                 'motivo' => $this->motivo,
             ]);
-
-            foreach ($transfer->product_for_transfers as $transfer)
-            {
-                $product = $transfer->product_details;
-
-                $pd = Product::where('id', $product->product_id)->first();
-             
-                $product->update([
-                    'amount' => $product->amount + $transfer->stock
-                ]);
-
-                $pd->update([
-                    'stock' => $pd->stock + $transfer->stock,
-                ]);
-            }
 
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Estado actualizado con éxito',

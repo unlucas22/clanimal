@@ -20,7 +20,6 @@ class Product extends Model
         'active',
         'precio_compra',
         'precio_venta',
-        'stock',
         'barcode',
         'palabras_clave',
         'fecha_de_vencimiento',

@@ -100,13 +100,9 @@ class SaleController extends Controller
 
             $product_for_sale = ProductForSale::with('product_details')->where('id', $id)->first();
 
-            Product::where('id', $product_for_sale->product_details->product_id)->update([
+            /*Product::where('id', $product_for_sale->product_details->product_id)->update([
                 'stock' => $product_for_sale->product_details->products->stock - $product_for_sale->cantidad,
-            ]);
-
-            ProductDetail::where('id', $product_for_sale->product_detail_id)->update([
-                'amount' => $product_for_sale->product_details->amount - $product_for_sale->cantidad,
-            ]);
+            ]);*/
 
             $products[] = $product_for_sale;
         }

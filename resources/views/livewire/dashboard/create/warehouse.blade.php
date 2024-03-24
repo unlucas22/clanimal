@@ -252,7 +252,7 @@
 
                     let cantidad = document.getElementById('cantidad_details.'+item_id).value;
 
-                    let precio_venta_total = (val - descuento) * cantidad;
+                    let precio_venta_total = (val * cantidad) - descuento;
 
                     return parseFloat(precio_venta_total, 2).toFixed(2);
                 }
@@ -297,15 +297,18 @@
                     </div>
 
                     <div class=" w-full mb-6 group">
-                        <x-form.input :name="'product_brand_details_id['.$i.']'" :model="'product_brand_details_id.'.$i" :label="'Marca'"   :required="'disabled'" />
-                    </div>
-
-                    <div class=" w-full mb-6 group">
 
                         <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
-                            @foreach($product_presentations as $product_presentation)
-                            <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
-                            @endforeach
+
+                            @php($pd = \App\Models\Product::select('id')->where('name', $product_name[$i])->first())
+
+                            @forelse(\App\Models\ProductDetail::with('product_presentations')->where('product_id', $pd->id)->get() as $product_detail)
+                            <option value="{{ $product_detail->product_presentations->id }}">{{ $product_detail->product_presentations->name }}</option>
+                            @empty
+                                @foreach($product_presentations as $product_presentation)
+                                <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
+                                @endforeach
+                            @endforelse
                         </x-form.select>
                     </div>
 
@@ -319,7 +322,7 @@
 
                     <div class=" w-full mb-6 group">
                         <div>
-                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Valor sin IGV</label>
+                            <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Compra</label>
                             <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarTotales()" required min=0>
                         </div>
                     </div>

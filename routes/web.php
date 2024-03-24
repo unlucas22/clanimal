@@ -42,6 +42,7 @@ Route::middleware([
 
         Route::view('/proveedores', 'dashboard')->name('dashboard.suppliers');
         Route::view('/compras', 'dashboard')->name('dashboard.compras');
+        Route::view('/stock', 'dashboard')->name('dashboard.stock');
         Route::view('/classifications', 'dashboard')->name('dashboard.classifications');
         Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
         Route::view('/gerente-de-tienda', 'dashboard')->name('dashboard.manager');
@@ -126,6 +127,10 @@ Route::middleware([
         Route::get('/show/product/{hashid}', function(){
             return view('show.product');
         })->name('dashboard.show.product');
+
+        Route::get('/show/product-stocks/{hashid}', function(){
+            return view('show.product-stocks');
+        })->name('dashboard.show.product-stocks');
 
         Route::post('/update/product', [ProductController::class, 'update'])->name('dashboard.update.product');
 

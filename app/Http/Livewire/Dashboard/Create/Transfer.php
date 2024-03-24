@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Create;
 
 use Livewire\Component;
-use App\Models\{Product, Company, ProductDetail, ProductForTransfer};
+use App\Models\{Product, Company, ProductDetail, ProductForTransfer, ProductStock, ProductInWarehouse};
 use Illuminate\Support\Facades\{Log, Auth};
 use Carbon\Carbon;
 use DB;
@@ -15,9 +15,7 @@ class Transfer extends Component
     public $search;
 
     public $company_id;
-
     public $fecha_envio;
-
     public $transfer_id;
 
     /* Productos */
@@ -25,12 +23,6 @@ class Transfer extends Component
     public $productos_guardados = [];
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra', 'dateSelected' => 'updateDate'];
-
-    /* se podría reemplazar por un emit desde script */
-    public function updateDate($date)
-    {
-        $this->fecha_envio = $date;
-    }
 
     public function mount()
     {
@@ -45,11 +37,11 @@ class Transfer extends Component
 
         foreach ($this->productos_guardados as $producto)
         {
-            $product_model = ProductDetail::with(['products', 'product_presentations'])->where('id', $producto['id'])->first();
+            $product_stock = ProductStock::where('id', $producto['id'])->with('product_in_warehouses')->first();
+         
+            $product_stock->stock = intval($producto['cantidad']);
 
-            $product_model->amount = intval($producto['cantidad']);
-
-            $productos_para_compra[] = $product_model;
+            $productos_para_compra[] = $product_stock;
         }
 
         return view('livewire.dashboard.create.transfer', [
@@ -78,24 +70,16 @@ class Transfer extends Component
             {
                 ProductForTransfer::create([
                     'transfer_id' => $transfer->id,
-                    'product_detail_id' => $product['id'],
+                    'product_stock_id' => $product['id'],
                     'stock' => $product['cantidad'],
                 ]);
 
-                /* restar tanto para la unidad como para el stock general, aunque esto deberia ser contabilizado automaticamente */
-                $pd = ProductDetail::where('id', $product['id'])->first();
+                $product_stock = ProductStock::where('id', $product['id'])->first();
 
-                $pd->update([
-                    'amount' => $pd->amount - $product['cantidad'],
-                ]);
-
-                $pro = Product::where('id', $pd->product_id)->first();
-
-                $pro->update([
-                    'stock' => $pro->stock - $product['cantidad'],
+                $product_stock->update([
+                    'stock' => $product_stock->stock - $product['cantidad'],
                 ]);
             }
-
 
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Salida de productos registrado con éxito',
@@ -121,31 +105,7 @@ class Transfer extends Component
         }
     }
 
-    /**
-     * Buscar el cliente registrado por dni
-     *  */
-    public function searchClient() {
-
-        $client = Client::with('pets')->where('dni', $this->dni)->first();
-
-        if($client != null)
-        {
-            $this->client_name = $client->name;
-            $this->client_id = $client->id;
-
-            $this->pets = $client->pets;
-        }
-        else
-        {
-            $this->dispatchBrowserEvent('swal', [
-                'title' => 'No se encontró al cliente',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-        }
-    }
-
-    /* Agregar ProductDetail al array */
+    /* Agregar al array */
     public function agregarProducto($item_id, $cantidad = 1)
     {
         try
@@ -169,15 +129,33 @@ class Transfer extends Component
         $this->buscarProductos();
     }
 
+    /* se podría reemplazar por un emit desde script */
+    public function updateDate($date)
+    {
+        $this->fecha_envio = $date;
+    }
+
+
     /* Buscador */
     public function buscarProductos()
     {
         if($this->search != null)
         {
-            $this->products = Product::with(['product_presentations', 'product_details'])->withStock()->where(function($query) {
-                $query->where('name', 'like', '%'.$this->search.'%')
+            $product_stocks = ProductStock::whereHas('product_in_warehouses',function($qry) {
+                $qry->whereHas('products', function($query) {
+                    $query->where('name', 'like', '%'.$this->search.'%')
                       ->orWhere('palabras_clave', 'like', '%'.$this->search.'%');
-            })->get();
+                });
+            })->with('product_in_warehouses')->get();
+
+            $products = [];
+
+            foreach ($product_stocks as $product_stock)
+            {
+                $products[] = $product_stock->product_in_warehouses;
+            }
+
+            $this->products = $products;
         }
         else
         {
@@ -208,8 +186,30 @@ class Transfer extends Component
         }
     }
 
+    /**
+     * Obtener el stock disponible de cada presentacion
+     * */
     public function getProducts()
     {
-        return Product::with(['product_presentations', 'product_details'])->withStock()->get();
+        try
+        {
+            $product_stocks = ProductStock::with('product_in_warehouses')->get();
+
+            $products = [];
+
+            foreach ($product_stocks as $product_stock)
+            {
+                $products[] = $product_stock->product_in_warehouses;
+            }
+
+            return $products;
+            // return $item;
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e);
+
+            ddd($e);
+        }
     }
 }

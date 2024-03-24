@@ -50,9 +50,9 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('dashboard.compras') }}"  @class([
+                        <a href="{{ route('dashboard.stock') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.compras')
+                            'bg-gray-100' => request()->routeIs('dashboard.stock')
                             ])>
                             <x-icons.flowbite.overview />
                             <span class="ml-3">Stock</span>
