@@ -132,7 +132,7 @@ class Warehouse extends Component
             'suppliers' => Supplier::get(),
             'product_presentations' => ProductPresentation::get(),
             'product_brands' => ProductBrand::get(),
-            'products' => Product::get(),
+            'products' => Product::whereHas('product_details')->get(),
         ]);
     }
 }

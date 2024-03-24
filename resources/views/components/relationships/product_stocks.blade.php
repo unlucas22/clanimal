@@ -16,7 +16,10 @@
     {{ $item->product_in_warehouses[0]->warehouses->fecha_formatted }}
 </td>
 <td class="{{ $td }}">
-	@if($item->product_in_warehouses[0]->fecha_de_vencimiento != null)
-    {{ $item->product_in_warehouses[0]->fecha_de_vencimiento }}
-    @endif
+	@foreach($item->product_in_warehouses as $warehouse)
+		@if($warehouse->fecha_de_vencimiento != null)
+		{{ $warehouse->fecha_de_vencimiento }}
+		@break
+		@endif
+	@endforeach
 </td>
