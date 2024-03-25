@@ -43,27 +43,31 @@ class SaleController extends Controller
             /* Asignar productos comprados a la venta */
             $products = $this->asignProductToBill($req->productos_guardados, $bill->id);
 
-            /* generar factura o boleta */
-            $factura = $this->generarFactura($bill);
+            if($req->active)
+            {
+                /* generar factura o boleta */
+                $factura = $this->generarFactura($bill);
 
+
+                if($factura == null)
+                {
+                    return Redirect::back()->withErrors('Hubo un error con NubeFact');
+                }
+
+                // Enlace de la factura en nubefact
+                $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
+
+                Bill::where('id', $bill->id)->update([
+                    'enlace' => $enlace,
+                ]);
+                
+            }
+            
             DB::commit();
 
-            if($factura == null)
-            {
-                return Redirect::back()->withErrors('Hubo un error con NubeFact');
-            }
-
-            // Enlace de la factura en nubefact
-            $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
-
-            Bill::where('id', $bill->id)->update([
-                'enlace' => $enlace,
-            ]);
-            
             return redirect()->route('dashboard.show.venta.factura', [
                 'bill_id' => $bill->id
             ]);
-
         }
         catch (\Exception $e)
         {

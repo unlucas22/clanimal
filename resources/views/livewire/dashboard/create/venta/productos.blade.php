@@ -60,7 +60,6 @@
                                     Precio Total
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    {{-- Acciones --}}
                                 </th>
                             </tr>
                         </thead>
@@ -75,10 +74,10 @@
                                         {{ $product_detail->product_presentations->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        ${{ $product_detail->precio_venta_con_igv }}
+                                        S/ {{ $product_detail->precio_venta_con_igv }} Soles
                                     </td>
                                     <td class="px-6 py-4">
-                                        %{{ $product_detail->discount }}
+                                        S/ {{ $product_detail->discount }} Soles
                                     </td>
                                     <td class="px-6 py-4">
                                         <div style="max-width: 75px;">
@@ -86,7 +85,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4">
-                                        $<span id="total-from-amount-{{ $product_detail->id }}">{{ $product_detail->descuento() }}</span>
+                                        S/ <span id="total-from-amount-{{ $product_detail->id }}">{{ $product_detail->descuento() }}</span> Soles
                                     </td>
 
                                     <td class="px-6 py-4">
@@ -117,7 +116,7 @@
                             total += precio;
                         }
 
-                        document.getElementById('total-from-amount-'+id).innerHTML = total.toFixed(2);
+                        document.getElementById('total-from-amount-'+id).innerHTML = total.toFixed(2)- ;
                     }
                 </script>
 
@@ -218,7 +217,7 @@
                                             {{ $producto->product_details->product_presentations->name }}
                                         </td>
                                         <td class="px-1 text-center py-4">
-                                            ${{ $producto->product_details->precio_venta_con_igv }}
+                                            ${{ $producto->product_details->descuento() }}
                                         </td>
                                         <td class="py-4 text-center">
                                             {{ $producto->cantidad ?? 1 }}

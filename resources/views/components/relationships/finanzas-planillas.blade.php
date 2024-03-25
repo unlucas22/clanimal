@@ -7,7 +7,12 @@
 </td>
 
 <td class="{{ $td }}">
-    {{ $item->total }}
+    @php($total = 0)
+    @foreach($item->user_for_spreadsheets as $user)
+    @php($total += $user->total)
+    @endforeach
+
+    S/ {{ $total }} Soles
 </td>
 
 <td class="{{ $td }}">

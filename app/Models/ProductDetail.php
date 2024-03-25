@@ -22,9 +22,7 @@ class ProductDetail extends Model
     /* descuento en precio venta con impuestos */
     public function descuento()
     {
-        $descuento = ($this->discount / 100) * $this->precio_venta_con_igv;
-
-        return $this->precio_venta_con_igv - $descuento;
+        return $this->precio_venta_con_igv - $this->discount;
     }
 
     /* La diferencia en unidad, no porcentaje */
