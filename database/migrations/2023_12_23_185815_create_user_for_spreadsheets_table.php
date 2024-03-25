@@ -21,8 +21,9 @@ class CreateUserForSpreadsheetsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->double('descuento')->nullable();
             $table->double('bonificacion')->nullable();
-            $table->integer('dias_no_laborados')->nullable();
-            $table->integer('minutos_de_tardanzas')->nullable();
+            $table->bigInteger('aportes')->nullable();
+            $table->bigInteger('dias_no_laborados')->nullable();
+            $table->bigInteger('minutos_de_tardanzas')->nullable();
             $table->text('observation')->nullable();
             $table->enum('status', ['pendiente', 'validacion', 'completado', 'cancelado'])->default('pendiente');
             $table->timestamps();

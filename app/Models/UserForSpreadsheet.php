@@ -18,6 +18,7 @@ class UserForSpreadsheet extends Model
         'dias_no_laborados',
         'minutos_de_tardanzas',
         'observation',
+        'aportes',
         'status',
     ];
 

@@ -57,13 +57,13 @@
                 <div class="flex justify-between gap-8">
                     <div>
                         <x-jet-label for="dias_no_laborados" value="{{ __('Cantidad de días no laborados') }}" />
-                        <x-jet-input id="dias_no_laborados" type="number" class="mt-1 block w-full" wire:model="dias_no_laborados" oninput="setMontoDias(this.value)" autocomplete="dias_no_laborados" />
+                        <x-jet-input id="dias_no_laborados" type="number" class="mt-1 block w-full" wire:model="dias_no_laborados" oninput="setMontoDias(this.value)" />
                         <x-jet-input-error for="aportes" class="mt-2" />
                         @error('dias_no_laborados') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <x-jet-label for="monto_dias_no_laborados" value="{{ __('Monto') }}" />
-                        <x-jet-input id="monto_dias_no_laborados" type="number" class="mt-1 block w-full" disabled autocomplete="monto_dias_no_laborados" />
+                        <x-jet-input id="monto_dias_no_laborados" type="number" class="mt-1 block w-full" disabled />
                         <x-jet-input-error for="monto_dias_no_laborados" class="mt-2" />
                     </div>
                 </div>
@@ -71,13 +71,13 @@
                 <div class="flex justify-between gap-8">
                     <div>
                         <x-jet-label for="minutos_de_tardanzas" value="{{ __('Minutos de retraso') }}" />
-                        <x-jet-input id="minutos_de_tardanzas" type="number" class="mt-1 block w-full" wire:model="minutos_de_tardanzas" oninput="setMontoMinutos(this.value)" autocomplete="minutos_de_tardanzas" />
+                        <x-jet-input id="minutos_de_tardanzas" type="number" class="mt-1 block w-full" wire:model="minutos_de_tardanzas" oninput="setMontoMinutos(this.value)" />
                         <x-jet-input-error for="aportes" class="mt-2" />
                         @error('minutos_de_tardanzas') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
                     <div>
                         <x-jet-label for="monto_minutos_de_tardanzas" value="{{ __('Monto') }}" />
-                        <x-jet-input id="monto_minutos_de_tardanzas" type="number" class="mt-1 block w-full" disabled autocomplete="monto_minutos_de_tardanzas" />
+                        <x-jet-input id="monto_minutos_de_tardanzas" type="number" class="mt-1 block w-full" disabled />
                         <x-jet-input-error for="monto_minutos_de_tardanzas" class="mt-2" />
                     </div>
                 </div>
@@ -86,7 +86,7 @@
 
                 <div>
                     <x-jet-label for="monto_bonificacion" value="{{ __('Monto de bonificación') }}" />
-                    <x-jet-input id="monto_bonificacion" type="number" class="mt-1 block w-full" wire:model="monto_bonificacion" autocomplete="monto_bonificacion" />
+                    <x-jet-input id="monto_bonificacion" type="number" class="mt-1 block w-full" wire:model="monto_bonificacion" />
                     <x-jet-input-error for="aportes" class="mt-2" />
                     @error('monto_bonificacion') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>

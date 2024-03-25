@@ -54,7 +54,7 @@ class RrhhSpreadsheet extends Component
 
         $query->orderBy('updated_at', 'desc');
 
-        return $query->paginate(10);
+        return $query->paginate(25);
     }
 
     public function render()
@@ -97,9 +97,26 @@ class RrhhSpreadsheet extends Component
 
     public function enviarPlanilla($item_id)
     {
-        \App\Models\UserForSpreadsheet::where('id', $item_id)->update([
+        $ufs = \App\Models\UserForSpreadsheet::where('id', $item_id)->first();
+
+        $ufs->update([
             'status' => 'validacion',
         ]);
+
+        if(
+            $ufs->dias_no_laborados == null 
+            && $ufs->minutos_de_tardanzas == null 
+            && $ufs->bonificacion == null
+            && $ufs->descuento == null
+        )
+        {
+            $ufs->update([
+                'dias_no_laborados' => 0,
+                'minutos_de_tardanzas' => 0,
+                'bonificacion' => 0,
+                'descuento' => 0,
+            ]);
+        }
 
         $this->dispatchBrowserEvent('swal', [
             'title' => 'Estado actualizado con éxito',

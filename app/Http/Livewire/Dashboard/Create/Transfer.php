@@ -110,12 +110,12 @@ class Transfer extends Component
     {
         try
         {
-                $product_for_transfer = [
-                    'id' => $item_id,
-                    'cantidad' => $cantidad
-                ];
+            $product_for_transfer = [
+                'id' => $item_id,
+                'cantidad' => $cantidad
+            ];
 
-                $this->productos_guardados[] = $product_for_transfer;
+            $this->productos_guardados[] = $product_for_transfer;
 
         }
         catch (\Exception $e)

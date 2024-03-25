@@ -33,6 +33,11 @@ class UserForSpreadsheet extends ModalComponent
 
         $this->sueldo = $model->users->roles->sueldo;
 
+        $this->aportes = $model->aportes;
+        $this->dias_no_laborados = $model->dias_no_laborados;
+        $this->minutos_de_tardanzas = $model->minutos_de_tardanzas;
+        $this->monto_bonificacion = $model->bonificacion;
+
         $this->observation = $model->observation;
     }
  
@@ -77,6 +82,7 @@ class UserForSpreadsheet extends ModalComponent
                 'bonificacion' => intval($this->monto_bonificacion),
                 'dias_no_laborados' => intval($this->dias_no_laborados),
                 'minutos_de_tardanzas' => intval($this->minutos_de_tardanzas),
+                'aportes' => $this->aportes,
             ]);
 
             $this->dispatchBrowserEvent('swal', [
