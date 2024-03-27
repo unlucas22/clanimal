@@ -38,10 +38,13 @@ class Bill extends Model
                 return 'Efectivo';
                 break;
             case 'tarjeta':
-                return 'Debito/Credito';
+                return 'Debito';
                 break;
             case 'virtual':
                 return 'Yape/Plin/QR';
+                break;
+            case 'credito':
+                return 'Crédito';
                 break;
         }
     }

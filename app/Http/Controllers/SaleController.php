@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Bill, ProductForSale, Product, ProductDetail};
+use App\Models\{Bill, ProductForSale, Product, ProductDetail, Client};
 use Illuminate\Support\Facades\{Auth, Log};
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\SaleStoreRequest;
@@ -39,6 +39,15 @@ class SaleController extends Controller
                 'ruc' => $req->cliente_ruc ?? null,
                 'tarjeta' => $req->tarjeta ?? null,
             ]);
+
+            if($req->radio)
+            {
+                $client = Client::where('id', $req->client_id)->first();
+
+                $client->update([
+                    'credito_actual' => $client->credito_actual + $req->total,
+                ]);
+            }
 
             /* Asignar productos comprados a la venta */
             $products = $this->asignProductToBill($req->productos_guardados, $bill->id);

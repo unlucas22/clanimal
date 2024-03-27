@@ -14,6 +14,8 @@ class Productos extends Component
     public $client_ruc;
     public $client_name;
     public $client_tarjeta;
+    public $client_credito = null;
+    public $client_linea_credito = null;
 
     /* Mascotas del Cliente */
     public $pets = [];
@@ -77,6 +79,8 @@ class Productos extends Component
         if($client != null)
         {
             $this->client_name = $client->name;
+            $this->client_credito = $client->credito_actual;
+            $this->client_linea_credito = $client->linea_credito;
             $this->client_id = $client->id;
 
             $this->pets = $client->pets;

@@ -116,7 +116,7 @@
                             total += precio;
                         }
 
-                        document.getElementById('total-from-amount-'+id).innerHTML = total.toFixed(2)- ;
+                        document.getElementById('total-from-amount-'+id).innerHTML = total.toFixed(2);
                     }
                 </script>
 
@@ -279,21 +279,48 @@
                             <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yape/Plin/QR</label>
                         </div>
 
+                        @if($client_linea_credito != null)
+
+                        @if($total + $client_credito < $client_linea_credito)
+
                         <div class="flex items-center">
                             <input id="default-radio-2" type="radio" value="credito" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Crédito</label>
                         </div>
+                        @endif
+                        @endif
 
                     </div>
                 </div>
 
                 @if($radio == 'credito')
+                @if($total + $client_credito < $client_linea_credito)
+                <div>
+                    <div class="mb-2">
+                        Línea de Crédito
+                    </div>
+                    <div class="flex justify-between items-center gap-4 mb-4">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                          <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{  (($client_credito / $client_linea_credito) * 100) }}%"></div>
+                        </div>
 
+                        <div class="w-full">
+                            S/ {{ $client_credito ?? 0 }} de {{ $client_linea_credito }} Soles
+                        </div>
+                    </div>
+
+                    <x-form.input :label="'Tarjeta'" :name="'client_tarjeta'" :model="'client_tarjeta'" :placeholder="''" :required="'required'" />
+                </div>
+                @else
+                <div>No puede utilizar la Línea de Crédito porque supera el limite establecido</div>
+                @endif
                 @endif
 
                 @if($radio == 'tarjeta')
                     <x-form.input :label="'Tarjeta'" :name="'client_tarjeta'" :model="'client_tarjeta'" :placeholder="''" :required="'required'" />
                 @endif
+
+                <div></div>
 
                 <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Vendedor Referente</div>
                 

@@ -77,7 +77,9 @@
                                     </td>
 
                                     <td class="{{ $td }}">
+                                        @if($ingreso->closed_at !== null)
                                         {{ $ingreso->closed_at->format('d/m/Y h:i A') }}
+                                        @endif
                                     </td>
 
                                     <td class="{{ $td }}">

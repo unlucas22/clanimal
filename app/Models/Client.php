@@ -20,6 +20,7 @@ class Client extends Model
         'dni',
         'ruc',
         'linea_credito',
+        'credito_actual',
     ];
 
     /**

@@ -31,6 +31,11 @@
                 <div class="relative z-0 w-full mb-6 group">
                     <x-form.input :name="'address'" :model="'address'" :label="'Dirección'" />
                 </div>
+
+                <div class="relative z-0 w-full mb-6 group">
+                    <x-form.input :type="'number'" :name="'linea_credito'" :model="'linea_credito'" :label="'Linea de Crédito'" :required="'min=0'" />
+                    @error('linea_credito') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
                 
                 @if(Auth::user()->isAdmin())
                 <div>

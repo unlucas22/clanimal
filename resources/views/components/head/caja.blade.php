@@ -1,11 +1,5 @@
 <div>
-
 	@if(\App\Models\CashRegister::where('casher_id', Auth::user()->id)->orderBy('created_at', 'desc')->where('closed_at', null)->count())
-	<div>
-	    <button type="button" onclick="cancelCajaButton()" id="cancelCajaButton" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-	        Cerrar caja
-	    </button>
-	</div>
 	@else
 	<div>
 		<a wire:click='$emit("openModal", "modal.store.abrir-caja")'>

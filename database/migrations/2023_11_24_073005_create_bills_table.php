@@ -20,7 +20,7 @@ class CreateBillsTable extends Migration
             $table->foreign('client_id')->references('id')->on('clients');
             $table->unsignedBigInteger('client_id');
             $table->boolean('active')->default(false);
-            $table->enum('metodo_de_pago', ['efectivo', 'tarjeta', 'virtual'])->default('efectivo');
+            $table->enum('metodo_de_pago', ['efectivo', 'tarjeta', 'virtual', 'credito'])->default('efectivo');
             $table->foreign('referente_id')->references('id')->on('users');
             $table->unsignedBigInteger('referente_id')->nullable();
             $table->double('total');

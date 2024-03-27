@@ -17,12 +17,14 @@ class Client extends ModalComponent
     public $phone;
     public $address;
     public $status_id;
+    public $linea_credito;
 
     public $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
         'phone' => 'nullable|string|max:20',
         'address' => 'nullable|string|max:255',
+        'linea_credito' => 'nullable',
         'status_id' => 'nullable|string',
     ];
 
@@ -34,6 +36,7 @@ class Client extends ModalComponent
         $this->email = $item->email;
         $this->phone = $item->phone;
         $this->address = $item->address;
+        $this->linea_credito = $item->linea_credito;
 
         $this->status_id = $item->status;
 
@@ -70,6 +73,7 @@ class Client extends ModalComponent
                 'address' => $this->address,
                 'report_id' => $report->id,
                 'user_id' => Auth::user()->id,
+                'linea_credito' => intval($this->linea_credito),
             ]);
 
             $this->dispatchBrowserEvent('swal', [
