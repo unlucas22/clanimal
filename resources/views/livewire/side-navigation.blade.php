@@ -94,6 +94,26 @@
                     </li>
 
                     <li>
+                        <a href="{{ route('dashboard.ingresos-gerencia') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.ingresos-gerencia')
+                            ])>
+                            <x-icons.flowbite.overview />
+                            <span class="ml-3">Ingresos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.salidas-gerencia') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.salidas-gerencia')
+                            ])>
+                            <x-icons.flowbite.overview />
+                            <span class="ml-3">Salidas</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="{{ route('dashboard.controls') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
                             'bg-gray-100' => request()->routeIs('dashboard.controls')
@@ -105,6 +125,7 @@
 
                     <x-hr :content="'Finanzas'" />
 
+                    {{-- 
                     <li>
                         <a href="{{ route('dashboard.finanzas') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -114,6 +135,7 @@
                             <span class="ml-3">Resumen</span>
                         </a>
                     </li>
+                     --}}
 
                     <li>
                         <a href="{{ route('dashboard.finanzas-ingresos') }}" @class([
@@ -145,11 +167,10 @@
                         </a>
                     </li>
 
-                    {{-- 
                     <li>
-                        <a href="#" @class([
+                        <a href="{{ route('dashboard.cuentas-por-pagar') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-facturas')
+                            'bg-gray-100' => request()->routeIs('dashboard.cuentas-por-pagar')
                             ])>
                             <x-icons.heroicons.money />
                             <span class="ml-3">Cuentas Por Pagar</span>
@@ -157,15 +178,16 @@
                     </li>
 
                     <li>
-                        <a href="#" @class([
+                        <a href="{{ route('dashboard.cuentas-por-cobrar') }}" @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
-                            'bg-gray-100' => request()->routeIs('dashboard.finanzas-facturas')
+                            'bg-gray-100' => request()->routeIs('dashboard.cuentas-por-cobrar')
                             ])>
                             <x-icons.heroicons.money />
                             <span class="ml-3">Cuentas Por Cobrar</span>
                         </a>
                     </li>
 
+                    {{-- 
                     <li>
                         <a href="#" disabled @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',

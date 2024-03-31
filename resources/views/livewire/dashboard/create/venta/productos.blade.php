@@ -308,8 +308,6 @@
                             S/ {{ $client_credito ?? 0 }} de {{ $client_linea_credito }} Soles
                         </div>
                     </div>
-
-                    <x-form.input :label="'Tarjeta'" :name="'client_tarjeta'" :model="'client_tarjeta'" :placeholder="''" :required="'required'" />
                 </div>
                 @else
                 <div>No puede utilizar la Línea de Crédito porque supera el limite establecido</div>

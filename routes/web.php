@@ -40,6 +40,11 @@ Route::middleware([
             Route::view('/entidades-bancarias', 'dashboard')->name('dashboard.entidades-bancarias');
         });
 
+        Route::view('/salidas-gerencia', 'dashboard')->name('dashboard.salidas-gerencia');
+        Route::view('/ingresos-gerencia', 'dashboard')->name('dashboard.ingresos-gerencia');
+        Route::view('/cuentas-por-cobrar', 'dashboard')->name('dashboard.cuentas-por-cobrar');
+        Route::view('/cuentas-por-pagar', 'dashboard')->name('dashboard.cuentas-por-pagar');
+
         Route::view('/proveedores', 'dashboard')->name('dashboard.suppliers');
         Route::view('/compras', 'dashboard')->name('dashboard.compras');
         Route::view('/stock', 'dashboard')->name('dashboard.stock');

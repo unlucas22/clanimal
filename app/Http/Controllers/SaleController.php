@@ -38,6 +38,7 @@ class SaleController extends Controller
                 'razon_social' => $req->cliente_razon_social ?? null,
                 'ruc' => $req->cliente_ruc ?? null,
                 'tarjeta' => $req->tarjeta ?? null,
+                'factura' => $req->active,
             ]);
 
             if($req->radio)
@@ -51,26 +52,6 @@ class SaleController extends Controller
 
             /* Asignar productos comprados a la venta */
             $products = $this->asignProductToBill($req->productos_guardados, $bill->id);
-
-            if($req->active)
-            {
-                /* generar factura o boleta */
-                $factura = $this->generarFactura($bill);
-
-
-                if($factura == null)
-                {
-                    return Redirect::back()->withErrors('Hubo un error con NubeFact');
-                }
-
-                // Enlace de la factura en nubefact
-                $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
-
-                Bill::where('id', $bill->id)->update([
-                    'enlace' => $enlace,
-                ]);
-                
-            }
             
             DB::commit();
 

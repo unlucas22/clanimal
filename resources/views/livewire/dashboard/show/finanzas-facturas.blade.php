@@ -4,23 +4,32 @@
         
         <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                Factura
+                Factura N° {{ $warehouse->value_type }}
             </h3>
+            
+            <div class="flex justify-end gap-4">
+                @if($warehouse->status == 'crédito' && $warehouse->warehouse_payments_count == 0)
+                <div>
+                    <a onclick='Livewire.emit("openModal", "modal.update.pago-en-cuotas-warehouse", @json(["item_id" => $warehouse->id]))'><button type="button" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
+                        Pago en cuotas
+                    </button></a>
+                </div>
+                <div>
+                    <a onclick='Livewire.emit("openModal", "modal.update.pago-completo-warehouse", @json(["item_id" => $warehouse->id]))'><x-btn-nuevo :content="'Pago completo'" /></a>
+                </div>
+                @endif
+                
+                <x-btn-retorno-default />
+            </div>
 
-            <x-btn-retorno-default />
         </div>
     </div>
     
+    @if($warehouse->status == 'contado')
     {{-- Informacion de la compra --}}
     <div class="flex justify-between p-4 text-xl">
 
         <div class="space-y-10">
-            <div class="flex justify-between gap-8">
-                <div class="font-bold">{{ ucwords($warehouse->key_type) }}:</div>
-                <div>
-                    {{ $warehouse->value_type }}
-                </div>
-            </div>
 
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Proveedor:</div>
@@ -105,6 +114,64 @@
             @endif
         </div>
     </div>
+    @else
+
+    <div class="grid grid-cols-3 gap-8 p-4 text-xl">
+
+        <div class="space-y-10">
+
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">Proveedor:</div>
+                <div>
+                    {{ $warehouse->suppliers->name }}
+                </div>
+            </div>
+
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">RUC:</div>
+                <div>
+                    {{ $warehouse->suppliers->ruc }}
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">Monto:</div>
+                <div>
+                    {{ $warehouse->total_formatted }}
+                </div>
+            </div>
+        </div>
+
+        @if($warehouse->observation != null)
+        <div class="flex justify-between gap-8">
+            <div class="font-bold">Observaciones:</div>
+            <div>
+                {{  $warehouse->observation }}
+            </div>
+        </div>
+        @endif
+
+        <div>
+            <div class="mb-2 font-bold">
+                Estado de Pago
+            </div>
+            <div class="flex justify-between items-center gap-4 mb-4 w-full">
+                <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+                  <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{  ((0 / $warehouse->total) * 100) }}%"></div>
+                </div>
+
+            </div>
+                <div class="w-full">
+                    S/ 0 de {{ $warehouse->total }} Soles
+                </div>
+        </div>
+
+    </div>
+
+    @endif
+
     <div class="pt-8">
 
         <div class="mb-4 p-4">

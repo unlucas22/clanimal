@@ -21,7 +21,7 @@ class FinanzasFacturas extends Component
     {
         try
         {
-            $warehouse = \App\Models\Warehouse::with(['product_in_warehouses', 'suppliers', 'users'])->hashid($this->warehouse_hashid)->firstOrFail();
+            $warehouse = \App\Models\Warehouse::with(['product_in_warehouses', 'suppliers', 'users'])->hashid($this->warehouse_hashid)->withCount('warehouse_payments')->firstOrFail();
 
             $products = [];
 

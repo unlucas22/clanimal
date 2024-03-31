@@ -120,6 +120,11 @@ class Warehouse extends Model
         return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
     }
 
+    public function warehouse_payments()
+    {
+        return $this->hasMany(WarehousePayment::class);
+    }
+
     /**
      * Con esto se asigna el nuevo producto al warehouse, 
      * en vez de tener un nullable en products del warehouse

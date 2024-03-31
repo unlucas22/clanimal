@@ -33,7 +33,7 @@
 
                                 @php($shifts_column = ['ID', 'Cliente', 'DNI','Servicios', 'Valor de Venta', 'IGV', 'Monto total', 'Fecha'])
                                 @php($colStyle = 'p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400')
-                                    @foreach(['ID', 'Cliente', 'DNI', 'Metodo de Pago', 'Productos/Servicios', 'Total', 'En Caja', 'Fecha de Atención'] as $key)
+                                    @foreach(['ID', 'Estado', 'Cliente', 'DNI', 'Metodo de Pago', 'Productos/Servicios', 'Total', 'En Caja', 'Fecha de Atención'] as $key)
                                     <th scope="col" class="{{ $colStyle }}">
                                         {{ $key }}
                                     </th>
@@ -50,6 +50,9 @@
                             <tr >
                                 <td class="{{ $td }}">
                                     {{ $notification->id }}
+                                </td>
+                                <td class="{{ $td }}">
+                                    {!! $notification->status_formatted !!}
                                 </td>
                                 <td class="{{ $td }}">
                                     {{ $notification->clients->name }}

@@ -47,6 +47,16 @@ class Client extends Model
         return $this->hasMany(Pet::class);
     }
 
+    public function client_payments()
+    {
+        return $this->hasMany(ClientPayment::class);
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
+    }
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

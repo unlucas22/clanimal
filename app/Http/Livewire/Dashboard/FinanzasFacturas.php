@@ -18,11 +18,6 @@ class FinanzasFacturas extends Component
 
     public $columns = [
         'id' => 'ID',
-        'fecha_formatted' => 'Fecha de recepción',
-        'key_type' => 'Tipo',
-        'value_type' => '',
-        'total_formatted' => 'Monto Total',
-        'status_formatted' => 'Estado'
     ];
 
     public $listeners = ['refreshParent' => '$refresh'];
@@ -51,8 +46,12 @@ class FinanzasFacturas extends Component
         $this->table = 'warehouses';
 
         $this->relationships = [
+            'Fecha de recepción',
             'Proveedor',
             'RUC',
+            'Factura N°',
+            'Monto Total',
+            'Estado'
         ];
 
         $this->relationship_name = 'finanzas-facturas';

@@ -29,6 +29,8 @@ class CreateBillsTable extends Migration
             $table->string('ruc')->nullable();
             $table->string('enlace')->nullable();
             $table->string('tarjeta')->nullable();
+            $table->boolean('factura')->default(false);
+            $table->enum('status', ['en proceso', 'completado', 'cancelado'])->default('en proceso');
             $table->timestamps();
         });
     }

@@ -29,7 +29,7 @@ class Manager extends Component
 
         $query->orderBy('updated_at', 'desc');
 
-        return $query->paginate(10);;
+        return $query->paginate(10);
     }
 
     public function getItemsFromFinance()
@@ -46,7 +46,7 @@ class Manager extends Component
 
         $query->orderBy('updated_at', 'desc');
 
-        return $query->paginate(10);;
+        return $query->paginate(10);
     }
 
     public function getIngresosDelDia()
