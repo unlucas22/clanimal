@@ -23,4 +23,43 @@ class WarehousePayment extends Model
     {
         return $this->belongsTo(Warehouse::class, 'warehouse_id', 'id');
     }
+
+    public function getMontoPagado()
+    {
+        $monto = 0;
+
+        foreach ($this->warehouse_fee_payments as $fee)
+        {
+            if($fee->status == 'completado')
+            {
+                $monto += $fee->cuota; 
+            }
+        }
+
+        return $monto;
+    }
+
+    public function getMontoRestante()
+    {
+        $monto = 0;
+
+        $res = $this->warehouses->total - $this->getMontoPagado();
+
+        return $res > 0 ? $res : 0;
+    }
+
+    public function getCuotasPagadas()
+    {
+        $cuotas_pagadas = 0;
+
+        foreach ($this->warehouse_fee_payments as $fee)
+        {
+            if($fee->status == 'completado')
+            {
+                $cuotas_pagadas++; 
+            }
+        }
+
+        return $cuotas_pagadas;
+    }
 }

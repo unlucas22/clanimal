@@ -153,18 +153,20 @@
         </div>
         @endif
 
+        @php($monto_pagado = isset($warehouse->warehouse_payments[0]) ? $warehouse->warehouse_payments[0]->getMontoPagado() : 0)
+
         <div>
             <div class="mb-2 font-bold">
                 Estado de Pago
             </div>
             <div class="flex justify-between items-center gap-4 mb-4 w-full">
                 <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                  <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{  ((0 / $warehouse->total) * 100) }}%"></div>
+                  <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{  (($monto_pagado / $warehouse->total) * 100) }}%"></div>
                 </div>
 
             </div>
                 <div class="w-full">
-                    S/ 0 de {{ $warehouse->total }} Soles
+                    S/ {{ $monto_pagado }} de {{ $warehouse->total }} Soles
                 </div>
         </div>
 

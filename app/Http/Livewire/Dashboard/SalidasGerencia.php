@@ -55,7 +55,7 @@ class SalidasGerencia extends Component
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
             'action_name' => 'finances',
-            // 'head_name' => 'cajeros',
+            'head_name' => 'finances',
         ]);
     }
 }

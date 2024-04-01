@@ -21,11 +21,11 @@ class ProductController extends Controller
         try
         {
             $total = 0;
-
+            
             /* Calcula el total de Venta */
             for ($i=0; $i < intval($req->product_details); $i++)
             {
-                $total += $req->precio_venta_details[$i] + ($req->precio_venta_details[$i] * (18/100));
+                $total += ($req->precio_venta_details[$i] * $req->amount_details[$i]) + ($req->precio_venta_details[$i] * (18/100));
             }
 
             /* Parsear fecha con Hora y minutos */
