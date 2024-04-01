@@ -293,7 +293,10 @@
                     </div>
 
                     <div class=" w-full mb-6 group">
-                        <x-form.input :id="'cantidad_details.'.$i" :name="'amount_details['.$i.']'" :type="'number'" :model="'amount_details.'.$i" :label="'Cantidad'" :required="'required step=0.01 min=1'" />
+                        <div>
+                            <label for="cantidad_details.{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
+                            <input type="number" name="amount_details[{{ $i }}]" id="cantidad_details.{{ $i }}" wire:model.defer="amount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarTotales()" required step="0.01" min="1">
+                        </div>
                     </div>
 
                     <div class=" w-full mb-6 group">
