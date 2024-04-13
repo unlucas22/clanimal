@@ -27,9 +27,8 @@
                         <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
                             <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
-
                                 @php($colStyle = 'p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400')
-                                    @foreach(['ID', 'Productos', 'Cantidad', 'Fecha de envío', 'Fecha de recepción', 'Estado'] as $key)
+                                    @foreach(['ID', 'Fecha de Envío', 'Fecha de Recepción', 'Estado', 'Productos', 'Stock Total'] as $key)
                                     <th scope="col" class="{{ $colStyle }}">
                                         {{ $key }}
                                     </th>
@@ -48,26 +47,21 @@
                                         {{ $notification->id }}
                                     </td>
                                     <td class="{{ $td }}">
-                                        @foreach($notification->product_for_transfers as $transfer)
-                                        {{ $transfer->product_stocks->product_in_warehouses->products->name }},
-                                        @endforeach
-                                    </td>
-                                    <td class="{{ $td }}">
-                                        {{ $notification->stock_total }}
-                                    </td>
-
-                                    <td class="{{ $td }}">
                                         {{ $notification->fecha_envio_formatted }}
                                     </td>
-
                                     <td class="{{ $td }}">
                                         @if($notification->fecha_recepcion != null)
                                         {{ $notification->fecha_recepcion_formatted }}
                                         @endif
                                     </td>
-
                                     <td class="{{ $td }}">
                                         {!! $notification->status_formatted !!}
+                                    </td>
+                                    <td class="{{ $td }}">
+                                        {{ count($notification->product_for_transfers) }}
+                                    </td>
+                                    <td class="{{ $td }}">
+                                        {{ $notification->stock_total }}
                                     </td>
 
                                     <td class="py-4 px-1 w-full block">

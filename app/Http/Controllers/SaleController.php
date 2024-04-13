@@ -38,10 +38,10 @@ class SaleController extends Controller
                 'razon_social' => $req->cliente_razon_social ?? null,
                 'ruc' => $req->cliente_ruc ?? null,
                 'tarjeta' => $req->tarjeta ?? null,
-                'factura' => $req->active,
+                'factura' => $req->active == 'true' ? true : false,
             ]);
 
-            if($req->radio)
+            if($req->radio == 'credito')
             {
                 $client = Client::where('id', $req->client_id)->first();
 
@@ -92,6 +92,7 @@ class SaleController extends Controller
 
             $product_for_sale = ProductForSale::with('product_details')->where('id', $id)->first();
 
+            /* Aqui habría que descontar el stock que hay del producto */
             /*Product::where('id', $product_for_sale->product_details->product_id)->update([
                 'stock' => $product_for_sale->product_details->products->stock - $product_for_sale->cantidad,
             ]);*/

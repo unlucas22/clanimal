@@ -3,9 +3,15 @@
 namespace App\Http\Livewire\Dashboard\Create\Venta;
 
 use Livewire\Component;
-use App\Models\{Product, Client, User, ProductDetail, ProductForSale};
-use Illuminate\Support\Facades\Log;
+// use App\Models\{Product, Client, User, ProductStock};
+use App\Models\{Product, Client, User, Transfer, ProductForStore, ProductForTransfer, ProductStock, ProductForSale};
+use Illuminate\Support\Facades\{Log, Auth};
 
+
+/**
+ * Usar el model de ProductForStore tomando la sede del auth
+ * 
+ * */
 class Productos extends Component
 {
     /* Datos del Cliente */
@@ -42,12 +48,36 @@ class Productos extends Component
 
     public function mount()
     {
-        $this->products = $this->getProducts();
+        //$this->products = $this->queryParaObtenerLosProductos();
     }
 
     public function updatedSearch($value)
     {
         $this->buscarProductos();
+    }
+
+    /**
+     *  Trae del almacen los productos ingresados,
+     * la facilidad que trae es que se puede filtrar en el search,
+     * pero será algo lento ya que siempre debe validar que venga de
+     * la sede
+     * 
+     * */
+    public function queryParaObtenerLosProductos()
+    {
+        $transfers = $this->getTransfer();
+
+        $products = [];
+
+        foreach ($transfers as $transfer)
+        {
+            foreach ($transfer->product_for_transfers as $pro)
+            {
+                $products[] = $pro;
+            }
+        }
+
+        return $products;
     }
 
     public function render()
@@ -93,6 +123,8 @@ class Productos extends Component
                 'iconColor' => 'red',
             ]);
         }
+
+        $this->products = [];
     }
 
     public function agregarProducto($item_id, $cantidad = 1)
@@ -105,6 +137,8 @@ class Productos extends Component
             ]);
 
             $this->productos_guardados[] = $product_for_sale->id;
+
+            $this->products = [];
             
             $this->emit('refreshComponent');
             $this->setTotal();
@@ -113,18 +147,50 @@ class Productos extends Component
         {
             Log::info($e->getMessage());
         }
+    }
 
+    public function getTransfer()
+    {
+        $query = Transfer::query();
+
+        $query->where('company_id', Auth::user()->company_id);
+
+        $query->where('status', 'completado');
+
+        $query->with(['product_for_transfers', 'companies', 'users']);
+
+        $query->orderBy('updated_at', 'desc');
+
+        return $query->get();
     }
 
     public function buscarProductos()
     {
         if($this->search != null)
         {
-            $this->products = Product::with(['product_presentations', 'product_details'])/*->withStock()*/->where('name', 'like', '%'.$this->search.'%')->orWhere('palabras_clave', 'like', '%'.$this->search.'%')->get();
+            $transfers = $this->getTransfer();
+
+            $products = [];
+
+            foreach ($transfers as $transfer)
+            {
+                foreach ($transfer->product_for_transfers as $pro)
+                {
+                    if(
+                        stripos(
+                            $pro->product_stocks->product_in_warehouses->products->name, 
+                            $this->search) !== false )
+                    {
+                        $products[] = $pro->product_stocks;
+                    }
+                }
+            }
+
+            $this->products = $products;
         }
         else
         {
-            $this->products = $this->getProducts();
+            $this->products = $this->queryParaObtenerLosProductos();
         }
         
         $this->emit('refreshComponent');
@@ -134,7 +200,6 @@ class Productos extends Component
     public function setTotal()
     {
         $total = 0;
-        /* calcula los impuestos totales */
         $igv = 0;
 
         foreach ($this->productos_guardados as $product)
@@ -169,16 +234,10 @@ class Productos extends Component
             }
 
             $this->emit('refreshComponent');
-
         }
         catch (\Exception $e)
         {
             Log::info($e->getMessage());   
         }
-    }
-
-    public function getProducts()
-    {
-        return Product::with(['product_presentations', 'product_details'])/*->withStock()*/->get();
     }
 }

@@ -14,7 +14,12 @@ class Sale extends Model
         'client_id',
         'user_id',
         'active',
-    ];
+        'completed_at',
+        'razon_social',
+        'metodo_de_pago',
+        'tarjeta',
+        'factura',
+    ]; // 'efectivo', 'tarjeta', 'virtual', 'credito'])->default('efectivo')
 
     /**
      * The accessors to append to the model's array form.
@@ -23,6 +28,16 @@ class Sale extends Model
      */
     protected $appends = [
         'total',
+    ];
+
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'completed_at' => 'datetime',
     ];
 
     public function getTotalAttribute()

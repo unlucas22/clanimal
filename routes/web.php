@@ -52,6 +52,8 @@ Route::middleware([
         Route::view('/sedes', 'dashboard')->name('dashboard.sedes');
         Route::view('/gerente-de-tienda', 'dashboard')->name('dashboard.manager');
 
+        Route::view('/productos-de-tienda', 'dashboard')->name('dashboard.productos-de-tienda');
+
         /* MARKETING */
         Route::view('/marketing/campaigns', 'dashboard')->name('dashboard.marketing-campaigns');
         Route::view('/marketing/plantillas', 'dashboard')->name('dashboard.marketing-templates');
@@ -208,6 +210,10 @@ Route::middleware([
 
         /*** Comprobante de Compra ***/
         Route::get('comprobante/{bill_id}', [SaleController::class, 'show'])->name('dashboard.show.venta.factura');
+
+        Route::get('pago-de-servicio-veterinario/{item_id}', function(){
+            return view('show.pago-de-servicio-veterinario');
+        })->name('dashboard.show.pago-de-servicio-veterinario');
     });
 });
 

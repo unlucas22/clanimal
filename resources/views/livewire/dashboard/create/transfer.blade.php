@@ -96,21 +96,21 @@
             @endif
 
             <script>
-            // Función que se llama cuando cambia el valor del input
-            function handleInputChange(input) {
-                // Obtener el valor actual del input
-                var currentValue = parseFloat(input.value);
+                // Función que se llama cuando cambia el valor del input
+                function handleInputChange(input) {
+                    // Obtener el valor actual del input
+                    var currentValue = parseFloat(input.value);
 
-                // Obtener el valor máximo permitido para este input
-                var maxLimit = parseFloat(input.getAttribute('max'));
+                    // Obtener el valor máximo permitido para este input
+                    var maxLimit = parseFloat(input.getAttribute('max'));
 
-                // Verificar si el valor actual excede el límite máximo
-                if (currentValue > maxLimit)
-                {
-                    input.value = maxLimit;
+                    // Verificar si el valor actual excede el límite máximo
+                    if (currentValue > maxLimit)
+                    {
+                        input.value = maxLimit;
+                    }
                 }
-            }
-        </script>
+            </script>
 
         </div>
         <div class="w-full">

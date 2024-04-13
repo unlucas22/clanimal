@@ -21,6 +21,11 @@ class CreateSalesTable extends Migration
             $table->unsignedBigInteger('client_id');
             $table->boolean('active')->default(false);
             $table->timestamp('completed_at')->nullable();
+            $table->string('razon_social')->nullable();
+            $table->enum('metodo_de_pago', ['efectivo', 'tarjeta', 'virtual', 'credito'])->default('efectivo');
+            $table->string('tarjeta')->nullable();
+            $table->string('ruc')->nullable();
+            $table->boolean('factura')->default(false);
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@
             </a>
         </div>
     </div>
-
+ 
     <div class="flex justify-between gap-8">
         <div class="w-full">
             
@@ -35,6 +35,7 @@
             </div>
 
             <div class="pt-8">
+            @if(count($products) != 0)
                 <div>Productos encontrados:</div>
 
                 <div class="relative overflow-x-auto">
@@ -48,7 +49,7 @@
                                     Presentación
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Precio con IGV
+                                    Precio
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     Descuento
@@ -63,46 +64,44 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @forelse($products as $product)
-                            @forelse($product->product_details as $product_detail)
+                        <tbody> 
+                            @forelse($products as $product_stock)
+                            
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
-                                        {{ $product->name }}
+                                    <td scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
+                                        {{ $product_stock->product_stocks->product_in_warehouses->products->name }}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        {{ $product_detail->product_presentations->name }}
+                                    <td class="px-3 py-4">
+                                        {{ $product_stock->product_stocks->product_in_warehouses->product_presentations->name }}
                                     </td>
-                                    <td class="px-6 py-4">
-                                        S/ {{ $product_detail->precio_venta_con_igv }} Soles
+                                    <td class="px-3 py-4">
+                                        S/ {{ $product_stock->product_stocks->product_in_warehouses->precio_venta_con_igv }} Soles
                                     </td>
-                                    <td class="px-6 py-4">
-                                        S/ {{ $product_detail->discount }} Soles
+                                    <td class="px-3 py-4">
+                                        S/ {{ $product_stock->product_stocks->product_in_warehouses->products->discount ?? 0 }} Soles
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-3 py-4">
                                         <div style="max-width: 75px;">
-                                            <input type="number" name="amount_{{ $product_detail->id }}" id="amount-{{ $product_detail->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product_detail->amount }}" min="1" value="1" onchange="sumTotalFromAmount({{ $product_detail->id }}, {{ $product_detail->descuento() }})">
+                                            <input type="number" name="amount_{{ $product_stock->id }}" id="amount-{{ $product_stock->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product_stock->stock }}" min="1" value="1" oninput="handleInputChange(this, {{ $product_stock->id }}, {{ $product_stock->product_stocks->product_in_warehouses->aplicarDescuento() }})">
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4">
-                                        S/ <span id="total-from-amount-{{ $product_detail->id }}">{{ $product_detail->descuento() }}</span> Soles
+                                    <td class="px-3 py-4">
+                                        S/ <span id="total-from-amount-{{ $product_stock->id }}">{{ $product_stock->product_stocks->product_in_warehouses->aplicarDescuento() }}</span> Soles
                                     </td>
 
-                                    <td class="px-6 py-4">
-                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_detail->id }}, document.getElementById('amount-{{ $product_detail->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                    <td class="px-3 py-4">
+                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_stock->id }}, document.getElementById('amount-{{ $product_stock->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
                                     </td>
                                 </tr>
                             @empty
-
-                            @endforelse
-                            @empty
                             <tr class="text-center py-3">
-                                <td colspan="7" class="py-3 italic">No hay Productos agregados</td>
+                                <td colspan="7" class="py-3 italic">No hay Productos con Stock</td>
                             </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
+            @endif
 
                 <script>
                     function sumTotalFromAmount(id, precio)
@@ -117,6 +116,23 @@
                         }
 
                         document.getElementById('total-from-amount-'+id).innerHTML = total.toFixed(2);
+                    }
+
+                    // Función que se llama cuando cambia el valor del input
+                    function handleInputChange(input, id, precio) {
+                        // Obtener el valor actual del input
+                        var currentValue = parseFloat(input.value);
+
+                        // Obtener el valor máximo permitido para este input
+                        var maxLimit = parseFloat(input.getAttribute('max'));
+
+                        // Verificar si el valor actual excede el límite máximo
+                        if (currentValue > maxLimit)
+                        {
+                            input.value = maxLimit;
+                        }
+
+                        sumTotalFromAmount(id, precio);
                     }
                 </script>
 
@@ -241,7 +257,7 @@
 
                 <div>
                     <label class="relative inline-flex items-center mb-5 cursor-pointer">
-                        <input type="checkbox" wire:model="factura" name="active" checked class="sr-only peer">
+                        <input type="checkbox" wire:model="factura" name="active" value="true" checked class="sr-only peer">
                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Factura</span>
                     </label>
@@ -275,8 +291,8 @@
                         </div>
 
                         <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="virtual" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yape/Plin/QR</label>
+                            <input id="default-radio-3" type="radio" value="virtual" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="default-radio-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Yape/Plin/QR</label>
                         </div>
 
                         @if($client_linea_credito != null)
@@ -284,8 +300,8 @@
                         @if($total + $client_credito < $client_linea_credito)
 
                         <div class="flex items-center">
-                            <input id="default-radio-2" type="radio" value="credito" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Crédito</label>
+                            <input id="default-radio-4" type="radio" value="credito" wire:model="radio" name="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="default-radio-4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Crédito</label>
                         </div>
                         @endif
                         @endif

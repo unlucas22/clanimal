@@ -39,4 +39,9 @@ class ProductInWarehouse extends Model
     {
         return $this->hasMany(ProductStock::class);
     }
+
+    public function aplicarDescuento()
+    {
+        return $this->precio_venta_con_igv - $this->discount;
+    }
 }
