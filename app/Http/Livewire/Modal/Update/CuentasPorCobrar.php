@@ -9,10 +9,12 @@ use App\Models\Client;
 class CuentasPorCobrar extends ModalComponent
 {
     public $client;
+    public $pagar;
     
-    public function mount($item_id)
+    public function mount($item_id, $pagar = true)
     {
         $this->client = Client::with(['bills', 'client_payments'])->where('id', $item_id)->first();
+        $this->pagar = $pagar;
     }
 
     public function render()

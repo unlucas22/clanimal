@@ -244,6 +244,7 @@
 
                     <x-hr :content="'Ventas'" />
 
+                    @if(Auth::user()->isCajaOpen())
                     <li>
                         <a href="{{ route('dashboard.sales') }}"  @class([
                             'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
@@ -253,6 +254,7 @@
                             <span class="ml-3">Ventas</span>
                         </a>
                     </li>
+                    @endif
 
                      @if(\App\Models\Casher::where('user_id', Auth::user()->id)->active()->count())
                     <li>
@@ -265,6 +267,16 @@
                         </a>
                     </li>
                     @endif
+
+                    <li>
+                        <a href="{{ route('dashboard.caja-de-cobro') }}" @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.caja-de-cobro')
+                            ])>
+                            <x-icons.heroicons.money />
+                            <span class="ml-3">Créditos</span>
+                        </a>
+                    </li>
 
                     <x-hr :content="'Marketing'" />
 

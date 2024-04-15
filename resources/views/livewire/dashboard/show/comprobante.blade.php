@@ -11,6 +11,7 @@
                 <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                     <div class="flex justify-end">
                         <div class="flex justify-between gap-8">
+                            {{-- 
                             @if($bill->status == 'en proceso')
                             <div>
                                 <a onclick="procesarPago()"><x-btn-nuevo :content="'Procesar Pago'" /></a>
@@ -22,6 +23,7 @@
                                 </button>
                             </div>
                             @endif
+                             --}}
                             <div class="flex justify-start">
                                 <div>
                                     <a href="{{ route('dashboard.sales') }}" type="button" class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 font-semibold">
@@ -35,11 +37,13 @@
                                 </div>
                             </div>
 
+                            {{-- 
                             @if($bill->enlace != null)
                             <div class="flex justify-start">
                                 <a target="_blank" href="{{ $bill->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Boleta/Factura</button></a>
                             </div>
                             @endif
+                             --}}
                         </div>
                     </div>
                 </div>
@@ -213,6 +217,34 @@
                             @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed max-w-7xl right-0 left-0 bottom-0">
+            <div class="bg-white w-full p-2 flex justify-end">
+                <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
+                    <div class="flex justify-end">
+                        <div class="flex justify-between gap-8">
+                            @if($bill->status == 'en proceso')
+                            <div>
+                                <a onclick="procesarPago()"><x-btn-nuevo :content="'Procesar Pago'" /></a>
+                            </div>
+                            <div>
+                                <button onclick="cancelarOrden()" type="button" id="deleteProductButton" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
+                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                    Cancelar
+                                </button>
+                            </div>
+                            @endif
+
+                            @if($bill->enlace != null)
+                            <div class="flex justify-start">
+                                <a target="_blank" href="{{ $bill->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Boleta/Factura</button></a>
+                            </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 use App\Traits\NubeFact;
+use Illuminate\Support\Facades\Log;
 use DB;
 
 class Comprobante extends Component
@@ -52,28 +53,22 @@ class Comprobante extends Component
 
         try
         {
-            if($this->bill->factura == true)
+            $factura = $this->generarFactura($this->bill);
+
+            if($factura == null)
             {
-                $factura = $this->generarFactura($this->bill);
-
-                if($factura == null)
-                {
-                    $this->withErrors([
-                        'nubefact' => 'Hubo un error con NubeFact. Vuelva a intentarlo',
-                    ]);
-
-                    return false;
-                }
-
-                // Enlace de la factura en nubefact
-                $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
-
-                $this->bill->update([
-                    'enlace' => $enlace,
+                $this->withErrors([
+                    'nubefact' => 'Hubo un error con NubeFact. Vuelva a intentarlo',
                 ]);
+
+                return false;
             }
 
+            // Enlace de la factura en nubefact
+            $enlace = 'https://www.nubefact.com/cpe/'.$factura['key'];
+
             $this->bill->update([
+                'enlace' => $enlace,
                 'status' => 'completado'
             ]);
 
@@ -89,10 +84,12 @@ class Comprobante extends Component
         {
             DB::rollback();
 
+            Log::info($e);
+
             $this->dispatchBrowserEvent('swal', [
                 'title' => 'Hubo un error: '.$e->getMessage(),
-                'icon' => 'success',
-                'iconColor' => 'green',
+                'icon' => 'error',
+                'iconColor' => 'red',
             ]);
         }
     }

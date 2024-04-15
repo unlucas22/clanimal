@@ -71,6 +71,11 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function isCajaOpen()
+    {
+        return \App\Models\CashRegister::where('casher_id', $this->id)->where('status', 'en proceso')->count();
+    }
+
     public function getHashidAttribute()
     {
         return Hashids::encode($this->id);

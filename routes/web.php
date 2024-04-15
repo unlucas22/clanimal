@@ -40,6 +40,8 @@ Route::middleware([
             Route::view('/entidades-bancarias', 'dashboard')->name('dashboard.entidades-bancarias');
         });
 
+        Route::view('/caja-de-cobro', 'dashboard')->name('dashboard.caja-de-cobro');
+
         Route::view('/salidas-gerencia', 'dashboard')->name('dashboard.salidas-gerencia');
         Route::view('/ingresos-gerencia', 'dashboard')->name('dashboard.ingresos-gerencia');
         Route::view('/cuentas-por-cobrar', 'dashboard')->name('dashboard.cuentas-por-cobrar');
@@ -191,8 +193,14 @@ Route::middleware([
         })->name('dashboard.show.pet');
 
         /*** Venta de Servicios y Productos ***/
-        
-        Route::view('/sales', 'dashboard')->name('dashboard.sales');
+        Route::middleware(['caja_open'])->group(function () {
+            Route::view('/sales', 'dashboard')->name('dashboard.sales');
+            Route::get('venta/productos', function() {
+                return view('create.venta.productos');  
+            })->name('dashboard.venta.productos');
+
+            Route::post('venta/productos', [SaleController::class, 'store'])->name('dashboard.store.venta.productos');
+        });
         
         Route::get('venta/atencion-veterinaria/{hashid}', function() {
             return view('create.venta.atencion-veterinaria');  
@@ -201,12 +209,6 @@ Route::middleware([
         Route::get('venta/peluqueria-canina/{hashid}', function() {
             return view('create.venta.peluqueria-canina');  
         })->name('dashboard.venta.peluqueria-canina');
-
-        Route::get('venta/productos', function() {
-            return view('create.venta.productos');  
-        })->name('dashboard.venta.productos');
-
-        Route::post('venta/productos', [SaleController::class, 'store'])->name('dashboard.store.venta.productos');
 
         /*** Comprobante de Compra ***/
         Route::get('comprobante/{bill_id}', [SaleController::class, 'show'])->name('dashboard.show.venta.factura');

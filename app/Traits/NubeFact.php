@@ -34,7 +34,8 @@ trait NubeFact {
             ];
         }
          
-        $data = $bill->ruc != null ? $this->datosDeFactura($bill, $products) : $this->datosDeBoleta($bill, $products); 
+
+        $data = $bill->factura == true ? $this->datosDeFactura($bill, $products) : $this->datosDeBoleta($bill, $products); 
         $data_json = json_encode($data);
 
         // $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";
@@ -73,9 +74,9 @@ trait NubeFact {
 
         $leer_respuesta = json_decode($respuesta, true);
 
-        if (isset($leer_respuesta['errors']))
+        if (isset($leer_respuesta))
         {
-            Log::info($leer_respuesta['errors']);
+            Log::info($leer_respuesta);
         }
 
         return $leer_respuesta;

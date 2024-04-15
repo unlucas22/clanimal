@@ -37,7 +37,7 @@ class Productos extends Component
     /* Para la caja */
     public $total = 0;
     public $igv = 0;
-    public $factura = true;
+    public $factura = false;
     public $radio = 'efectivo';
 
     /* Productos */

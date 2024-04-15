@@ -100,7 +100,7 @@
                             Pagos realizados
                         </h3>
                     </div>
-                    @if($client->credito_actual != 0)
+                    @if($client->credito_actual != 0 && $pagar)
                     <div>
                         <a wire:click='$emit("openModal", "modal.store.client-payments", @json(["client_id" => $client->id]))'><x-btn-nuevo :content="'Pagar'" /></a>
                     </div>

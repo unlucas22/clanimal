@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EnsureIsAdmin
+class EnsureIsCajaOpen
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,11 @@ class EnsureIsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->roles->key == 'administrador')
+        if (Auth::user()->isCajaOpen())
         {
             return $next($request);
         }
 
-        return redirect('/');
+        return back();
     }
 }
