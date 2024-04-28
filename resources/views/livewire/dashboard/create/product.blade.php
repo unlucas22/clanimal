@@ -371,13 +371,6 @@
 
                 <div class="w-full mb-6 group">
                     <div>
-                        <label for="cantidad_details.{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad</label>
-                        <input type="number" name="amount_details[{{ $i }}]" id="cantidad_details.{{ $i }}" wire:model.defer="amount_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" oninput="sumarImpuesto({{ $i }})" required step="0.1">
-                    </div>
-                </div>
-
-                <div class="w-full mb-6 group">
-                    <div>
                         <label for="precio_venta{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio sin IGV</label>
                         <input type="number" step="0.1" name="precio_venta_details[{{ $i }}]" id="precio_venta{{ $i }}" wire:model.defer="precio_venta_details.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" oninput="sumarImpuesto({{ $i }})" required>
                     </div>
@@ -401,8 +394,12 @@
                     </div>
                 </div>
 
-                <div class="pt-8">
+                <div class="pt-8 w-full">
                     <a wire:click="eliminarPrecio" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 cursor-pointer">Eliminar</a>
+                </div>
+                <div class="pt-8 w-full">
+                    <a wire:click="agregarOferta">
+                        <x-btn-nuevo :content="'Agregar Oferta'" /></a>
                 </div>
 
             </div>
@@ -422,9 +419,7 @@
 
                 let descuento = document.getElementById('discount_details'+item_id).value; 
 
-                let cantidad = document.getElementById('cantidad_details.'+item_id).value;
-
-                let precio_venta_total = (total * cantidad) - descuento;
+                let precio_venta_total = total - descuento;
 
                 document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
             }

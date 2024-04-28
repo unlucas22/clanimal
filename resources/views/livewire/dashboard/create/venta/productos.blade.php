@@ -32,6 +32,7 @@
                     <input wire:model.debounce.300ms="search" type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar..." required minlength="8" maxlength="8">
                     <button wire:click="buscarProductos" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
                 </div>
+                <span id="mensaje-error-numero-dni" style="color: red;"></span>
             </div>
 
             <div class="pt-8">
@@ -66,7 +67,6 @@
                         </thead>
                         <tbody> 
                             @forelse($products as $product_stock)
-                            
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
                                         {{ $product_stock->product_stocks->product_in_warehouses->products->name }}
@@ -270,7 +270,7 @@
                     <label class="relative inline-flex items-center mb-5 cursor-pointer">
                         <input type="checkbox" wire:model="factura" name="active" class="sr-only peer">
                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Factura</span>
+                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">¿Desee emitir Factura?</span>
                     </label>
                 </div>
 
@@ -278,7 +278,8 @@
 
                 <div class="flex justify-between gap-8">
                     <div class="w-full">
-                        <x-form.input :label="'Número de RUC'" :name="'client_ruc'" :model="'client_ruc'" :placeholder="'RUC'" :required="'required minlength=11 maxlength=11'" />
+                        <x-form.input :id="'cliente-ruc'" :label="'Número de RUC'" :name="'client_ruc'" :model="'client_ruc'" :placeholder="'RUC'" :required="'required minlength=11 maxlength=11 oninput=validarInputRuc() '" />
+                        <span id="mensaje-error-numero-ruc" style="color: red;"></span>
                     </div>
                     <div class="w-full">
                         <x-form.input :label="'Razón Social'" :name="'client_razon_social'" :model="'client_razon_social'" :placeholder="''" />
@@ -286,6 +287,23 @@
                 </div>
 
                 @endif
+
+                <script>
+                    function validarInputRuc() {
+                      const input = document.getElementById('cliente-ruc');
+                      const mensajeError = document.getElementById('mensaje-error-numero-ruc');
+
+                      const regex = /^(10|20)\d*$/;
+
+                      const valorInput = input.value;
+                      
+                      if (regex.test(valorInput)) {
+                        mensajeError.textContent = '';
+                      } else {
+                        mensajeError.textContent = 'El RUC debe contener solo números y comenzar con 10 o 20.';
+                      }
+                    }
+                </script>
 
                 <div>
                     <div class="mb-4">Metodo de Pago</div>
@@ -339,10 +357,6 @@
                 @else
                 <div>No puede utilizar la Línea de Crédito porque supera el limite establecido</div>
                 @endif
-                @endif
-
-                @if($radio == 'tarjeta')
-                    <x-form.input :label="'Tarjeta'" :name="'client_tarjeta'" :model="'client_tarjeta'" :placeholder="''" :required="'required'" />
                 @endif
 
                 <div></div>

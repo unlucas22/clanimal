@@ -80,6 +80,13 @@
             </script>
 
             <div>
+                <div>
+                    <label for="discount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descuento</label>
+                    <input type="number" oninput="sumarTotales()" name="discount" id="discount" wire:model.defer="discount" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Descuento" step="0.01">
+                </div>
+            </div>
+
+            <div wire:ignore>
                 <x-form.input :type="'number'" :id="'total'" :label="'Total'" :name="'total'" :model="'total'" :required="'required step=0.01'" />
             </div>
 
@@ -88,7 +95,6 @@
                 <select id="proveedores" name="status" wire:model.defer="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="crédito">Crédito</option>
                     <option value="contado">Contado</option>
-                    {{-- <option value="cancelado">Cancelado</option> --}}
                 </select>
             </div>
         </div>
@@ -184,7 +190,6 @@
                                 dataListProduct.el.value = value;
                                 dataListProduct.currentValue = value;
                                 Livewire.emit('productSelected', value);
-                                console.log(value);
                             },
                             showList(){
                                 dataListProduct.listOpened = true;
@@ -248,9 +253,12 @@
 
                     let total = val + (val * (18/100));
 
-                    let descuento = document.getElementById('discount_details'+item_id).value;
+                    let discount_details = document.getElementById('discount_details'+item_id).value;
 
-                    let cantidad = document.getElementById('cantidad_details.'+item_id).value;
+                    let descuento = (discount_details == NaN) ? 0 : discount_details;
+
+                    let cantidad_details = document.getElementById('cantidad_details.'+item_id).value;
+                    let cantidad = (cantidad_details == NaN) ? 0 : cantidad_details;
 
                     let precio_venta_total = (val * cantidad) - descuento;
 
@@ -260,15 +268,20 @@
                 function sumarTotales() {
 
                     let sum = 0;
+                    let totalImpuesto = 0;
 
                     let count = document.getElementById('product_details').value;
 
                     for (var i = 0; i < count; i++)
                     {
-                        document.getElementById('precio_venta_total'+i).value = sumarImpuesto(i);
+                        totalImpuesto = (sumarImpuesto(i) == NaN) ? 0 : sumarImpuesto(i);
+
+                        document.getElementById('precio_venta_total'+i).value = totalImpuesto;
                         
-                        sum += parseFloat(sumarImpuesto(i));
+                        sum += parseFloat(totalImpuesto, 2);
                     }
+
+                    sum -= parseFloat(document.getElementById('discount').value, 2).toFixed(2);
                     
                     document.getElementById('total').value = sum.toFixed(2);
                 }

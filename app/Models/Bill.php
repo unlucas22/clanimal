@@ -19,7 +19,6 @@ class Bill extends Model
         'ruc',
         'referente_id',
         'enlace',
-        'tarjeta',
         'status',
         'factura',
     ]; // status: 'en proceso', 'completado', 'cancelado'

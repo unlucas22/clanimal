@@ -12,7 +12,6 @@ class ProductDetail extends Model
 
     protected $fillable = [
         'product_presentation_id',
-        'amount',
         'discount',
         'precio_venta_sin_igv',
         'precio_venta_con_igv',

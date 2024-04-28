@@ -25,7 +25,7 @@ class ProductController extends Controller
             /* Calcula el total de Venta */
             for ($i=0; $i < intval($req->product_details); $i++)
             {
-                $total += ($req->precio_venta_details[$i] * $req->amount_details[$i]) /*+ ($req->precio_venta_details[$i] * (18/100))*/;
+                $total += ($req->precio_venta_details[$i] * $req->amount_details[$i]);
             }
 
             /* Parsear fecha con Hora y minutos */
@@ -39,6 +39,7 @@ class ProductController extends Controller
                 'key_type' => $req->key_type,
                 'value_type' => $req->value_type,
                 'status' => $req->status ?? 'pendiente',
+                'discount' => $req->discount ?? 0
             ]);
 
             /* Toma del input string separados con coma para separarlos en un array */
@@ -81,7 +82,7 @@ class ProductController extends Controller
 
             // Este model actua como Historial de los productos ingresados
             Warehouse::where('id', $warehouse->id)->update([
-                'total' => $total,
+                'total' => $total - ($req->discount ?? 0),
             ]);
 
             DB::commit();
@@ -176,7 +177,6 @@ class ProductController extends Controller
                 if(ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
                 {
                     ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->update([
-                        'amount' => $req->amount_details[$i],
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
@@ -187,7 +187,6 @@ class ProductController extends Controller
                     ProductDetail::create([
                         'product_id' => $req->product_id,
                         'product_presentation_id' => $req->product_presentation_details_id[$i],
-                        'amount' => $req->amount_details[$i],
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
@@ -255,7 +254,6 @@ class ProductController extends Controller
                 if(ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
                 {
                     ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->update([
-                        'amount' => $req->amount_details[$i],
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
@@ -266,7 +264,6 @@ class ProductController extends Controller
                     ProductDetail::create([
                         'product_id' => $product->id,
                         'product_presentation_id' => $req->product_presentation_details_id[$i],
-                        'amount' => $req->amount_details[$i],
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,

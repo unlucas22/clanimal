@@ -11,19 +11,6 @@
                 <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                     <div class="flex justify-end">
                         <div class="flex justify-between gap-8">
-                            {{-- 
-                            @if($bill->status == 'en proceso')
-                            <div>
-                                <a onclick="procesarPago()"><x-btn-nuevo :content="'Procesar Pago'" /></a>
-                            </div>
-                            <div>
-                                <button onclick="cancelarOrden()" type="button" id="deleteProductButton" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                                    Cancelar
-                                </button>
-                            </div>
-                            @endif
-                             --}}
                             <div class="flex justify-start">
                                 <div>
                                     <a href="{{ route('dashboard.sales') }}" type="button" class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 font-semibold">
@@ -36,14 +23,6 @@
                                     </a>
                                 </div>
                             </div>
-
-                            {{-- 
-                            @if($bill->enlace != null)
-                            <div class="flex justify-start">
-                                <a target="_blank" href="{{ $bill->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Boleta/Factura</button></a>
-                            </div>
-                            @endif
-                             --}}
                         </div>
                     </div>
                 </div>
@@ -165,7 +144,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col">
+        <div class="flex flex-col" style="padding-bottom: 60px;">
             <div class="overflow-x-auto">
                 <div class="inline-block min-w-full align-middle">
                     <div class="overflow-hidden shadow">
@@ -223,16 +202,26 @@
         </div>
 
         <div class="fixed max-w-7xl right-0 left-0 bottom-0">
-            <div class="bg-white w-full p-2 flex justify-end">
+            <div class="bg-gray-100 w-full p-2 flex justify-center">
                 <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
-                    <div class="flex justify-end">
-                        <div class="flex justify-between gap-8">
+                    <div class="flex justify-center">
+                        <div class="flex justify-center gap-8">
                             @if($bill->status == 'en proceso')
-                            <div>
-                                <a onclick="procesarPago()"><x-btn-nuevo :content="'Procesar Pago'" /></a>
+                            <div class="text-xl px-7 py-4 font-medium">
+                                Total: <span class="font-semibold">S/ {{ $bill->total }} Soles</span>
                             </div>
                             <div>
-                                <button onclick="cancelarOrden()" type="button" id="deleteProductButton" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
+                                <a onclick="procesarPago()">
+                                    <button class="inline-flex items-center text-base px-7 py-4  font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                                        </svg>
+                                        Procesar Pago
+                                    </button>
+                                </a>
+                            </div>
+                            <div>
+                                <button onclick="cancelarOrden()" type="button" id="deleteProductButton" class="inline-flex items-center text-base px-7 py-4 font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                                     <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                                     Cancelar
                                 </button>
@@ -241,7 +230,7 @@
 
                             @if($bill->enlace != null)
                             <div class="flex justify-start">
-                                <a target="_blank" href="{{ $bill->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Boleta/Factura</button></a>
+                                <a target="_blank" href="{{ $bill->enlace }}"><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-base px-7 py-4 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Boleta/Factura</button></a>
                             </div>
                             @endif
                         </div>

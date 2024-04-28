@@ -23,6 +23,7 @@ class CreateWarehousesTable extends Migration
             $table->enum('key_type', ['factura', 'boleta de compra', 'nota de venta']);
             $table->string('value_type')->nullable();
             $table->double('total')->default(0);
+            $table->double('discount')->default(0);
             $table->text('motivo')->nullable();
             $table->text('observation')->nullable();
             $table->timestamp('fecha');

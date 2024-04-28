@@ -19,7 +19,6 @@ class Productos extends Component
     public $client_razon_social;
     public $client_ruc;
     public $client_name;
-    public $client_tarjeta;
     public $client_credito = null;
     public $client_linea_credito = null;
 
@@ -45,11 +44,6 @@ class Productos extends Component
     public $productos_guardados = [];
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
-
-    public function mount()
-    {
-        //$this->products = $this->queryParaObtenerLosProductos();
-    }
 
     public function updatedSearch($value)
     {
@@ -181,7 +175,7 @@ class Productos extends Component
                             $pro->product_stocks->product_in_warehouses->products->name, 
                             $this->search) !== false )
                     {
-                        $products[] = $pro->product_stocks;
+                        $products[] = $pro;
                     }
                 }
             }

@@ -27,10 +27,6 @@ class Product extends Component
     /* Se hace un foreach por cada id en el Controlador */
     public $product_details = 1;
 
-    /* Stock */
-    public $amount_details = [
-        1
-    ];
     /* Descuento */
     public $discount_details = [
         0
@@ -54,7 +50,7 @@ class Product extends Component
     public $product_brands;
     public $product_categories;
 
-    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh'];
+    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh', 'agregarOferta'];
 
     public $rules = [
         'product_presentation_id' => 'required',
@@ -67,6 +63,11 @@ class Product extends Component
         'amount_presentation' => 'required',
         'precio_compra' => 'required',
     ];
+
+    public function agregarOferta()
+    {
+        
+    }
 
     /* Hace referencia a los datalist */
     public function refreshParent()

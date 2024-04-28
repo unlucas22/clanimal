@@ -19,7 +19,6 @@ class CreateProductDetailsTable extends Migration
             $table->unsignedBigInteger('product_presentation_id');
             $table->foreign('product_id')->references('id')->on('products');
             $table->unsignedBigInteger('product_id');
-            $table->integer('amount')->default(1);
             $table->integer('discount')->default(0)->nullable();
             $table->double('precio_venta_sin_igv');
             $table->double('precio_venta_con_igv');

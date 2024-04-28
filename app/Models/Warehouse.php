@@ -20,6 +20,7 @@ class Warehouse extends Model
         'key_type',
         'value_type',
         'total',
+        'discount',
         'status',
         'supplier_id',
         'motivo', // motivo del estado cancelado
@@ -47,6 +48,7 @@ class Warehouse extends Model
         'hashid',
         'fecha_formatted',
         'total_formatted',
+        'discount_formatted',
     ];
 
     public function getHashidAttribute()
@@ -89,6 +91,11 @@ class Warehouse extends Model
     public function getTotalFormattedAttribute()
     {
         return 'S/ '.$this->total.' Soles';
+    }
+
+    public function getDiscountFormattedAttribute()
+    {
+        return 'S/ '.$this->discount.' Soles';
     }
 
     /* Obtener el total de todos los productos segun precio compra */

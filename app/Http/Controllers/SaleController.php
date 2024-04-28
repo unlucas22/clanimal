@@ -37,7 +37,6 @@ class SaleController extends Controller
                 'igv' => $req->igv,
                 'razon_social' => $req->cliente_razon_social ?? null,
                 'ruc' => $req->cliente_ruc ?? null,
-                'tarjeta' => $req->tarjeta ?? null,
                 'factura' => $req->active == 'true' ? true : false,
             ]);
 

@@ -50,7 +50,14 @@
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Monto:</div>
                 <div>
-                    {{ $warehouse->total_formatted }}
+                    {!! $warehouse->total_formatted !!}
+                </div>
+            </div>
+
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">Descuento:</div>
+                <div>
+                    {!! $warehouse->discount_formatted !!}
                 </div>
             </div>
 

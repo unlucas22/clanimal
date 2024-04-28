@@ -17,6 +17,8 @@ class Warehouse extends Component
     public $palabras_clave;
     public $barcode = null;
 
+    public $discount = 0;
+
     public $key_type;
     public $value_type;
 
@@ -112,7 +114,7 @@ class Warehouse extends Component
         {
             $sum = $this->precio_venta_details[$i] + ($this->precio_venta_details[$i] * (18/100));
 
-            $this->total += ($sum - $this->discount_details[$i]);
+            $this->total += ($sum - $this->discount_details[$i]) - $discount;
         }
 
         $this->precio_venta_total[$item_id] = $value;

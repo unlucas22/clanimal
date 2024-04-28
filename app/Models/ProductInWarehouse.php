@@ -20,6 +20,15 @@ class ProductInWarehouse extends Model
         'fecha_de_vencimiento',
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'total',
+    ];
+
     public function product_presentations()
     {
         return $this->belongsTo(ProductPresentation::class, 'product_presentation_id', 'id');
@@ -43,5 +52,10 @@ class ProductInWarehouse extends Model
     public function aplicarDescuento()
     {
         return $this->precio_venta_con_igv - $this->discount;
+    }
+
+    public function getTotalAttribute()
+    {
+        return $this->aplicarDescuento();
     }
 }

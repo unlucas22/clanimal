@@ -27,8 +27,6 @@ class Product extends Component
     /* Se hace un foreach por cada id en el Controlador */
     public $product_details;
 
-    public $amount_details = [];
-
     public $discount_details = [];
 
     public $precio_venta_details = [];
@@ -43,7 +41,7 @@ class Product extends Component
     public $product_brands;
     public $product_categories;
 
-    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh'];
+    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh', 'agregarOferta'];
 
     public $rules = [
         'product_presentation_id' => 'required',
@@ -56,6 +54,11 @@ class Product extends Component
         'amount_presentation' => 'required',
         'precio_compra' => 'required',
     ];
+
+    public function agregarOferta()
+    {
+        
+    }
 
     public function agregarPrecio()
     {
@@ -105,8 +108,6 @@ class Product extends Component
 
         foreach ($product->product_details as $product_detail)
         {
-            $this->amount_details[] = $product_detail->amount;
-
             $this->discount_details[] = $product_detail->discount;
 
             $this->precio_venta_details[] = $product_detail->precio_venta_sin_igv;

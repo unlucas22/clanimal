@@ -63,6 +63,13 @@
             </div>
 
             <div class="flex justify-between gap-8">
+                <div class="font-bold">Descuento:</div>
+                <div>
+                    {!! $warehouse->discount_formatted !!}
+                </div>
+            </div>
+
+            <div class="flex justify-between gap-8">
                 <div class="font-bold">Estado:</div>
                 <div>
                     {!! $warehouse->status_formatted !!}
@@ -135,14 +142,21 @@
             </div>
         </div>
 
-        <div>
+        <div class="space-y-10">
             <div class="flex justify-between gap-8">
                 <div class="font-bold">Monto:</div>
                 <div>
                     {{ $warehouse->total_formatted }}
                 </div>
             </div>
+            <div class="flex justify-between gap-8">
+                <div class="font-bold">Descuento:</div>
+                <div>
+                    {!! $warehouse->discount_formatted !!}
+                </div>
+            </div>
         </div>
+
 
         @if($warehouse->observation != null)
         <div class="flex justify-between gap-8">
