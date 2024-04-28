@@ -278,11 +278,16 @@
 
                 <div class="flex justify-between gap-8">
                     <div class="w-full">
-                        <x-form.input :id="'cliente-ruc'" :label="'Número de RUC'" :name="'client_ruc'" :model="'client_ruc'" :placeholder="'RUC'" :required="'required minlength=11 maxlength=11 oninput=validarInputRuc() '" />
+                        <div>
+                            <div>
+                                <label for="cliente-ruc" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Número de RUC</label>
+                                <input type="text" name="client_ruc" id="cliente-ruc" wire:model="client_ruc" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="RUC" required minlength="11" maxlength="11" oninput="validarInputRuc()">
+                            </div>
+                        </div>
                         <span id="mensaje-error-numero-ruc" style="color: red;"></span>
                     </div>
                     <div class="w-full">
-                        <x-form.input :label="'Razón Social'" :name="'client_razon_social'" :model="'client_razon_social'" :placeholder="''" />
+                        <x-form.input :label="'Razón Social'" :name="'client_razon_social'" :model="'client_razon_social'" :placeholder="''" :required="'required disabled'" />
                     </div>
                 </div>
 

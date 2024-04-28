@@ -6,7 +6,7 @@ use Livewire\Component;
 // use App\Models\{Product, Client, User, ProductStock};
 use App\Models\{Product, Client, User, Transfer, ProductForStore, ProductForTransfer, ProductStock, ProductForSale};
 use Illuminate\Support\Facades\{Log, Auth};
-
+use App\Traits\ApiRuc;
 
 /**
  * Usar el model de ProductForStore tomando la sede del auth
@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\{Log, Auth};
  * */
 class Productos extends Component
 {
+    use ApiRuc;
+
     /* Datos del Cliente */
     public $client_id;
     public $client_razon_social;
@@ -44,6 +46,27 @@ class Productos extends Component
     public $productos_guardados = [];
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
+
+    public function updatedClientRuc($value)
+    {
+        $razon_social = $this->consultarRUC($value);
+
+        if($razon_social["resultado"] == true)
+        {
+            if($razon_social["denominacion"] == '-')
+            {
+                $this->dispatchBrowserEvent('swal', [
+                    'title' => 'No se encontró el RUC',
+                    'icon' => 'error',
+                    'iconColor' => 'red',
+                ]);
+            }
+            else
+            {
+                $this->client_razon_social = $razon_social["denominacion"];
+            }
+        }
+    }
 
     public function updatedSearch($value)
     {
