@@ -94,7 +94,7 @@ trait NubeFact {
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "6",
             "cliente_numero_de_documento"   => $bill->ruc,
-            "cliente_denominacion"              => $bill->razon_social ?? "NUBEFACT SA",
+            "cliente_denominacion"              => $bill->razon_social,
             "cliente_direccion"                 => $client->address,
             "cliente_email"                     => $client->email,
             "cliente_email_1"                   => "",

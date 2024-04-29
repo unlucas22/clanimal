@@ -13,6 +13,7 @@ class Bill extends Model
         'client_id',
         'metodo_de_pago',
         'user_id',
+        'pet_id',
         'total',
         'igv',
         'razon_social',
@@ -77,6 +78,11 @@ class Bill extends Model
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function pets()
+    {
+        return $this->belongsTo(Pet::class, 'pet_id', 'id');
     }
 
     public function referentes()

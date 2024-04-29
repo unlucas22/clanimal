@@ -17,6 +17,8 @@ class CreateBillsTable extends Migration
             $table->id();
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id');
+            $table->foreign('pet_id')->references('id')->on('pets');
+            $table->unsignedBigInteger('pet_id')->nullable();
             $table->foreign('client_id')->references('id')->on('clients');
             $table->unsignedBigInteger('client_id');
             $table->boolean('active')->default(false);

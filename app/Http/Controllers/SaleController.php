@@ -35,10 +35,17 @@ class SaleController extends Controller
                 'referente_id' => $user_referente,
                 'total' => $req->total,
                 'igv' => $req->igv,
-                'razon_social' => $req->cliente_razon_social ?? null,
+                'razon_social' => $req->client_razon_social ?? null,
                 'ruc' => $req->cliente_ruc ?? null,
-                'factura' => $req->active == 'true' ? true : false,
+                'factura' => $req->active == 'on' ? true : false,
             ]);
+
+            if($req->pet_id != '0' && $req->pet_id != null)
+            {
+                $bill->update([
+                    'pet_id' => $req->pet_id,
+                ]);
+            }
 
             if($req->radio == 'credito')
             {
