@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Product, ProductBrand, ProductCategory, ProductDetail, ProductPresentation, Warehouse, ProductInWarehouse, ProductStock};
+use App\Models\{Product, ProductBrand, ProductCategory, ProductDetail, ProductPresentation, Warehouse, ProductInWarehouse, ProductStock, Offer};
 use Illuminate\Support\Facades\{Auth, Log};
 use App\Http\Requests\ProductStoreRequest;
 use Carbon\Carbon;
@@ -174,9 +174,11 @@ class ProductController extends Controller
                 /* se calculan los impuestos */
                 $precio_venta_con_igv = $req->precio_venta_details[$i] + ($req->precio_venta_details[$i]*0.18);
 
-                if(ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
+                if(ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i])->count())
                 {
-                    ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->update([
+                    $pd = ProductDetail::where('product_id', $req->product_id)->where('product_presentation_id', $req->product_presentation_details_id[$i])->first();
+
+                    $pd->update([
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
@@ -184,13 +186,47 @@ class ProductController extends Controller
                 }
                 else
                 {
-                    ProductDetail::create([
+                    $pd = ProductDetail::create([
                         'product_id' => $req->product_id,
                         'product_presentation_id' => $req->product_presentation_details_id[$i],
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
                     ]);
+                }
+ 
+                if(!isset($req->precio_oferta[$i]))
+                {
+                    continue;
+                }
+
+
+                for ($x=0; $x < count($req->precio_oferta[$i]); $x++)
+                { 
+                    $active = false;
+
+                    if(isset(array_values($req->active_oferta[$i])[$x]))
+                    {
+                        $active = array_values($req->active_oferta[$i])[$x] == 'on' ? true : false;
+                    }
+
+                    if(Offer::where('product_detail_id', $pd->id)->where('fecha_inicio', array_values($req->fecha_inicio_oferta[$i])[$x])->where('fecha_final', array_values($req->fecha_final_oferta[$i])[$x])->count())
+                    {
+                        Offer::where('product_detail_id', $pd->id)->where('fecha_inicio', array_values($req->fecha_inicio_oferta[$i])[$x])->where('fecha_final', array_values($req->fecha_final_oferta[$i])[$x])->update([
+                            'precio' => array_values($req->precio_oferta[$i])[$x],
+                            'active' => $active,
+                        ]);
+                    }
+                    else
+                    {
+                        Offer::create([
+                            'product_detail_id' => $pd->id,
+                            'fecha_inicio' => array_values($req->fecha_inicio_oferta[$i])[$x],
+                            'fecha_final' => array_values($req->fecha_final_oferta[$i])[$x],
+                            'precio' => array_values($req->precio_oferta[$i])[$x],
+                            'active' => $active,
+                        ]);
+                    }
                 }
             }
 
@@ -202,7 +238,7 @@ class ProductController extends Controller
         {
             DB::rollback();
 
-            \Log::error($e->getMessage());
+            \Log::error($e);
 
             return back();
         }
@@ -253,21 +289,53 @@ class ProductController extends Controller
 
                 if(ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->count())
                 {
-                    ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i],)->update([
+                    $pd = ProductDetail::where('product_id', $product->id)->where('product_presentation_id', $req->product_presentation_details_id[$i])->first();
+
+                    $pd->update([
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
                     ]);
+
                 }
                 else
                 {
-                    ProductDetail::create([
+                    $pd = ProductDetail::create([
+                        'active' => $req->active_details[$i]  == 'on' ? true : false,
                         'product_id' => $product->id,
                         'product_presentation_id' => $req->product_presentation_details_id[$i],
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
                     ]);
+                }
+
+                if(!isset($req->precio_oferta[$i]))
+                {
+                    continue;
+                }
+
+
+                for ($x=0; $x < count($req->precio_oferta[$i]); $x++)
+                { 
+                    // Log::info([$i, $x]);
+
+                    $active = false;
+
+                    if(isset(array_values($req->active_oferta[$i])[$x]))
+                    {
+                        $active = array_values($req->active_oferta[$i])[$x] == 'on' ? true : false;
+                    }
+
+                    $offer = Offer::create([
+                        'product_detail_id' => $pd->id,
+                        'precio' => array_values($req->precio_oferta[$i])[$x],
+                        'active' => $active,
+                        'fecha_inicio' => array_values($req->fecha_inicio_oferta[$i])[$x],
+                        'fecha_final' => array_values($req->fecha_final_oferta[$i])[$x],
+                    ]);
+
+                    // Log::info($offer);
                 }
             }
 
@@ -280,9 +348,11 @@ class ProductController extends Controller
         {
             DB::rollback();
 
-            \Log::error($e->getMessage());
+            \Log::error($e);
 
-            return back();
+            ddd([$e, $req]);
+
+            //return back();
         }
     }
 

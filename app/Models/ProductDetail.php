@@ -16,6 +16,7 @@ class ProductDetail extends Model
         'precio_venta_sin_igv',
         'precio_venta_con_igv',
         'product_id',
+        'active',
     ];
 
     /* descuento en precio venta con impuestos */
@@ -43,5 +44,10 @@ class ProductDetail extends Model
     public function product_for_sales()
     {
         return $this->hasMany(ProductForSale::class);
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
     }
 }

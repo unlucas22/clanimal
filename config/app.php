@@ -17,6 +17,9 @@ return [
 
     'reniec' => env('RENIEC_TOKEN', null),
     
+    'ruc' => env('RUC_URL', null),
+
+    
     'nubefact' => env('NUBEFACT_TOKEN', null),
 
     'captcha_public_key' => env('CAPTCHA_PUBLIC_KEY', null),

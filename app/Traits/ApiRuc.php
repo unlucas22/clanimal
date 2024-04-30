@@ -2,15 +2,15 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Config;
+
 /* Obtiene los datos por dni */
 trait ApiRuc {
-
-	public $apiRucUrl = "https://mesadepartesdigital.midagri.gob.pe/PersonaJuridica/CrearCuenta/GetRuc";
 
     public function consultarRUC($ruc)
     {
     	// 20131257750
-        $url = $this->apiRucUrl . "?ruc=" . $ruc;
+        $url = Config::get('app.ruc') . "?ruc=" . $ruc;
 
         $ch = curl_init();
 

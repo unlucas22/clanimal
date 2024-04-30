@@ -40,6 +40,12 @@ Route::middleware([
             Route::view('/entidades-bancarias', 'dashboard')->name('dashboard.entidades-bancarias');
         });
 
+        Route::view('/packs', 'dashboard')->name('dashboard.packs');
+
+        Route::get('/create/packs', function() {
+            return view('create.packs');  
+        })->name('dashboard.create.packs');
+
         Route::view('/caja-de-cobro', 'dashboard')->name('dashboard.caja-de-cobro');
 
         Route::view('/salidas-gerencia', 'dashboard')->name('dashboard.salidas-gerencia');

@@ -200,4 +200,9 @@ class Product extends Model
                     ? Storage::disk('public')->url($this->photo_path)
                     : null;
     }
+
+    public function product_for_packs()
+    {
+        return $this->hasOne(ProductForPack::class);
+    }
 }

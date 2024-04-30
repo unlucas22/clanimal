@@ -59,6 +59,16 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a href="{{ route('dashboard.packs') }}"  @class([
+                            'flex items-center p-2 text-base font-normal text-gray-900 rounded-lg group',
+                            'bg-gray-100' => request()->routeIs('dashboard.packs')
+                            ])>
+                            <x-icons.heroicons.fire />
+                            <span class="ml-3">Ofertas</span>
+                        </a>
+                    </li>
+
                     <x-hr :content="'Logística de Tienda'" />
 
                     <li>
