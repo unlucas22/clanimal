@@ -1817,6 +1817,9 @@ input:checked + .toggle-bg {
 .z-50 {
   z-index: 50;
 }
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
 .col-span-3 {
   grid-column: span 3 / span 3;
 }
@@ -2872,6 +2875,9 @@ input:checked + .toggle-bg {
 }
 .ps-3 {
   padding-inline-start: 0.75rem;
+}
+.pt-0 {
+  padding-top: 0px;
 }
 .pt-1 {
   padding-top: 0.25rem;
