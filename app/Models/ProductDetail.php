@@ -15,6 +15,7 @@ class ProductDetail extends Model
         'discount',
         'precio_venta_sin_igv',
         'precio_venta_con_igv',
+        'precio_venta_total',
         'product_id',
         'active',
     ];

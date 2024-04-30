@@ -182,6 +182,7 @@ class ProductController extends Controller
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
+                        'precio_venta_total' => $req->precio_venta_total[$i],
                     ]);
                 }
                 else
@@ -192,6 +193,7 @@ class ProductController extends Controller
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
+                        'precio_venta_total' => $req->precio_venta_total[$i],
                     ]);
                 }
  
@@ -295,6 +297,7 @@ class ProductController extends Controller
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
+                        'precio_venta_total' => $req->precio_venta_total[$i],
                     ]);
 
                 }
@@ -307,6 +310,7 @@ class ProductController extends Controller
                         'discount' => $req->discount_details[$i],
                         'precio_venta_sin_igv' => $req->precio_venta_details[$i],
                         'precio_venta_con_igv' => $precio_venta_con_igv,
+                        'precio_venta_total' => $req->precio_venta_total[$i],
                     ]);
                 }
 
@@ -318,8 +322,6 @@ class ProductController extends Controller
 
                 for ($x=0; $x < count($req->precio_oferta[$i]); $x++)
                 { 
-                    // Log::info([$i, $x]);
-
                     $active = false;
 
                     if(isset(array_values($req->active_oferta[$i])[$x]))
@@ -334,8 +336,6 @@ class ProductController extends Controller
                         'fecha_inicio' => array_values($req->fecha_inicio_oferta[$i])[$x],
                         'fecha_final' => array_values($req->fecha_final_oferta[$i])[$x],
                     ]);
-
-                    // Log::info($offer);
                 }
             }
 

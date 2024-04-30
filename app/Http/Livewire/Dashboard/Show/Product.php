@@ -41,6 +41,8 @@ class Product extends Component
 
     public $product = [];
 
+    public $precio_venta_total = [];
+
     /* Datalist */
     public $product_brands;
     public $product_categories;
@@ -140,7 +142,7 @@ class Product extends Component
             'product_detail_id' => $i,
             'precio_total' => 0,
             'fecha_inicio' => now()->format('Y-m-d'),
-            'fecha_final' => null,
+            'fecha_final' => now()->addMonth()->format('Y-m-d'),
         ];
 
         $this->emit('refreshComponent');
@@ -210,6 +212,8 @@ class Product extends Component
             $this->precio_venta_details[] = $product_detail->precio_venta_sin_igv;
 
             $this->precio_venta_con_igv_details[] = $product_detail->precio_venta_con_igv;
+
+            $this->precio_venta_total[] = $product_detail->precio_venta_total;
 
             $this->product_presentation_details_id[] = $product_detail->product_presentation_id;
 

@@ -22,6 +22,7 @@ class CreateProductDetailsTable extends Migration
             $table->integer('discount')->default(0)->nullable();
             $table->double('precio_venta_sin_igv');
             $table->double('precio_venta_con_igv');
+            $table->double('precio_venta_total');
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

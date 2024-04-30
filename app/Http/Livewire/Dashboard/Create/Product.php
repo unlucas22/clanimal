@@ -43,6 +43,11 @@ class Product extends Component
     public $precio_venta_con_igv_details = [
         0
     ];
+
+    public $precio_venta_total = [
+        0
+    ];
+    
     /* Tipo de Presentacion */
     public $product_presentation_details_id = [
         1

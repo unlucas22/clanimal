@@ -469,7 +469,7 @@
 
                     let precio_venta_total = total - descuento;
 
-                    document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total, 2).toFixed(2);
+                    document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total + (precio_venta_total * 0.4), 2).toFixed(2) ;
                 }
 
                 function verificarGanancia()

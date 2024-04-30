@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     protected $roles = [
         'administrador' => 'Administrador',
         'gerente' => 'Gerente', 
+        'gerente_general' => 'Gerente General', 
         'veterinario' => 'Veterinario', 
         'peluquero' => 'Peluquero canino' , 
         'recepcion' => 'Recepción', 
