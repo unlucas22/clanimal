@@ -432,7 +432,7 @@
 
             <div class="flex justify-center">
 
-                <div class="grid grid-cols-5 gap-4">
+                <div class="grid grid-cols-7 gap-4">
 
                     <div class="w-full mb-6 pt-8 flex justify-center">
                         <label class="relative inline-flex items-center mb-5 cursor-pointer">
@@ -447,12 +447,12 @@
                         <input type="number" step="0.1" name="precio_oferta[{{ $i }}][{{ $z }}]" id="precio_oferta{{ $i }}.{{ $z }}" value="{{ $product_ofertas[$z]['precio_total'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:change="setPrecioOferta({{ $z }}, document.getElementById('precio_oferta{{ $i }}.{{ $z }}').value)">
                     </div>
 
-                    <div class="w-full mb-6">
+                    <div class="w-full mb-6 col-span-2">
                         <label for="fecha_inicio_oferta{{ $i }}.{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Inicio</label>
                         <input type="date" name="fecha_inicio_oferta[{{ $i }}][{{ $z }}]" id="fecha_inicio_oferta{{ $i }}.{{ $z }}" value="{{ $product_ofertas[$z]['fecha_inicio'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
 
-                    <div class="w-full mb-6">
+                    <div class="w-full mb-6 col-span-2">
                         <label for="fecha_final_oferta{{ $i }}.{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Final</label>
                         <input type="date" name="fecha_final_oferta[{{ $i }}][{{ $z }}]" id="fecha_final_oferta{{ $i }}.{{ $z }}" value="{{ $product_ofertas[$z]['fecha_final'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
