@@ -42,11 +42,19 @@ class SendAuthorizationJob implements ShouldQueue
     {
         $email_view = new SendAuthorizationEmail($this->code, $this->name, $this->producto);
         
-        $gerentes = Role::with('users')->where('key', 'gerente')->get();
+        $gerentes = Role::with('users')->where('key', 'gerente-general')->get();
         
-        foreach ($gerentes as $gerente)
+        if(count($gerentes))
         {
-            Mail::to($gerente->users->email)->send($email_view);
+            foreach ($gerentes as $gerente)
+            {
+                Mail::to($gerente->users->email)->send($email_view);
+            }
+
+        }
+        else
+        {
+            Log::info('no hay gerentes');
         }
     }
 }

@@ -346,7 +346,7 @@
                 </div>
             </div>
 
-            <input type="hidden" name="product_details" wire:model="product_details" value="{{ $product_details }}">
+            <input type="hidden" name="product_details" id="product-details-count" wire:model="product_details" value="{{ $product_details }}">
             <input type="hidden" name="product_ofertas" id="product-ofertas" value="{{ count($product_ofertas) }}">
 
             @for($i=0; $i < $product_details; $i++)
@@ -393,7 +393,7 @@
                     <div class="w-full mb-6 group">
                         <div>
                             <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total</label>
-                            <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" wire:model.defer="precio_venta_total.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </div>
 
@@ -474,7 +474,7 @@
 
                 function verificarGanancia()
                 {
-                    let count = document.getElementById('product-ofertas').value;
+                    let count = document.getElementById('product-details-count').value;
                     let formulario = document.getElementById('form-producto');
 
                     if(count == 0)

@@ -70,6 +70,30 @@ class Product extends Component
 
     public function calcularGanancia()
     {
+
+        foreach ($this->precio_venta_total as $key => $value)
+        {
+            if($value != null && $value > 0)
+            {
+                $ganancia = (($this->precio_venta_details[$key] - $value) / $value) * 100;
+
+                if($ganancia > 40)
+                {
+                    return ['total', $key];
+                }
+            }
+            else
+            {
+                // incompleto
+                $this->dispatchBrowserEvent('swal', [
+                    'title' => 'Debes completar todos los campos antes de continuar.',
+                    'icon' => 'error',
+                    'iconColor' => 'red',
+                ]);
+                return false;
+            }
+        }
+
         foreach ($this->product_ofertas as $oferta)
         {
             if($oferta['precio_total'] != null && $oferta['precio_total'] > 0)
@@ -78,7 +102,7 @@ class Product extends Component
 
                 if($ganancia > 40)
                 {
-                    return $oferta;
+                    return ['oferta', $oferta];
                 }
             }
             else
@@ -113,10 +137,22 @@ class Product extends Component
                 return;
             }
 
-            $pp = ProductPresentation::select('name')->where('id', $this->product_presentation_details_id[$oferta['product_detail_id']])->first();
+            if($oferta[0] == 'total')
+            {
+                $product_detail_id = $oferta[1];
+                $precio_total = $this->precio_venta_total[$oferta[1]];
+            }
+            else
+            {
+                $product_detail_id = $oferta[1]['product_detail_id'];
+                $precio_total = $oferta[1]['precio_total'];
+            }
+
+            $pp = ProductPresentation::select('name')->where('id', $this->product_presentation_details_id[$product_detail_id])->first();
 
             // descripcion de la unidad
-            $product = $pp->name.'. Precio Venta con IGV: S/ '.$this->precio_venta_details[$oferta['product_detail_id']].'. Precio Total: S/ '.$oferta['precio_total'];
+            $product = $pp->name.'. Precio Venta con IGV: S/ '.$this->precio_venta_details[$product_detail_id].'. Precio Total: S/ '.$precio_total;
+
 
             $this->makeAuthorization($product);
         } 
