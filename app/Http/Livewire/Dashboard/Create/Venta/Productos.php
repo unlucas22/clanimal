@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Dashboard\Create\Venta;
 
 use Livewire\Component;
 // use App\Models\{Product, Client, User, ProductStock};
-use App\Models\{Product, Client, User, Transfer, ProductForStore, ProductForTransfer, ProductStock, ProductForSale};
+use App\Models\{Product, Client, User, Transfer, ProductForStore, ProductForTransfer, ProductStock, ProductForSale, PackForSale, Pack};
 use Illuminate\Support\Facades\{Log, Auth};
 use App\Traits\ApiRuc;
 
@@ -45,7 +45,55 @@ class Productos extends Component
     public $products = [];
     public $productos_guardados = [];
 
-    public $listeners = ['agregarProducto', 'retirarProductoParaCompra'];
+    /* Oferta */
+    public $ofertas = [];
+    public $ofertas_guardados = [];
+
+    public $listeners = ['agregarProducto', 'retirarProductoParaCompra', 'agregarOferta', 'retirarOfertaParaCompra'];
+
+    public function retirarOfertaParaCompra($item_id)
+    {
+        try
+        {
+            foreach ($this->ofertas_guardados as $index => $id)
+            {
+                if($item_id == $id)
+                {
+                    array_splice($this->ofertas_guardados, $index, 1);
+
+                    PackForSale::where('id', $item_id)->delete();
+                }
+            }
+
+            $this->emit('refreshComponent');
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e->getMessage());   
+        }
+    }
+
+    public function agregarOferta($item_id, $cantidad)
+    {
+        try
+        {
+            $pack_for_sale = PackForSale::create([
+                'pack_id' => $item_id,
+                'cantidad' => $cantidad
+            ]);
+
+            $this->ofertas_guardados[] = $pack_for_sale->id;
+
+            $this->ofertas = [];
+            
+            $this->emit('refreshComponent');
+            $this->setTotal();
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e->getMessage());
+        }
+    }
 
     public function updatedClientRuc($value)
     {
@@ -107,12 +155,21 @@ class Productos extends Component
             $productos_para_compra[] = ProductForSale::with(['product_details'])->where('id', $product)->first();
         }
 
+        /* productos guardados para la venta */
+        $ofertas_para_compra = [];
+
+        foreach ($this->ofertas_guardados as $oferta)
+        {
+            $ofertas_para_compra[] = PackForSale::with('packs')->where('id', $oferta)->first();
+        }
+
         $this->setTotal();
 
         return view('livewire.dashboard.create.venta.productos', [
             'products' => $this->products,
             'users' => User::get(),
             'productos_para_compra' => $productos_para_compra,
+            'ofertas_para_compra' => $ofertas_para_compra,
         ]);
     }
 
@@ -209,8 +266,29 @@ class Productos extends Component
         {
             $this->products = $this->queryParaObtenerLosProductos();
         }
+
+        $this->buscarOfertas();
         
         $this->emit('refreshComponent');
+    }
+
+    public function buscarOfertas()
+    {
+        if($this->search != null)
+        {
+            $this->ofertas = Pack::where('name', 'like', '%'.$this->search.'%')->get();
+        }
+        else
+        {
+            $this->ofertas = $this->queryParaObtenerLosOfertas();
+        }
+        
+        $this->emit('refreshComponent');
+    }
+
+    public function queryParaObtenerLosOfertas()
+    {
+        return Pack::where('name', $this->search)->get();
     }
 
     /* Calcular total con impuestos y descuentos */
@@ -230,6 +308,16 @@ class Productos extends Component
                 $igv += $pfs->product_details->diferenciaConImpuestos();
             }
 
+        }
+
+        foreach ($this->ofertas_guardados as $oferta)
+        {
+            $of = PackForSale::with('packs')->where('id', $oferta)->first();
+
+            for ($i=0; $i < $of->cantidad; $i++)
+            { 
+                $total += $of->packs->precio;
+            }
         }
 
         $this->total = $total;

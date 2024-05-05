@@ -36,6 +36,73 @@
             </div>
 
             <div class="pt-8">
+            @if(count($ofertas) != 0)
+                <div>Ofertas encontradas:</div>
+
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Descripción
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Cantidad
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Precio Total
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            @forelse($ofertas as $oferta)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
+                                        {{ $oferta->name }}
+                                    </td>
+                                    <td class="px-3 py-4">
+                                        <div style="max-width: 75px;">
+                                            <input type="number" name="oferta_{{ $oferta->id }}" id="oferta-{{ $oferta->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" min="1" value="1" oninput="sumTotalFromOferta( {{ $oferta->id }}, {{ $oferta->precio }})">
+                                        </div>
+                                    </td>
+
+                                    <td class="px-3 py-4">
+                                        S/ <span id="total-from-oferta-{{ $oferta->id }}">{{ $oferta->precio }}</span> Soles
+                                    </td>
+                                    <td class="px-3 py-4">
+                                        <button type="button" onclick="Livewire.emit('agregarOferta', {{ $oferta->id }}, document.getElementById('oferta-{{ $oferta->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                    </td>
+                                </tr>
+                            @empty
+                            <tr class="text-center py-3">
+                                <td colspan="7" class="py-3 italic">No hay Productos con Stock</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
+            <script>
+                function sumTotalFromOferta(id, precio)
+                {
+                    let total = 0;
+
+                    let cantidad = document.getElementById('oferta-'+id).value;
+
+                    /* se suma ya con el descuento aplicado */
+                    for (var i = 0; i < cantidad; i++) {
+                        total += precio;
+                    }
+
+                    document.getElementById('total-from-oferta-'+id).innerHTML = total.toFixed(2);
+                }
+            </script>
+            </div>
+
+            <div class="pt-8">
             @if(count($products) != 0)
                 <div>Productos encontrados:</div>
 
@@ -189,6 +256,7 @@
                 <input type="hidden" wire:model="client_id" name="client_id">
 
                 <input type="hidden" wire:model="productos_guardados" name="productos_guardados">
+                <input type="hidden" wire:model="ofertas_guardados" name="ofertas_guardados">
 
                 <input type="hidden" wire:model="igv" name="igv" value="0">
                 <input type="hidden" wire:model="total" name="total" value="0">
@@ -256,14 +324,60 @@
                                     </tr>
                                 @empty
                                 <tr class="text-center py-3">
-                                    <td colspan="7" class="py-3 italic">No hay Productos o Stock disponible</td>
+                                    <td colspan="7" class="py-3 italic">No hay Productos selecccionados</td>
                                 </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
+                </div>
 
+                <div>
+                    <div>Ofertas:</div>
 
+                    <div class="relative overflow-x-auto">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Oferta
+                                    </th>
+                                    <th scope="col" class="px-1 text-center py-3">
+                                        Precio unidad
+                                    </th>
+                                    <th scope="col" class="text-center py-3">
+                                        Cantidad
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($ofertas_para_compra as $oferta)
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:100px;">
+                                            {{ $oferta->packs->name }}
+                                        </th>
+                                        <td class="px-1 text-center py-4">
+                                            ${{ $oferta->packs->precio }}
+                                        </td>
+                                        <td class="py-4 text-center">
+                                            {{ $oferta->cantidad ?? 1 }}
+                                        </td>
+
+                                        <td class="py-4">
+                                            <button type="button" wire:click="retirarOfertaParaCompra({{ $oferta->id }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">Retirar</button>
+                                        </td>
+                                    </tr>
+                                @empty
+                                <tr class="text-center py-3">
+                                    <td colspan="7" class="py-3 italic">No hay Ofertas seleccionadas</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div>

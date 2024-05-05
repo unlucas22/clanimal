@@ -144,7 +144,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col" style="padding-bottom: 60px;">
+        <div class="flex flex-col">
             <div class="overflow-x-auto">
                 <div class="inline-block min-w-full align-middle">
                     <div class="overflow-hidden shadow">
@@ -201,6 +201,59 @@
             </div>
         </div>
 
+        <div class="bg-white block sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700  px-2">
+            <div class="flex justify-between w-full mb-1">
+                <div class="mb-4">
+                    <h1 class="text-xl mt-3 font-semibold text-gray-900 sm:text-2xl dark:text-white">Ofertas</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col" style="padding-bottom: 60px;">
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full align-middle">
+                    <div class="overflow-hidden shadow">
+                        <table class="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-600">
+                            <thead class="bg-gray-100 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Nombre
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Cantidad
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Valor de unidad
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white text-center">
+                                @foreach($bill->pack_for_sales as $pack)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $pack->packs->name }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ $pack->cantidad }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        S/ {{ $pack->packs->precio }} Soles
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        S/ {{ $pack->packs->precio * $pack->cantidad }} Soles
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="fixed max-w-7xl right-0 left-0 bottom-0">
             <div class="bg-gray-100 w-full p-2 flex justify-center">
                 <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
@@ -213,16 +266,17 @@
                             <div>
                                 <a onclick="procesarPago()">
                                     <button class="inline-flex items-center text-base px-7 py-4  font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mr-2">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
                                         </svg>
+
                                         Procesar Pago
                                     </button>
                                 </a>
                             </div>
                             <div>
                                 <button onclick="cancelarOrden()" type="button" id="deleteProductButton" class="inline-flex items-center text-base px-7 py-4 font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+                                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
                                     Cancelar
                                 </button>
                             </div>

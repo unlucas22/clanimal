@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Bill, ProductForSale, Product, ProductDetail, Client};
+use App\Models\{Bill, ProductForSale, Product, ProductDetail, Client, PackForSale, Pack};
 use Illuminate\Support\Facades\{Auth, Log};
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\SaleStoreRequest;
@@ -27,7 +27,7 @@ class SaleController extends Controller
             {
                 $user_referente = (User::where('name', $req->user_referente)->first())->id;
             }
-            
+
             $bill = Bill::create([
                 'client_id' => $req->client_id,
                 'metodo_de_pago' => $req->radio,
@@ -56,8 +56,16 @@ class SaleController extends Controller
                 ]);
             }
 
-            /* Asignar productos comprados a la venta */
-            $products = $this->asignProductToBill($req->productos_guardados, $bill->id);
+            if($req->productos_guardados != null)
+            {
+                /* Asignar productos comprados a la venta */
+                $products = $this->asignProductToBill($req->productos_guardados, $bill->id);
+            }
+
+            if($req->ofertas_guardados != null)
+            {
+                $ofertas = $this->asignOfertaToBill($req->ofertas_guardados, $bill->id);
+            }
             
             DB::commit();
 
@@ -72,9 +80,37 @@ class SaleController extends Controller
         }
     }
 
+    public function asignOfertaToBill($ids, $bill_id)
+    {
+        $ofertas = [];
+
+        $ids_array = explode(',', $ids);
+
+        // Eliminar espacios en blanco y asegurarse de que cada elemento sea único
+        $unique_ids = array_map('trim', array_unique($ids_array));
+
+        foreach ($unique_ids as $id)
+        {
+            PackForSale::where('id', $id)->update([
+                'bill_id' => $bill_id
+            ]);
+
+            $pack_for_sale = PackForSale::with('packs')->where('id', $id)->first();
+
+            /* Aqui habría que descontar el stock que hay del pack */
+            /*Pack::where('id', $pack_for_sale->pack_id)->update([
+                'stock' => $pack_for_sale->packs->stock - $product_for_sale->cantidad,
+            ]);*/
+
+            $ofertas[] = $pack_for_sale;
+        }
+
+        return $ofertas;
+    }
+
     public function show(Request $req)
     {
-        $bill = Bill::with(['clients', 'users', 'product_for_sales'])->where('id', $req->bill_id)->first();
+        $bill = Bill::with(['clients', 'users', 'product_for_sales', 'pack_for_sales'])->where('id', $req->bill_id)->first();
 
         return view('show.comprobante', [
             'bill' => $bill

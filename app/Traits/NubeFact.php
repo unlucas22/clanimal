@@ -9,33 +9,62 @@ trait NubeFact {
 
     public function generarFactura($bill)
     {
-        $products = [];
+        $items = [];
 
-        foreach ($bill->product_for_sales as $product)
+        if($bill->product_for_sales != null)
         {
-            /* Calculo de impuestos en total */
-            $igv = ($product->product_details->precio_venta_con_igv - $product->product_details->precio_venta_sin_igv);
+            foreach ($bill->product_for_sales as $product)
+            {
+                /* Calculo de impuestos en total */
+                $igv = ($product->product_details->precio_venta_con_igv - $product->product_details->precio_venta_sin_igv);
 
-            $products[] = [
-                "unidad_de_medida"          => "NIU",
-                "codigo"                    => $product->product_details->products->barcode,
-                "descripcion"               => $product->product_details->products->name,
-                "cantidad"                  => $product->cantidad,
-                "valor_unitario"            => $product->product_details->precio_venta_sin_igv,
-                "precio_unitario"           => $product->product_details->precio_venta_con_igv,
-                "descuento"                 => $product->product_details->discount,
-                "subtotal"                  => $product->getSubTotalByAmount(),
-                "tipo_de_igv"               => "1",
-                "igv"                       => $igv,
-                "total"                     => $product->getTotalByAmount(),
-                "anticipo_regularizacion"   => "false",
-                "anticipo_documento_serie"  => "",
-                "anticipo_documento_numero" => ""
-            ];
+                $items[] = [
+                    "unidad_de_medida"          => "NIU",
+                    "codigo"                    => $product->product_details->products->barcode,
+                    "descripcion"               => $product->product_details->products->name,
+                    "cantidad"                  => $product->cantidad,
+                    "valor_unitario"            => $product->product_details->precio_venta_sin_igv,
+                    "precio_unitario"           => $product->product_details->precio_venta_con_igv,
+                    "descuento"                 => $product->product_details->discount,
+                    "subtotal"                  => $product->getSubTotalByAmount(),
+                    "tipo_de_igv"               => "1",
+                    "igv"                       => $igv,
+                    "total"                     => $product->getTotalByAmount(),
+                    "anticipo_regularizacion"   => "false",
+                    "anticipo_documento_serie"  => "",
+                    "anticipo_documento_numero" => ""
+                ];
+            }
         }
-         
 
-        $data = $bill->factura == true ? $this->datosDeFactura($bill, $products) : $this->datosDeBoleta($bill, $products); 
+        if($bill->pack_for_sales != null)
+        {
+            foreach ($bill->pack_for_sales as $pack)
+            {
+                $total = ($pack->cantidad * $pack->packs->precio);
+
+                $igv = $total + ($total * 0.18);
+
+                $items[] = [
+                    "unidad_de_medida"          => "ZZ",
+                    "codigo"                    => 'C'.$pack->pack_id,
+                    "descripcion"               => 'Oferta',
+                    "cantidad"                  => $pack->cantidad,
+                    "valor_unitario"            => $pack->packs->precio,
+                    "precio_unitario"           => $pack->packs->precio + (($pack->packs->precio) * 0.18),
+                    "descuento"                 => (($pack->packs->precio) * 0.18),
+                    "subtotal"                  => $total,
+                    "tipo_de_igv"               => "1",
+                    "igv"                       => ($total * 0.18),
+                    "total"                     => $igv - (($pack->packs->precio) * 0.18),
+                    "anticipo_regularizacion"   => "false",
+                    "anticipo_documento_serie"  => "",
+                    "anticipo_documento_numero" => ""
+                ];
+            }
+        }
+
+        $data = $bill->factura == true ? $this->datosDeFactura($bill, $items) : $this->datosDeBoleta($bill, $items); 
         $data_json = json_encode($data);
 
         // $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";

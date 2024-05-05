@@ -28,7 +28,7 @@ class SaleStoreRequest extends FormRequest
             'radio' => 'required',
             'total' => 'required',
             'igv' => 'required',
-            'productos_guardados' => 'required',
+            // 'productos_guardados' => 'required',
         ];
     }
 
@@ -42,7 +42,7 @@ class SaleStoreRequest extends FormRequest
         return [
             'client_id.required' => __('El DNI del cliente es obligatorio'),
             'radio.required' => __('El metodo de pago es obligatorio'),
-            'productos_guardados.required' => __('Tiene que agregar productos en la compra'),
+            // 'productos_guardados.required' => __('Tiene que agregar productos en la compra'),
         ];
     }
 }

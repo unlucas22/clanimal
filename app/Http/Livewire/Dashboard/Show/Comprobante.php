@@ -19,7 +19,7 @@ class Comprobante extends Component
 
     public function mount(Request $req)
     {
-        $this->bill = Bill::with(['clients', 'users', 'product_for_sales'])->where('id', $req->bill_id)->first();
+        $this->bill = Bill::with(['clients', 'users', 'product_for_sales', 'pack_for_sales'])->where('id', $req->bill_id)->first();
     }
 
     public function render()

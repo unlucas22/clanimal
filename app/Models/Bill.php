@@ -94,4 +94,9 @@ class Bill extends Model
     {
         return $this->hasMany(ProductForSale::class);
     }
+
+    public function pack_for_sales()
+    {
+        return $this->hasMany(PackForSale::class);
+    }
 }
