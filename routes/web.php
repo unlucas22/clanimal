@@ -46,6 +46,10 @@ Route::middleware([
             return view('create.packs');  
         })->name('dashboard.create.packs');
 
+        Route::get('/show/packs/{item_id}', function() {
+            return view('show.packs');  
+        })->name('dashboard.show.packs');
+
         Route::view('/caja-de-cobro', 'dashboard')->name('dashboard.caja-de-cobro');
 
         Route::view('/salidas-gerencia', 'dashboard')->name('dashboard.salidas-gerencia');

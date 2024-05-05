@@ -53,7 +53,7 @@ class Packs extends Component
             'rows_count' => $this->rows_count,
             'columns' => $this->columns,
             'columns_count' => $this->getColumnsCount($this->columns),
-            //'action_name' => 'packs',
+            'action_name' => 'packs',
             'head_name' => 'packs',
         ]);
     }

@@ -44,12 +44,12 @@
                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                               </svg>
                           </div>
-                          <input datepicker datepicker-format="mm/dd/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seleccionar Fecha" name="fecha" id="fecha-inicio" value="{{ date('m/d/Y') }}" required>
+                          <input type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seleccionar Fecha" name="fecha" id="fecha-inicio" value="{{ $fecha_inicio ?? date('m/d/Y') }}" onchange="callUpdateFechaInicio()" required>
                         </div>
                         @error('fecha_inicio') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
 
-                    <div >
+                    <div wire:ignore>
                         <label for="fecha-final" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Final</label>
                         <div class="relative max-w-sm">
                           <div class="absolute flex items-center pl-3 mt-3 pointer-events-none">
@@ -57,7 +57,7 @@
                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                               </svg>
                           </div>
-                          <input datepicker datepicker-format="mm/dd/yyyy" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seleccionar Fecha" name="fecha" id="fecha-final" value="{{ date('m/d/Y') }}" required >
+                          <input type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Seleccionar Fecha" name="fecha" id="fecha-final" onchange="callUpdateFechaFinal()" value="{{ $fecha_final ?? date('m/d/Y') }}" required >
                         </div>
                         @error('fecha_final') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>
@@ -209,30 +209,16 @@
 
 
                 <script>
-                    window.onload = function(){
-                        let fechaInicio = document.getElementById('fecha-inicio');
-                        
-                        new Datepicker(fechaInicio, {
-                            minDate: new Date()
-                        });
+                    function callUpdateFechaInicio()
+                    {
+                        let fechaInicio = document.getElementById('fecha-inicio').value;
+                        window.livewire.emit('fechaInicioSelected', fechaInicio);
+                    }
 
-
-                        let fechaFinal = document.getElementById('fecha-final');
-
-                        new Datepicker(fechaFinal, {
-                            minDate: new Date()
-                        });
-
-                        fechaInicio.addEventListener('changeDate', (event) => {
-                            console.log(event.detail.date);
-                            window.livewire.emit('fechaInicioSelected', event.detail.date);
-                        });
-
-                        fechaFinal.addEventListener('changeDate', (event) => {
-                            console.log(event.detail.date);
-                            window.livewire.emit('fechaFinalSelected', event.detail.date);
-                        });
-
+                    function callUpdateFechaFinal()
+                    {
+                        let fechaFinal = document.getElementById('fecha-final').value;
+                        window.livewire.emit('fechaFinalSelected', fechaFinal);
                     }
 
                     function setProduct()

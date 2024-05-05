@@ -1,1 +1,1 @@
-<div><a href="{{-- route('dashboard.show.finanzas-facturas', ['item_id' => $item->id]) --}}"><x-btn/></a></div>
+<div><a href="{{ route('dashboard.show.packs', ['item_id' => $item->id]) }}"><x-btn/></a></div>
