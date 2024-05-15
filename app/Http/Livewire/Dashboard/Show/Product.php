@@ -49,15 +49,19 @@ class Product extends Component
 
     public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh', 'agregarOferta', 'setPrecioOferta', 'enviarEmail', 'validarAutorizacion'];
 
+    public $product_presentation_oferta_id = [];
+
     public $product_ofertas = [
         // 'product_detail_id',
         // 'precio_total',
         // 'fecha_inicio',
         // 'fecha_final',
+        // 'active',
     ];
 
     public function calcularGanancia()
     {
+
         foreach ($this->precio_venta_total as $key => $value)
         {
             if($value != null && $value > 0)
@@ -77,30 +81,7 @@ class Product extends Component
                     'icon' => 'error',
                     'iconColor' => 'red',
                 ]);
-                break;
-            }
-        }
-
-        foreach ($this->product_ofertas as $oferta)
-        {
-            if($oferta['precio_total'] != null && $oferta['precio_total'] > 0)
-            {
-                $ganancia = (($this->precio_venta_details[$oferta['product_detail_id']] - $oferta['precio_total']) / $oferta['precio_total']) * 100;
-
-                if($ganancia > 40)
-                {
-                    return $oferta;
-                }
-            }
-            else
-            {
-                // incompleto
-                $this->dispatchBrowserEvent('swal', [
-                    'title' => 'Debes completar todos los campos antes de continuar.',
-                    'icon' => 'error',
-                    'iconColor' => 'red',
-                ]);
-                break;
+                return false;
             }
         }
         
@@ -170,13 +151,13 @@ class Product extends Component
     }
 
 
-    public function agregarOferta($i)
+    public function agregarOferta()
     {
         $this->product_ofertas[] = [
-            'product_detail_id' => $i,
             'precio_total' => 0,
             'fecha_inicio' => now()->format('Y-m-d'),
             'fecha_final' => now()->addMonth()->format('Y-m-d'),
+            'active' => true,
         ];
 
         $this->emit('refreshComponent');
@@ -221,7 +202,7 @@ class Product extends Component
     /* Montar los Select options y datalist */
     public function mount(Request $req)
     {
-        $product = \App\Models\Product::with(['product_presentations', 'product_categories', 'product_details', 'product_brands'])->hashid($req->hashid)->firstOrFail();
+        $product = \App\Models\Product::with(['product_presentations', 'product_categories', 'product_details', 'product_brands', 'offers'])->hashid($req->hashid)->firstOrFail();
 
         $this->product_brands = ProductBrand::where('active', true)->get();
         $this->product_categories = ProductCategory::where('active', true)->get();
@@ -250,18 +231,24 @@ class Product extends Component
             $this->precio_venta_total[] = $product_detail->precio_venta_total;
 
             $this->product_presentation_details_id[] = $product_detail->product_presentation_id;
+        }
 
-
-            foreach ($product_detail->offers as $index => $offer)
+        /* Offers */
+        if($product->offers != null)
+        {
+            foreach ($product->offers as $offer)
             {
+                $this->product_presentation_oferta_id[] = $offer->product_presentation_id-1;
+
                 $this->product_ofertas[] = [
-                    'product_detail_id' => $index,
                     'precio_total' => $offer->precio,
                     'fecha_inicio' => $offer->fecha_inicio,
                     'fecha_final' => $offer->fecha_final,
+                    'active' => $offer->active,
                 ];
             }
 
+            //ddd([$this->product_ofertas, $this->product_presentation_details_id]);
         }
 
         $this->product = $product;

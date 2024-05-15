@@ -55,6 +55,8 @@ class Product extends Component
 
     public $unidades_guardados = [];
 
+    public $product_presentation_oferta_id = [];
+
     /* Datalist */
     public $product_brands;
     public $product_categories;
@@ -70,7 +72,6 @@ class Product extends Component
 
     public function calcularGanancia()
     {
-
         foreach ($this->precio_venta_total as $key => $value)
         {
             if($value != null && $value > 0)
@@ -91,29 +92,6 @@ class Product extends Component
                     'iconColor' => 'red',
                 ]);
                 return false;
-            }
-        }
-
-        foreach ($this->product_ofertas as $oferta)
-        {
-            if($oferta['precio_total'] != null && $oferta['precio_total'] > 0)
-            {
-                $ganancia = (($this->precio_venta_details[$oferta['product_detail_id']] - $oferta['precio_total']) / $oferta['precio_total']) * 100;
-
-                if($ganancia > 40)
-                {
-                    return ['oferta', $oferta];
-                }
-            }
-            else
-            {
-                // incompleto
-                $this->dispatchBrowserEvent('swal', [
-                    'title' => 'Debes completar todos los campos antes de continuar.',
-                    'icon' => 'error',
-                    'iconColor' => 'red',
-                ]);
-                break;
             }
         }
         
@@ -183,10 +161,9 @@ class Product extends Component
         return;
     }
 
-    public function agregarOferta($i)
+    public function agregarOferta()
     {
         $this->product_ofertas[] = [
-            'product_detail_id' => $i,
             'precio_total' => 0,
             'fecha_inicio' => now()->format('Y-m-d'),
             'fecha_final' => now()->addMonth()->format('Y-m-d'),

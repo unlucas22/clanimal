@@ -73,6 +73,14 @@
             }
         </script>
 
+        <script>
+            document.addEventListener('livewire:load', function () {
+                Livewire.on('abrirEnlace', (url) => {
+                    window.open(url, '_blank');
+                });
+            });
+        </script>
+
         <div class="bg-white block sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700 px-2">
             <div class="flex justify-between w-full mb-1">
                 <div class="mb-4">
@@ -220,6 +228,9 @@
                                         Nombre
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        Descripción
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
                                         Cantidad
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -236,6 +247,12 @@
                                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $pack->packs->name }}
                                     </th>
+                                    <td class="px-6 py-4">
+                                        @forelse($pack->packs->product_for_packs as $oferta)
+                                            {{ $oferta->products->name }}.
+                                        @empty
+                                        @endforelse
+                                    </td>
                                     <td class="px-6 py-4">
                                         {{ $pack->cantidad }}
                                     </td>

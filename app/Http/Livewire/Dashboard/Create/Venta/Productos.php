@@ -51,50 +51,6 @@ class Productos extends Component
 
     public $listeners = ['agregarProducto', 'retirarProductoParaCompra', 'agregarOferta', 'retirarOfertaParaCompra'];
 
-    public function retirarOfertaParaCompra($item_id)
-    {
-        try
-        {
-            foreach ($this->ofertas_guardados as $index => $id)
-            {
-                if($item_id == $id)
-                {
-                    array_splice($this->ofertas_guardados, $index, 1);
-
-                    PackForSale::where('id', $item_id)->delete();
-                }
-            }
-
-            $this->emit('refreshComponent');
-        }
-        catch (\Exception $e)
-        {
-            Log::info($e->getMessage());   
-        }
-    }
-
-    public function agregarOferta($item_id, $cantidad)
-    {
-        try
-        {
-            $pack_for_sale = PackForSale::create([
-                'pack_id' => $item_id,
-                'cantidad' => $cantidad
-            ]);
-
-            $this->ofertas_guardados[] = $pack_for_sale->id;
-
-            $this->ofertas = [];
-            
-            $this->emit('refreshComponent');
-            $this->setTotal();
-        }
-        catch (\Exception $e)
-        {
-            Log::info($e->getMessage());
-        }
-    }
-
     public function updatedClientRuc($value)
     {
         $razon_social = $this->consultarRUC($value);
@@ -119,30 +75,6 @@ class Productos extends Component
     public function updatedSearch($value)
     {
         $this->buscarProductos();
-    }
-
-    /**
-     *  Trae del almacen los productos ingresados,
-     * la facilidad que trae es que se puede filtrar en el search,
-     * pero será algo lento ya que siempre debe validar que venga de
-     * la sede
-     * 
-     * */
-    public function queryParaObtenerLosProductos()
-    {
-        $transfers = $this->getTransfer();
-
-        $products = [];
-
-        foreach ($transfers as $transfer)
-        {
-            foreach ($transfer->product_for_transfers as $pro)
-            {
-                $products[] = $pro;
-            }
-        }
-
-        return $products;
     }
 
     public function render()
@@ -174,46 +106,45 @@ class Productos extends Component
     }
 
     /**
-     * Buscar el cliente registrado por dni
-     *  */
-    public function searchClient()
+     * agrega ofertas y productos para la lista de compra
+     * */
+    public function agregarOferta($item_id, $cantidad)
     {
-        $client = Client::with('pets')->where('dni', $this->dni)->first();
-
-        if($client != null)
-        {
-            $this->client_name = $client->name;
-            $this->client_credito = $client->credito_actual;
-            $this->client_linea_credito = $client->linea_credito;
-            $this->client_id = $client->id;
-
-            $this->pets = $client->pets;
-        }
-        else
-        {
-            $this->dispatchBrowserEvent('swal', [
-                'title' => 'No se encontró al cliente',
-                'icon' => 'error',
-                'iconColor' => 'red',
-            ]);
-        }
-
+        $this->ofertas = [];
         $this->products = [];
+
+        try
+        {
+            $pack_for_sale = PackForSale::create([
+                'pack_id' => $item_id,
+                'cantidad' => $cantidad
+            ]);
+
+            $this->ofertas_guardados[] = $pack_for_sale->id;
+            
+            $this->emit('refreshComponent');
+            $this->setTotal();
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e->getMessage());
+        }
     }
 
     public function agregarProducto($item_id, $cantidad = 1)
     {
+        $this->ofertas = [];
+        $this->products = [];
+
         try
         {
-            $product_for_sale = ProductForSale::create([
+            $product_for_sale = ProductForSale::updateOrCreate([
                 'product_detail_id' => $item_id,
                 'cantidad' => $cantidad
             ]);
 
             $this->productos_guardados[] = $product_for_sale->id;
 
-            $this->products = [];
-            
             $this->emit('refreshComponent');
             $this->setTotal();
         }
@@ -236,6 +167,36 @@ class Productos extends Component
         $query->orderBy('updated_at', 'desc');
 
         return $query->get();
+    }
+
+    /**
+     * Buscar el cliente registrado por dni
+     *  */
+    public function searchClient()
+    {
+        $this->products = [];
+        $this->ofertas = [];
+        
+        $client = Client::with('pets')->where('dni', $this->dni)->first();
+
+        if($client != null)
+        {
+            $this->client_name = $client->name;
+            $this->client_credito = $client->credito_actual;
+            $this->client_linea_credito = $client->linea_credito;
+            $this->client_id = $client->id;
+
+            $this->pets = $client->pets;
+        }
+        else
+        {
+            $this->dispatchBrowserEvent('swal', [
+                'title' => 'No se encontró al cliente',
+                'icon' => 'error',
+                'iconColor' => 'red',
+            ]);
+        }
+
     }
 
     public function buscarProductos()
@@ -273,10 +234,42 @@ class Productos extends Component
     }
 
     public function buscarOfertas()
-    {
+    {   
         if($this->search != null)
         {
-            $this->ofertas = Pack::where('name', 'like', '%'.$this->search.'%')->get();
+            $packs = [];
+
+            $ofertas = Pack::with('product_for_packs')->where('name', 'like', '%'.$this->search.'%')->get();
+            $products = $this->queryParaObtenerLosProductos();
+
+            if(count($products) && count($ofertas))
+            {
+                foreach ($ofertas as $oferta)
+                {
+                    $pasa = false;
+                    
+                    foreach($oferta->product_for_packs as $product_for_packs)
+                    {
+                        foreach ($products as $producto) 
+                        {
+                            if($producto->stock > 0)
+                            {
+                                if( $producto->product_stocks->product_in_warehouses->products->name == $product_for_packs->products->name )
+                                {
+                                    $pasa = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if($pasa)
+                    {
+                        $packs[] = $oferta;
+                    }
+                }
+            }
+
+            $this->ofertas = $packs;
         }
         else
         {
@@ -286,12 +279,132 @@ class Productos extends Component
         $this->emit('refreshComponent');
     }
 
-    public function queryParaObtenerLosOfertas()
+    /**
+     *  Trae del almacen los productos ingresados,
+     * la facilidad que trae es que se puede filtrar en el search,
+     * pero será algo lento ya que siempre debe validar que venga de
+     * la sede
+     * 
+     * */
+    public function queryParaObtenerLosProductos()
     {
-        return Pack::where('name', $this->search)->get();
+        $transfers = $this->getTransfer();
+
+        $products = [];
+
+        foreach ($transfers as $transfer)
+        {
+            foreach ($transfer->product_for_transfers as $pro)
+            {
+                $products[] = $pro;
+            }
+        }
+
+        return $products;
     }
 
-    /* Calcular total con impuestos y descuentos */
+    /**
+     * TRAE TODAS LAS OFERTAS PARA LOS PRODUCTOS EN STOCK
+     * */
+    public function queryParaObtenerLosOfertas()
+    {
+        $packs = [];
+
+        $ofertas = Pack::with('product_for_packs')->get();
+
+        $products = $this->queryParaObtenerLosProductos();
+
+        if(count($products) && count($ofertas))
+        {
+            foreach ($ofertas as $oferta)
+            {
+                $pasa = false;
+                
+                foreach($oferta->product_for_packs as $product_for_packs)
+                {
+                    foreach ($products as $producto) 
+                    {
+                        if($producto->stock > 0)
+                        {
+                            if( $producto->product_stocks->product_in_warehouses->products->name == $product_for_packs->products->name )
+                            {
+                                $pasa = true;
+                            }
+                        }
+                    }
+                }
+
+                if($pasa)
+                {
+                    $packs[] = $oferta;
+                }
+            }
+        }
+
+        return $packs;
+    }
+
+    /**
+     * RETIRAR DE LA LISTA DE COMPRA
+     * */
+    public function retirarProductoParaCompra($item_id)
+    {
+        $this->ofertas = [];
+        $this->products = [];
+
+        try
+        {
+            $productos_guardados_copy = $this->productos_guardados;
+
+            foreach ($productos_guardados_copy as $index => $id)
+            {
+                if($item_id == $id)
+                {
+                    ProductForSale::where('id', $item_id)->delete();
+                    array_splice($this->productos_guardados, $index, 1);
+                    Log::info(['break', $index, $this->productos_guardados]);
+                    break;
+                }
+            }
+
+            $this->emit('refreshComponent');
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e->getMessage());   
+        }
+    }
+
+    public function retirarOfertaParaCompra($item_id)
+    {
+        $this->ofertas = [];
+        $this->products = [];
+
+        try
+        {
+            $ofertas_guardados_copy = $this->ofertas_guardados;
+
+            foreach ($ofertas_guardados_copy as $index => $id)
+            {
+                if($item_id == $id)
+                {
+                    PackForSale::where('id', $item_id)->delete();
+                    array_splice($this->ofertas_guardados, $index, 1);
+                    break;
+                }
+            }
+
+            $this->emit('refreshComponent');
+        }
+        catch (\Exception $e)
+        {
+            Log::info($e->getMessage());   
+        }
+    }
+
+    /**
+     *  Calcular el TOTAL con impuestos y descuentos 
+     * */
     public function setTotal()
     {
         $total = 0;
@@ -300,6 +413,11 @@ class Productos extends Component
         foreach ($this->productos_guardados as $product)
         {
             $pfs = ProductForSale::with(['product_details'])->where('id', $product)->first();
+
+            if(!isset($pfs->cantidad))
+            {
+                continue;
+            }
 
             for ($i=0; $i < $pfs->cantidad; $i++)
             { 
@@ -322,27 +440,5 @@ class Productos extends Component
 
         $this->total = $total;
         $this->igv = $igv;
-    }
-
-    public function retirarProductoParaCompra($item_id)
-    {
-        try
-        {
-            foreach ($this->productos_guardados as $index => $id)
-            {
-                if($item_id == $id)
-                {
-                    array_splice($this->productos_guardados, $index, 1);
-
-                    ProductForSale::where('id', $item_id)->delete();
-                }
-            }
-
-            $this->emit('refreshComponent');
-        }
-        catch (\Exception $e)
-        {
-            Log::info($e->getMessage());   
-        }
     }
 }

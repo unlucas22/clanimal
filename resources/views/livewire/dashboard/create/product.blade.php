@@ -291,7 +291,8 @@
 
             <div class="flex justify-between gap-8">
                 <div class="w-full">
-                    <x-form.input :label="'Producto o Servicio'" :name="'name'" :model="'name'" :required="'required maxlength=50'" />
+                    <x-form.input :id="'product-name'" :label="'Producto o Servicio'" :name="'name'" :model="'name'" :required="'required maxlength=50'" />
+                    <span class="text-red-500 text-base mt-2" id="error-product-name" style="display:none">El nombre del producto es obligatorio y no debe superar los 50 caracteres</span>
                 </div>
                 <div class="w-full">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Subir</label>
@@ -322,6 +323,7 @@
                         <input type="search" id="barcode" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:model.defer="barcode" name="barcode" min="100000000000" max="9999999999999" maxlength="12" required>
                         <a wire:click="getBarcode" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">Generar</a>
                     </div>
+                    <span class="text-red-500 text-base" id="error-barcode" style="display:none;">El código de barras es obligatorio</span>
                     @error('barcode') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
             </div>
@@ -352,9 +354,9 @@
             @for($i=0; $i < $product_details; $i++)
             <div class="flex justify-center">
 
-                <div class="grid grid-cols-7 gap-4">
+                <div class="grid grid-cols-8 gap-4 w-full">
                     
-                    <div class="w-full mb-6 pt-8 flex justify-center">
+                    <div class="w-full mb-6 pt-8 flex justify-center col-span-2">
                         <label class="relative inline-flex items-center mb-5 cursor-pointer">
                             <input type="checkbox" name="active_details[{{ $i }}]" checked class="sr-only peer">
                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -405,59 +407,12 @@
 
                 </div>
             </div>
-            <div class="flex justify-end">
-                <div>
-                    <a wire:click="agregarOferta({{ $i }})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">AGREGAR OFERTA</a>
-                </div>
-            </div>
-
-            @for($z=0; $z < count($product_ofertas); $z++)
-
-            @if($product_ofertas[$z]['product_detail_id'] != $i)
-            @continue
-            @endif
-
-            <div class="flex justify-center">
-
-                <div class="grid grid-cols-7 gap-4 w-full">
-
-                    <div class="w-full mb-6 pt-8 flex justify-center">
-                        <label class="relative inline-flex items-center mb-5 cursor-pointer">
-                            <input type="checkbox" name="active_oferta[{{ $i }}][{{ $z }}]" checked class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
-                        </label>
-                    </div>
-
-                    <div class="w-full mb-6">
-                        <label for="precio_oferta{{ $i }}.{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total</label>
-                        <input type="number" step="0.1" name="precio_oferta[{{ $i }}][{{ $z }}]" id="precio_oferta{{ $i }}.{{ $z }}" value="{{ $product_ofertas[$z]['precio_total'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:change="setPrecioOferta({{ $z }}, document.getElementById('precio_oferta{{ $i }}.{{ $z }}').value)">
-                    </div>
-
-                    <div class="w-full mb-6 col-span-2">
-                        <label for="fecha_inicio_oferta{{ $i }}.{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Inicio</label>
-                        <input type="date" name="fecha_inicio_oferta[{{ $i }}][{{ $z }}]" id="fecha_inicio_oferta{{ $i }}.{{ $z }}" value="{{ $product_ofertas[$z]['fecha_inicio'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    </div>
-
-                    <div class="w-full mb-6 col-span-2">
-                        <label for="fecha_final_oferta{{ $i }}.{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Final</label>
-                        <input type="date" name="fecha_final_oferta[{{ $i }}][{{ $z }}]" id="fecha_final_oferta{{ $i }}.{{ $z }}" value="{{ $product_ofertas[$z]['fecha_final'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    </div>
-
-                    <div class="pt-8 w-full flex justify-center">
-                        <div>
-                            <a wire:click="eliminarOferta({{ $i }}, {{ $z }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 cursor-pointer">Eliminar</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            @endfor
             @endfor
 
             <script>
-                function sumarImpuesto(item_id) {
+                function sumarImpuesto(item_id)
+                {
+                    let precio_venta_total = document.getElementById('precio_venta_total'+item_id).value;
 
                     let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
 
@@ -467,15 +422,32 @@
 
                     let descuento = document.getElementById('discount_details'+item_id).value; 
 
-                    let precio_venta_total = total - descuento;
+                    let precio_venta_total_auto = total - descuento;
 
-                    document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total + (precio_venta_total * 0.4), 2).toFixed(2) ;
+                    // document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total + (precio_venta_total * 0.4), 2).toFixed(2);
                 }
 
                 function verificarGanancia()
                 {
                     let count = document.getElementById('product-details-count').value;
                     let formulario = document.getElementById('form-producto');
+                    document.getElementById('error-product-name').style.display = 'none';
+
+                    let product_name = document.getElementById('product-name').value;
+
+                    if(product_name == null || product_name == '')
+                    {
+                        document.getElementById('error-product-name').style.display = 'block';
+                        return false;
+                    }
+
+                    let barcode = document.getElementById('barcode').value;
+
+                    if(barcode == null || barcode == '')
+                    {
+                        document.getElementById('error-barcode').style.display = 'block';
+                        return false;
+                    }
 
                     if(count == 0)
                     {
@@ -483,44 +455,118 @@
                     }
                     else
                     {
-                        Livewire.emit('enviarEmail');
+                        let enviarEmail = false;
 
-                        Livewire.on('respuestaEmail', (resultado) => {
-                            
-                            console.log(resultado);
+                        for (let i = 0; i < count; i++) {
 
-                            if(resultado == false)
+                            sumarImpuesto(i);
+
+                            let precio_venta = parseFloat(document.getElementById('precio_venta'+i).value);
+                            let precio_venta_total = parseFloat(document.getElementById('precio_venta_total'+i).value);
+
+                            if (precio_venta_total <= (0.4 * precio_venta))
                             {
-                                formulario.submit();
+                                enviarEmail = true;
+                                break;
                             }
-                        });
+                        }
 
-                        // enviar email
-                        Swal.fire({
-                            title: "Autorización",
-                            text: "Se require código de autorización de Gerente de Tienda para autorizar un precio total menor al 40% de ganancia.\nColocar el código enviado al correo electronico del Gerente de Tienda",
-                            input: 'text',
-                            showCancelButton: false       
-                        }).then((result) => {
-                            if (result.value) {
-                                console.log(result.value);
-                                Livewire.emit('validarAutorizacion', result.value);
-                            }
-                        });
+                        console.log(enviarEmail);
 
-                        Livewire.on('respuestaValidacion', (resultado) => {
-                            
-                            console.log(resultado);
+                        if(enviarEmail == false)
+                        {
+                            formulario.submit();
+                        }
+                        else
+                        {
+                            Livewire.emit('enviarEmail');
 
-                            if(resultado == true)
-                            {
-                                formulario.submit();
-                            }
-                        });
+                            // enviar email
+                            Swal.fire({
+                                title: "Autorización",
+                                text: "Se require código de autorización de Gerente de Tienda para autorizar un precio total menor al 40% de ganancia.\nColocar el código enviado al correo electronico del Gerente General",
+                                input: 'text',
+                                showCancelButton: false       
+                            }).then((result) => {
+                                if (result.value) {
+                                    console.log(result.value);
+                                    Livewire.emit('validarAutorizacion', result.value);
+                                }
+                            });
+
+                            Livewire.on('respuestaValidacion', (resultado) => {
+
+                                if(resultado == true)
+                                {
+                                    formulario.submit();
+                                }
+                            });
+                        }
                     }
                 }
 
             </script>
+
+            <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                <h3 class="text-xl  text-gray-900 dark:text-white">
+                    <span class="font-semibold">Ofertas.</span> Total: {{ count($product_ofertas) }}
+                </h3>
+
+                <div class="flex justify-end">
+                    <div>
+                        <a wire:click="agregarOferta" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer">AGREGAR OFERTA</a>
+                    </div>
+                </div>
+            </div>
+
+            @for($z=0; $z < count($product_ofertas); $z++)
+
+            <div class="flex justify-center">
+
+                <div class="grid grid-cols-8 gap-4 w-full">
+
+                    <div class="w-full mb-6 pt-8 flex justify-center">
+                        <label class="relative inline-flex items-center mb-5 cursor-pointer">
+                            <input type="checkbox" name="active_oferta[{{ $z }}]" checked class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Estado</span>
+                        </label>
+                    </div>
+
+                    <div class="w-full mb-6 group">
+                        <x-form.select :name="'product_presentation_oferta_id['.$z.']'" :model="'product_presentation_oferta_id.'.$z" :label="'Presentación'" :required="'required'">
+                            @foreach($product_presentations as $product_presentation)
+                            <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
+                            @endforeach
+                        </x-form.select>
+                        </select>
+                    </div>
+
+                    <div class="w-full mb-6">
+                        <label for="precio_oferta{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total</label>
+                        <input type="number" step="0.1" name="precio_oferta[{{ $z }}]" id="precio_oferta{{ $z }}" value="{{ $product_ofertas[$z]['precio_total'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:change="setPrecioOferta({{ $z }}, document.getElementById('precio_oferta{{ $z }}').value)">
+                    </div>
+
+                    <div class="w-full mb-6 col-span-2">
+                        <label for="fecha_inicio_oferta{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Inicio</label>
+                        <input type="date" name="fecha_inicio_oferta[{{ $z }}]" id="fecha_inicio_oferta{{ $z }}" value="{{ $product_ofertas[$z]['fecha_inicio'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+
+                    <div class="w-full mb-6 col-span-2">
+                        <label for="fecha_final_oferta{{ $z }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fecha Final</label>
+                        <input type="date" name="fecha_final_oferta[{{ $z }}]" id="fecha_final_oferta{{ $z }}" value="{{ $product_ofertas[$z]['fecha_final'] }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+
+                    <div class="pt-8 w-full flex justify-center">
+                        <div>
+                            <a wire:click="eliminarOferta({{ $z }})" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 cursor-pointer">Eliminar</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            @endfor
         </form>
         <div class="p-4 pt-0 flex justify-center gap-8">
             <div>

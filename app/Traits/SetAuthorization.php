@@ -20,21 +20,13 @@ trait SetAuthorization {
         {
             $code = $this->generateRandomCode();
 
-            if(Authorization::where('user_id', Auth::user()->id)->whereNotNull('validated_at')->count())
-            {
-                /* resetear codigo */
-                Authorization::where('user_id', Auth::user()->id)->update([
-                    //'code' => $code,
-                    'validated_at' => null,
-                ]);
-            }
-            else
-            {
-                Authorization::create([
-                    'user_id' => Auth::user()->id,
-                    'code' => $code,
-                ]);
-            }
+            // se crea un nuevo codigo
+            Authorization::where('user_id', Auth::user()->id)->whereNotNull('validated_at')->delete();
+
+            Authorization::create([
+                'user_id' => Auth::user()->id,
+                'code' => $code,
+            ]);
 
             SendAuthorizationJob::dispatch($code, Auth::user()->name, $product);
 
@@ -63,13 +55,13 @@ trait SetAuthorization {
 
         try
         {
-            $a = Authorization::where('user_id', Auth::user()->id)->first();
+            $a = Authorization::where('user_id', Auth::user()->id)->whereNull('validated_at')->first();
 
             Log::info('codigo que tiene que introducirse: '.$a->code);
 
             if($a->code != $code)
             {
-                Authorization::where('user_id', Auth::user()->id)->delete();
+                // Authorization::where('user_id', Auth::user()->id)->delete();
                 return false;
             }
 

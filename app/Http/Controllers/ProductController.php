@@ -201,35 +201,27 @@ class ProductController extends Controller
                 {
                     continue;
                 }
+            }
 
+            Offer::where('product_id', $req->product_id)->delete();
 
-                for ($x=0; $x < count($req->precio_oferta[$i]); $x++)
-                { 
-                    $active = false;
+            for ($x=0; $x < count($req->precio_oferta); $x++)
+            { 
+                $active = false;
 
-                    if(isset(array_values($req->active_oferta[$i])[$x]))
-                    {
-                        $active = array_values($req->active_oferta[$i])[$x] == 'on' ? true : false;
-                    }
-
-                    if(Offer::where('product_detail_id', $pd->id)->where('fecha_inicio', array_values($req->fecha_inicio_oferta[$i])[$x])->where('fecha_final', array_values($req->fecha_final_oferta[$i])[$x])->count())
-                    {
-                        Offer::where('product_detail_id', $pd->id)->where('fecha_inicio', array_values($req->fecha_inicio_oferta[$i])[$x])->where('fecha_final', array_values($req->fecha_final_oferta[$i])[$x])->update([
-                            'precio' => array_values($req->precio_oferta[$i])[$x],
-                            'active' => $active,
-                        ]);
-                    }
-                    else
-                    {
-                        Offer::create([
-                            'product_detail_id' => $pd->id,
-                            'fecha_inicio' => array_values($req->fecha_inicio_oferta[$i])[$x],
-                            'fecha_final' => array_values($req->fecha_final_oferta[$i])[$x],
-                            'precio' => array_values($req->precio_oferta[$i])[$x],
-                            'active' => $active,
-                        ]);
-                    }
+                if(isset($req->active_oferta[$x]))
+                {
+                    $active = $req->active_oferta[$x] == 'on' ? true : false;
                 }
+
+                Offer::create([
+                    'product_id' => $req->product_id,
+                    'product_presentation_id' => $req->product_presentation_oferta_id[$x],
+                    'precio' => $req->precio_oferta[$x],
+                    'active' => $active,
+                    'fecha_inicio' => $req->fecha_inicio_oferta[$x],
+                    'fecha_final' => $req->fecha_final_oferta[$x],
+                ]);
             }
 
             DB::commit();
@@ -313,36 +305,30 @@ class ProductController extends Controller
                         'precio_venta_total' => $req->precio_venta_total[$i],
                     ]);
                 }
+            }
 
-                if(!isset($req->precio_oferta[$i]))
+            for ($x=0; $x < count($req->precio_oferta); $x++)
+            { 
+                $active = false;
+
+                if(isset($req->active_oferta[$x]))
                 {
-                    continue;
+                    $active = $req->active_oferta[$x] == 'on' ? true : false;
                 }
 
-
-                for ($x=0; $x < count($req->precio_oferta[$i]); $x++)
-                { 
-                    $active = false;
-
-                    if(isset(array_values($req->active_oferta[$i])[$x]))
-                    {
-                        $active = array_values($req->active_oferta[$i])[$x] == 'on' ? true : false;
-                    }
-
-                    $offer = Offer::create([
-                        'product_detail_id' => $pd->id,
-                        'precio' => array_values($req->precio_oferta[$i])[$x],
-                        'active' => $active,
-                        'fecha_inicio' => array_values($req->fecha_inicio_oferta[$i])[$x],
-                        'fecha_final' => array_values($req->fecha_final_oferta[$i])[$x],
-                    ]);
-                }
+                Offer::create([
+                    'product_id' => $product->id,
+                    'product_presentation_id' => $req->product_presentation_oferta_id[$x],
+                    'precio' => $req->precio_oferta[$x],
+                    'active' => $active,
+                    'fecha_inicio' => $req->fecha_inicio_oferta[$x],
+                    'fecha_final' => $req->fecha_final_oferta[$x],
+                ]);
             }
 
             DB::commit();
 
             return redirect()->route('dashboard.products');
-
         }
         catch (\Exception $e)
         {
@@ -350,9 +336,7 @@ class ProductController extends Controller
 
             \Log::error($e);
 
-            ddd([$e, $req]);
-
-            //return back();
+            return back();
         }
     }
 

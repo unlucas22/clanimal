@@ -1,5 +1,3 @@
-<x-slot name="title">Recepción de Clientes y Mascotas</x-slot>
-
 <div>
     <div class="p-4 bg-white block sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex justify-between w-full mb-1">
@@ -89,7 +87,7 @@
                             </tr class="bg-white border-b">
                             @empty
                             <tr class="text-center py-3">
-                                <td colspan="{{ count($shifts_column)+1 }}" class="py-3 italic">No hay Ventas</td>
+                                <td colspan="10" class="py-3 italic">No hay Ventas</td>
                             </tr>
                             @endforelse
                         </tbody>

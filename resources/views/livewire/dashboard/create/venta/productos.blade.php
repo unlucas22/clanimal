@@ -44,6 +44,9 @@
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="px-6 py-3">
+                                    Titulo
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Descripción
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -58,9 +61,18 @@
                         </thead>
                         <tbody> 
                             @forelse($ofertas as $oferta)
+                            @if(!isset($oferta->name))
+                            @php($oferta = \App\Models\Pack::with('product_for_packs')->where('name', $oferta['name'])->first())
+                            @endif
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
                                         {{ $oferta->name }}
+                                    </td>
+                                    <td scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
+                                        @forelse($oferta->product_for_packs as $pack)
+                                        {{ $pack->products->name }}.
+                                        @empty
+                                        @endforelse
                                     </td>
                                     <td class="px-3 py-4">
                                         <div style="max-width: 75px;">
@@ -156,8 +168,10 @@
                                         S/ <span id="total-from-amount-{{ $product_stock->id }}">{{ $product_stock->product_stocks->product_in_warehouses->aplicarDescuento() }}</span> Soles
                                     </td>
 
+                                    @php($product_detail_id = (\App\Models\ProductDetail::where('product_id', $product_stock->product_stocks->product_in_warehouses->product_id)->where('product_presentation_id', $product_stock->product_stocks->product_in_warehouses->product_presentation_id)->first())->id)
+
                                     <td class="px-3 py-4">
-                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_stock->id }}, document.getElementById('amount-{{ $product_stock->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_detail_id }}, document.getElementById('amount-{{ $product_stock->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
                                     </td>
                                 </tr>
                             @empty
@@ -343,6 +357,9 @@
                                         Oferta
                                     </th>
                                     <th scope="col" class="px-1 text-center py-3">
+                                        Descripción
+                                    </th>
+                                    <th scope="col" class="px-1 text-center py-3">
                                         Precio unidad
                                     </th>
                                     <th scope="col" class="text-center py-3">
@@ -359,6 +376,12 @@
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" style="max-width:100px;">
                                             {{ $oferta->packs->name }}
                                         </th>
+                                        <td class="px-1 text-center py-4">
+                                            @forelse($oferta->packs->product_for_packs as $pack)
+                                            {{ $pack->products->name }}.
+                                            @empty
+                                            @endforelse
+                                        </td>
                                         <td class="px-1 text-center py-4">
                                             ${{ $oferta->packs->precio }}
                                         </td>

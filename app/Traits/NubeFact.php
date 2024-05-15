@@ -64,10 +64,10 @@ trait NubeFact {
             }
         }
 
+
         $data = $bill->factura == true ? $this->datosDeFactura($bill, $items) : $this->datosDeBoleta($bill, $items); 
         $data_json = json_encode($data);
 
-        // $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";
         $ruta = "https://api.nubefact.com/api/v1/7cea489a-71cf-4190-93f9-933cf9430d37";
 
         $token = Config::get('app.nubefact');
@@ -111,6 +111,115 @@ trait NubeFact {
         return $leer_respuesta;
     }
 
+    public function consultarUltimoNumero($bill, $products)
+    {
+        $client = $bill->clients;
+
+        $data = array(
+            "operacion"             => "generar_comprobante",
+            "tipo_de_comprobante"               => "2",
+            "serie"                             => 'BBB1',
+            "numero"                => rand(100, 1000), //intval($bill->id) + 3,
+            "sunat_transaction"         => "1",
+            "cliente_tipo_de_documento"     => "1",
+            "cliente_numero_de_documento"   => $client->dni,
+            "cliente_denominacion"              => $client->name,
+            "cliente_direccion"                 => $client->address,
+            "cliente_email"                     => $client->email,
+            "cliente_email_1"                   => "",
+            "cliente_email_2"                   => "",
+            "fecha_de_emision"                  => $bill->created_at->format('d-m-Y'),
+            "fecha_de_vencimiento"              => "",
+            "moneda"                            => "1",
+            "tipo_de_cambio"                    => "",
+            "porcentaje_de_igv"                 => "18",
+            "descuento_global"                  => "",
+            "descuento_global"                  => "",
+            "total_descuento"                   => $bill->descuento ?? 0,
+            "total_anticipo"                    => "",
+            "total_gravada"                     => $bill->total - $bill->igv,
+            "total_inafecta"                    => "",
+            "total_exonerada"                   => "",
+            "total_igv"                         => $bill->igv,
+            "total_gratuita"                    => "",
+            "total_otros_cargos"                => "",
+            "total"                             => $bill->total,
+            "percepcion_tipo"                   => "",
+            "percepcion_base_imponible"         => "",
+            "total_percepcion"                  => "",
+            "total_incluido_percepcion"         => "",
+            "detraccion"                        => "false",
+            "observaciones"                     => "",
+            "documento_que_se_modifica_tipo"    => "",
+            "documento_que_se_modifica_serie"   => "",
+            "documento_que_se_modifica_numero"  => "",
+            "tipo_de_nota_de_credito"           => "",
+            "tipo_de_nota_de_debito"            => "",
+            "enviar_automaticamente_a_la_sunat" => "true",
+            "enviar_automaticamente_al_cliente" => "false",
+            "codigo_unico"                      => "",
+            "condiciones_de_pago"               => "",
+            "medio_de_pago"                     => $bill->metodo_de_pago_formatted,
+            "placa_vehiculo"                    => "",
+            "orden_compra_servicio"             => "",
+            "tabla_personalizada_codigo"        => "",
+            "formato_de_pdf"                    => "",
+            "items" => $products
+        );
+
+        $data_json = json_encode($data);
+
+        // $ruta = "https://api.nubefact.com/api/v1/4b1b3538-8b61-43b3-82cc-8eba602586b7";
+        $ruta = "https://api.nubefact.com/api/v1/7cea489a-71cf-4190-93f9-933cf9430d37";
+
+        $token = Config::get('app.nubefact');
+
+        //Invocamos el servicio de NUBEFACT
+        $ch = curl_init();
+
+        if ($ch === false)
+        {
+            Log::info('Error al inicializar cURL');
+        }
+
+        curl_setopt($ch, CURLOPT_URL, $ruta);
+        curl_setopt(
+            $ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Token token="'.$token.'"',
+            'Content-Type: application/json',
+            )
+        );
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$data_json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $respuesta  = curl_exec($ch);
+
+        if (curl_errno($ch))
+        {
+            Log::info('Error cURL: ' . curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        $leer_respuesta = json_decode($respuesta, true);
+
+        if (isset($leer_respuesta))
+        {
+            Log::info($leer_respuesta);
+        }
+
+        $serie = null;
+
+        if (preg_match('/\b(\d+)\b/', $leer_respuesta['errors'], $matches))
+        {
+            $serie = $matches[1];
+        }
+
+        return $serie;
+    }
+
     public function datosDeFactura($bill, $products)
     {
         $client = $bill->clients;
@@ -119,7 +228,7 @@ trait NubeFact {
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "1",
             "serie"                             => 'FFF1',
-            "numero"                => intval($bill->id),
+            "numero"                =>  $this->consultarUltimoNumero($bill, $products), //intval($bill->id),
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "6",
             "cliente_numero_de_documento"   => $bill->ruc,
@@ -176,7 +285,7 @@ trait NubeFact {
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "2",
             "serie"                             => 'BBB1',
-            "numero"                => intval($bill->id) + 3,
+            "numero"                => $this->consultarUltimoNumero($bill, $products), //intval($bill->id) + 3,
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "1",
             "cliente_numero_de_documento"   => $client->dni,

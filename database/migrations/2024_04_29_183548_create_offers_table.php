@@ -15,8 +15,10 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->foreign('product_detail_id')->references('id')->on('product_details');
-            $table->unsignedBigInteger('product_detail_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_presentation_id')->references('id')->on('product_presentations');
+            $table->unsignedBigInteger('product_presentation_id');
             $table->boolean('active')->default(true);
             $table->double('precio');
             $table->date('fecha_inicio');

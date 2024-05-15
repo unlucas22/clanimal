@@ -171,6 +171,11 @@ class Product extends Model
         return $this->hasMany(ProductDetail::class);
     }
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
     /**
      * Delete the product's photo.
      *

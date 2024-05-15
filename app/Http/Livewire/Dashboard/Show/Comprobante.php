@@ -77,6 +77,8 @@ class Comprobante extends Component
                 'icon' => 'success',
                 'iconColor' => 'green',
             ]);
+
+            $this->emit('abrirEnlace', $enlace);
             
             DB::commit();
         }
