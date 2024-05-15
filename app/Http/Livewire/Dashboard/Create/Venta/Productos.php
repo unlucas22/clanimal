@@ -239,14 +239,14 @@ class Productos extends Component
         {
             $packs = [];
 
-            $ofertas = Pack::with('product_for_packs')->where('name', 'like', '%'.$this->search.'%')->get();
+            $ofertas = Pack::withCount('product_for_packs')->with('product_for_packs')->where('name', 'like', '%'.$this->search.'%')->get();
             $products = $this->queryParaObtenerLosProductos();
 
             if(count($products) && count($ofertas))
             {
                 foreach ($ofertas as $oferta)
                 {
-                    $pasa = false;
+                    $check = 0;
                     
                     foreach($oferta->product_for_packs as $product_for_packs)
                     {
@@ -256,13 +256,13 @@ class Productos extends Component
                             {
                                 if( $producto->product_stocks->product_in_warehouses->products->name == $product_for_packs->products->name )
                                 {
-                                    $pasa = true;
+                                    ++$check;
                                 }
                             }
                         }
                     }
 
-                    if($pasa)
+                    if($oferta->product_for_packs_count == $check)
                     {
                         $packs[] = $oferta;
                     }
@@ -310,7 +310,7 @@ class Productos extends Component
     {
         $packs = [];
 
-        $ofertas = Pack::with('product_for_packs')->get();
+        $ofertas = Pack::withCount('product_for_packs')->with('product_for_packs')->get();
 
         $products = $this->queryParaObtenerLosProductos();
 
@@ -318,7 +318,7 @@ class Productos extends Component
         {
             foreach ($ofertas as $oferta)
             {
-                $pasa = false;
+                $check = 0;
                 
                 foreach($oferta->product_for_packs as $product_for_packs)
                 {
@@ -328,13 +328,13 @@ class Productos extends Component
                         {
                             if( $producto->product_stocks->product_in_warehouses->products->name == $product_for_packs->products->name )
                             {
-                                $pasa = true;
+                                ++$check;
                             }
                         }
                     }
                 }
 
-                if($pasa)
+                if($oferta->product_for_packs_count == $check)
                 {
                     $packs[] = $oferta;
                 }
