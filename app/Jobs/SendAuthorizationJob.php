@@ -40,7 +40,10 @@ class SendAuthorizationJob implements ShouldQueue
      */
     public function handle()
     {
-        $email_view = new SendAuthorizationEmail($this->code, $this->name, $this->producto);
+
+        $table_view = view('emails.tabla', $this->producto);
+
+        $email_view = new SendAuthorizationEmail($this->code, $this->name, $table_view);
 
         $gerentes = Role::with('users')->where('key', 'gerente_general')->get();
 

@@ -126,11 +126,31 @@ class Product extends Component
                 $precio_total = $oferta[1]['precio_total'];
             }
 
-            $pp = ProductPresentation::select('name')->where('id', $this->product_presentation_details_id[$product_detail_id])->first();
+            /***
+             * FORMATEAR UNIDADES
+             * */
+            $unidades = [];
 
-            // descripcion de la unidad
-            $product = $pp->name.'. Precio Venta con IGV: S/ '.$this->precio_venta_details[$product_detail_id].'. Precio Total: S/ '.$precio_total;
+            for ($i=0; $i < $this->product_details; $i++)
+            { 
+                $unidades[] = [
+                    'presentacion' => (ProductPresentation::select('name')->where('id', $this->product_presentation_details_id[$i])->first())->name,
+                    'precio_venta' => 'S/ '.$this->precio_venta_details[$i],
+                    'precio_total' => 'S/ '.$this->precio_venta_total[$i],
+                ];
+            }
 
+            /**
+             * VIEW DE LA TABLA PARA EL EMAIL
+             * */
+            $product = [
+                'producto' => [
+                    'name' => $this->name,
+                    'unidades_total' => $this->product_details,
+                    'ofertas_total' => count($this->product_ofertas),
+                ],
+                'unidades' => $unidades,
+            ];
 
             $this->makeAuthorization($product);
         } 

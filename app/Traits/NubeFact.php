@@ -177,11 +177,6 @@ trait NubeFact {
         //Invocamos el servicio de NUBEFACT
         $ch = curl_init();
 
-        if ($ch === false)
-        {
-            Log::info('Error al inicializar cURL');
-        }
-
         curl_setopt($ch, CURLOPT_URL, $ruta);
         curl_setopt(
             $ch, CURLOPT_HTTPHEADER, array(
@@ -195,20 +190,10 @@ trait NubeFact {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $respuesta  = curl_exec($ch);
-
-        if (curl_errno($ch))
-        {
-            Log::info('Error cURL: ' . curl_error($ch));
-        }
-
+        
         curl_close($ch);
 
         $leer_respuesta = json_decode($respuesta, true);
-
-        if (isset($leer_respuesta))
-        {
-            Log::info($leer_respuesta);
-        }
 
         $serie = null;
 
@@ -217,7 +202,7 @@ trait NubeFact {
             $serie = $matches[1];
         }
 
-        return $serie;
+        return intval($serie);
     }
 
     public function datosDeFactura($bill, $products)
@@ -228,7 +213,7 @@ trait NubeFact {
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "1",
             "serie"                             => 'FFF1',
-            "numero"                =>  $this->consultarUltimoNumero($bill, $products), //intval($bill->id),
+            "numero"                =>  $this->consultarUltimoNumero($bill, $products)+1, //intval($bill->id),
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "6",
             "cliente_numero_de_documento"   => $bill->ruc,
@@ -285,7 +270,7 @@ trait NubeFact {
             "operacion"             => "generar_comprobante",
             "tipo_de_comprobante"               => "2",
             "serie"                             => 'BBB1',
-            "numero"                => $this->consultarUltimoNumero($bill, $products), //intval($bill->id) + 3,
+            "numero"                => $this->consultarUltimoNumero($bill, $products)+1, //intval($bill->id) + 3,
             "sunat_transaction"         => "1",
             "cliente_tipo_de_documento"     => "1",
             "cliente_numero_de_documento"   => $client->dni,
