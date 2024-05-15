@@ -307,23 +307,26 @@ class ProductController extends Controller
                 }
             }
 
-            for ($x=0; $x < count($req->precio_oferta); $x++)
-            { 
-                $active = false;
+            if(isset($req->precio_oferta))
+            {
+                for ($x=0; $x < count($req->precio_oferta); $x++)
+                { 
+                    $active = false;
 
-                if(isset($req->active_oferta[$x]))
-                {
-                    $active = $req->active_oferta[$x] == 'on' ? true : false;
+                    if(isset($req->active_oferta[$x]))
+                    {
+                        $active = $req->active_oferta[$x] == 'on' ? true : false;
+                    }
+
+                    Offer::create([
+                        'product_id' => $product->id,
+                        'product_presentation_id' => $req->product_presentation_oferta_id[$x],
+                        'precio' => $req->precio_oferta[$x],
+                        'active' => $active,
+                        'fecha_inicio' => $req->fecha_inicio_oferta[$x],
+                        'fecha_final' => $req->fecha_final_oferta[$x],
+                    ]);
                 }
-
-                Offer::create([
-                    'product_id' => $product->id,
-                    'product_presentation_id' => $req->product_presentation_oferta_id[$x],
-                    'precio' => $req->precio_oferta[$x],
-                    'active' => $active,
-                    'fecha_inicio' => $req->fecha_inicio_oferta[$x],
-                    'fecha_final' => $req->fecha_final_oferta[$x],
-                ]);
             }
 
             DB::commit();
