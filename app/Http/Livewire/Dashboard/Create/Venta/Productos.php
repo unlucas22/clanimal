@@ -239,7 +239,12 @@ class Productos extends Component
         {
             $packs = [];
 
-            $ofertas = Pack::withCount('product_for_packs')->with('product_for_packs')->where('name', 'like', '%'.$this->search.'%')->get();
+            $ofertas = Pack::withCount('product_for_packs')->with('product_for_packs')->whereHas('product_for_packs', function ($query) {
+                $query->with('products')->whereHas('products', function ($qry) {
+                    $qry->where('name', 'like', '%'.$this->search.'%');
+                });
+            })->orWhere('name', 'like', '%'.$this->search.'%')->get();
+
             $products = $this->queryParaObtenerLosProductos();
 
             if(count($products) && count($ofertas))
@@ -362,7 +367,6 @@ class Productos extends Component
                 {
                     ProductForSale::where('id', $item_id)->delete();
                     array_splice($this->productos_guardados, $index, 1);
-                    Log::info(['break', $index, $this->productos_guardados]);
                     break;
                 }
             }
