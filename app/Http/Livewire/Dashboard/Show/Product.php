@@ -66,12 +66,16 @@ class Product extends Component
         {
             if($value != null && $value > 0)
             {
-                $ganancia = (($this->precio_venta_details[$key] - $value) / $value) * 100;
+                //$ganancia = (($this->precio_venta_details[$key] - $value) / $value) * 100;
 
-                if($ganancia > 40)
-                {
+                //$con_igv = (($this->precio_venta_details[$key] * 0.18) + $this->precio_venta_details[$key]);
+                
+                //ddd(($con_igv + ($con_igv * 0.4)));
+
+                //if($value > ($con_igv + ($con_igv * 0.4)))
+                //{
                     return ['total', $key];
-                }
+                //}
             }
             else
             {

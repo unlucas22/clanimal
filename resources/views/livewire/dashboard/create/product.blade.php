@@ -321,12 +321,25 @@
                             </svg>
                         </div>
                         <input type="search" id="barcode" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:model.defer="barcode" name="barcode" min="100000000000" max="9999999999999" maxlength="12" required>
-                        <a wire:click="getBarcode" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">Generar</a>
+                        <a wire:click="getBarcode" onclick="getBarcode()" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">Generar</a>
                     </div>
                     <span class="text-red-500 text-base" id="error-barcode" style="display:none;">El código de barras es obligatorio</span>
                     @error('barcode') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
             </div>
+
+            <script>
+                function getBarcode()
+                {
+                    Livewire.emit('getBarcode');
+
+                    let count = document.getElementById('product-details-count').value;
+
+                    for (let i = 0; i < count; i++) {
+                        sumarImpuesto(i);
+                    }
+                }
+            </script>
 
             <div>
                 <label class="relative inline-flex items-center mb-5 cursor-pointer">
@@ -356,7 +369,7 @@
 
                 <div class="grid grid-cols-8 gap-4 w-full">
                     
-                    <div class="w-full mb-6 pt-8 flex justify-center col-span-2">
+                    <div class="w-full mb-6 pt-8 flex justify-center">
                         <label class="relative inline-flex items-center mb-5 cursor-pointer">
                             <input type="checkbox" name="active_details[{{ $i }}]" checked class="sr-only peer">
                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -364,7 +377,7 @@
                         </label>
                     </div>
 
-                    <div class="w-full mb-6 group">
+                    <div class="w-full mb-6 group col-span-2">
 
                         <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
                             @foreach($product_presentations as $product_presentation)
@@ -394,8 +407,8 @@
 
                     <div class="w-full mb-6 group">
                         <div>
-                            <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total</label>
-                            <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" wire:model.defer="precio_venta_total.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <label for="precio_venta_total{{ $i }}" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Precio Total <span class="text-red-500 text-base" id="error-precio-total-{{ $i }}" style="display:none;">*</span></label>
+                            <input type="number" step="0.1" name="precio_venta_total[{{ $i }}]" id="precio_venta_total{{ $i }}" wire:model.defer="precio_venta_total.{{ $i }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                         </div>
                     </div>
 
@@ -414,17 +427,36 @@
                 {
                     let precio_venta_total = document.getElementById('precio_venta_total'+item_id).value;
 
+                    if(precio_venta_total == 0)
+                    {
+                        document.getElementById('precio_venta_total'+item_id).value = '';
+                    }
+
                     let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
 
                     let total = val + (val * (18/100));
 
-                    document.getElementById('precio_venta_con_igv_details.'+item_id).value = total;
+                    document.getElementById('precio_venta_con_igv_details.'+item_id).value = total.toFixed(2);
 
-                    let descuento = document.getElementById('discount_details'+item_id).value; 
+                    let descuento = document.getElementById('discount_details'+item_id).value;
+
+                    if(descuento == null)
+                    {
+                        document.getElementById('discount_details'+item_id).value = 0;
+                    }
 
                     let precio_venta_total_auto = total - descuento;
 
-                    // document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total + (precio_venta_total * 0.4), 2).toFixed(2);
+                    document.getElementById('precio_venta_total'+item_id).placeholder = parseFloat(precio_venta_total_auto + (total * 0.4) - descuento, 2).toFixed(2);
+
+                    let descuento_input = document.getElementById('discount_details'+item_id);
+
+                    // Verificar si el valor actual excede el límite máximo
+                    if (descuento > total)
+                    {
+                        descuento_input.value = total;
+                    }
+                    console.log(total);
                 }
 
                 function verificarGanancia()
@@ -457,6 +489,7 @@
                     {
                         let enviarEmail = false;
 
+                        /* verifica los valores */
                         for (let i = 0; i < count; i++) {
 
                             sumarImpuesto(i);
@@ -464,14 +497,18 @@
                             let precio_venta = parseFloat(document.getElementById('precio_venta'+i).value);
                             let precio_venta_total = parseFloat(document.getElementById('precio_venta_total'+i).value);
 
+                            if(precio_venta_total == null || precio_venta_total == '' || precio_venta_total == 0)
+                            {
+                                document.getElementById('error-precio-total-'+i).style.display = 'block';
+                                return false;
+                            }
+
                             if (precio_venta_total <= (0.4 * precio_venta))
                             {
                                 enviarEmail = true;
                                 break;
                             }
                         }
-
-                        console.log(enviarEmail);
 
                         if(enviarEmail == false)
                         {
@@ -486,7 +523,8 @@
                                 title: "Autorización",
                                 text: "Se require código de autorización de Gerente de Tienda para autorizar un precio total menor al 40% de ganancia.\nColocar el código enviado al correo electronico del Gerente General",
                                 input: 'text',
-                                showCancelButton: false       
+                                showCancelButton: false,
+                                showCloseButton: true,
                             }).then((result) => {
                                 if (result.value) {
                                     console.log(result.value);

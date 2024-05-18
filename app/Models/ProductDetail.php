@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 /* Unidades y Precios de Producto */
 class ProductDetail extends Model
@@ -47,8 +48,19 @@ class ProductDetail extends Model
         return $this->hasMany(ProductForSale::class);
     }
 
-    public function offers()
+    public function getPrecioDeOferta()
     {
-        return $this->hasMany(Offer::class);
+        $ofertaActiva = \App\Models\Offer::where('product_id', $this->product_id)->where('product_presentation_id', $this->product_presentation_id)->where('fecha_inicio', '<=', Carbon::now())
+                         ->where('fecha_final', '>=', Carbon::now())
+                         ->where('active', true)->first();
+
+        // Si hay una oferta activa, utilizar su precio total
+        if ($ofertaActiva)
+        {
+            return $ofertaActiva->precio;
+        }
+
+        // Si no hay oferta activa, retornar el precio de unidad por defecto
+        return null;
     }
 }

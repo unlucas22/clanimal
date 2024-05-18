@@ -29,7 +29,7 @@ class Packs extends Component
         'fecha_inicio' => 'required',
     ];
 
-    public $listeners = ['pushProducts', 'fechaInicioSelected', 'fechaFinalSelected'];
+    public $listeners = ['pushProducts', 'fechaInicioSelected', 'fechaFinalSelected', 'removeProducts'];
 
     public function fechaInicioSelected($value)
     {
@@ -49,6 +49,12 @@ class Packs extends Component
 
             $this->emit('refreshComponent');
         }
+    }
+
+    public function removeProducts($value)
+    {
+        array_splice($this->products_selected, $value, 1);
+        $this->emit('refreshComponent');
     }
 
     public function mount()

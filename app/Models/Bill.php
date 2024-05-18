@@ -34,6 +34,32 @@ class Bill extends Model
         'status_formatted',
     ];
 
+    public function getDescuento()
+    {
+        $total = 0;
+
+        // Productos
+        for ($i=0; $i < count($this->product_for_sales); $i++)
+        { 
+            if($this->product_for_sales[$i]->product_details->getPrecioDeOferta() != null)
+            {
+                $total += ($this->product_for_sales[$i]->cantidad * ($this->product_for_sales[$i]->product_details->getPrecioDeOferta() * 0.18));
+            }
+            else
+            {
+                $total = $this->product_for_sales[$i]->cantidad * $this->product_for_sales[$i]->product_details->discount;
+            }
+        }
+
+        // Promos
+        for ($i=0; $i < count($this->pack_for_sales); $i++)
+        {
+            $total += $this->pack_for_sales[$i]->cantidad * ($this->pack_for_sales[$i]->packs->precio * 0.18);
+        }
+
+        return $total;
+    }
+
     public function getMetodoDePagoFormattedAttribute()
     {
         switch ($this->metodo_de_pago) {

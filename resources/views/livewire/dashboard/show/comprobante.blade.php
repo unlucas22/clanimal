@@ -144,6 +144,7 @@
             </div>
         </div>
 
+        @if(count($bill->product_for_sales))
         <div class="bg-white block sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700  px-2">
             <div class="flex justify-between w-full mb-1">
                 <div class="mb-4">
@@ -192,13 +193,22 @@
                                         {{ $product->product_details->products->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        S/ {{ $product->product_details->precio_venta_con_igv }} Soles
+
+                                        S/ {{ $product->product_details->getPrecioDeOferta() ?? $product->product_details->precio_venta_con_igv }} Soles
                                     </td>
                                     <td class="px-6 py-4">
+                                        @if($product->product_details->getPrecioDeOferta() != null)
+                                        S/ 0 Soles
+                                        @else
                                         S/ {{ $product->product_details->discount }} Soles
+                                        @endif
                                     </td>
                                     <td class="px-6 py-4">
+                                        @if($product->product_details->getPrecioDeOferta() != null)
+                                        S/ 0 Soles
+                                        @else
                                         S/ {{ $product->product_details->precio_venta_con_igv - $product->product_details->precio_venta_sin_igv }} Soles
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -208,7 +218,9 @@
                 </div>
             </div>
         </div>
+        @endif
 
+        @if(count($bill->pack_for_sales))
         <div class="bg-white block sm:flex items-center justify-between lg:mt-1.5 dark:bg-gray-800 dark:border-gray-700  px-2">
             <div class="flex justify-between w-full mb-1">
                 <div class="mb-4">
@@ -270,6 +282,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="fixed max-w-7xl right-0 left-0 bottom-0">
             <div class="bg-gray-100 w-full p-2 flex justify-center">

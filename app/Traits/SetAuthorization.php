@@ -21,7 +21,7 @@ trait SetAuthorization {
             $code = $this->generateRandomCode();
 
             // se crea un nuevo codigo
-            Authorization::where('user_id', Auth::user()->id)->whereNotNull('validated_at')->delete();
+            Authorization::where('user_id', Auth::user()->id)->whereNull('validated_at')->delete();
 
             Authorization::create([
                 'user_id' => Auth::user()->id,

@@ -146,6 +146,9 @@
                         </thead>
                         <tbody> 
                             @forelse($products as $product_stock)
+                                
+                                @php($product_detail = \App\Models\ProductDetail::where('product_id', $product_stock->product_stocks->product_in_warehouses->product_id)->where('product_presentation_id', $product_stock->product_stocks->product_in_warehouses->product_presentation_id)->first())
+                                
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td scope="row" class="px-3 py-4 font-medium text-gray-900 dark:text-white" style="max-width:200px;">
                                         {{ $product_stock->product_stocks->product_in_warehouses->products->name }}
@@ -154,24 +157,27 @@
                                         {{ $product_stock->product_stocks->product_in_warehouses->product_presentations->name }}
                                     </td>
                                     <td class="px-3 py-4">
-                                        S/ {{ $product_stock->product_stocks->product_in_warehouses->precio_venta_con_igv }} Soles
+                                        S/ {{ $product_detail->getPrecioDeOferta() ?? $product_stock->product_stocks->product_in_warehouses->precio_venta_con_igv }} Soles
                                     </td>
                                     <td class="px-3 py-4">
-                                        S/ {{ $product_stock->product_stocks->product_in_warehouses->products->discount ?? 0 }} Soles
+                                        @if($product_detail->getPrecioDeOferta() == null)
+                                        S/ {{ $product_detail->discount ?? 0 }} Soles
+                                        @else
+                                        S/ 0 Soles
+                                        @endif
                                     </td>
                                     <td class="px-3 py-4">
                                         <div style="max-width: 75px;">
-                                            <input type="number" name="amount_{{ $product_stock->id }}" id="amount-{{ $product_stock->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product_stock->stock }}" min="1" value="1" oninput="handleInputChange(this, {{ $product_stock->id }}, {{ $product_stock->product_stocks->product_in_warehouses->aplicarDescuento() }})">
+                                            <input type="number" name="amount_{{ $product_stock->id }}" id="amount-{{ $product_stock->id }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" max="{{ $product_stock->stock }}" min="1" value="1" oninput="handleInputChange(this, {{ $product_stock->id }}, {{ $product_detail->getPrecioDeOferta() ?? $product_detail->precio_venta_con_igv - $product_detail->discount }})">
                                         </div>
                                     </td>
                                     <td class="px-3 py-4">
-                                        S/ <span id="total-from-amount-{{ $product_stock->id }}">{{ $product_stock->product_stocks->product_in_warehouses->aplicarDescuento() }}</span> Soles
+                                        S/ <span id="total-from-amount-{{ $product_stock->id }}">{{ $product_detail->getPrecioDeOferta() ?? $product_detail->precio_venta_con_igv - $product_detail->discount }}</span> Soles
                                     </td>
 
-                                    @php($product_detail_id = (\App\Models\ProductDetail::where('product_id', $product_stock->product_stocks->product_in_warehouses->product_id)->where('product_presentation_id', $product_stock->product_stocks->product_in_warehouses->product_presentation_id)->first())->id)
 
                                     <td class="px-3 py-4">
-                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_detail_id }}, document.getElementById('amount-{{ $product_stock->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
+                                        <button type="button" onclick="Livewire.emit('agregarProducto', {{ $product_detail->id }}, document.getElementById('amount-{{ $product_stock->id }}').value)" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar</button>
                                     </td>
                                 </tr>
                             @empty
@@ -326,7 +332,7 @@
                                             {{ $producto->product_details->product_presentations->name }}
                                         </td>
                                         <td class="px-1 text-center py-4">
-                                            ${{ $producto->product_details->descuento() }}
+                                            ${{ $producto->product_details->getPrecioDeOferta() ?? $producto->product_details->descuento() }}
                                         </td>
                                         <td class="py-4 text-center">
                                             {{ $producto->cantidad ?? 1 }}

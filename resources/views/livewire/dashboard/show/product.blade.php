@@ -346,7 +346,7 @@
             {{-- UNIDADES Y PRECIOS SECCION DINAMICA --}}
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Unidades Y Precios. <span class="font-medium">Total: {{ $product_details ?? 0 }}</span>
+                    Precio <span class="font-medium">- Total: {{ $product_details ?? 0 }}</span>
                 </h3>
 
                 <div>
@@ -362,7 +362,7 @@
 
                 <div class="grid grid-cols-8 gap-4 w-full">
 
-                    <div class="w-full mb-6 pt-8 flex justify-center col-span-2">
+                    <div class="w-full mb-6 pt-8 flex justify-center">
                         <label class="relative inline-flex items-center mb-5 cursor-pointer">
                             <input type="checkbox" name="active_details[{{ $i }}]" checked class="sr-only peer">
                             <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
@@ -370,7 +370,7 @@
                         </label>
                     </div>
 
-                    <div class="w-full mb-6 group">
+                    <div class="w-full mb-6 group col-span-2">
                         <x-form.select :name="'product_presentation_details_id['.$i.']'" :model="'product_presentation_details_id.'.$i" :label="'Presentación'" :required="'required'">
                             @foreach($product_presentations as $product_presentation)
                             <option value="{{ $product_presentation->id }}">{{ $product_presentation->name }}</option>
@@ -416,7 +416,7 @@
             <script>
                 function sumarImpuesto(item_id) {
 
-                    let precio_venta_total = document.getElementById('precio_venta_total'+item_id).value;
+                    /*let precio_venta_total = document.getElementById('precio_venta_total'+item_id).value;
 
                     if(precio_venta_total == null || precio_venta_total == 0 || precio_venta_total == '')
                     {
@@ -432,7 +432,40 @@
                         let precio_venta_total = total - descuento;
 
                         document.getElementById('precio_venta_total'+item_id).value = parseFloat(precio_venta_total + (precio_venta_total * 0.4), 2).toFixed(2);
+                    }*/
+
+                    let precio_venta_total = document.getElementById('precio_venta_total'+item_id).value;
+
+                    if(precio_venta_total == 0)
+                    {
+                        document.getElementById('precio_venta_total'+item_id).value = '';
                     }
+
+                    let val = parseFloat(document.getElementById('precio_venta'+item_id).value);
+
+                    let total = val + (val * (18/100));
+
+                    document.getElementById('precio_venta_con_igv_details.'+item_id).value = total.toFixed(2);
+
+                    let descuento = document.getElementById('discount_details'+item_id).value;
+
+                    if(descuento == null)
+                    {
+                        document.getElementById('discount_details'+item_id).value = 0;
+                    }
+
+                    let precio_venta_total_auto = total - descuento;
+
+                    document.getElementById('precio_venta_total'+item_id).placeholder = parseFloat(precio_venta_total_auto + (total * 0.4) - descuento, 2).toFixed(2);
+
+                    let descuento_input = document.getElementById('discount_details'+item_id);
+
+                    // Verificar si el valor actual excede el límite máximo
+                    if (descuento > total)
+                    {
+                        descuento_input.value = total;
+                    }
+                    console.log(total);
                 }
 
                 function verificarGanancia()
@@ -472,7 +505,7 @@
                             let precio_venta = parseFloat(document.getElementById('precio_venta'+i).value);
                             let precio_venta_total = parseFloat(document.getElementById('precio_venta_total'+i).value);
 
-                            if (precio_venta_total <= (0.4 * precio_venta))
+                            if (precio_venta_total <= document.getElementById('precio_venta_total'+i).placeholder)
                             {
                                 enviarEmail = true;
                                 break;
@@ -504,7 +537,8 @@
                                 title: "Autorización",
                                 text: "Se require código de autorización de Gerente de Tienda para autorizar un precio total menor al 40% de ganancia.\nColocar el código enviado al correo electronico del Gerente General",
                                 input: 'text',
-                                showCancelButton: false       
+                                showCancelButton: false,
+                                showCloseButton: true,
                             }).then((result) => {
                                 if (result.value) {
                                     console.log(result.value);
@@ -526,7 +560,7 @@
 
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                 <h3 class="text-xl  text-gray-900 dark:text-white">
-                    <span class="font-semibold">Ofertas.</span> Total: {{ count($product_ofertas) }}
+                    <span class="font-semibold">Oferta</span> - Total: {{ count($product_ofertas) }}
                 </h3>
 
                 <div class="flex justify-end">

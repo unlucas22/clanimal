@@ -425,7 +425,7 @@ class Productos extends Component
 
             for ($i=0; $i < $pfs->cantidad; $i++)
             { 
-                $total += $pfs->product_details->descuento();
+                $total += $pfs->product_details->getPrecioDeOferta() ?? $pfs->product_details->descuento();
 
                 $igv += $pfs->product_details->diferenciaConImpuestos();
             }

@@ -1,5 +1,7 @@
 <td class="{{ $td }}">
-    <textarea class="bg-gray-50 border-0 w-full">@foreach($item->product_for_packs as $product){{ $product->products->name }}. @endforeach</textarea>
+    <ul>
+  @foreach($item->product_for_packs as $product)<li>{{ $product->products->name }}</li>@endforeach
+    </ul>
 </td>
 <td class="{{ $td }}">
     {{ $item->fecha_inicio }}

@@ -51,7 +51,7 @@ class ProductInWarehouse extends Model
 
     public function aplicarDescuento()
     {
-        return $this->precio_venta_con_igv - $this->discount;
+        return doubleval($this->precio_venta_con_igv) - doubleval($this->discount);
     }
 
     public function getTotalAttribute()
