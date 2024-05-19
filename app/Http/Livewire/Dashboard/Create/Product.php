@@ -76,12 +76,12 @@ class Product extends Component
         {
             if($value != null && $value > 0)
             {
-                $ganancia = (($this->precio_venta_details[$key] - $value) / $value) * 100;
+                /*$ganancia = (($this->precio_venta_details[$key] - $value) / $value) * 100;
 
                 if($ganancia > 40)
-                {
+                {*/
                     return ['total', $key];
-                }
+                //}
             }
             else
             {
