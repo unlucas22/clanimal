@@ -321,7 +321,7 @@
                             </svg>
                         </div>
                         <input type="search" id="barcode" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" wire:model.defer="barcode" name="barcode" min="100000000000" max="9999999999999" maxlength="12" required>
-                        <a wire:click="getBarcode" onclick="getBarcode()" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">Generar</a>
+                        <a onclick="getBarcode()" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer">Generar</a>
                     </div>
                     <span class="text-red-500 text-base" id="error-barcode" style="display:none;">El código de barras es obligatorio</span>
                     @error('barcode') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
@@ -331,13 +331,7 @@
             <script>
                 function getBarcode()
                 {
-                    Livewire.emit('getBarcode');
-
-                    let count = document.getElementById('product-details-count').value;
-
-                    for (let i = 0; i < count; i++) {
-                        sumarImpuesto(i);
-                    }
+                    document.getElementById('barcode').value = Math.floor(Math.random() * (999999999999 - 100000000000 + 1)) + 100000000000;
                 }
             </script>
 

@@ -61,7 +61,7 @@ class Product extends Component
     public $product_brands;
     public $product_categories;
 
-    public $listeners = ['getBarcode', 'refreshParent', 'refreshComponent' => '$refresh', 'agregarOferta', 'setPrecioOferta', 'enviarEmail', 'validarAutorizacion'];
+    public $listeners = ['refreshParent', 'refreshComponent' => '$refresh', 'agregarOferta', 'setPrecioOferta', 'enviarEmail', 'validarAutorizacion'];
 
     public $product_ofertas = [
         // 'product_detail_id',
@@ -243,19 +243,6 @@ class Product extends Component
         $this->product_brand_id = (ProductBrand::first())->id ?? null;
         $this->product_category_id = (ProductCategory::first())->id ?? null;
         $this->product_presentation_id = (ProductPresentation::first())->id ?? null;
-    }
-
-    public function getBarcode()
-    {
-        $barcode = random_int(100000000000, 999999999999);
-
-        /* verificar que el barcode no existe */
-        while (\App\Models\Product::where('barcode', $barcode)->count())
-        {
-            $barcode = random_int(100000000000, 999999999999);
-        }
-
-        $this->barcode = $barcode;
     }
 
     public function render()
