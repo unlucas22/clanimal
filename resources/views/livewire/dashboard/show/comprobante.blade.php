@@ -194,7 +194,7 @@
                                     </td>
                                     <td class="px-6 py-4">
 
-                                        S/ {{ $product->product_details->getPrecioDeOferta() ?? $product->product_details->precio_venta_sin_igv }} Soles
+                                        S/ {{ $product->product_details->getPrecioDeOferta() ?? $product->product_details->precio_venta_con_igv }} Soles
                                     </td>
                                     <td class="px-6 py-4">
                                         @if($product->product_details->getPrecioDeOferta() != null)

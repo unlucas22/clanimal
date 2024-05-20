@@ -45,7 +45,6 @@ trait NubeFact {
                     $valor_unitario = $product->product_details->precio_venta_sin_igv;
                     $precio_unitario = $product->product_details->precio_venta_con_igv;
                     $descuento = $product->cantidad * $product->product_details->discount;
-
                     $subtotal = $product->getSubTotalByAmount();
                     $igv = $product->cantidad * ($product->product_details->precio_venta_con_igv - $product->product_details->precio_venta_sin_igv);
                     $total = $product->getTotalByAmount();
@@ -61,7 +60,7 @@ trait NubeFact {
                     "valor_unitario"            => $valor_unitario,
                     "precio_unitario"           => $precio_unitario,
                     "descuento"                 => $descuento,
-                    "subtotal"                  => $subtotal - $descuento,
+                    "subtotal"                  => $subtotal,
                     "tipo_de_igv"               => "1",
                     "igv"                       => $igv,
                     "total"                     => $total,
@@ -82,10 +81,10 @@ trait NubeFact {
             {
                 $valor_unitario = $pack->packs->precio;
                 $precio_unitario = $valor_unitario * 1.18;
+                $total = $pack->cantidad * $valor_unitario;
+                $igv = $total * 0.18;
 
                 $productos = '';
-
-                $igv = $precio_unitario - $valor_unitario;
 
                 foreach ($pack->packs->product_for_packs as $product)
                 {
@@ -99,17 +98,17 @@ trait NubeFact {
                     "cantidad"                  => $pack->cantidad,
                     "valor_unitario"            => $valor_unitario,
                     "precio_unitario"           => $precio_unitario,
-                    "descuento"                 => $igv * $pack->cantidad,
-                    "subtotal"                  => ($valor_unitario * $pack->cantidad) - $igv,
+                    "descuento"                 => $igv,
+                    "subtotal"                  => $total * 1.18,
                     "tipo_de_igv"               => "1",
-                    "igv"                       => $igv * $pack->cantidad,
-                    "total"                     => $valor_unitario * $pack->cantidad,
+                    "igv"                       => $igv,
+                    "total"                     => $total,
                     "anticipo_regularizacion"   => "false",
                     "anticipo_documento_serie"  => "",
                     "anticipo_documento_numero" => ""
                 ];
 
-                $igv_total += $igv * $pack->cantidad;
+                $igv_total += $igv;
                 $bill_total += $total;
             }
 
@@ -119,8 +118,6 @@ trait NubeFact {
         }
 
         $data = $bill->factura == true ? $this->datosDeFactura($bill, $items) : $this->datosDeBoleta($bill, $items); 
-
-        //ddd($data);
 
         $data_json = json_encode($data);
 
