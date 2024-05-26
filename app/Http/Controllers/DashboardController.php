@@ -62,6 +62,17 @@ class DashboardController extends Controller
 
                 /* cookie con 25 minutos de expiracion */
                 Cookie::queue('qr_validation', $user->hashid, 25);
+
+
+                /**
+                $alert_id = (Setting::where('key', 'notificacion_50_puntos')->first())->value;
+
+                Notice::create([
+                    'user_id' => $user->id,
+                    'alert_id' => $alert_id
+                ]);
+
+                */
             }
 
             return redirect( route('perfil.colaborador') );

@@ -38,6 +38,9 @@ Route::middleware([
             Route::view('/puestos', 'dashboard')->name('dashboard.puestos');
 
             Route::view('/entidades-bancarias', 'dashboard')->name('dashboard.entidades-bancarias');
+
+            Route::view('/notificaciones', 'dashboard')->name('dashboard.notificaciones');
+            Route::view('/sistema', 'dashboard')->name('dashboard.sistema');
         });
 
         Route::view('/packs', 'dashboard')->name('dashboard.packs');

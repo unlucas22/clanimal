@@ -10,19 +10,22 @@ trait NubeFact {
     public function generarFactura($bill)
     {
         $items = [];
-
-        // referencial
-        $bill_total = 0;
+        $descuento_global = 0;
+        $total_global = 0;
+        $total_gravada = 0;
+        $total_igv = 0;
 
         if($bill->product_for_sales != null)
         {
             foreach ($bill->product_for_sales as $product)
             {
+                $igv = 0;
+
                 if($product->product_details->getPrecioDeOferta() != null)
                 {
                     $valor_unitario = $product->product_details->getPrecioDeOferta();
-                    $precio_unitario = $product->product_details->getPrecioDeOferta() + ($product->product_details->getPrecioDeOferta() * 0.18);
-                    $descuento = $product->cantidad * ($product->product_details->getPrecioDeOferta() * 0.18);
+                    
+                    $precio_unitario = $product->product_details->getPrecioDeOferta() * 1.18;
                     
                     $subtotal = 0;
                     
@@ -31,23 +34,32 @@ trait NubeFact {
                         $subtotal += $product->product_details->getPrecioDeOferta();
                     }
 
-                    $igv = $product->cantidad * ($product->product_details->getPrecioDeOferta() * 0.18);
+                    $igv = $product->cantidad * ($precio_unitario - $valor_unitario);
+
+                    //ddd($igv);
 
                     $total = 0;
 
                     for ($i=0; $i < $product->cantidad; $i++)
                     { 
-                        $total += $product->product_details->getPrecioDeOferta() ;
+                        $total += $product->product_details->getPrecioDeOferta();
                     }
+
+                    $descuento = $igv;
                 }
                 else
                 {
                     $valor_unitario = $product->product_details->precio_venta_sin_igv;
+                    
                     $precio_unitario = $product->product_details->precio_venta_con_igv;
-                    $descuento = $product->cantidad * $product->product_details->discount;
+                    
                     $subtotal = $product->getSubTotalByAmount();
+                    
                     $igv = $product->cantidad * ($product->product_details->precio_venta_con_igv - $product->product_details->precio_venta_sin_igv);
+                    
                     $total = $product->getTotalByAmount();
+                    
+                    $descuento = $product->cantidad * $product->product_details->discount;
                 }
 
                 /* Calculo de impuestos en total */
@@ -59,17 +71,20 @@ trait NubeFact {
                     "cantidad"                  => $product->cantidad,
                     "valor_unitario"            => $valor_unitario,
                     "precio_unitario"           => $precio_unitario,
-                    "descuento"                 => $descuento,
+                    "descuento"                 => "",
                     "subtotal"                  => $subtotal,
                     "tipo_de_igv"               => "1",
                     "igv"                       => $igv,
-                    "total"                     => $total,
+                    "total"                     => $subtotal + $igv,
                     "anticipo_regularizacion"   => "false",
                     "anticipo_documento_serie"  => "",
                     "anticipo_documento_numero" => ""
                 ];
 
-                $bill_total += $total;
+                $descuento_global  += $descuento;
+                $total_global      += $subtotal + $igv;
+                $total_gravada     += $subtotal;
+                $total_igv         += $igv;
             }
         }
 
@@ -80,9 +95,14 @@ trait NubeFact {
             foreach ($bill->pack_for_sales as $pack)
             {
                 $valor_unitario = $pack->packs->precio;
+
                 $precio_unitario = $valor_unitario * 1.18;
-                $total = $pack->cantidad * $valor_unitario;
-                $igv = $total * 0.18;
+                
+                $subtotal = $pack->cantidad * $valor_unitario;
+                
+                $igv = $pack->cantidad * ($precio_unitario - $valor_unitario);
+                
+                $total = $subtotal + $igv;
 
                 $productos = '';
 
@@ -98,8 +118,8 @@ trait NubeFact {
                     "cantidad"                  => $pack->cantidad,
                     "valor_unitario"            => $valor_unitario,
                     "precio_unitario"           => $precio_unitario,
-                    "descuento"                 => $igv,
-                    "subtotal"                  => $total * 1.18,
+                    "descuento"                 => "",
+                    "subtotal"                  => $subtotal,
                     "tipo_de_igv"               => "1",
                     "igv"                       => $igv,
                     "total"                     => $total,
@@ -108,16 +128,30 @@ trait NubeFact {
                     "anticipo_documento_numero" => ""
                 ];
 
+                $descuento_global  += $igv;
+                $total_global      += $subtotal + $igv;
+                $total_gravada     += $subtotal;
+                $total_igv         += $igv;
+
                 $igv_total += $igv;
-                $bill_total += $total;
             }
 
             $bill->update([
                 'igv' => $bill->igv + $igv_total,
             ]);
+
         }
 
-        $data = $bill->factura == true ? $this->datosDeFactura($bill, $items) : $this->datosDeBoleta($bill, $items); 
+        // ddd($items);
+
+        if($bill->factura == true)
+        {
+            $data = $this->datosDeFactura($bill, $items, $descuento_global, $total_global, $total_gravada, $total_igv);
+        }
+        else
+        {
+            $data = $this->datosDeBoleta($bill, $items, $descuento_global, $total_global, $total_gravada, $total_igv);
+        }
 
         $data_json = json_encode($data);
 
@@ -135,10 +169,10 @@ trait NubeFact {
 
         curl_setopt($ch, CURLOPT_URL, $ruta);
         curl_setopt(
-        	$ch, CURLOPT_HTTPHEADER, array(
-        	'Authorization: Token token="'.$token.'"',
-        	'Content-Type: application/json',
-        	)
+            $ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Token token="'.$token.'"',
+            'Content-Type: application/json',
+            )
         );
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -164,6 +198,9 @@ trait NubeFact {
         return $leer_respuesta;
     }
 
+    /**
+     * Se fuerza el error de nubefact para que traiga el ultimo id
+     * */
     public function consultarUltimoNumero($bill, $products)
     {
         $client = $bill->clients;
@@ -186,7 +223,6 @@ trait NubeFact {
             "moneda"                            => "1",
             "tipo_de_cambio"                    => "",
             "porcentaje_de_igv"                 => "18",
-            "descuento_global"                  => "",
             "descuento_global"                  => "",
             "total_descuento"                   => $bill->getDescuento() ?? 0,
             "total_anticipo"                    => "",
@@ -258,7 +294,7 @@ trait NubeFact {
         return intval($serie);
     }
 
-    public function datosDeFactura($bill, $products)
+    public function datosDeFactura($bill, $products, $descuento_global, $total_global, $total_gravada, $total_igv)
     {
         $client = $bill->clients;
 
@@ -280,14 +316,13 @@ trait NubeFact {
             "moneda"                            => "1",
             "tipo_de_cambio"                    => "",
             "porcentaje_de_igv"                 => "18",
-            "descuento_global"                  => "",
-            "descuento_global"                  => "",
-            "total_descuento"                   => $bill->getDescuento() ?? 0,
+            "descuento_global"                  => $descuento_global + ($total_global - $bill->total),
+            "total_descuento"                   => $descuento_global + ($total_global - $bill->total),
             "total_anticipo"                    => "",
-            "total_gravada"                     => $bill->total - $bill->igv,
+            "total_gravada"                     => $total_gravada,
             "total_inafecta"                    => "",
             "total_exonerada"                   => "",
-            "total_igv"                         => $bill->igv,
+            "total_igv"                         => $total_igv,
             "total_gratuita"                    => "",
             "total_otros_cargos"                => "",
             "total"                             => $bill->total,
@@ -315,7 +350,7 @@ trait NubeFact {
         );
     }
 
-    public function datosDeBoleta($bill, $products)
+    public function datosDeBoleta($bill, $products, $descuento_global, $total_global, $total_gravada, $total_igv)
     {
         $client = $bill->clients;
 
@@ -337,14 +372,13 @@ trait NubeFact {
             "moneda"                            => "1",
             "tipo_de_cambio"                    => "",
             "porcentaje_de_igv"                 => "18",
-            "descuento_global"                  => "",
-            "descuento_global"                  => "",
-            "total_descuento"                   => $bill->getDescuento() ?? 0,
+            "descuento_global"                  => $descuento_global  + ($total_global - $bill->total),
+            "total_descuento"                   => $descuento_global  + ($total_global - $bill->total),
             "total_anticipo"                    => "",
-            "total_gravada"                     => $bill->total - $bill->igv,
+            "total_gravada"                     => $total_gravada,
             "total_inafecta"                    => "",
             "total_exonerada"                   => "",
-            "total_igv"                         => $bill->igv,
+            "total_igv"                         => $total_igv,
             "total_gratuita"                    => "",
             "total_otros_cargos"                => "",
             "total"                             => $bill->total,

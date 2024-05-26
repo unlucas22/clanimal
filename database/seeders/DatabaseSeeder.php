@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier, Casher, Manpower, PaymentMethod, MarketingTemplate, MarketingCampaign, MarketingTracking};
+use App\Models\{Role, Permission, User, TypeOfPet, Report, Company, Reason, Service, Client, ProductPresentation, ProductCategory, ProductBrand, Supplier, Casher, Manpower, PaymentMethod, MarketingTemplate, MarketingCampaign, MarketingTracking, Alert, Setting};
 use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
@@ -196,6 +196,75 @@ class DatabaseSeeder extends Seeder
         if(!MarketingTemplate::count())
         {
             $this->createTemplate();
+        }
+
+        if(!Alert::count())
+        {
+            Alert::create([
+                'title' => 'Ingreso de Productos',
+                'message' => 'Nuevo ingreso de productos.',
+                'type' => 'warning',
+            ]);
+
+            Alert::create([
+                'title' => 'Hay bajo stock de producto',
+                'message' => 'Hay productos con bajo stock, ingresa más por almacén.',
+                'type' => 'warning',
+                'email' => true,
+            ]);
+
+            Alert::create([
+                'title' => 'Nuevo cliente en recepción',
+                'message' => 'En espera.',
+                'type' => 'warning',
+            ]);
+
+            Alert::create([
+                'title' => 'Es momento de cerrar caja',
+                'message' => 'Pasaron 8hs desde que se abrió.',
+                'type' => 'warning',
+            ]);
+        }
+
+        
+        if(!Setting::count())
+        {
+            $notificacion_ingreso_de_producto = Alert::where('title', 'Ingreso de Productos')->first();
+
+            Setting::create([
+                'key' => 'notificacion_ingreso_de_producto',
+                'value' => $notificacion_ingreso_de_producto->id,
+                'description' => 'notificacion_ingreso_de_producto',
+                'type' => 'numeric',
+            ]);
+
+            $notificacion_bajo_stock = Alert::where('title', 'Hay bajo stock de producto')->first();
+
+            Setting::create([
+                'key' => 'notificacion_bajo_stock',
+                'value' => $notificacion_bajo_stock->id,
+                'description' => 'notificacion_bajo_stock',
+                'type' => 'numeric',
+            ]);
+
+
+            $notificacion_cliente_en_recepcion = Alert::where('title', 'Nuevo cliente en recepción')->first();
+
+            Setting::create([
+                'key' => 'notificacion_cliente_en_recepcion',
+                'value' => $notificacion_cliente_en_recepcion->id,
+                'description' => 'notificacion_cliente_en_recepcion',
+                'type' => 'numeric',
+            ]);
+
+            $notificacion_cerrar_caja = Alert::where('title', 'Es momento de cerrar caja')->first();
+
+            Setting::create([
+                'key' => 'notificacion_cerrar_caja',
+                'value' => $notificacion_cerrar_caja->id,
+                'description' => 'notificacion_cerrar_caja',
+                'type' => 'numeric',
+            ]);
         }
     }
 
