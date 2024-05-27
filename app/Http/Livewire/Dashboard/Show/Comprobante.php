@@ -89,7 +89,7 @@ class Comprobante extends Component
             Log::info($e);
 
             $this->dispatchBrowserEvent('swal', [
-                'title' => 'Hubo un error: '.$e->getMessage(),
+                'title' => 'Hubo un error: Este documento ya existe. Vuelva a intentarlo.',
                 'icon' => 'error',
                 'iconColor' => 'red',
             ]);
